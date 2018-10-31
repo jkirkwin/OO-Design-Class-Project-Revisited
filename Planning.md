@@ -3,7 +3,7 @@
 1 Travis: Do we want to use it?
 * My gut impression: shouldn't be too hard to get going, so why not?
 
-2 Gradle: Get it up and running
+2 Gradle: Get it up and running on both our machines so that we can verify we're getting the same results (and ensure Travis config is correct if we go that route)
 
 3 Implementation:
 * Stick with vanilla javafx or go with spring?
