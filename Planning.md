@@ -1,4 +1,4 @@
-##Talking points/general tasks for assignment planning
+# Talking points/general tasks for assignment planning
 
 * Travis: Do we want to use it?
 ** My gut impression: shouldn't be too hard to get going, so why not?
