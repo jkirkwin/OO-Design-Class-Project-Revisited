@@ -31,6 +31,44 @@ If AdminUser:
 
 From Hub view can click into devices to see important stats about them and allow for toggling/editing states.
 
+### LogIn
+Upon Startup User is presented with LogIn screen. LogIn prompts for Username/Password and has a 'make new Account' option. If Admin User is created prompt for Admin Credentials. Default Admin is Shipped with Application.
+
+### BasicHub
+Employs HubBuilder.
+
+After logging in the User is presented with a list of all devices they have access to.
+
+### DeviceView
+When a Device is selected from HubView it brings up a DeviceView that has:
+* 'Back' - returns to Hub View
+* 'ON/OFF' - changes Status of device
+* 'Toggle Action' - simple action specific to device
+* 'Extra Actions' - device specific action that requires input
+
+DeviceView also has a State Screen for displaying all pertinent data for specific device.
+
+### AdminHub
+Employs HubBuilder.
+
+Admin Users are also presented with a dashboard in addition to the BasicHub.
+Dashboard allows User to:
+* 'Add Device' - goes to DeviceAdder
+* 'Edit User Visibility' - Goes to UserEditor
+* '-Kill-/Murder' - Goes to KillScreen
+
+### DeviceAdder
+After selecting 'Add Device' from AdminHub, User is presented with a list of DeviceTypes known to the System, and a set of fields for constructing said devices. Error checks any user input and has a back button to return to AdminHub.
+
+### UserEditor
+Employs HubBuilder.
+
+After selecting 'Edit User Visibility' from AdminHub, User is presented with a list of UsersAccounts. Upon selecting a UserAccount User is Presented with a list of Devices with 'Whitelist' and 'Blacklist' options. UserAccounts store a blacklist of devices not to load for them.
+
+### KillScreen
+Employs HubBuilder
+After selecting '-Kill-/Murder' from AdminHub, User is presented with a list of UsersAccounts or Devices based on which option was selected. Anything selected will prompt for comfirmation, then destroy the device.
+
 
 # Questions
 
@@ -42,6 +80,9 @@ From Hub view can click into devices to see important stats about them and allow
 * Where does error checking happen?
 * Input checking?
 * Logging HOW!?
+* scrolling?
+* how is shutdown dealt with if the user force quits the application?
+* Devices extend Cloneable?
 
 ## Logistic Questions
 * JAVAFX vs Spring?
