@@ -9,7 +9,8 @@ import javafx.stage.Stage;
 
 public class ClickApplication extends Application {
   // application for acceptance tests.
-  @Override public void start(Stage stage) {
+  @Override
+  public void start(Stage stage) {
     Parent sceneRoot = new ClickPane();
     Scene scene = new Scene(sceneRoot, 100, 100);
     stage.setScene(scene);

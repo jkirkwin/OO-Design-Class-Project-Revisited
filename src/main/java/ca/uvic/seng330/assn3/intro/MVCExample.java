@@ -3,6 +3,7 @@ package ca.uvic.seng330.assn3.intro;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+
 /*
  * Code sample from https://stackoverflow.com/questions/36868391/using-javafx-controller-without-fxml/36873768
  */
