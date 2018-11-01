@@ -2,6 +2,7 @@ package ca.uvic.seng330.assn3.model.devices;
 
 import ca.uvic.seng330.assn3.model.Hub;
 import ca.uvic.seng330.assn3.model.devices.Temperature.TemperatureOutofBoundsException;
+import ca.uvic.seng330.assn3.model.devices.Temperature.Unit;
 
 public class Thermostat extends Device {
 
@@ -41,11 +42,11 @@ public class Thermostat extends Device {
     return this.temp.clone();
   }
 
-  public Thermostat clone() {
-    Thermostat aClone = (Thermostat) super.clone();
-    aClone.temp = (Temperature) this.temp.clone();
-    return aClone;
-  }
+//  public Thermostat clone() {
+//    Thermostat aClone = (Thermostat) super.clone();
+//    aClone.temp = (Temperature) this.temp.clone();
+//    return aClone;
+//  }
 
   /** @pre pTemp != null */
   public void setTemp(Temperature temp) throws TemperatureOutofBoundsException {

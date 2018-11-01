@@ -33,7 +33,23 @@ public abstract class Device {
 	}		  			 
   }
   
-  public Device
+  /*
+   * @pre hub != null
+   */
+  public Device(Hub hub) {
+	  assert hub != null;
+	  
+		this.label = "Default Label";
+		this.status = Status.NORMAL;
+		this.hub = hub;
+		this.id = UUID.randomUUID();
+		
+		try {
+			hub.register(this);
+		} catch (HubRegistrationException e) {
+//			aMediator.log("Registration Failed : " + e.getMessage(), Level.ERROR, getIdentifier());
+		} 
+  }
   
   public UUID getIdentifier() {
 	return this.id;

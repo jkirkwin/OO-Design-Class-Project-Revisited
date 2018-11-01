@@ -1,20 +1,18 @@
 package ca.uvic.seng330.assn3.model.devices;
 
-import ca.uvic.seng330.assn2.part1.Level;
-import ca.uvic.seng330.assn2.part1.Mediator;
+import ca.uvic.seng330.assn3.model.Hub;
 
-public class Lightbulb extends ConcreteDevice implements Device {
+public class Lightbulb extends Device {
 
   private boolean isOn;
 
-  /**
-   * @pre aMediator != null
-   * @param aMediator
+  /*
+   * @pre hub != null
    */
-  public Lightbulb(Mediator aMediator) {
-    super(aMediator);
+  public Lightbulb(Hub hub) {
+    super(hub);
     this.isOn = false;
-    getMediator().log("Created new Lightbulb", Level.INFO, getIdentifier());
+//    getHub().log("Created new Lightbulb", Level.INFO, getIdentifier());
   }
 
   public boolean getCondition() {
@@ -22,11 +20,11 @@ public class Lightbulb extends ConcreteDevice implements Device {
   }
 
   public void toggle() {
-    if (this.isOn) {
-      getMediator().log("Turning Lightbulb Off", Level.INFO, getIdentifier());
-    } else {
-      getMediator().log("Turning Lightbulb On", Level.INFO, getIdentifier());
-    }
+//    if (this.isOn) {
+//      getHub().log("Turning Lightbulb Off", Level.INFO, getIdentifier());
+//    } else {
+//      getHub().log("Turning Lightbulb On", Level.INFO, getIdentifier());
+//    }
 
     this.isOn = !this.isOn;
   }
