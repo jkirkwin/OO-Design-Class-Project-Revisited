@@ -1,8 +1,9 @@
 package ca.uvic.seng330.assn3.intro;
 
 /*
-* Code sample from https://stackoverflow.com/questions/36868391/using-javafx-controller-without-fxml/36873768
+ * Code sample from https://stackoverflow.com/questions/36868391/using-javafx-controller-without-fxml/36873768
  */
+
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ReadOnlyIntegerWrapper;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -47,5 +48,4 @@ public class AdditionModel {
   public final int getSum() {
     return this.sumProperty().get();
   }
-
 }

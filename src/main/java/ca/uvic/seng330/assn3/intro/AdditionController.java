@@ -4,10 +4,10 @@ package ca.uvic.seng330.assn3.intro;
  */
 public class AdditionController {
 
-  private final AdditionModel model ;
+  private final AdditionModel model;
 
   public AdditionController(AdditionModel model) {
-    this.model = model ;
+    this.model = model;
   }
 
   public void updateX(String x) {
@@ -20,10 +20,10 @@ public class AdditionController {
 
   private int convertStringToInt(String s) {
     if (s == null || s.isEmpty()) {
-      return 0 ;
+      return 0;
     }
     if ("-".equals(s)) {
-      return 0 ;
+      return 0;
     }
     return Integer.parseInt(s);
   }

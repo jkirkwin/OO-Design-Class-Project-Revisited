@@ -16,18 +16,18 @@ import javafx.scene.layout.Priority;
  * Code sample from https://stackoverflow.com/questions/36868391/using-javafx-controller-without-fxml/36873768
  */
 public class AdditionView {
-  private GridPane view ;
+  private GridPane view;
   private TextField xField;
   private TextField yField;
   private Label sumLabel;
 
-  private AdditionController controller ;
-  private AdditionModel model ;
+  private AdditionController controller;
+  private AdditionModel model;
 
   public AdditionView(AdditionController controller, AdditionModel model) {
 
-    this.controller = controller ;
-    this.model = model ;
+    this.controller = controller;
+    this.model = model;
 
     createAndConfigurePane();
 
@@ -36,26 +36,23 @@ public class AdditionView {
     updateControllerFromListeners();
 
     observeModelAndUpdateControls();
-
   }
 
   public Parent asParent() {
-    return view ;
+    return view;
   }
 
   private void observeModelAndUpdateControls() {
-    model.xProperty().addListener((obs, oldX, newX) ->
-        updateIfNeeded(newX, xField));
+    model.xProperty().addListener((obs, oldX, newX) -> updateIfNeeded(newX, xField));
 
-    model.yProperty().addListener((obs, oldY, newY) ->
-        updateIfNeeded(newY, yField));
+    model.yProperty().addListener((obs, oldY, newY) -> updateIfNeeded(newY, yField));
 
     sumLabel.textProperty().bind(model.sumProperty().asString());
   }
 
   private void updateIfNeeded(Number value, TextField field) {
-    String s = value.toString() ;
-    if (! field.getText().equals(s)) {
+    String s = value.toString();
+    if (!field.getText().equals(s)) {
       field.setText(s);
     }
   }
@@ -67,13 +64,13 @@ public class AdditionView {
 
   private void createAndLayoutControls() {
 
-    //NB: this code has VERY limited UI design. You should do more.
+    // NB: this code has VERY limited UI design. You should do more.
     xField = new TextField();
     configTextFieldForInts(xField);
     xField.setMaxWidth(40);
 
     yField = new TextField();
-    //Setting "ID" allows us to lookup the control by ID in DesktopPaneTest
+    // Setting "ID" allows us to lookup the control by ID in DesktopPaneTest
     yField.setId("yField");
     configTextFieldForInts(yField);
     yField.setMaxWidth(40);
@@ -86,7 +83,7 @@ public class AdditionView {
     view.addRow(0, new Label("X:"), xField);
     view.addRow(1, new Label("Y:"), yField);
     view.addRow(2, new Label("Sum:"), sumLabel);
-    view.addRow(3,new Label("button"), aButton);
+    view.addRow(3, new Label("button"), aButton);
   }
 
   private void createAndConfigurePane() {
@@ -107,11 +104,13 @@ public class AdditionView {
   }
 
   private void configTextFieldForInts(TextField field) {
-    field.setTextFormatter(new TextFormatter<Integer>((Change c) -> {
-      if (c.getControlNewText().matches("-?\\d*")) {
-        return c ;
-      }
-      return null ;
-    }));
+    field.setTextFormatter(
+        new TextFormatter<Integer>(
+            (Change c) -> {
+              if (c.getControlNewText().matches("-?\\d*")) {
+                return c;
+              }
+              return null;
+            }));
   }
 }
