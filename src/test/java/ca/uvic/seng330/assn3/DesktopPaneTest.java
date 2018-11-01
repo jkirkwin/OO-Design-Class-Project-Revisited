@@ -7,6 +7,10 @@ import org.testfx.framework.junit.ApplicationTest;
 import org.testfx.matcher.control.LabeledMatchers;
 import org.testfx.matcher.control.TextInputControlMatchers;
 
+import ca.uvic.seng330.assn3.intro.AdditionController;
+import ca.uvic.seng330.assn3.intro.AdditionModel;
+import ca.uvic.seng330.assn3.intro.AdditionView;
+
 import static org.testfx.api.FxAssert.verifyThat;
 
 public class DesktopPaneTest extends ApplicationTest {
