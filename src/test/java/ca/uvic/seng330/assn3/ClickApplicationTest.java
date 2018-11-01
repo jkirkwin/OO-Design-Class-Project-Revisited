@@ -3,6 +3,8 @@ package ca.uvic.seng330.assn3;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+
+import org.junit.Before;
 import org.junit.Test;
 import org.testfx.framework.junit.ApplicationTest;
 
@@ -16,6 +18,18 @@ public class ClickApplicationTest extends ApplicationTest {
     stage.setScene(scene);
     stage.show();
   }
+  
+  //sleep half a second
+  	@Before
+  	public void hold() {
+  		try {
+  			Thread.sleep(500);
+  		} 
+  		catch (InterruptedException e){
+  			// TODO Auto-generated catch block
+  			e.printStackTrace();
+  		} 
+  	}
 
   @Test public void should_contain_button() {
     // expect:
