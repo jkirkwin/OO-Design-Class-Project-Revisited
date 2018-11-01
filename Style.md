@@ -1,9 +1,9 @@
-#A style planning document to record the development of our design decisions and ideas
+# A style planning document to record the development of our design decisions and ideas
 
-##User Management
+## User Management
 <User> interface, implemented by a BasicUser class, AdminUser extends BasicUser
 Each user object should store the User's username, password, UUID?, and a list of all the devices (or their UUID's) that the user has access to.
-##Devices
+## Devices
 Devices should be designated PUBLIC or ADMIN_ONLY. This designation dictates the behaviour of the model when new users are added. Newly added users
 are given access to PUBLIC devices automatically but no ADMIN devices. This can be modified by AdminUsers in the admin view
 ##Model startup and shutdown
