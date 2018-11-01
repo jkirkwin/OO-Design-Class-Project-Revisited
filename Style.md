@@ -88,5 +88,4 @@ After selecting '-Kill-/Murder' from AdminHub, User is presented with a list of 
 * Is Travis working 100?
 * Logging where?
 * CheckStyle working?
-* SPOTLESS!!!!!!!!!!
 
