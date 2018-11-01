@@ -1,4 +1,4 @@
-package ca.uvic.seng330.assn3;
+package ca.uvic.seng330.assn3.intro;
 
 import javafx.geometry.HPos;
 import javafx.geometry.Pos;
