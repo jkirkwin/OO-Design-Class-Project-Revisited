@@ -1,7 +1,7 @@
 # A style planning document to record the development of our design decisions and ideas
 
-## User Management
-<User> interface, implemented by a BasicUser class, AdminUser extends BasicUser
+## User Management 
+User interface, implemented by a BasicUser class, AdminUser extends BasicUser
 Each user object should store the User's username, password, UUID?, and a list of all the devices (or their UUID's) that the user has access to.
 
 ## Devices
