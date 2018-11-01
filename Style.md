@@ -38,7 +38,7 @@ From Hub view can click into devices to see important stats about them and allow
 
 ### Logistic Questions
 * JAVAFX vs Spring?
-* Gradle HOW??
+* Gradle HOW?? -> Go to Neil's Office Hours
 * Is Travis working 100?
 * Logging where?
 * CheckStyle working?
