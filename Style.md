@@ -31,7 +31,10 @@ If AdminUser:
 
 From Hub view can click into devices to see important stats about them and allow for toggling/editing states.
 
-### Questions
+
+# Questions
+
+##Design
 * Who can make devices?
 * Is the first User automatically an Admin?
 * How is a User made an Admin?
@@ -40,7 +43,7 @@ From Hub view can click into devices to see important stats about them and allow
 * Input checking?
 * Logging HOW!?
 
-### Logistic Questions
+## Logistic Questions
 * JAVAFX vs Spring?
 * Gradle HOW??
 * Is Travis working 100?
