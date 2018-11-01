@@ -43,4 +43,4 @@ From Hub view can click into devices to see important stats about them and allow
 * Logging where?
 * CheckStyle working?
 * SPOTLESS!!!!!!!!!!
-
+* Senario A3 - Skips LogIn Screen?
