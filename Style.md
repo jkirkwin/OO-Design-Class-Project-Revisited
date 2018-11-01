@@ -12,3 +12,35 @@ are given access to PUBLIC devices automatically but no ADMIN devices. This can 
 For now, we will spin up a "blank" model each time - that is, no devices will be automatically associated and only two users (one admin and one regular user)
 will be available for use. Once the code base has been developed further, we will save the state of the model at shutdown() into text files containing JSON 
 representations of the devices, users, and any other stateful objects. These files will be parsed during startup() to re-create all these objects as they were.
+
+## View
+LogIn screen prompts for username/password and either accesses or creates a user.
+
+If BasicUser:
+* shows a Hub view of devices visible to the user.
+
+If AdminUser:
+* shows a Hub view of all devices
+* ability to make new devices
+* ability to edit device visibility
+* ability to kill devices & suspend users
+
+From Hub view can click into devices to see important stats about them and allow for toggling/editing states.
+
+### Questions
+* Who can make devices?
+* Is the first User automatically an Admin?
+* How is a User made an Admin?
+* Can Admin Kill Users?
+* Where does error checking happen?
+* Input checking?
+* Logging HOW!?
+
+### Logistic Questions
+* JAVAFX vs Spring?
+* Gradle HOW??
+* Is Travis working 100?
+* Logging where?
+* CheckStyle working?
+* SPOTLESS!!!!!!!!!!
+
