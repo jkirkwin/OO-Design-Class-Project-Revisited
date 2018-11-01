@@ -3,10 +3,10 @@
 ## User Management 
 User interface, implemented by a BasicUser class, AdminUser extends BasicUser
 Each user object should store:
-* username
-* password
+* Username
+* Password
 * UUID?
-* list of all the devices (or their UUID's) that the user has access to.
+* List of all the devices (or their UUID's) that the user has access to.
 * Queue of Notifications relevant to User.
 
 ## Devices
@@ -24,10 +24,10 @@ If BasicUser:
 * shows a Hub view of devices visible to the user.
 
 If AdminUser:
-* shows a Hub view of all devices
-* ability to make new devices
-* ability to edit device visibility
-* ability to kill devices & suspend users
+* Shows a Hub view of all devices
+* Ability to make new devices
+* Ability to edit device visibility
+* Ability to kill devices & suspend users
 
 From Hub view can click into devices to see important stats about them and allow for toggling/editing states.
 
