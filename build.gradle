@@ -1,15 +1,39 @@
 plugins {
     id 'java'
     id 'application'
+    id "com.diffplug.gradle.spotless" version "3.15.0"
 }
+// Apply the java-library plugin to add support for Java Library
+apply plugin: 'java-library'
+apply plugin: 'checkstyle'
 
 group 'ca.uvic.seng330.assn3'
 version '1.0-SNAPSHOT'
 
 sourceCompatibility = 1.8
 
+configurations {
+  checkstyleConfig
+}
+
+def versions = [
+  checkstyle: '8.13',
+]
+
 repositories {
+jcenter()
     mavenCentral()
+    }
+    
+checkstyle {
+  toolVersion = "${versions.checkstyle}"
+  config = resources.text.fromArchiveEntry(configurations.checkstyleConfig, 'google_checks.xml')
+}
+
+spotless {
+  java {
+    googleJavaFormat()
+  }
 }
 
 mainClassName = "ca.uvic.seng330.assn3.MVCExample"
