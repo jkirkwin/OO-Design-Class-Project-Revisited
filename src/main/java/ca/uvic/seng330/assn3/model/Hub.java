@@ -6,7 +6,7 @@ import java.util.UUID;
 
 public class Hub {
   private final HashMap<UUID, Device> deviceRegistry;
-
+  
   public Hub() {
     this.deviceRegistry = new HashMap<UUID, Device>();
   }
@@ -19,5 +19,5 @@ public class Hub {
     // TODO
   }
 
-  public void alert(String msg, Device pDevice) throws HubRegistrationException {}
+  public void alert(String msg, Device pDevice) throws HubRegistrationException {} // should be moved to controller
 }
