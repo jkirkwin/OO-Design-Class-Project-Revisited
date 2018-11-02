@@ -40,15 +40,15 @@ public class Hub {
     }
   }
 
-  private void registerNew(UserAccount newAdd, boolean isAdmin) throws HubRegistrationException {
-    if (newAdd == null) {
+  private void registerNew(UserAccount newAccount, boolean isAdmin) throws HubRegistrationException {
+    if (newAccount == null) {
       throw new HubRegistrationException("Nothing passed");
     }
-    if (!userAccountRegistry.containsKey(newAdd.getIdentifier())) {
+    if (!userAccountRegistry.containsKey(newAccount.getIdentifier())) {
       if (isAdmin) {
-        userAccountRegistry.put(newAdd.getIdentifier(), newAdd);
+        userAccountRegistry.put(newAccount.getIdentifier(), newAccount);
       } else {
-        userAccountRegistry.put(newAdd.getIdentifier(), newAdd);
+        userAccountRegistry.put(newAccount.getIdentifier(), newAccount);
       }
     }
   }
