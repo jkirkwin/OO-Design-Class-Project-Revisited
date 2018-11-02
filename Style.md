@@ -27,6 +27,8 @@ If AdminUser:
 
 From Hub view can click into devices to see important stats about them and allow for toggling/editing states.
 
+HubBuilder should likely make use of the template pattern.
+
 ### LogIn
 Upon Startup User is presented with LogIn screen. LogIn prompts for Username/Password and has a 'make new Account' option. If Admin User is created prompt for Admin Credentials. Default Admin is Shipped with Application.
 
@@ -68,7 +70,7 @@ After selecting '-Kill-/Murder' from AdminHub, User is presented with a list of 
 
 # Questions
 
-##Design
+## Design
 
 ### Questions
 * Who can make devices?
