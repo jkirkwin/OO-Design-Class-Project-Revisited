@@ -16,7 +16,7 @@ public class Thermostat extends Device {
   public Thermostat(Hub hub) {
     super(hub);
     this.temp = null;
-//    getHub().log("Created new Thermostat", Level.INFO, getIdentifier());
+    //    getHub().log("Created new Thermostat", Level.INFO, getIdentifier());
   }
 
   /**
@@ -42,18 +42,18 @@ public class Thermostat extends Device {
     return this.temp.clone();
   }
 
-//  public Thermostat clone() {
-//    Thermostat aClone = (Thermostat) super.clone();
-//    aClone.temp = (Temperature) this.temp.clone();
-//    return aClone;
-//  }
+  //  public Thermostat clone() {
+  //    Thermostat aClone = (Thermostat) super.clone();
+  //    aClone.temp = (Temperature) this.temp.clone();
+  //    return aClone;
+  //  }
 
   /** @pre pTemp != null */
   public void setTemp(Temperature temp) throws TemperatureOutofBoundsException {
     assert temp != null;
-//    getHub().log("Setting temp to " + pTemp, Level.INFO, getIdentifier());
+    //    getHub().log("Setting temp to " + pTemp, Level.INFO, getIdentifier());
     if (!isValidTemp(temp)) {
-//      getHub().log("invalid temperature given", Level.ERROR, getIdentifier());
+      //      getHub().log("invalid temperature given", Level.ERROR, getIdentifier());
       throw (temp.new TemperatureOutofBoundsException());
     }
     this.temp = temp.clone();

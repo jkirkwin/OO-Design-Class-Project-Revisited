@@ -12,7 +12,7 @@ public class Lightbulb extends Device {
   public Lightbulb(Hub hub) {
     super(hub);
     this.isOn = false;
-//    getHub().log("Created new Lightbulb", Level.INFO, getIdentifier());
+    //    getHub().log("Created new Lightbulb", Level.INFO, getIdentifier());
   }
 
   public boolean getCondition() {
@@ -20,11 +20,11 @@ public class Lightbulb extends Device {
   }
 
   public void toggle() {
-//    if (this.isOn) {
-//      getHub().log("Turning Lightbulb Off", Level.INFO, getIdentifier());
-//    } else {
-//      getHub().log("Turning Lightbulb On", Level.INFO, getIdentifier());
-//    }
+    //    if (this.isOn) {
+    //      getHub().log("Turning Lightbulb Off", Level.INFO, getIdentifier());
+    //    } else {
+    //      getHub().log("Turning Lightbulb On", Level.INFO, getIdentifier());
+    //    }
 
     this.isOn = !this.isOn;
   }

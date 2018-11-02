@@ -13,7 +13,7 @@ public class Camera extends Device {
     super(hub);
     this.isRecording = false;
     this.diskSize = 0;
-//    getMediator().log("Created Camera.", Level.INFO, getIdentifier());
+    //    getMediator().log("Created Camera.", Level.INFO, getIdentifier());
   }
 
   public boolean isRecording() {
@@ -23,18 +23,20 @@ public class Camera extends Device {
   public void record() throws CameraFullException {
     if (this.isRecording) {
       this.diskSize++;
-//      getMediator().log("Increasing Disk Size. Turning camera off.", Level.INFO, getIdentifier());
-//    } else {
-//      getMediator().log("Turning camera on.", Level.INFO, getIdentifier());
+      //      getMediator().log("Increasing Disk Size. Turning camera off.", Level.INFO,
+      // getIdentifier());
+      //    } else {
+      //      getMediator().log("Turning camera on.", Level.INFO, getIdentifier());
     }
 
     if (this.diskSize >= maxSize) {
       this.setStatus(Status.ERROR);
-//      getMediator().log("Camera full", Level.WARN, getIdentifier());
+      //      getMediator().log("Camera full", Level.WARN, getIdentifier());
       try {
         getHub().alert("Camera Full", this);
       } catch (HubRegistrationException e) {
-//    	  getHub().log("Failed to Alert Hub. Camera has been unregistered", Level.WARN, getIdentifier());
+        //    	  getHub().log("Failed to Alert Hub. Camera has been unregistered", Level.WARN,
+        // getIdentifier());
       }
       throw new CameraFullException();
     }

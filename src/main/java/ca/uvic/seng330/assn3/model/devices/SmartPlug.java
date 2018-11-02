@@ -9,7 +9,7 @@ public class SmartPlug extends Device {
   public SmartPlug(Hub hub) {
     super(hub);
     this.isOn = false;
-//    getMediator().log("Created new SmartPlug", Level.INFO, getIdentifier());
+    //    getMediator().log("Created new SmartPlug", Level.INFO, getIdentifier());
   }
 
   public boolean isOn() {
@@ -17,11 +17,11 @@ public class SmartPlug extends Device {
   }
 
   public void toggle() {
-//    if (this.isOn) {
-//      getMediator().log("Turning SmartPlug Off", Level.INFO, getIdentifier());
-//    } else {
-//      getMediator().log("Turning SmartPlug On", Level.INFO, getIdentifier());
-//    }
+    //    if (this.isOn) {
+    //      getMediator().log("Turning SmartPlug Off", Level.INFO, getIdentifier());
+    //    } else {
+    //      getMediator().log("Turning SmartPlug On", Level.INFO, getIdentifier());
+    //    }
     this.isOn = !this.isOn;
   }
 }
