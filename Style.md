@@ -19,9 +19,9 @@ Unit test ideas:
 ## Model 
 
 ### Startup and Shutdown
-For now, we will spin up a "blank" model each time - that is, no devices will be automatically associated and only two users (one admin and one regular user)
-will be available for use. Once the code base has been developed further, we will save the state of the model at shutdown() into text files containing JSON 
-representations of the devices, users, and any other stateful objects. These files will be parsed during startup() to re-create all these objects as they were.
+For now, we will spin up a "blank" model each time - that is, no devices will be automatically associated and only two users (one admin and one regular user) will be available for use. Once the code base has been developed further, we will save the state of the model at shutdown() into text files containing JSON representations of the devices, users, and any other stateful objects. These files will be parsed during startup() to re-create all these objects as they were.
+
+See https://stackoverflow.com/questions/26619566/javafx-stage-close-handler for info on how to have safety code that executes when the application terminates. This should allow us to ensure state is saved when the user quits the app. 
 
 ## View
 LogIn screen prompts for username/password and either accesses or creates a user.
