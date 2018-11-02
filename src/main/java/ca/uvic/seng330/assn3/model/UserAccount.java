@@ -18,10 +18,10 @@ public class UserAccount {
   }
 
   public boolean isAdmin() {
-    return accessLevel==AccessLevel.ADMIN;
+    return accessLevel == AccessLevel.ADMIN;
   }
-  
+
   public AccessLevel getAccessLevel() {
-	  return accessLevel;
+    return accessLevel;
   }
 }

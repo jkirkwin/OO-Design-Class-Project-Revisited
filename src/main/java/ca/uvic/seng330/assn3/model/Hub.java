@@ -40,18 +40,19 @@ public class Hub {
     }
   }
 
-  private void registerNew(UserAccount newAccount, AccessLevel accessLevel) throws HubRegistrationException {
+  private void registerNew(UserAccount newAccount, AccessLevel accessLevel)
+      throws HubRegistrationException {
     if (newAccount == null) {
       throw new HubRegistrationException("Nothing passed");
     }
     if (!userAccountRegistry.containsKey(newAccount.getIdentifier())) {
-      switch(accessLevel) {
-      case ADMIN:
-        userAccountRegistry.put(newAccount.getIdentifier(), newAccount);
-        break;
-      case BASIC:
-        userAccountRegistry.put(newAccount.getIdentifier(), newAccount);
-        break;
+      switch (accessLevel) {
+        case ADMIN:
+          userAccountRegistry.put(newAccount.getIdentifier(), newAccount);
+          break;
+        case BASIC:
+          userAccountRegistry.put(newAccount.getIdentifier(), newAccount);
+          break;
       }
     }
   }
@@ -69,16 +70,15 @@ public class Hub {
     }
   }
 
-  private void unregisterRetired(UserAccount killedAccount)
-      throws HubRegistrationException {
-    switch(killedAccount.getAccessLevel()) {
-    case ADMIN:
-      // TODO: ensure killedAccount is not the Default Admin Account
-      userAccountRegistry.remove(killedAccount.getIdentifier());
-      break;
-    case BASIC:
-      userAccountRegistry.remove(killedAccount.getIdentifier());
-      break;
+  private void unregisterRetired(UserAccount killedAccount) throws HubRegistrationException {
+    switch (killedAccount.getAccessLevel()) {
+      case ADMIN:
+        // TODO: ensure killedAccount is not the Default Admin Account
+        userAccountRegistry.remove(killedAccount.getIdentifier());
+        break;
+      case BASIC:
+        userAccountRegistry.remove(killedAccount.getIdentifier());
+        break;
     }
   }
 
