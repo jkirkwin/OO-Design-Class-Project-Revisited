@@ -4,13 +4,13 @@ import java.util.UUID;
 
 public class UserAccount {
 
-  private boolean admin;
+  private AccessLevel accessLevel;
   private Hub hub;
   private final UUID id = UUID.randomUUID();
 
-  public UserAccount(Hub h, boolean isAdmin) {
+  public UserAccount(Hub h, AccessLevel isAdmin) {
     this.hub = h;
-    this.admin = isAdmin;
+    this.accessLevel = isAdmin;
   }
 
   public UUID getIdentifier() {
@@ -18,6 +18,10 @@ public class UserAccount {
   }
 
   public boolean isAdmin() {
-    return admin;
+    return accessLevel==AccessLevel.ADMIN;
+  }
+  
+  public AccessLevel getAccessLevel() {
+	  return accessLevel;
   }
 }

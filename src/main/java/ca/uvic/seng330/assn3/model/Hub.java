@@ -32,23 +32,26 @@ public class Hub {
     }
   }
 
-  public void register(UserAccount newAccount, boolean isAdmin) {
+  public void register(UserAccount newAccount, AccessLevel accessLevel) {
     try {
-      registerNew(newAccount, isAdmin);
+      registerNew(newAccount, accessLevel);
     } catch (HubRegistrationException e) {
       // TODO: Logging and Alerts
     }
   }
 
-  private void registerNew(UserAccount newAccount, boolean isAdmin) throws HubRegistrationException {
+  private void registerNew(UserAccount newAccount, AccessLevel accessLevel) throws HubRegistrationException {
     if (newAccount == null) {
       throw new HubRegistrationException("Nothing passed");
     }
     if (!userAccountRegistry.containsKey(newAccount.getIdentifier())) {
-      if (isAdmin) {
+      switch(accessLevel) {
+      case ADMIN:
         userAccountRegistry.put(newAccount.getIdentifier(), newAccount);
-      } else {
+        break;
+      case BASIC:
         userAccountRegistry.put(newAccount.getIdentifier(), newAccount);
+        break;
       }
     }
   }
@@ -60,19 +63,22 @@ public class Hub {
       throw new HubRegistrationException("Account does not exist.");
     }
     try {
-      unregisterRetired(killedAccount, killedAccount.isAdmin());
+      unregisterRetired(killedAccount);
     } catch (HubRegistrationException e) {
       // TODO:  Logging and Alerts
     }
   }
 
-  private void unregisterRetired(UserAccount killedAccount, boolean isAdmin)
+  private void unregisterRetired(UserAccount killedAccount)
       throws HubRegistrationException {
-    if (isAdmin) {
+    switch(killedAccount.getAccessLevel()) {
+    case ADMIN:
       // TODO: ensure killedAccount is not the Default Admin Account
       userAccountRegistry.remove(killedAccount.getIdentifier());
-    } else {
+      break;
+    case BASIC:
       userAccountRegistry.remove(killedAccount.getIdentifier());
+      break;
     }
   }
 
