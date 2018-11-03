@@ -32,7 +32,7 @@ public class UserAccount {
 
   public void blackList(Device illegal) {
     // TODO: add Logging and Alert
-    if (this.blackList.contains(illegal)) {
+    if (this.isAdmin() || this.blackList.contains(illegal)) {
       // TODO: Throw exception?
       return;
     }
