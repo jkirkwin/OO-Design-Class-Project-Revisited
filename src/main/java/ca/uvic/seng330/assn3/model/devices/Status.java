@@ -4,5 +4,4 @@ public enum Status {
   NORMAL,
   ERROR,
   OFF,
-  ON;
 }

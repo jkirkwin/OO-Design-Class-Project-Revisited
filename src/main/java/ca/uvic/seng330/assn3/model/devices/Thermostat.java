@@ -11,10 +11,11 @@ public class Thermostat extends Device {
   private static final Temperature MIN_FAHRENHEIT = new Temperature(0.0, Unit.FAHRENHEIT);
   private static final Temperature MAX_FAHRENHEIT = new Temperature(110.0, Unit.FAHRENHEIT);
 
+  static int numTherm = 0;
   private Temperature temp;
 
   public Thermostat(Hub hub) {
-    super(hub);
+    super("Thermostat" + numTherm, Status.NORMAL, hub);
     this.temp = null;
     //    getHub().log("Created new Thermostat", Level.INFO, getIdentifier());
   }

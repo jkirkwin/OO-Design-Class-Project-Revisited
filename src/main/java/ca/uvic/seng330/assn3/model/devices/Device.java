@@ -36,6 +36,7 @@ public abstract class Device {
    * @pre hub != null
    */
   public Device(Hub hub) {
+    // TODO: confirm this is an unnecessary constructor
     assert hub != null;
 
     this.label = "Default Label";
@@ -64,5 +65,9 @@ public abstract class Device {
 
   public Hub getHub() {
     return this.getHub();
+  }
+
+  public void changeLabel(String newLabel) {
+    this.label = newLabel;
   }
 }

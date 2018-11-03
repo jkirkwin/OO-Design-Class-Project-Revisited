@@ -4,10 +4,11 @@ import ca.uvic.seng330.assn3.model.Hub;
 
 public class SmartPlug extends Device {
 
+  static int numPlug = 0;
   private boolean isOn;
 
   public SmartPlug(Hub hub) {
-    super(hub);
+    super("SmartPlug" + numPlug, Status.NORMAL, hub);
     this.isOn = false;
     //    getMediator().log("Created new SmartPlug", Level.INFO, getIdentifier());
   }

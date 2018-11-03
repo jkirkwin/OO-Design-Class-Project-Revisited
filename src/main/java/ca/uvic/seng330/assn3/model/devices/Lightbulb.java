@@ -4,13 +4,14 @@ import ca.uvic.seng330.assn3.model.Hub;
 
 public class Lightbulb extends Device {
 
+  static int numBulbs = 0;
   private boolean isOn;
 
   /*
    * @pre hub != null
    */
   public Lightbulb(Hub hub) {
-    super(hub);
+    super("LightBulb" + numBulbs, Status.NORMAL, hub);
     this.isOn = false;
     //    getHub().log("Created new Lightbulb", Level.INFO, getIdentifier());
   }

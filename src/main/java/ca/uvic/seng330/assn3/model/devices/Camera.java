@@ -5,12 +5,13 @@ import ca.uvic.seng330.assn3.model.HubRegistrationException;
 
 public class Camera extends Device {
 
+  static int numCamera = 0;
   private int diskSize;
   private final int maxSize = 50;
   private boolean isRecording;
 
   public Camera(Hub hub) {
-    super(hub);
+    super("Cam" + numCamera, Status.NORMAL, hub);
     this.isRecording = false;
     this.diskSize = 0;
     //    getMediator().log("Created Camera.", Level.INFO, getIdentifier());
@@ -21,25 +22,27 @@ public class Camera extends Device {
   }
 
   public void record() throws CameraFullException {
-    if (this.isRecording) {
-      this.diskSize++;
-      //      getMediator().log("Increasing Disk Size. Turning camera off.", Level.INFO,
-      // getIdentifier());
-      //    } else {
-      //      getMediator().log("Turning camera on.", Level.INFO, getIdentifier());
-    }
-
-    if (this.diskSize >= maxSize) {
-      this.setStatus(Status.ERROR);
-      //      getMediator().log("Camera full", Level.WARN, getIdentifier());
-      try {
-        getHub().alert("Camera Full", this);
-      } catch (HubRegistrationException e) {
-        //    	  getHub().log("Failed to Alert Hub. Camera has been unregistered", Level.WARN,
+    if (this.getStatus() != Status.ERROR) {
+      if (this.isRecording) {
+        this.diskSize++;
+        //      getMediator().log("Increasing Disk Size. Turning camera off.", Level.INFO,
         // getIdentifier());
+        //    } else {
+        //      getMediator().log("Turning camera on.", Level.INFO, getIdentifier());
       }
-      throw new CameraFullException();
+
+      if (this.diskSize >= maxSize) {
+        this.setStatus(Status.ERROR);
+        //      getMediator().log("Camera full", Level.WARN, getIdentifier());
+        try {
+          getHub().alert("Camera Full", this);
+        } catch (HubRegistrationException e) {
+          //    	  getHub().log("Failed to Alert Hub. Camera has been unregistered", Level.WARN,
+          // getIdentifier());
+        }
+        throw new CameraFullException();
+      }
+      this.isRecording = !this.isRecording;
     }
-    this.isRecording = !this.isRecording;
   }
 }

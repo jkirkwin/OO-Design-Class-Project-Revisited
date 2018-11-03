@@ -53,6 +53,7 @@ public class Temperature implements Cloneable {
    * @param unit
    */
   public void setUnit(Unit unit) {
+    // TODO: shouldn't this call convertTemp(this.magnitude, unit)?
     assert unit != null;
     this.unit = unit;
   }
