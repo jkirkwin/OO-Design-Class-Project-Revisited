@@ -99,8 +99,8 @@ We should have a DeviceController Class with specific subtypes for each type of 
 * Input checking?
 * Logging HOW!?
 * scrolling?
-* how is shutdown dealt with if the user force quits the application?
 * Devices extend Cloneable?
+* When creating user accounts, does there need to be a verification step if the new account is to be an Admin?
 
 ### Logistic Questions
 * JAVAFX vs Spring?
@@ -108,4 +108,3 @@ We should have a DeviceController Class with specific subtypes for each type of 
 * Is Travis working 100?
 * Logging where?
 * CheckStyle working?
-
