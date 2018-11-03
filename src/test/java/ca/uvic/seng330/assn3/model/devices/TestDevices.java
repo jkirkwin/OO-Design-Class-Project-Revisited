@@ -1,5 +1,6 @@
 package ca.uvic.seng330.assn3.model.devices;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -8,6 +9,18 @@ import org.junit.Test;
 import ca.uvic.seng330.assn3.model.devices.Temperature.Unit;
 
 public class TestDevices {
+ 
+  @Test 
+  public void testTempEquals() {
+    Temperature c1 = new Temperature(0.0, Unit.CELSIUS);
+    Temperature c2 = new Temperature(0.0, Unit.CELSIUS);
+    Temperature f1 = new Temperature(10.0, Unit.FAHRENHEIT);
+    Temperature f2 = new Temperature(10.0, Unit.FAHRENHEIT);
+    
+    assertTrue(c1.equals(c2));
+    assertTrue(f1.equals(f2));
+    assertFalse(f1.equals(c1));
+  }
   
   @Test
   public void testTempClone() {

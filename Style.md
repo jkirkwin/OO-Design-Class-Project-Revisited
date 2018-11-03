@@ -10,7 +10,7 @@ Each user object should store the User's username, password, UUID?, and a list o
 Devices should be designated PUBLIC or ADMIN_ONLY. This designation dictates the behaviour of the model when new users are added. Newly added users
 are given access to PUBLIC devices automatically but no ADMIN devices. This can be modified by AdminUsers in the admin view
 
-##Testing
+## Testing
 
 Unit test ideas:
 * Test that view has no imports from model

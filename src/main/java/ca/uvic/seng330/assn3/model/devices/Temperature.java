@@ -70,6 +70,18 @@ public class Temperature implements Cloneable {
   }
   
   /*
+   * Returns true if and only if the two instances represent the 
+   * same temperature using the same unit.
+   * @pre other != null
+   */
+  public boolean equals(Temperature other) {
+    return this.magnitude == other.magnitude && this.unit == other.unit;
+  }
+  
+  /*
+   * Returns an equivalent temperature to the one passed in which uses desiredUnit as the Unit.
+   * Note: As defined, these two temperature objects are *not* guaranteed to be considered equal.
+   * See equals() for more information.
    * @pre temp != null
    * @pre temp.getUnit() != null
    * @pre desiredUnit != null
