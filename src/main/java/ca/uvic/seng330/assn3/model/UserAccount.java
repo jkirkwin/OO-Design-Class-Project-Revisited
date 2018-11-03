@@ -2,6 +2,7 @@ package ca.uvic.seng330.assn3.model;
 
 import ca.uvic.seng330.assn3.model.devices.Device;
 import java.util.ArrayList;
+import java.util.Stack;
 import java.util.UUID;
 
 public class UserAccount {
@@ -10,6 +11,7 @@ public class UserAccount {
   private Hub hub;
   private final UUID id = UUID.randomUUID();
   private ArrayList<Device> blackList = new ArrayList<Device>();
+  private Stack<JSONMessaging> notificationList = new Stack<JSONMessaging>();
 
   public UserAccount(Hub h, AccessLevel isAdmin) {
     this.hub = h;
@@ -44,5 +46,13 @@ public class UserAccount {
     } else {
       // TODO: Throw exception?
     }
+  }
+
+  public Stack<JSONMessaging> getMessages() {
+    Stack<JSONMessaging> copy = new Stack<JSONMessaging>();
+    while (!this.notificationList.isEmpty()) {
+      copy.push(notificationList.pop());
+    }
+    return copy;
   }
 }
