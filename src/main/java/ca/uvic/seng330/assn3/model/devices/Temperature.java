@@ -68,16 +68,16 @@ public class Temperature implements Cloneable {
   public String toString() {
     return magnitude + " degrees " + this.unit.toString();
   }
-  
+
   /*
-   * Returns true if and only if the two instances represent the 
+   * Returns true if and only if the two instances represent the
    * same temperature using the same unit.
    * @pre other != null
    */
   public boolean equals(Temperature other) {
     return this.magnitude == other.magnitude && this.unit == other.unit;
   }
-  
+
   /*
    * Returns an equivalent temperature to the one passed in which uses desiredUnit as the Unit.
    * Note: As defined, these two temperature objects are *not* guaranteed to be considered equal.
@@ -86,15 +86,15 @@ public class Temperature implements Cloneable {
    * @pre temp.getUnit() != null
    * @pre desiredUnit != null
    */
-  public static Temperature convertTemp(Temperature temp, Unit desiredUnit) {	
+  public static Temperature convertTemp(Temperature temp, Unit desiredUnit) {
     assert temp != null;
     assert temp.getUnit() != null;
     assert desiredUnit != null;
-    
+
     Unit tUnit = temp.getUnit();
-    if(tUnit == desiredUnit) {
+    if (tUnit == desiredUnit) {
       return temp.clone();
-    }else if(temp.getUnit() == Unit.CELSIUS) {
+    } else if (temp.getUnit() == Unit.CELSIUS) {
       return new Temperature(celsiusToFahrenheit(temp.getMagnitude()), desiredUnit);
     } else {
       return new Temperature(fahrenheitToCelsius(temp.getMagnitude()), desiredUnit);
