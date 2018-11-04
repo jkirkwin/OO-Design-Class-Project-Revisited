@@ -1,11 +1,11 @@
 package ca.uvic.seng330.assn3.view;
 
 import ca.uvic.seng330.assn3.controller.Controller;
-import java.util.Observable;
 
-public abstract class Client extends Observable {
+public abstract class Client {
 
   private ViewType viewType;
+  private Controller controller;
   
   /*
    * @pre c != null
@@ -14,7 +14,7 @@ public abstract class Client extends Observable {
   public Client(Controller c, ViewType v) {
     assert c != null;
     assert v != null;
-    this.addObserver(c);
+    this.controller = c;
     this.setViewType(v);
   }
 
