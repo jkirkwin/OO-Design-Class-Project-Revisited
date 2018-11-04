@@ -14,6 +14,6 @@ public abstract class DeviceSceneBuilder extends SceneBuilder {
     // TODO
     return null;
   }
-  
-  public abstract void buildSpecifics(Scene s);  
+
+  public abstract void buildSpecifics(Scene s);
 }

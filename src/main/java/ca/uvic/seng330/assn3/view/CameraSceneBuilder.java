@@ -7,10 +7,10 @@ public class CameraSceneBuilder extends DeviceSceneBuilder {
   public CameraSceneBuilder() {
     // TODO
   }
-  
+
   @Override
   public void buildSpecifics(Scene s) {
     // TODO Auto-generated method stub
-    
+
   }
 }
