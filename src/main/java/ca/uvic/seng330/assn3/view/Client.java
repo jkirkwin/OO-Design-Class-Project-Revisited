@@ -5,9 +5,7 @@ import java.util.Observable;
 
 public abstract class Client extends Observable {
 
-  private Controller controller;
-
   public Client(Controller controller) {
-    this.controller = controller;
+    this.addObserver(controller);
   }
 }
