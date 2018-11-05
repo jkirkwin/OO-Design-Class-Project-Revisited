@@ -9,6 +9,7 @@ public class Controller {
   private final Hub hub;
   private final Client client;
   private UserAccount activeUser;
+  private ViewType view;
   
   /*
    * @pre hub != null
@@ -35,7 +36,7 @@ public class Controller {
     
     // Set active user on whenever an account successfully logs in, and remove it 
     // whenever they log out
-    switch(client.getView()) {
+    switch(view) {
     case LOGIN:
       break;
       

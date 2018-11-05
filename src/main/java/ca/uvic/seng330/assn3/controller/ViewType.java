@@ -1,4 +1,4 @@
-package ca.uvic.seng330.assn3.view;
+package ca.uvic.seng330.assn3.controller;
 
 public enum ViewType {
   LOGIN,
