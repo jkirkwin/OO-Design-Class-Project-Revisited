@@ -6,7 +6,7 @@ public abstract class Client {
 
   private ViewType viewType;
   private Controller controller;
-  
+
   /*
    * @pre c != null
    * @pre v != null

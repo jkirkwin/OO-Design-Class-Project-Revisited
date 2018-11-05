@@ -49,6 +49,7 @@ public class UserAccount {
   }
 
   public Stack<JSONMessaging> getMessages() {
+    // TODO: UNIT TESTS FOR THIS!!!
     Stack<JSONMessaging> copy = new Stack<JSONMessaging>();
     while (!this.notificationList.isEmpty()) {
       copy.push(notificationList.pop());
