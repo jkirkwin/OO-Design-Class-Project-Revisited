@@ -41,6 +41,9 @@ HubBuilder should likely make use of the template pattern. The 'hook' method can
 
 Similarly, device views can make use of the template pattern where the hook methods fill in all actions specific to the device type.
 
+### Event handling
+For now, all events will be handled by the update() function in controller. We will refactor this later so that different buttons are bound to different, more modular handlers. To do this handler assignment, we should use the command pattern. See https://stackoverflow.com/questions/2186931/java-pass-method-as-parameter for deets.
+
 ### LogIn
 Upon Startup User is presented with LogIn screen. LogIn prompts for Username/Password and has a 'make new Account' option. If Admin User is created prompt for Admin Credentials. Default Admin is Shipped with Application.
 
