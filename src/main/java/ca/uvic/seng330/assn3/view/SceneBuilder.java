@@ -1,6 +1,8 @@
 package ca.uvic.seng330.assn3.view;
 
+import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.ScrollPane;
 
 public abstract class SceneBuilder {
 
@@ -10,6 +12,12 @@ public abstract class SceneBuilder {
     return s;
   }
 
+  protected ScrollPane createScrollPane(Node content) {
+    ScrollPane s = new ScrollPane();
+    s.setContent(content);
+    return s;
+  }
+  
   protected abstract Scene buildTemplate();
 
   protected abstract void buildSpecifics(Scene s);

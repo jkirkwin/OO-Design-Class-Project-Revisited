@@ -42,9 +42,6 @@ public class Controller {
     case CREATE_DEVICE:
     
       break;
-    case CREATE_USER:
-    
-      break;
     case DEVICE_VIEW:
     
       break;

@@ -2,7 +2,6 @@ package ca.uvic.seng330.assn3.view;
 
 public enum ViewType {
   LOGIN,
-  CREATE_USER,
   CREATE_DEVICE,
   HUB_BASIC,
   HUB_ADMIN,

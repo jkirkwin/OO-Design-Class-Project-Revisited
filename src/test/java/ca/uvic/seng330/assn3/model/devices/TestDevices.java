@@ -8,7 +8,7 @@ import ca.uvic.seng330.assn3.model.devices.Temperature.Unit;
 import org.junit.Test;
 
 public class TestDevices {
-
+  
   @Test
   public void testTempEquals() {
     Temperature c1 = new Temperature(0.0, Unit.CELSIUS);
