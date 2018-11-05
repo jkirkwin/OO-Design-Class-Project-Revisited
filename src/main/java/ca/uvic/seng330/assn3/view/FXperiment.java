@@ -45,8 +45,8 @@ public class FXperiment extends Application implements EventHandler<ActionEvent>
     LogInOptions[2] = "New Admin";
     layout.getChildren().add(vList(LogInOptions, col2, true));
 
-//    	  col1.getChildren().get(0);
-//    	  col1.getChildren().get(1);
+    //    	  col1.getChildren().get(0);
+    //    	  col1.getChildren().get(1);
     //
     //	  col2.getChildren().get(0);
     //	  col2.getChildren().get(1);
