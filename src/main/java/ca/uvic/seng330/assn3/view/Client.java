@@ -5,7 +5,7 @@ import ca.uvic.seng330.assn3.controller.Controller;
 public abstract class Client {
 
   private final Controller controller;
-  
+
   /*
    * @pre c != null
    * @pre v != null
