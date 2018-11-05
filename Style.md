@@ -84,7 +84,7 @@ After selecting '-Kill-/Murder' from AdminHub, User is presented with a list of 
 ## Controller
 
 ### ControllerObjects
-We should have a DeviceController Class with specific subtypes for each type of device. Within the controller we should have one DeviceController object for each device present in the model
+We could have a DeviceController Class with specific subtypes for each type of device. Within the controller we could have one DeviceController object for each device present in the model. This was suggested in class by a student and Neil seemed to be on board.
 
 # Questions
 
@@ -101,6 +101,7 @@ We should have a DeviceController Class with specific subtypes for each type of 
 * scrolling?
 * Devices extend Cloneable?
 * When creating user accounts, does there need to be a verification step if the new account is to be an Admin?
+* How should we parameterize the dynamic creation of scenes? Controll flow goes: controller calls setView(viewType); withing setView(), the client creates and populates a new scene. See FXClient.java for context and extra notes.
 
 ### Logistic Questions
 * JAVAFX vs Spring?

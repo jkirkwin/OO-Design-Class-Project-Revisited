@@ -15,17 +15,14 @@ public abstract class Client {
     assert c != null;
     assert v != null;
     this.controller = c;
-    this.setViewType(v);
+    this.setView(v);
   }
 
-  public ViewType getViewType() {
+  public ViewType getView() {
     return viewType;
   }
 
-  /*
-   * @pre viewType != null
-   */
-  public void setViewType(ViewType viewType) {
+  public void setView(ViewType viewType) {
     assert viewType != null;
     this.viewType = viewType;
   }
