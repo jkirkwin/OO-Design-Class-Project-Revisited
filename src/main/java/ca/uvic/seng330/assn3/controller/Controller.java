@@ -25,7 +25,7 @@ public class Controller {
     // this is the mega-handler to be used to delegate action to 
     // the appropriate function to update the view and/or model
   
-    switch(client.getViewType()) {
+    switch(client.getView()) {
     case CREATE_DEVICE:
     
       break;
