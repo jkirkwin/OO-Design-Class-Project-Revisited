@@ -83,6 +83,9 @@ After selecting '-Kill-/Murder' from AdminHub, User is presented with a list of 
 
 ## Controller
 
+### Active User
+* We need to track which user is active -> simply add a User activeUser field in controller. That should give us all the info we need.
+
 ### ControllerObjects
 We could have a DeviceController Class with specific subtypes for each type of device. Within the controller we could have one DeviceController object for each device present in the model. This was suggested in class by a student and Neil seemed to be on board.
 
