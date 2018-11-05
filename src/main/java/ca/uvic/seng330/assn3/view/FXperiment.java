@@ -17,6 +17,7 @@ import javafx.stage.Stage;
 public class FXperiment extends Application implements EventHandler<ActionEvent> {
 
   ArrayList<Button> hubDevices = new ArrayList<Button>();
+  Stage primaryStage;
   //	HashMap<Device, Button> hubDevices = new HashMap<Device, Button>();
 
   public static void main(String[] args) {
@@ -25,11 +26,12 @@ public class FXperiment extends Application implements EventHandler<ActionEvent>
 
   @Override
   public void start(Stage primaryStage) throws Exception {
-    logInView(primaryStage);
-    // hubView(primaryStage);
+    this.primaryStage = primaryStage;
+	  logInView();
+    // hubView();
   }
 
-  private void logInView(Stage primaryStage) {
+  private void logInView() {
     primaryStage.setTitle("LogIn");
 
     HBox layout = new HBox(10);
@@ -45,8 +47,8 @@ public class FXperiment extends Application implements EventHandler<ActionEvent>
     LogInOptions[2] = "New Admin";
     layout.getChildren().add(vList(LogInOptions, col2, true));
 
-    //    	  col1.getChildren().get(0);
-    //    	  col1.getChildren().get(1);
+    //    col1.getChildren().get(0);
+    //    col1.getChildren().get(1);
     //
     //	  col2.getChildren().get(0);
     //	  col2.getChildren().get(1);
@@ -57,7 +59,7 @@ public class FXperiment extends Application implements EventHandler<ActionEvent>
     primaryStage.show();
   }
 
-  private void hubView(Stage primaryStage) {
+  private void hubView() {
     primaryStage.setTitle("HubView");
     ScrollPane layout = new ScrollPane();
 
@@ -107,6 +109,7 @@ public class FXperiment extends Application implements EventHandler<ActionEvent>
     Object source = event.getSource();
     if (source == hubDevices.get(0)) {
       hubDevices.get(0).setText("Jaime");
+      hubView();
     } else if (source == hubDevices.get(1)) {
       hubDevices.get(1).setText("is");
     } else if (source == hubDevices.get(2)) {
