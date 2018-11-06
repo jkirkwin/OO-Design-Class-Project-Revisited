@@ -20,8 +20,10 @@ public class LoginSceneBuilder extends SceneBuilder {
     HBox hbox = new HBox(5);
     
     VBox textFields = new VBox(5);
-    TextField username = new TextField("username");
-    TextField password = new TextField("password");
+    TextField username = new TextField();
+    username.setPromptText("username");
+    TextField password = new TextField();
+    password.setPromptText("password");
     textFields.getChildren().add(username);
     textFields.getChildren().add(password);
     

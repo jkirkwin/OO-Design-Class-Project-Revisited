@@ -6,6 +6,7 @@ import ca.uvic.seng330.assn3.model.Hub;
 import ca.uvic.seng330.assn3.model.UserAccount;
 import ca.uvic.seng330.assn3.view.Client;
 import ca.uvic.seng330.assn3.view.LoginSceneBuilder;
+import ca.uvic.seng330.assn3.view.SceneBuilder;
 
 public class Controller {
 
@@ -13,6 +14,7 @@ public class Controller {
   private final Client client;
   private UserAccount activeUser;
   private final Stack<ViewType> views;
+  private final SceneBuilder loginBuilder;
   
   /*
    * @pre hub != null
@@ -22,6 +24,7 @@ public class Controller {
     assert hub != null;
     assert client != null;
 
+    this.loginBuilder = new LoginSceneBuilder(this, "Close");
     this.activeUser = null;
     this.client = client;
     this.client.setController(this);
@@ -31,7 +34,7 @@ public class Controller {
     // Load and display login screen
     views.push(ViewType.LOGIN);
     client.setTitle("Login");
-    client.setView(new LoginSceneBuilder(this, "Close"));
+    client.setView(loginBuilder);
   }
 
   public void update(Object arg) {
@@ -56,14 +59,65 @@ public class Controller {
   
   public void handleBackClick() {
     if(views.peek() == ViewType.LOGIN) {
-      // TODO close window
+      // close window
+      client.close();
     } else if (views.peek() == ViewType.HUB_BASIC || views.peek() == ViewType.HUB_ADMIN) {
-      // TODO log out
+      // log out
+      client.setView(loginBuilder);
+      views.pop();
+      this.activeUser = null;
     } else {
-      // TODO go back
-    }    
+      views.pop();
+      client.setTitle(views.peek().toString());
+
+      // TODO generate appropriate builder based on the ViewType now on the top of the stack
+      client.setView(findBuilder(views.peek()));
+    }   
+    
+    System.out.println("Back"); // Test
   }
   
+  private SceneBuilder findBuilder(ViewType view) {
+    // TODO generate the appropriate SceneBuilder based on for the ViewType
+    switch(view) {
+      case LOGIN:
+        return loginBuilder;
+        
+      case CREATE_DEVICE:
+        break;
+        
+      case HUB_ADMIN:
+        // TODO
+        break;
+        
+      case HUB_BASIC:
+        // TODO
+        break;
+
+      case MANAGE_DEVICES:
+        // TODO
+        break;
+        
+      case MANAGE_NOTIFICATIONS:
+        // TODO
+        break;
+        
+      case MANAGE_USERS:
+        // TODO
+        break;
+        
+      case SELECT_NOTIFICATIONS:
+        // TODO
+        break;
+        
+      default:
+        System.out.println("No case in controller.findBuilder() for viewType " + view);
+        break;
+      
+    }
+    return null;
+  }
+
   public void handleLoginClick(String username, String password) {
     /* TODO 
      * Validate input

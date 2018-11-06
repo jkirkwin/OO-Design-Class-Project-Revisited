@@ -49,4 +49,9 @@ public class Client {
   public Scene getView() {
     return this.getView();
   }
+
+  public void close() {
+    // TODO ensure state is saved
+    window.close();
+  }
 }
