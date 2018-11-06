@@ -33,28 +33,23 @@ public class Hub {
     }
   }
 
-  public void register(UserAccount newAccount, AccessLevel accessLevel) {
+  public void register(UserAccount newAccount) {
     try {
-      registerNew(newAccount, accessLevel);
+      registerNew(newAccount);
     } catch (HubRegistrationException e) {
       // TODO: Logging and Alerts
     }
   }
 
-  private void registerNew(UserAccount newAccount, AccessLevel accessLevel)
-      throws HubRegistrationException {
-    if (newAccount == null) {
-      throw new HubRegistrationException("Nothing passed");
-    }
+  /*
+   * @pre newAccount != null
+   */
+  private void registerNew(UserAccount newAccount) throws HubRegistrationException {
+    assert newAccount != null;
     if (!userAccountRegistry.containsKey(newAccount.getIdentifier())) {
-      switch (accessLevel) {
-        case ADMIN:
           userAccountRegistry.put(newAccount.getIdentifier(), newAccount);
-          break;
-        case BASIC:
-          userAccountRegistry.put(newAccount.getIdentifier(), newAccount);
-          break;
-      }
+    } else {
+      throw new HubRegistrationException("User already registered");
     }
   }
 
