@@ -2,6 +2,7 @@ package ca.uvic.seng330.assn3.model;
 
 import ca.uvic.seng330.assn3.model.devices.Device;
 import java.util.HashMap;
+import java.util.NoSuchElementException;
 import java.util.UUID;
 
 public class Hub {
@@ -73,7 +74,6 @@ public class Hub {
   private void unregisterRetired(UserAccount killedAccount) throws HubRegistrationException {
     switch (killedAccount.getAccessLevel()) {
       case ADMIN:
-        // TODO: ensure killedAccount is not the Default Admin Account
         userAccountRegistry.remove(killedAccount.getIdentifier());
         break;
       case BASIC:
@@ -86,6 +86,52 @@ public class Hub {
     // TODO
   }
 
-  public void alert(String msg, Device pDevice)
-      throws HubRegistrationException {} // should be moved to controller
+  public void alert(String msg, Device pDevice) throws HubRegistrationException {
+    // TODO should be moved to controller
+  } 
+  
+  public UserAccount getUser(String username, String password) throws NoSuchElementException {
+    if(!isUser(username)) {
+      throw new NoSuchElementException("No user with username " + username);
+    }
+    for(UserAccount user : userAccountRegistry.values()) {
+      if(user.getUsername().equals(username)) {
+        if(user.getPassword().equals(password)) {
+          return user;
+        } else {
+          /* No two users are allowed to have the same user name, 
+           * so we can safely exit without checking the rest of 
+           * the userAccounts for a match
+           */
+          break;
+        }
+      }
+    }
+    throw new NoSuchElementException("Incorrect password");            
+  }
+  
+  public boolean isUser(String username) {
+    for(UserAccount user : userAccountRegistry.values()) {      
+      if(user.getUsername().equals(username)) {
+        return true;
+      }
+    }
+    return false;
+  }
+  
+  public void startup() {
+    // TODO
+    /*
+     * Populate deviceRegistry and userRegistry from storage files
+     */
+  }
+  
+  public void shutdown() {
+ // TODO
+    /*
+     * Populate storage files with JSON representations of device/user registries
+     */
+  }
+  
+  
 }

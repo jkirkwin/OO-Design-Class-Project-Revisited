@@ -12,10 +12,14 @@ public class UserAccount {
   private final UUID id = UUID.randomUUID();
   private ArrayList<Device> blackList = new ArrayList<Device>();
   private Stack<JSONMessaging> notificationList = new Stack<JSONMessaging>();
+  private final String username;
+  private final String password;
 
-  public UserAccount(Hub h, AccessLevel isAdmin) {
+  public UserAccount(Hub h, AccessLevel isAdmin, String username, String password) {
     this.hub = h;
     this.accessLevel = isAdmin;
+    this.username = username;
+    this.password = password;
   }
 
   public UUID getIdentifier() {
@@ -55,5 +59,13 @@ public class UserAccount {
       copy.push(notificationList.pop());
     }
     return copy;
+  }
+
+  public String getUsername() {
+    return username;
+  }
+
+  public String getPassword() {
+    return password;
   }
 }

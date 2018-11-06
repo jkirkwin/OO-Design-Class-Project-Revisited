@@ -47,7 +47,6 @@ public class LoginSceneBuilder extends SceneBuilder {
   /*
   @Override
   public void handle(ActionEvent event) {
-    // TODO extract username and password from event
     // call getClient().getController().theAppropriateHandlerFunction()
     // this handler function will depend on the 
     
