@@ -1,4 +1,4 @@
-package ca.uvic.seng330.assn3.Startup;
+package ca.uvic.seng330.assn3.startup;
 
 import ca.uvic.seng330.assn3.controller.Controller;
 import ca.uvic.seng330.assn3.model.Hub;
