@@ -1,16 +1,18 @@
 package ca.uvic.seng330.assn3.view;
 
-import javafx.scene.Scene;
+import ca.uvic.seng330.assn3.controller.Controller;
+import javafx.scene.Node;
 
 public class LightbulbSceneBuilder extends DeviceSceneBuilder {
-
-  public LightbulbSceneBuilder() {
+  
+  public LightbulbSceneBuilder(Controller controller, String backText) {
+    super(controller,backText);
     // TODO Auto-generated constructor stub
   }
 
   @Override
-  public void buildSpecifics(Scene s) {
+  public Node buildSpecifics() {
     // TODO Auto-generated method stub
-
+    return null;
   }
 }

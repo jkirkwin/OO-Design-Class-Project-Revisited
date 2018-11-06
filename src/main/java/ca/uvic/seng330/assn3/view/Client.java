@@ -1,19 +1,52 @@
 package ca.uvic.seng330.assn3.view;
 
 import ca.uvic.seng330.assn3.controller.Controller;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 
-public abstract class Client {
+public class Client {
 
-  private final Controller controller;
+  private final Stage window;
+  private Scene view;
+  private Controller controller;
 
   /*
-   * @pre c != null
-   * @pre v != null
+   * @pre controller != null
+   * @pre window != null
    */
-  public Client(Controller c) {
-    assert c != null;
-    this.controller = c;
+  public Client(Stage window) {
+    assert window != null;
+    
+    this.window = window;
+    this.view = null;
   }
 
-  public abstract void setView(SceneBuilder builder);
+  public void setController(Controller controller) {
+    this.controller = controller;
+  }
+  
+  public void setTitle(String title) {
+    this.window.setTitle(title);
+  }
+  
+  /*
+   * @pre builder != null
+   */
+  public void setView(SceneBuilder builder) {
+    assert builder != null;
+    this.window.setScene(builder.build());
+
+    
+    // TODO unsure if this is necessary to call every time, but it definitely needs to be called at least once, 
+    //      on the first time we load the login view
+    window.show();    
+  }
+  
+  public Controller getController() {
+    return this.controller;
+  }
+  
+  public Scene getView() {
+    return this.getView();
+  }
 }

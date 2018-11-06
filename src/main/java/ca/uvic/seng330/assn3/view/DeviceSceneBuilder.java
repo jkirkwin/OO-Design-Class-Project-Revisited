@@ -1,19 +1,12 @@
 package ca.uvic.seng330.assn3.view;
 
+import ca.uvic.seng330.assn3.controller.Controller;
 import javafx.scene.Scene;
 
 public abstract class DeviceSceneBuilder extends SceneBuilder {
 
-  @Override
-  public Scene build() {
-    // TODO Auto-generated method stub
-    return null;
+  public DeviceSceneBuilder(Controller controller, String backText) {
+    super(controller,backText);
+    // TODO Auto-generated constructor stub
   }
-
-  protected Scene buildTemplate() {
-    // TODO
-    return null;
-  }
-
-  public abstract void buildSpecifics(Scene s);
 }
