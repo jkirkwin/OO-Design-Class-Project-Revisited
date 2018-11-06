@@ -11,10 +11,16 @@ public class Startup extends Application {
     launch();
   }
 
+  @SuppressWarnings("unused")
   @Override
   public void start(Stage primaryStage) throws Exception {
     Hub hub = new Hub();
-    Client client = new Client(new Stage());
+    Stage stage = new Stage();
+    stage.setMaxHeight(750);
+    stage.setMinHeight(250);
+    stage.setMaxWidth(750);
+    stage.setMinWidth(250);
+    Client client = new Client(stage);
     Controller controller = new Controller(hub, client);
   }
   

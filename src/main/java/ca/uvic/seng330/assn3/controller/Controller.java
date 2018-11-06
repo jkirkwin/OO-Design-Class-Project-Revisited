@@ -1,12 +1,15 @@
 package ca.uvic.seng330.assn3.controller;
 
+import java.util.NoSuchElementException;
 import java.util.Stack;
 
+import ca.uvic.seng330.assn3.model.AccessLevel;
 import ca.uvic.seng330.assn3.model.Hub;
 import ca.uvic.seng330.assn3.model.UserAccount;
 import ca.uvic.seng330.assn3.view.Client;
 import ca.uvic.seng330.assn3.view.LoginSceneBuilder;
 import ca.uvic.seng330.assn3.view.SceneBuilder;
+import javafx.scene.control.Alert.AlertType;
 
 public class Controller {
 
@@ -33,7 +36,7 @@ public class Controller {
     
     // Load and display login screen
     views.push(ViewType.LOGIN);
-    client.setTitle("Login");
+    client.setTitle(ViewType.LOGIN.toString());
     client.setView(loginBuilder);
   }
 
@@ -128,12 +131,13 @@ public class Controller {
   } 
   
   public void handleNewUser(String username, String password) {
-    /* TODO 
-     * Validate input
-     * Alert if invalid
-     * Create user if valid
-     */
-    System.out.println("New User"); // Testing
+    if(!hub.isUser(username)) {
+      hub.register(new UserAccount(this.hub, AccessLevel.BASIC, username, password));
+      client.alertUser(AlertType.INFORMATION, "Success", "Success", "User Account Created.");
+    } else {
+      client.alertUser(AlertType.INFORMATION, "Failure", "Username Unavailable", 
+          "Username \"" + username + "\" is already in use. Please try a different one.");
+    }    
   }
   
   public void handleNewAdmin(String username, String password) {
@@ -144,5 +148,22 @@ public class Controller {
      */
     System.out.println("New Admin"); // Testing    
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    if(!hub.isUser(username)) {
+      hub.register(new UserAccount(this.hub, AccessLevel.ADMIN, username, password));
+      client.alertUser(AlertType.INFORMATION, "Success", "Success", "Admin Account Created.");
+    } else {
+      client.alertUser(AlertType.INFORMATION, "Failure", "Username Unavailable", 
+          "Username \"" + username + "\" is already in use. Please try a different one.");
+    }    
   }
 }

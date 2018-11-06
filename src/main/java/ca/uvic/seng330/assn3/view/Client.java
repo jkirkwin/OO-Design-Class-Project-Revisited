@@ -2,6 +2,8 @@ package ca.uvic.seng330.assn3.view;
 
 import ca.uvic.seng330.assn3.controller.Controller;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 
 public class Client {
@@ -54,4 +56,13 @@ public class Client {
     // TODO ensure state is saved
     window.close();
   }
+  
+  public void alertUser(AlertType alertType,String headerText, String title, String text) {    
+    Alert alert = new Alert(alertType);
+    alert.setTitle(title);
+    alert.setHeaderText(headerText);
+    alert.setContentText(text);
+    alert.showAndWait();
+  }
+  
 }
