@@ -8,6 +8,7 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 
@@ -67,6 +68,20 @@ public abstract class SceneBuilder {
       vbox.getChildren().add(buttons.get(i));
     }
     return vbox;
+  }
+
+  protected VBox vList(String[] namesList, VBox col, boolean isButton) {
+    ArrayList<Button> buttons = new ArrayList<Button>();
+    for (int i = 0; i < namesList.length; i++) {
+      if (isButton) {
+        buttons.add(i, new Button(namesList[i]));
+        // buttons.get(i).setOnAction(this); TODO get functionality for devices
+        col.getChildren().add(buttons.get(i));
+      } else {
+        col.getChildren().add(new TextField(namesList[i]));
+      }
+    }
+    return col;
   }
 
   protected Controller getController() {

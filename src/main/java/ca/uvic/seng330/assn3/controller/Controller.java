@@ -4,6 +4,7 @@ import ca.uvic.seng330.assn3.model.AccessLevel;
 import ca.uvic.seng330.assn3.model.Hub;
 import ca.uvic.seng330.assn3.model.UserAccount;
 import ca.uvic.seng330.assn3.view.Client;
+import ca.uvic.seng330.assn3.view.HubSceneBuilder;
 import ca.uvic.seng330.assn3.view.LoginSceneBuilder;
 import ca.uvic.seng330.assn3.view.SceneBuilder;
 import java.util.Stack;
@@ -93,7 +94,7 @@ public class Controller {
 
       case HUB_BASIC:
         // TODO
-        break;
+        return new HubSceneBuilder(this, "Back");
 
       case MANAGE_DEVICES:
         // TODO
@@ -124,6 +125,11 @@ public class Controller {
      */
     if (hub.isUser(username)) {
       System.out.println("Logged in"); // Testing
+      if (hub.getUser(username, password).isAdmin()) {
+        client.setView(findBuilder(ViewType.HUB_ADMIN));
+      } else {
+        client.setView(findBuilder(ViewType.HUB_BASIC));
+      }
     } else {
       client.alertUser(
           AlertType.INFORMATION,
