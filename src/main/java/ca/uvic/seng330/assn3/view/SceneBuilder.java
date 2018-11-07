@@ -1,8 +1,7 @@
 package ca.uvic.seng330.assn3.view;
 
-import java.util.ArrayList;
-
 import ca.uvic.seng330.assn3.controller.Controller;
+import java.util.ArrayList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
@@ -16,33 +15,34 @@ public abstract class SceneBuilder {
 
   private String backText;
   private Controller controller;
-  
+
   public SceneBuilder(Controller controller, String backText) {
     this.backText = backText;
     this.controller = controller;
   }
-  
+
   public Scene build() {
     GridPane grid = new GridPane();
     grid.add(this.buildCommon(), 0, 0);
-    
-    
-    // this is the template part: buildSpecifics is the 'hook' method implemented by the concrete subclasses of this one
-    grid.add(this.buildSpecifics(), 1, 1); 
+
+    // this is the template part: buildSpecifics is the 'hook' method implemented by the concrete
+    // subclasses of this one
+    grid.add(this.buildSpecifics(), 1, 1);
     Scene s = new Scene(grid);
     return s;
   }
-  
+
   // The only thing common to all of our scenes is a back button
   protected Node buildCommon() {
     Button backButton = new Button();
     backButton.setText(this.backText);
-    backButton.setOnAction(new EventHandler<ActionEvent>(){
-      @Override
-      public void handle(ActionEvent event) {
-        getController().handleBackClick();
-      }
-    });
+    backButton.setOnAction(
+        new EventHandler<ActionEvent>() {
+          @Override
+          public void handle(ActionEvent event) {
+            getController().handleBackClick();
+          }
+        });
     return backButton;
   }
 

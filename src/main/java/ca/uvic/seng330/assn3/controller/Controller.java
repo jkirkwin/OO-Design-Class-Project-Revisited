@@ -1,14 +1,12 @@
 package ca.uvic.seng330.assn3.controller;
 
-import java.util.NoSuchElementException;
-import java.util.Stack;
-
 import ca.uvic.seng330.assn3.model.AccessLevel;
 import ca.uvic.seng330.assn3.model.Hub;
 import ca.uvic.seng330.assn3.model.UserAccount;
 import ca.uvic.seng330.assn3.view.Client;
 import ca.uvic.seng330.assn3.view.LoginSceneBuilder;
 import ca.uvic.seng330.assn3.view.SceneBuilder;
+import java.util.Stack;
 import javafx.scene.control.Alert.AlertType;
 
 public class Controller {
@@ -18,7 +16,7 @@ public class Controller {
   private UserAccount activeUser;
   private final Stack<ViewType> views;
   private final SceneBuilder loginBuilder;
-  
+
   /*
    * @pre hub != null
    * @pre client != null
@@ -33,7 +31,7 @@ public class Controller {
     this.client.setController(this);
     this.hub = hub;
     this.views = new Stack<ViewType>();
-    
+
     // Load and display login screen
     views.push(ViewType.LOGIN);
     client.setTitle(ViewType.LOGIN.toString());
@@ -52,16 +50,16 @@ public class Controller {
 
     // Set active user on whenever an account successfully logs in, and remove it
     // whenever they log out
-    
-    // Way better idea: have a controller for each style of view we have and hold one 
-    //of each in this main controller
-    
+
+    // Way better idea: have a controller for each style of view we have and hold one
+    // of each in this main controller
+
     // For now we're just going to split up handlers and see how that works out. Later on
     // we can combine some, and/or package them into various classes
   }
-  
+
   public void handleBackClick() {
-    if(views.peek() == ViewType.LOGIN) {
+    if (views.peek() == ViewType.LOGIN) {
       // close window
       client.close();
     } else if (views.peek() == ViewType.HUB_BASIC || views.peek() == ViewType.HUB_ADMIN) {
@@ -75,24 +73,24 @@ public class Controller {
 
       // TODO generate appropriate builder based on the ViewType now on the top of the stack
       client.setView(findBuilder(views.peek()));
-    }   
-    
+    }
+
     System.out.println("Back"); // Test
   }
-  
+
   private SceneBuilder findBuilder(ViewType view) {
     // TODO generate the appropriate SceneBuilder based on for the ViewType
-    switch(view) {
+    switch (view) {
       case LOGIN:
         return loginBuilder;
-        
+
       case CREATE_DEVICE:
         break;
-        
+
       case HUB_ADMIN:
         // TODO
         break;
-        
+
       case HUB_BASIC:
         // TODO
         break;
@@ -100,70 +98,65 @@ public class Controller {
       case MANAGE_DEVICES:
         // TODO
         break;
-        
+
       case MANAGE_NOTIFICATIONS:
         // TODO
         break;
-        
+
       case MANAGE_USERS:
         // TODO
         break;
-        
+
       case SELECT_NOTIFICATIONS:
         // TODO
         break;
-        
+
       default:
         System.out.println("No case in controller.findBuilder() for viewType " + view);
         break;
-      
     }
     return null;
   }
 
   public void handleLoginClick(String username, String password) {
-    /* TODO 
+    /* TODO
      * Validate input
      * Alert if invalid
      * Log in if valid
      */
     System.out.println("Logged in"); // Testing
-  } 
-  
+  }
+
   public void handleNewUser(String username, String password) {
-    if(!hub.isUser(username)) {
+    if (!hub.isUser(username)) {
       hub.register(new UserAccount(this.hub, AccessLevel.BASIC, username, password));
       client.alertUser(AlertType.INFORMATION, "Success", "Success", "User Account Created.");
     } else {
-      client.alertUser(AlertType.INFORMATION, "Failure", "Username Unavailable", 
+      client.alertUser(
+          AlertType.INFORMATION,
+          "Failure",
+          "Username Unavailable",
           "Username \"" + username + "\" is already in use. Please try a different one.");
-    }    
+    }
   }
-  
+
   public void handleNewAdmin(String username, String password) {
-    /* TODO 
+    /* TODO
      * Validate input
      * Alert if invalid
      * Create user if valid
      */
-    System.out.println("New Admin"); // Testing    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    if(!hub.isUser(username)) {
+    System.out.println("New Admin"); // Testing
+
+    if (!hub.isUser(username)) {
       hub.register(new UserAccount(this.hub, AccessLevel.ADMIN, username, password));
       client.alertUser(AlertType.INFORMATION, "Success", "Success", "Admin Account Created.");
     } else {
-      client.alertUser(AlertType.INFORMATION, "Failure", "Username Unavailable", 
+      client.alertUser(
+          AlertType.INFORMATION,
+          "Failure",
+          "Username Unavailable",
           "Username \"" + username + "\" is already in use. Please try a different one.");
-    }    
+    }
   }
 }

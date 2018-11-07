@@ -23,5 +23,4 @@ public class Startup extends Application {
     Client client = new Client(stage);
     Controller controller = new Controller(hub, client);
   }
-  
 }

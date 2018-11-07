@@ -4,9 +4,9 @@ import ca.uvic.seng330.assn3.controller.Controller;
 import javafx.scene.Node;
 
 public class LightbulbSceneBuilder extends DeviceSceneBuilder {
-  
+
   public LightbulbSceneBuilder(Controller controller, String backText) {
-    super(controller,backText);
+    super(controller, backText);
     // TODO Auto-generated constructor stub
   }
 

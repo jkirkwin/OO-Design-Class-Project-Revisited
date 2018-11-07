@@ -6,7 +6,7 @@ import javafx.scene.Node;
 public class CameraSceneBuilder extends DeviceSceneBuilder {
 
   public CameraSceneBuilder(Controller controller, String backText) {
-    super(controller,backText);
+    super(controller, backText);
     // TODO Auto-generated constructor stub
   }
 

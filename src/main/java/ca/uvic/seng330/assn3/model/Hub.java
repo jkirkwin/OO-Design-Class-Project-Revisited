@@ -47,7 +47,7 @@ public class Hub {
   private void registerNew(UserAccount newAccount) throws HubRegistrationException {
     assert newAccount != null;
     if (!userAccountRegistry.containsKey(newAccount.getIdentifier())) {
-          userAccountRegistry.put(newAccount.getIdentifier(), newAccount);
+      userAccountRegistry.put(newAccount.getIdentifier(), newAccount);
     } else {
       throw new HubRegistrationException("User already registered");
     }
@@ -83,50 +83,48 @@ public class Hub {
 
   public void alert(String msg, Device pDevice) throws HubRegistrationException {
     // TODO should be moved to controller
-  } 
-  
+  }
+
   public UserAccount getUser(String username, String password) throws NoSuchElementException {
-    if(!isUser(username)) {
+    if (!isUser(username)) {
       throw new NoSuchElementException("No user with username " + username);
     }
-    for(UserAccount user : userAccountRegistry.values()) {
-      if(user.getUsername().equals(username)) {
-        if(user.getPassword().equals(password)) {
+    for (UserAccount user : userAccountRegistry.values()) {
+      if (user.getUsername().equals(username)) {
+        if (user.getPassword().equals(password)) {
           return user;
         } else {
-          /* No two users are allowed to have the same user name, 
-           * so we can safely exit without checking the rest of 
+          /* No two users are allowed to have the same user name,
+           * so we can safely exit without checking the rest of
            * the userAccounts for a match
            */
           break;
         }
       }
     }
-    throw new NoSuchElementException("Incorrect password");            
+    throw new NoSuchElementException("Incorrect password");
   }
-  
+
   public boolean isUser(String username) {
-    for(UserAccount user : userAccountRegistry.values()) {      
-      if(user.getUsername().equals(username)) {
+    for (UserAccount user : userAccountRegistry.values()) {
+      if (user.getUsername().equals(username)) {
         return true;
       }
     }
     return false;
   }
-  
+
   public void startup() {
     // TODO
     /*
      * Populate deviceRegistry and userRegistry from storage files
      */
   }
-  
+
   public void shutdown() {
- // TODO
+    // TODO
     /*
      * Populate storage files with JSON representations of device/user registries
      */
   }
-  
-  
 }

@@ -27,7 +27,7 @@ public class FXperiment extends Application implements EventHandler<ActionEvent>
   @Override
   public void start(Stage primaryStage) throws Exception {
     this.primaryStage = primaryStage;
-	  logInView();
+    logInView();
     // hubView();
   }
 

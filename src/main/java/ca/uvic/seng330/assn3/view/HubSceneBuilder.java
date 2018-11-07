@@ -6,7 +6,7 @@ import javafx.scene.Node;
 public class HubSceneBuilder extends SceneBuilder {
 
   public HubSceneBuilder(Controller controller, String backText) {
-    super(controller,backText);
+    super(controller, backText);
   }
 
   @Override

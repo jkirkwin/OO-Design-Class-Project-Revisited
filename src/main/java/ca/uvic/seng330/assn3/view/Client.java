@@ -18,7 +18,7 @@ public class Client {
    */
   public Client(Stage window) {
     assert window != null;
-    
+
     this.window = window;
     this.view = null;
   }
@@ -26,11 +26,11 @@ public class Client {
   public void setController(Controller controller) {
     this.controller = controller;
   }
-  
+
   public void setTitle(String title) {
     this.window.setTitle(title);
   }
-  
+
   /*
    * @pre builder != null
    */
@@ -38,16 +38,16 @@ public class Client {
     assert builder != null;
     this.window.setScene(builder.build());
 
-    
-    // TODO unsure if this is necessary to call every time, but it definitely needs to be called at least once, 
+    // TODO unsure if this is necessary to call every time, but it definitely needs to be called at
+    // least once,
     //      on the first time we load the login view
-    window.show();    
+    window.show();
   }
-  
+
   public Controller getController() {
     return this.controller;
   }
-  
+
   public Scene getView() {
     return this.getView();
   }
@@ -56,13 +56,12 @@ public class Client {
     // TODO ensure state is saved
     window.close();
   }
-  
-  public void alertUser(AlertType alertType,String headerText, String title, String text) {    
+
+  public void alertUser(AlertType alertType, String headerText, String title, String text) {
     Alert alert = new Alert(alertType);
     alert.setTitle(title);
     alert.setHeaderText(headerText);
     alert.setContentText(text);
     alert.showAndWait();
   }
-  
 }
