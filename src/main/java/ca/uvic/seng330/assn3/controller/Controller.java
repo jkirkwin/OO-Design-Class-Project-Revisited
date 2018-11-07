@@ -120,43 +120,66 @@ public class Controller {
 
   public void handleLoginClick(String username, String password) {
     /* TODO
-     * Validate input
-     * Alert if invalid
      * Log in if valid
      */
-    System.out.println("Logged in"); // Testing
-  }
-
-  public void handleNewUser(String username, String password) {
-    if (!hub.isUser(username)) {
-      hub.register(new UserAccount(this.hub, AccessLevel.BASIC, username, password));
-      client.alertUser(AlertType.INFORMATION, "Success", "Success", "User Account Created.");
+    if (hub.isUser(username)) {
+      System.out.println("Logged in"); // Testing
     } else {
       client.alertUser(
           AlertType.INFORMATION,
           "Failure",
-          "Username Unavailable",
-          "Username \"" + username + "\" is already in use. Please try a different one.");
+          "Account does not exist",
+          "Username \"" + username + "\" is not in use. Please try a different one.");
+    }
+  }
+
+  public void handleNewUser(String username, String password) {
+    if (acceptableInputs(username, password)) {
+      if (!hub.isUser(username)) {
+        hub.register(new UserAccount(this.hub, AccessLevel.BASIC, username, password));
+        client.alertUser(AlertType.INFORMATION, "Success", "Success", "User Account Created.");
+      } else {
+        client.alertUser(
+            AlertType.INFORMATION,
+            "Failure",
+            "Username Unavailable",
+            "Username \"" + username + "\" is already in use. Please try a different one.");
+      }
     }
   }
 
   public void handleNewAdmin(String username, String password) {
-    /* TODO
-     * Validate input
-     * Alert if invalid
-     * Create user if valid
-     */
     System.out.println("New Admin"); // Testing
+    if (acceptableInputs(username, password)) {
+      if (!hub.isUser(username)) {
+        hub.register(new UserAccount(this.hub, AccessLevel.ADMIN, username, password));
+        client.alertUser(AlertType.INFORMATION, "Success", "Success", "Admin Account Created.");
+      } else {
+        client.alertUser(
+            AlertType.INFORMATION,
+            "Failure",
+            "Username Unavailable",
+            "Username \"" + username + "\" is already in use. Please try a different one.");
+      }
+    }
+  }
 
-    if (!hub.isUser(username)) {
-      hub.register(new UserAccount(this.hub, AccessLevel.ADMIN, username, password));
-      client.alertUser(AlertType.INFORMATION, "Success", "Success", "Admin Account Created.");
-    } else {
+  private boolean acceptableInputs(String username, String password) {
+    if (username.toLowerCase() == "username" || username.isEmpty()) {
       client.alertUser(
           AlertType.INFORMATION,
           "Failure",
-          "Username Unavailable",
-          "Username \"" + username + "\" is already in use. Please try a different one.");
+          "Username Unaccepted",
+          "Username is not allowed to be \"username\" or left blank. Please try again");
+      return false;
+    } else if (password.toLowerCase() == "password" || password.isEmpty()) {
+      client.alertUser(
+          AlertType.INFORMATION,
+          "Failure",
+          "Password Unaccepted",
+          "Password is not allowed to be \"password\" or left blank. Please try again");
+      return false;
     }
+    return true;
   }
 }
