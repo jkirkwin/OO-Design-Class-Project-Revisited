@@ -90,10 +90,14 @@ public class Controller {
 
       case HUB_ADMIN:
         // TODO
+        views.push(ViewType.HUB_ADMIN);
+        client.setTitle(ViewType.HUB_ADMIN.toString());
         return new HubSceneBuilder(this, "Back", true);
 
       case HUB_BASIC:
         // TODO
+        views.push(ViewType.HUB_BASIC);
+        client.setTitle(ViewType.HUB_BASIC.toString());
         return new HubSceneBuilder(this, "Back", false);
 
       case MANAGE_DEVICES:
