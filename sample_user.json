@@ -5,11 +5,11 @@
 	"access_level":"ADMIN",
 
 	"devices" : [
-		{"id1":"Some device's UUID"},
-		{"id2":"Some device's UUID"},
-		{"id3":"Some device's UUID"},
-		{"id4":"Some device's UUID"},
-		{"id5":"Some device's UUID"},
+		"Some device's UUID",
+		"Some device's UUID",
+		"Some device's UUID",
+		"Some device's UUID",
+		"Some device's UUID",
 	],
 
 	"notifications" : [
