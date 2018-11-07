@@ -1,5 +1,7 @@
 package ca.uvic.seng330.assn3.model.devices;
 
+import org.json.JSONObject;
+
 public class Temperature implements Cloneable {
 
   @SuppressWarnings("serial")
@@ -108,5 +110,13 @@ public class Temperature implements Cloneable {
 
   private static double fahrenheitToCelsius(double fMagnitude) {
     return (fMagnitude - 32) * 5.0 / 9.0;
+  }
+
+  public JSONObject getJSON() {
+    JSONObject json = new JSONObject();
+    json.put("unit", this.getUnit());
+    json.put("magnitude", this.getMagnitude());
+
+    return json;
   }
 }

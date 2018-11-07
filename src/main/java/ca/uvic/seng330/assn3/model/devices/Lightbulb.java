@@ -1,6 +1,7 @@
 package ca.uvic.seng330.assn3.model.devices;
 
 import ca.uvic.seng330.assn3.model.Hub;
+import org.json.JSONObject;
 
 public class Lightbulb extends Device {
 
@@ -16,7 +17,7 @@ public class Lightbulb extends Device {
     //    getHub().log("Created new Lightbulb", Level.INFO, getIdentifier());
   }
 
-  public boolean getCondition() {
+  public boolean isOn() {
     return this.isOn;
   }
 
@@ -28,5 +29,15 @@ public class Lightbulb extends Device {
     //    }
 
     this.isOn = !this.isOn;
+  }
+
+  @Override
+  public JSONObject getJSON() {
+    JSONObject json = super.getJSON();
+    json.put("device_type", "Lightbulb");
+    JSONObject state = new JSONObject();
+    state.put("is_on", this.isOn());
+    json.put("state", state);
+    return json;
   }
 }

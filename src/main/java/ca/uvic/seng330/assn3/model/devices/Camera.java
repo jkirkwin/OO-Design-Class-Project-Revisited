@@ -2,6 +2,7 @@ package ca.uvic.seng330.assn3.model.devices;
 
 import ca.uvic.seng330.assn3.model.Hub;
 import ca.uvic.seng330.assn3.model.HubRegistrationException;
+import org.json.JSONObject;
 
 public class Camera extends Device {
 
@@ -44,5 +45,17 @@ public class Camera extends Device {
       }
       this.isRecording = !this.isRecording;
     }
+  }
+
+  @Override
+  public JSONObject getJSON() {
+    JSONObject json = super.getJSON();
+    json.put("device_type", "Camera");
+    JSONObject state = new JSONObject();
+    state.put("disk_size", this.diskSize);
+    state.put("max_size", this.maxSize);
+    state.put("is_recording", this.isRecording());
+    json.put("state", state);
+    return json;
   }
 }

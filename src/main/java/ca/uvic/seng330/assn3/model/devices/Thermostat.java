@@ -3,6 +3,7 @@ package ca.uvic.seng330.assn3.model.devices;
 import ca.uvic.seng330.assn3.model.Hub;
 import ca.uvic.seng330.assn3.model.devices.Temperature.TemperatureOutofBoundsException;
 import ca.uvic.seng330.assn3.model.devices.Temperature.Unit;
+import org.json.JSONObject;
 
 public class Thermostat extends Device {
 
@@ -58,5 +59,14 @@ public class Thermostat extends Device {
       throw (temp.new TemperatureOutofBoundsException());
     }
     this.temp = temp.clone();
+  }
+
+  @Override
+  public JSONObject getJSON() {
+    JSONObject json = super.getJSON();
+    json.put("device_type", "Thermostat");
+    JSONObject state = new JSONObject();
+    state.put("temp", this.getTemp().getJSON());
+    return json;
   }
 }

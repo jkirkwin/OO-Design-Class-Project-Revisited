@@ -3,6 +3,7 @@ package ca.uvic.seng330.assn3.model.devices;
 import ca.uvic.seng330.assn3.model.Hub;
 import ca.uvic.seng330.assn3.model.HubRegistrationException;
 import java.util.UUID;
+import org.json.JSONObject;
 
 public abstract class Device {
   private final UUID id;
@@ -20,7 +21,7 @@ public abstract class Device {
     assert status != null;
     assert hub != null;
 
-    this.label = label;
+    this.setLabel(label);
     this.status = status;
     this.hub = hub;
     this.id = UUID.randomUUID();
@@ -39,7 +40,7 @@ public abstract class Device {
     // TODO: confirm this is an unnecessary constructor
     assert hub != null;
 
-    this.label = "Default Label";
+    this.setLabel("Default Label");
     this.status = Status.NORMAL;
     this.hub = hub;
     this.id = UUID.randomUUID();
@@ -67,7 +68,22 @@ public abstract class Device {
     return this.getHub();
   }
 
-  public void changeLabel(String newLabel) {
+  public void setLabel(String newLabel) {
     this.label = newLabel;
+  }
+
+  public String getLabel() {
+    return label;
+  }
+
+  /*
+   * Should be extended by subClass for a more meaningful result
+   */
+  protected JSONObject getJSON() {
+    JSONObject json = new JSONObject();
+    json.put("status", this.getStatus());
+    json.put("label", this.getLabel());
+
+    return json;
   }
 }

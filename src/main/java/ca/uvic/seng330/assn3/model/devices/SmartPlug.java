@@ -1,6 +1,7 @@
 package ca.uvic.seng330.assn3.model.devices;
 
 import ca.uvic.seng330.assn3.model.Hub;
+import org.json.JSONObject;
 
 public class SmartPlug extends Device {
 
@@ -24,5 +25,15 @@ public class SmartPlug extends Device {
     //      getMediator().log("Turning SmartPlug On", Level.INFO, getIdentifier());
     //    }
     this.isOn = !this.isOn;
+  }
+
+  @Override
+  public JSONObject getJSON() {
+    JSONObject json = super.getJSON();
+    json.put("device_type", "SmartPlug");
+    JSONObject state = new JSONObject();
+    state.put("is_on", this.isOn());
+    json.put("state", state);
+    return json;
   }
 }

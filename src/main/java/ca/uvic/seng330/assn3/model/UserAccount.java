@@ -2,10 +2,8 @@ package ca.uvic.seng330.assn3.model;
 
 import ca.uvic.seng330.assn3.model.devices.Device;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Stack;
 import java.util.UUID;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -73,7 +71,7 @@ public class UserAccount {
   public String getPassword() {
     return password;
   }
-  
+
   public JSONObject getJSON() {
     JSONObject json = new JSONObject();
     try {
@@ -81,23 +79,25 @@ public class UserAccount {
       json.put("password", this.password);
       json.put("id", this.id);
       json.put("access_level", this.getAccessLevel());
-      
-      // Create a JSON list of the UUID's of devices in the blacklist and add this under key "black_list"
+
+      // Create a JSON list of the UUID's of devices in the blacklist and add this under key
+      // "black_list"
       JSONArray jsonBlackList = new JSONArray();
-      for(Device d : this.blackList) {
+      for (Device d : this.blackList) {
         jsonBlackList.put(d.getIdentifier());
       }
       json.put("black_list", jsonBlackList);
-      
-      // Create a JSON list of notifications waiting for the user and add this under key "notifications"
+
+      // Create a JSON list of notifications waiting for the user and add this under key
+      // "notifications"
       JSONArray notifications = new JSONArray();
-      Stack<JSONMessaging> temp = new Stack<JSONMessaging>();
-      while(!this.notificationList.isEmpty()) {
+      Stack<JSONMessaging> temp = new Stack<JSONMessaging>(); // To prevent losing notifications
+      while (!this.notificationList.isEmpty()) {
         notifications.put(this.notificationList.peek().invoke());
         temp.push(notificationList.pop());
       }
-      while(!temp.isEmpty()) {
-        notificationList.push(temp.pop());
+      while (!temp.isEmpty()) {
+        notificationList.push(temp.pop()); // rebuild notificationList
       }
     } catch (JSONException e) {
       // TODO Log this failure
