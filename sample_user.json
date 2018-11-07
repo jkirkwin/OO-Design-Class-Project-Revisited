@@ -1,0 +1,29 @@
+{
+	"username":"some username",
+	"password":"some password",
+	"id":"user object's UUID",
+	"access_level":"ADMIN",
+
+	"devices" : [
+		{"id1":"Some device's UUID"},
+		{"id2":"Some device's UUID"},
+		{"id3":"Some device's UUID"},
+		{"id4":"Some device's UUID"},
+		{"id5":"Some device's UUID"},
+	],
+
+	"notifications" : [
+		{
+			"msg_id":0,
+			"payload":"body of notification 0",
+			"node_id":"UUID of relevant device",
+			"status":"NORMAL"
+		},
+		{
+			"msg_id":1,
+			"payload":"body of notification 1",
+			"node_id":"UUID of relevant device",
+			"status":"NORMAL"
+		},
+	]
+}
