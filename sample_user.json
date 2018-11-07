@@ -4,7 +4,7 @@
 	"id":"user object's UUID",
 	"access_level":"ADMIN",
 
-	"devices" : [
+	"black_list" : [
 		"Some device's UUID",
 		"Some device's UUID",
 		"Some device's UUID",
