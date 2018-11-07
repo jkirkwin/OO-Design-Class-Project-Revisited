@@ -90,11 +90,11 @@ public class Controller {
 
       case HUB_ADMIN:
         // TODO
-        break;
+        return new HubSceneBuilder(this, "Back", true);
 
       case HUB_BASIC:
         // TODO
-        return new HubSceneBuilder(this, "Back");
+        return new HubSceneBuilder(this, "Back", false);
 
       case MANAGE_DEVICES:
         // TODO
@@ -187,5 +187,17 @@ public class Controller {
       return false;
     }
     return true;
+  }
+
+  public void handleAdminManageUsersClick() {
+    System.out.println("Manage Users");
+  }
+
+  public void handleAdminManageDevicesClick() {
+    System.out.println("Manage Devices");
+  }
+
+  public void handleAdminManageNotificationsClick() {
+    System.out.println("Manage Notifications");
   }
 }
