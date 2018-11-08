@@ -3,7 +3,9 @@ package ca.uvic.seng330.assn3.controller;
 import ca.uvic.seng330.assn3.model.AccessLevel;
 import ca.uvic.seng330.assn3.model.Hub;
 import ca.uvic.seng330.assn3.model.UserAccount;
+import ca.uvic.seng330.assn3.model.devices.Device;
 import ca.uvic.seng330.assn3.view.Client;
+import ca.uvic.seng330.assn3.view.DeviceSceneBuilder;
 import ca.uvic.seng330.assn3.view.HubSceneBuilder;
 import ca.uvic.seng330.assn3.view.LoginSceneBuilder;
 import ca.uvic.seng330.assn3.view.SceneBuilder;
@@ -88,9 +90,6 @@ public class Controller {
         return loginBuilder;
 
       case CREATE_DEVICE:
-        break;
-
-      case DEVICE_VIEW:
         break;
 
       case HUB_ADMIN:
@@ -222,7 +221,23 @@ public class Controller {
     return hub.getLabel(uuid);
   }
 
-  public void handleDeviceViewClick(UUID userData) {
-    // TODO Auto-generated method stub
+  public void handleDeviceViewClick(UUID uuid) {
+    // TODO: review use of import of Device
+	  
+	  views.push(ViewType.DEVICE_VIEW);
+      client.setTitle(ViewType.DEVICE_VIEW.toString());
+      //Class currDevice = hub.getDevice(uuid).getClass();
+      
+//      if() {
+//    	  
+//      }else if() {
+//    	  
+//      }else if() {
+//    	  
+//      }
+      
+      
+      
+      //client.setView(new DeviceSceneBuilder(this, "Back"));
   }
 }

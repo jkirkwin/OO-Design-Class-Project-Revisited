@@ -144,4 +144,9 @@ public class Hub {
   public ArrayList<UUID> getBlackList(UserAccount user) {
     return userAccountRegistry.get(user.getIdentifier()).getBlackList();
   }
+
+public Device getDevice(UUID uuid) {
+	return deviceRegistry.get(uuid);
+	
+}
 }
