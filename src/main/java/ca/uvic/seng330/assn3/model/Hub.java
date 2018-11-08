@@ -1,12 +1,15 @@
 package ca.uvic.seng330.assn3.model;
 
 import ca.uvic.seng330.assn3.model.devices.Device;
+
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.NoSuchElementException;
 import java.util.UUID;
 
 public class Hub {
+  
   private final HashMap<UUID, Device> deviceRegistry;
   private HashMap<UUID, UserAccount> userAccountRegistry;
 
@@ -127,6 +130,7 @@ public class Hub {
     /*
      * Populate storage files with JSON representations of device/user registries
      */
+    
   }
 
   public ArrayList<UUID> getIDList() {
@@ -147,6 +151,5 @@ public class Hub {
 
 public Device getDevice(UUID uuid) {
 	return deviceRegistry.get(uuid);
-	
-}
+  }
 }

@@ -7,7 +7,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class UserAccount {
+import ca.uvic.seng330.assn3.model.storage.StorageEntity;
+
+public class UserAccount implements StorageEntity {
 
   private AccessLevel accessLevel;
   private Hub hub;

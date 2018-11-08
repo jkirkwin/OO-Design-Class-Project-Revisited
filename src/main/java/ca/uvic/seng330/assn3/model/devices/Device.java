@@ -2,10 +2,12 @@ package ca.uvic.seng330.assn3.model.devices;
 
 import ca.uvic.seng330.assn3.model.Hub;
 import ca.uvic.seng330.assn3.model.HubRegistrationException;
+import ca.uvic.seng330.assn3.model.storage.StorageEntity;
+
 import java.util.UUID;
 import org.json.JSONObject;
 
-public abstract class Device {
+public abstract class Device implements StorageEntity {
   private final UUID id;
   private String label;
   private Status status;
@@ -79,7 +81,7 @@ public abstract class Device {
   /*
    * Should be extended by subClass for a more meaningful result
    */
-  protected JSONObject getJSON() {
+  public JSONObject getJSON() {
     JSONObject json = new JSONObject();
     json.put("status", this.getStatus());
     json.put("label", this.getLabel());
