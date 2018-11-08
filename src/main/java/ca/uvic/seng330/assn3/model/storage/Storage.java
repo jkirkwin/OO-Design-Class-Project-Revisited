@@ -3,10 +3,14 @@ package ca.uvic.seng330.assn3.model.storage;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
+import java.util.Scanner;
 
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 import ca.uvic.seng330.assn3.model.UserAccount;
 import ca.uvic.seng330.assn3.model.devices.Device;
@@ -99,10 +103,47 @@ public class Storage {
   }
 
   public Collection<Device> getDevices() {
-    // TODO retrieve device json objects from storage, convert them into Device objects, and return them
-    return null;
+    // retrieve device json objects from storage, convert them into Device objects, and return them
+    List<Device> javaDevices = new ArrayList<Device>();
+
+    File deviceFile = new File(deviceFileName);
+    if(!deviceFile.exists() || !deviceFile.canRead()) {
+      return javaDevices;
+    }
+    
+    try {
+      String jsonString = getFileContents(deviceFile);      
+      JSONArray jsonDevices = new JSONArray(jsonString);
+      for(int i = 0; i < jsonDevices.length(); i++) {
+        // TODO decide how devices and users should be created from a JSONObject
+        // Options include a static factory method for each in StorageEntity
+        // A static factory method for each in Device and UserAccount respectively
+        // A constructor that takes a JSONObject in Device, all subclasses of Device, and in UserAccount
+        
+      }
+    } catch(IOException e) {
+      e.printStackTrace();
+      // TODO Log error
+      // Consider handling options
+    }
+    
+    return javaDevices;
   }
   
+  /*
+   * @pre file != null
+   */
+  private String getFileContents(File file) throws IOException {
+    assert file != null;
+    Scanner sc = new Scanner(file);
+    String content = "";
+    while(sc.hasNextLine()) {
+      content = content + sc.nextLine();
+    }
+    sc.close();
+    return content;
+  }
+
   public Collection<UserAccount> getAccounts() {
     // TODO retrieve useraccount json objects from storage, convert them into UserAccount objects, and return them
     return null;

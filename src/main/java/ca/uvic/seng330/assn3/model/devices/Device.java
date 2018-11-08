@@ -12,7 +12,7 @@ public abstract class Device implements StorageEntity {
   private String label;
   private Status status;
   private Hub hub;
-
+  
   /*
    * @pre label != null
    * @pre status != null
