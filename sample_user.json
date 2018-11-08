@@ -1,29 +1,52 @@
-{
-	"username":"some username",
-	"password":"some password",
-	"id":"user object's UUID",
-	"access_level":"ADMIN",
+[
+	{
+		"username":"some username",
+		"password":"some password",
+		"id":"user object's UUID",
+		"access_level":"ADMIN",
 
-	"black_list" : [
-		"Some device's UUID",
-		"Some device's UUID",
-		"Some device's UUID",
-		"Some device's UUID",
-		"Some device's UUID",
-	],
+		"black_list" : [
+			"Some device's UUID",
+			"Some device's UUID",
+		],
 
-	"notifications" : [
-		{
-			"msg_id":0,
-			"payload":"body of notification 0",
-			"node_id":"UUID of relevant device",
-			"status":"NORMAL"
-		},
-		{
-			"msg_id":1,
-			"payload":"body of notification 1",
-			"node_id":"UUID of relevant device",
-			"status":"NORMAL"
-		},
-	]
-}
+		"notifications" : [
+			{
+				"msg_id":0,
+				"payload":"body of notification 0",
+				"node_id":"UUID of relevant device",
+				"status":"NORMAL"
+			},
+			{
+				"msg_id":1,
+				"payload":"body of notification 1",
+				"node_id":"UUID of relevant device",
+				"status":"NORMAL"
+			}
+		]
+	},
+	
+	{
+		"username":"some username 2",
+		"password":"some password 2",
+		"id":"user object's UUID",
+		"access_level":"BASIC",
+
+		"black_list" : [
+			"Some device's UUID",
+			"Some device's UUID",
+			"Some device's UUID",
+			"Some device's UUID",
+			"Some device's UUID",
+		],
+
+		"notifications" : [
+			{
+				"msg_id":0,
+				"payload":"body of notification 0",
+				"node_id":"UUID of relevant device",
+				"status":"NORMAL"
+			}
+		]
+	}
+]
