@@ -1,45 +1,47 @@
-{
-	"device_type" : "Camera",
-	"id" : "The device's UUID",
-	"label" : "User-Specified label",
-	"status" : "NORMAL",
-	"state" : {
-		"disk_size" : 10,
-		"max_size" : 100,
-		"is_recording" : false,
-	}
-}
+[
+	{
+		"device_type" : "Camera",
+		"id" : "The device's UUID",
+		"label" : "User-Specified label",
+		"status" : "NORMAL",
+		"state" : {
+			"disk_size" : 10,
+			"max_size" : 100,
+			"is_recording" : false,
+		}
+	},
 
 
-{
-	"device_type" : "Lightbulb",
-	"id" : "The device's UUID",
-	"label" : "User-Specified label",
-	"status" : "NORMAL",
-	"state" : {
-		"is_on" : true
-	}
-}
+	{
+		"device_type" : "Lightbulb",
+		"id" : "The device's UUID",
+		"label" : "User-Specified label",
+		"status" : "NORMAL",
+		"state" : {
+			"is_on" : true
+		}
+	},
 
-{
-	"device_type" : "SmartPlug",
-	"id" : "The device's UUID",
-	"label" : "User-Specified label",
-	"status" : "NORMAL",
-	"state" : {
-		"is_on" : true	
-	}
-}	
+	{
+		"device_type" : "SmartPlug",
+		"id" : "The device's UUID",
+		"label" : "User-Specified label",
+		"status" : "NORMAL",
+		"state" : {
+			"is_on" : true	
+		}
+	},	
 
-{
-	"device_type" : "Thermostat",
-	"id" : "The device's UUID",
-	"label" : "User-Specified label",
-	"status" : "NORMAL",
-	"state" : {
-		"temp" : {
-			"unit" : "CELSIUS",
-			"magnitude" : 23
+	{
+		"device_type" : "Thermostat",
+		"id" : "The device's UUID",
+		"label" : "User-Specified label",
+		"status" : "NORMAL",
+		"state" : {
+			"temp" : {
+				"unit" : "CELSIUS",
+				"magnitude" : 23
+			}
 		}
 	}
-}
+]
