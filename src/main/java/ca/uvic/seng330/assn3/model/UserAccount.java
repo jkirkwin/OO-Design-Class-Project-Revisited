@@ -1,6 +1,5 @@
 package ca.uvic.seng330.assn3.model;
 
-import ca.uvic.seng330.assn3.model.devices.Device;
 import java.util.ArrayList;
 import java.util.Stack;
 import java.util.UUID;
@@ -13,7 +12,7 @@ public class UserAccount {
   private AccessLevel accessLevel;
   private Hub hub;
   private final UUID id = UUID.randomUUID();
-  private ArrayList<Device> blackList = new ArrayList<Device>();
+  private ArrayList<UUID> blackList = new ArrayList<UUID>();
   private Stack<JSONMessaging> notificationList = new Stack<JSONMessaging>();
   private final String username;
   private final String password;
@@ -37,7 +36,7 @@ public class UserAccount {
     return accessLevel;
   }
 
-  public void blackList(Device illegal) {
+  public void blackList(UUID illegal) {
     // TODO: add Logging and Alert
     if (this.isAdmin() || this.blackList.contains(illegal)) {
       // TODO: Throw exception?
@@ -46,13 +45,18 @@ public class UserAccount {
     this.blackList.add(illegal);
   }
 
-  public void whiteList(Device legal) {
+  public void whiteList(UUID legal) {
     // TODO: add Logging and Alert
     if (this.blackList.contains(legal)) {
       this.blackList.remove(legal);
     } else {
       // TODO: Throw exception?
     }
+  }
+
+  protected ArrayList<UUID> getBlackList() {
+    // TODO: clone for encapsulation
+    return this.blackList;
   }
 
   public Stack<JSONMessaging> getMessages() {
@@ -83,8 +87,8 @@ public class UserAccount {
       // Create a JSON list of the UUID's of devices in the blacklist and add this under key
       // "black_list"
       JSONArray jsonBlackList = new JSONArray();
-      for (Device d : this.blackList) {
-        jsonBlackList.put(d.getIdentifier());
+      for (UUID d : this.blackList) {
+        jsonBlackList.put(d);
       }
       json.put("black_list", jsonBlackList);
 

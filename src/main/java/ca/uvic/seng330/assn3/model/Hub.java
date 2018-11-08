@@ -1,6 +1,7 @@
 package ca.uvic.seng330.assn3.model;
 
 import ca.uvic.seng330.assn3.model.devices.Device;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.NoSuchElementException;
 import java.util.UUID;
@@ -126,5 +127,21 @@ public class Hub {
     /*
      * Populate storage files with JSON representations of device/user registries
      */
+  }
+
+  public ArrayList<UUID> getIDList() {
+    ArrayList<UUID> idList = new ArrayList<UUID>();
+    for (UUID key : deviceRegistry.keySet()) {
+      idList.add(key);
+    }
+    return idList;
+  }
+
+  public String getLabel(UUID uuid) {
+    return deviceRegistry.get(uuid).getLabel();
+  }
+
+  public ArrayList<UUID> getBlackList(UserAccount user) {
+    return userAccountRegistry.get(user.getIdentifier()).getBlackList();
   }
 }

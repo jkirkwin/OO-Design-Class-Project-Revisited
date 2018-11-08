@@ -27,15 +27,10 @@ public class HubSceneBuilder extends SceneBuilder {
     layout.setFitToWidth(true);
     layout.setHbarPolicy(ScrollBarPolicy.NEVER);
     layout.setVbarPolicy(ScrollBarPolicy.ALWAYS);
+
     VBox buttons = new VBox(10);
+    layout.setContent(hubDeviceList(buttons));
 
-    String[] deviceNames = new String[16]; // change to get device list
-    for (int i = 0; i < deviceNames.length; i++) {
-      deviceNames[i] = "I am " + i; // iterate through device list
-    }
-
-    vList(deviceNames, buttons, true);
-    layout.setContent(buttons);
     hbox.getChildren().add(layout);
 
     if (isAdmin) {

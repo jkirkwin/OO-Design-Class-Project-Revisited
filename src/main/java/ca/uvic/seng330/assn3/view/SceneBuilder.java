@@ -2,13 +2,13 @@ package ca.uvic.seng330.assn3.view;
 
 import ca.uvic.seng330.assn3.controller.Controller;
 import java.util.ArrayList;
+import java.util.UUID;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 
@@ -55,31 +55,18 @@ public abstract class SceneBuilder {
     return s;
   }
 
-  /*
-   * Makes the buttons inside a context.
-   * ie. inside a ScrollPane
-   * TODO: only creates buttons, does not assign Events.
+  /* Gets a List of UUIDs from controller.
+   *  builds
+   *
    */
-  protected static VBox vList(int numButtons) {
-    ArrayList<Button> buttons = new ArrayList<Button>();
-    VBox vbox = new VBox(5);
-    for (int i = 0; i < numButtons; i++) {
-      buttons.add(i, new Button("I am " + i));
-      vbox.getChildren().add(buttons.get(i));
-    }
-    return vbox;
-  }
-
-  protected VBox vList(String[] namesList, VBox col, boolean isButton) {
-    ArrayList<Button> buttons = new ArrayList<Button>();
-    for (int i = 0; i < namesList.length; i++) {
-      if (isButton) {
-        buttons.add(i, new Button(namesList[i]));
-        // buttons.get(i).setOnAction(this); TODO get functionality for devices
-        col.getChildren().add(buttons.get(i));
-      } else {
-        col.getChildren().add(new TextField(namesList[i]));
-      }
+  protected VBox hubDeviceList(VBox col) {
+    ArrayList<UUID> deviceList = getController().getDeviceIDList();
+    for (int i = 0; i < deviceList.size(); i++) {
+      Button button = new Button(getController().getLabel(deviceList.get(i)));
+      button.setUserData(deviceList.get(i));
+      button.setOnAction(
+          event -> getController().handleDeviceViewClick((UUID) button.getUserData()));
+      col.getChildren().add(button);
     }
     return col;
   }

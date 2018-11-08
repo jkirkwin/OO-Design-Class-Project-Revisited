@@ -7,7 +7,9 @@ import ca.uvic.seng330.assn3.view.Client;
 import ca.uvic.seng330.assn3.view.HubSceneBuilder;
 import ca.uvic.seng330.assn3.view.LoginSceneBuilder;
 import ca.uvic.seng330.assn3.view.SceneBuilder;
+import java.util.ArrayList;
 import java.util.Stack;
+import java.util.UUID;
 import javafx.scene.control.Alert.AlertType;
 
 public class Controller {
@@ -86,6 +88,9 @@ public class Controller {
         return loginBuilder;
 
       case CREATE_DEVICE:
+        break;
+
+      case DEVICE_VIEW:
         break;
 
       case HUB_ADMIN:
@@ -201,5 +206,23 @@ public class Controller {
 
   public void handleAdminManageNotificationsClick() {
     System.out.println("Manage Notifications");
+  }
+
+  public ArrayList<UUID> getDeviceIDList() {
+    ArrayList<UUID> refined = new ArrayList<UUID>();
+    for (UUID id : hub.getIDList()) {
+      if (!hub.getBlackList(activeUser).contains(id)) {
+        refined.add(id);
+      }
+    }
+    return refined;
+  }
+
+  public String getLabel(UUID uuid) {
+    return hub.getLabel(uuid);
+  }
+
+  public void handleDeviceViewClick(UUID userData) {
+    // TODO Auto-generated method stub
   }
 }
