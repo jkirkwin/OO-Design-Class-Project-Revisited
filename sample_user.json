@@ -2,7 +2,10 @@
 	{
 		"username":"some username",
 		"password":"some password",
-		"id":"user object's UUID",
+		"id": {
+			"low":<long>,
+			"high":<long>
+		},
 		"access_level":"ADMIN",
 
 		"black_list" : [
@@ -29,7 +32,10 @@
 	{
 		"username":"some username 2",
 		"password":"some password 2",
-		"id":"user object's UUID",
+		"id": {
+			"low":<long>,
+			"high":<long>
+		},
 		"access_level":"BASIC",
 
 		"black_list" : [
