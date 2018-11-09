@@ -5,7 +5,7 @@ plugins {
 }
 // Apply the java-library plugin to add support for Java Library
 apply plugin: 'java-library'
-// apply plugin: 'checkstyle'
+apply plugin: 'checkstyle'
 
 group 'ca.uvic.seng330.assn3'
 version '1.0-SNAPSHOT'
@@ -25,10 +25,10 @@ jcenter()
     mavenCentral()
     }
     
-//checkstyle {
-//  toolVersion = "${versions.checkstyle}"
-//  config = resources.text.fromArchiveEntry(configurations.checkstyleConfig, 'google_checks.xml')
-//}
+checkstyle {
+  toolVersion = "${versions.checkstyle}"
+  config = resources.text.fromArchiveEntry(configurations.checkstyleConfig, 'google_checks.xml')
+}
 
 spotless {
   java {
@@ -40,6 +40,9 @@ mainClassName = "ca.uvic.seng330.assn3.MVCExample"
 
 dependencies {
 	compile 'org.json:json:20180813','org.slf4j:slf4j-simple:1.7.25'
+	checkstyleConfig ("com.puppycrawl.tools:checkstyle:${versions.checkstyle}") {
+        transitive = false 
+    }
     testCompile group: 'junit', name: 'junit', version: '4.12'
     testCompile "org.testfx:testfx-core:4.0.15-alpha"
     testCompile "org.testfx:testfx-junit:4.0.15-alpha"
