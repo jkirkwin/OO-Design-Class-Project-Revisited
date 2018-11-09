@@ -7,7 +7,7 @@ import static org.junit.Assert.fail;
 import ca.uvic.seng330.assn3.model.devices.Temperature.Unit;
 import org.junit.Test;
 
-public class TestDevices {
+public class TestTemperature {
 
   @Test
   public void testTempEquals() {
