@@ -35,11 +35,11 @@ public class HubSceneBuilder extends SceneBuilder {
 
     if (isAdmin) {
       VBox adminPanel = new VBox(5);
-      Button manageUsers = new Button("manageUsers");
+      Button manageUsers = new Button("Manage Users");
       manageUsers.setOnAction(event -> getController().handleAdminManageUsersClick());
-      Button manageDevices = new Button("manageDevices");
+      Button manageDevices = new Button("Manage Devices");
       manageDevices.setOnAction(event -> getController().handleAdminManageDevicesClick());
-      Button manageNotifications = new Button("manageNotifications");
+      Button manageNotifications = new Button("Manage Notifications");
       manageNotifications.setOnAction(
           event -> getController().handleAdminManageNotificationsClick());
 

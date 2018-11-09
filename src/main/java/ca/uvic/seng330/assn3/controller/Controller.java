@@ -93,12 +93,12 @@ public class Controller {
       case HUB_ADMIN:
         views.push(ViewType.HUB_ADMIN);
         client.setTitle(ViewType.HUB_ADMIN.toString());
-        return new HubSceneBuilder(this, "Back", true);
+        return new HubSceneBuilder(this, "Log Out", true);
 
       case HUB_BASIC:
         views.push(ViewType.HUB_BASIC);
         client.setTitle(ViewType.HUB_BASIC.toString());
-        return new HubSceneBuilder(this, "Back", false);
+        return new HubSceneBuilder(this, "Log Out", false);
 
       case MANAGE_DEVICES:
         // TODO
@@ -159,7 +159,7 @@ public class Controller {
   }
 
   public void handleNewAdmin(String username, String password) {
-    System.out.println("New Admin"); // Testing
+    //System.out.println("New Admin"); // Testing
     if (acceptableInputs(username, password)) {
       if (!hub.isUser(username)) {
         hub.register(new UserAccount(this.hub, AccessLevel.ADMIN, username, password));
