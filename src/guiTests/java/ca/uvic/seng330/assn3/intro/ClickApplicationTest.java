@@ -1,4 +1,4 @@
-package ca.uvic.seng330.assn3;
+package ca.uvic.seng330.assn3.intro;
 
 import static org.testfx.api.FxAssert.verifyThat;
 import static org.testfx.matcher.control.LabeledMatchers.hasText;
