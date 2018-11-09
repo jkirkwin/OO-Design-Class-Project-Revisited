@@ -1,7 +1,10 @@
 [
 	{
 		"device_type" : "Camera",
-		"id" : "The device's UUID",
+		"id" : {
+			"low" : <long>
+			"high" : <long>
+		},
 		"label" : "User-Specified label",
 		"status" : "NORMAL",
 		"state" : {
@@ -14,7 +17,10 @@
 
 	{
 		"device_type" : "Lightbulb",
-		"id" : "The device's UUID",
+		"id" : {
+			"low" : <long>
+			"high" : <long>
+		},
 		"label" : "User-Specified label",
 		"status" : "NORMAL",
 		"state" : {
@@ -24,7 +30,10 @@
 
 	{
 		"device_type" : "SmartPlug",
-		"id" : "The device's UUID",
+		"id" : {
+			"low" : <long>
+			"high" : <long>
+		},
 		"label" : "User-Specified label",
 		"status" : "NORMAL",
 		"state" : {
@@ -34,7 +43,10 @@
 
 	{
 		"device_type" : "Thermostat",
-		"id" : "The device's UUID",
+		"id" : {
+			"low" : <long>
+			"high" : <long>
+		},
 		"label" : "User-Specified label",
 		"status" : "NORMAL",
 		"state" : {
