@@ -1,7 +1,10 @@
 package ca.uvic.seng330.assn3.model;
 
 import ca.uvic.seng330.assn3.model.devices.Device;
+import ca.uvic.seng330.assn3.model.storage.Storage;
+
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -86,6 +89,7 @@ public class Hub {
 
   public void alert(String msg, Device pDevice) throws HubRegistrationException {
     // TODO should be moved to controller
+    // Or should alert some list of observers in which Controller has registered
   }
 
   public UserAccount getUser(String username, String password) throws NoSuchElementException {
@@ -117,19 +121,25 @@ public class Hub {
     return false;
   }
 
+  /*
+   * Populate deviceRegistry and userRegistry from storage files
+   */
   public void startup() {
-    // TODO
-    /*
-     * Populate deviceRegistry and userRegistry from storage files
-     */
+    Collection<Device> storedDevices = Storage.getDevices(this);
+    Collection<UserAccount> storedAccounts = Storage.getAccounts(this);
+    for(Device d : storedDevices) {
+      this.deviceRegistry.put(d.getIdentifier(), d);
+    }
+    for(UserAccount u : storedAccounts) {
+      this.userAccountRegistry.put(u.getIdentifier(), u);
+    }
   }
 
+  /*
+   * Populate storage files with JSON representations of device/user registries
+   */
   public void shutdown() {
-    // TODO
-    /*
-     * Populate storage files with JSON representations of device/user registries
-     */
-
+    Storage.store(this.deviceRegistry.values(), this.userAccountRegistry.values());
   }
 
   public ArrayList<UUID> getIDList() {

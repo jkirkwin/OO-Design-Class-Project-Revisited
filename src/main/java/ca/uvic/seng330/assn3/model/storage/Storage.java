@@ -16,30 +16,30 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class Storage {
-  private final String storageDirPath = "storage" + File.pathSeparator;
-  private final String oldPath = storageDirPath + "old" + File.pathSeparator;
-  private final String deviceFileName = "devices.json";
-  private final String accountFileName = "accounts.json";
+  private static final String storageDirPath = "storage" + File.pathSeparator;
+  private static final String oldPath = storageDirPath + "old" + File.pathSeparator;
+  private static final String deviceFileName = "devices.json";
+  private static final String accountFileName = "accounts.json";
 
   /*
    * Moves old files from storage\ directory if they exist.
    * Creates new files for devices and accounts, and fills them
    * with a JSONArray representation of these objects
    */
-  public void store(Collection<StorageEntity> devices, Collection<StorageEntity> accounts) {
+  public static void store(Collection<? extends StorageEntity> devices, Collection<? extends StorageEntity> accounts) {
     cleanStorageDir();
     storeEntities(devices, deviceFileName);
     storeEntities(accounts, accountFileName);
   }
 
-  private void storeEntities(Collection<StorageEntity> entities, String fileName) {
+  private static void storeEntities(Collection<? extends StorageEntity> devices, String fileName) {
     File entityFile = new File(fileName);
     assert !entityFile.exists();
     PrintStream entityStream = null;
     try {
       entityFile.createNewFile();
       entityStream = new PrintStream(entityFile);
-      entityStream.println(getJSONArray(entities));
+      entityStream.println(getJSONArray(devices));
     } catch (IOException e) {
       // TODO Log error creating/writing to file and consider handling procedures
       e.printStackTrace();
@@ -50,9 +50,9 @@ public class Storage {
     }
   }
 
-  private JSONArray getJSONArray(Collection<StorageEntity> entities) {
+  private static JSONArray getJSONArray(Collection<? extends StorageEntity> devices) {
     JSONArray arr = new JSONArray();
-    for (StorageEntity e : entities) {
+    for (StorageEntity e : devices) {
       arr.put(e.getJSON());
     }
     return arr;
@@ -63,7 +63,7 @@ public class Storage {
    * storage subfolder "old".
    * @pre storage file structure is as specified.
    */
-  private void cleanStorageDir() {
+  private static void cleanStorageDir() {
     File deviceFile = new File(storageDirPath + deviceFileName);
     File accountFile = new File(storageDirPath + accountFileName);
     String dateStamp = getDateStamp();
@@ -97,13 +97,13 @@ public class Storage {
     }
   }
 
-  private String getDateStamp() {
+  private static String getDateStamp() {
     Date d = new Date();
     String stamp = d.toString();
     return stamp;
   }
 
-  public Collection<Device> getDevices(Hub hub) {
+  public static Collection<Device> getDevices(Hub hub) {
     // retrieve device json objects from storage, convert them into Device objects, and return them
     List<Device> javaDevices = new ArrayList<Device>();
 
@@ -130,7 +130,7 @@ public class Storage {
   /*
    * @pre file != null
    */
-  private String getFileContents(File file) throws IOException {
+  private static String getFileContents(File file) throws IOException {
     assert file != null;
     Scanner sc = new Scanner(file);
     String content = "";
@@ -141,9 +141,9 @@ public class Storage {
     return content;
   }
 
-  public Collection<UserAccount> getAccounts(Hub hub) {
-    // retrieve useraccount json objects from storage, convert them into UserAccount objects, and
-    // return them
+  public static Collection<UserAccount> getAccounts(Hub hub) {
+    // retrieve useraccount json objects from storage, convert them into UserAccount objects, 
+    // and return them
 
     List<UserAccount> javaAccounts = new ArrayList<UserAccount>();
 
