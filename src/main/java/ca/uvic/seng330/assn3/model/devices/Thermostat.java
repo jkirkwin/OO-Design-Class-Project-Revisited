@@ -3,6 +3,9 @@ package ca.uvic.seng330.assn3.model.devices;
 import ca.uvic.seng330.assn3.model.Hub;
 import ca.uvic.seng330.assn3.model.devices.Temperature.TemperatureOutofBoundsException;
 import ca.uvic.seng330.assn3.model.devices.Temperature.Unit;
+
+import java.util.UUID;
+
 import org.json.JSONObject;
 
 public class Thermostat extends Device {
@@ -22,6 +25,11 @@ public class Thermostat extends Device {
   
   public Thermostat(String label, Hub hub) {
     super(label, Status.NORMAL, hub);
+    this.temp = null;
+  }
+  
+  public Thermostat(UUID id, String label, Hub hub) {
+    super(id, label, Status.NORMAL, hub);
     this.temp = null;
   }
 

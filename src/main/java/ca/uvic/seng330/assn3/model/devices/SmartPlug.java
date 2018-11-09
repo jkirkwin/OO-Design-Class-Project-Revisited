@@ -1,6 +1,9 @@
 package ca.uvic.seng330.assn3.model.devices;
 
 import ca.uvic.seng330.assn3.model.Hub;
+
+import java.util.UUID;
+
 import org.json.JSONObject;
 
 public class SmartPlug extends Device {
@@ -15,6 +18,11 @@ public class SmartPlug extends Device {
   
   public SmartPlug(String label, Hub hub) {
     super(label, Status.NORMAL, hub);
+    this.isOn = false;
+  }
+  
+  public SmartPlug(UUID id, String label, Hub hub) {
+    super(id, label, Status.NORMAL, hub);
     this.isOn = false;
   }
 

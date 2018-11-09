@@ -2,6 +2,9 @@ package ca.uvic.seng330.assn3.model.devices;
 
 import ca.uvic.seng330.assn3.model.Hub;
 import ca.uvic.seng330.assn3.model.HubRegistrationException;
+
+import java.util.UUID;
+
 import org.json.JSONObject;
 
 public class Camera extends Device {
@@ -17,8 +20,14 @@ public class Camera extends Device {
     this.diskSize = 0;
   }
   
-  public Camera( String label, Hub hub) {
+  public Camera(String label, Hub hub) {
     super(label, Status.NORMAL, hub);
+    this.isRecording = false;
+    this.diskSize = 0;
+  }
+  
+  public Camera(UUID id, String label, Hub hub) {
+    super(id, label, Status.NORMAL, hub);
     this.isRecording = false;
     this.diskSize = 0;
   }
