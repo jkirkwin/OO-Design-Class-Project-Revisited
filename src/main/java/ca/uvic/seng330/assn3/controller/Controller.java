@@ -7,6 +7,7 @@ import ca.uvic.seng330.assn3.view.Client;
 import ca.uvic.seng330.assn3.view.HubSceneBuilder;
 import ca.uvic.seng330.assn3.view.LoginSceneBuilder;
 import ca.uvic.seng330.assn3.view.SceneBuilder;
+import ca.uvic.seng330.assn3.view.ManageUsersBuilder;
 import java.util.ArrayList;
 import java.util.Stack;
 import java.util.UUID;
@@ -109,8 +110,9 @@ public class Controller {
         break;
 
       case MANAGE_USERS:
-        // TODO
-        break;
+    	  views.push(ViewType.MANAGE_USERS);
+          client.setTitle(ViewType.MANAGE_USERS.toString());
+          return new ManageUsersBuilder(this, "back");
 
       case SELECT_NOTIFICATIONS:
         // TODO
@@ -159,7 +161,7 @@ public class Controller {
   }
 
   public void handleNewAdmin(String username, String password) {
-    //System.out.println("New Admin"); // Testing
+    // System.out.println("New Admin"); // Testing
     if (acceptableInputs(username, password)) {
       if (!hub.isUser(username)) {
         hub.register(new UserAccount(this.hub, AccessLevel.ADMIN, username, password));
@@ -195,6 +197,7 @@ public class Controller {
 
   public void handleAdminManageUsersClick() {
     System.out.println("Manage Users");
+    client.setView(findBuilder(ViewType.MANAGE_USERS));
   }
 
   public void handleAdminManageDevicesClick() {
@@ -207,11 +210,20 @@ public class Controller {
 
   public ArrayList<UUID> getDeviceIDList() {
     ArrayList<UUID> refined = new ArrayList<UUID>();
-    for (UUID id : hub.getIDList()) {
+    for (UUID id : hub.getIDList(true)) {
       if (!hub.getBlackList(activeUser).contains(id)) {
         refined.add(id);
       }
     }
+    return refined;
+  }
+
+  public ArrayList<UUID> getAccountIDList() {
+    ArrayList<UUID> refined = new ArrayList<UUID>();
+    for (UUID id : hub.getIDList(false)) {
+      refined.add(id);
+    }
+
     return refined;
   }
 
@@ -236,4 +248,9 @@ public class Controller {
 
     // client.setView(new DeviceSceneBuilder(this, "Back"));
   }
+
+public void handleKillerClick(UUID uuid) {
+	//TODO: add confirmation alert
+	hub.unregister(uuid);
+}
 }

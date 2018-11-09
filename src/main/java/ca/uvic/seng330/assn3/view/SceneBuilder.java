@@ -71,6 +71,17 @@ public abstract class SceneBuilder {
     return col;
   }
 
+  protected VBox hubAccountList(VBox col) {
+    ArrayList<UUID> accountList = getController().getAccountIDList();
+    for (int i = 0; i < accountList.size(); i++) {
+      Button button = new Button(getController().getLabel(accountList.get(i)));
+      button.setUserData(accountList.get(i));
+      button.setOnAction(event -> getController().handleKillerClick((UUID) button.getUserData()));
+      col.getChildren().add(button);
+    }
+    return col;
+  }
+
   protected Controller getController() {
     return controller;
   }

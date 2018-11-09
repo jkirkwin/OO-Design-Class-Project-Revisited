@@ -17,6 +17,10 @@ public class Hub {
     this.userAccountRegistry = new HashMap<UUID, UserAccount>();
   }
 
+  
+  /*
+   * @pre newDevice != null
+   */
   public void register(Device newDevice) throws HubRegistrationException {
     if (!deviceRegistry.containsKey(newDevice.getIdentifier())) {
       deviceRegistry.put(newDevice.getIdentifier(), newDevice);
@@ -24,26 +28,19 @@ public class Hub {
       throw new HubRegistrationException("Device already registered.");
     }
   }
-
-  public void unregister(Device retiredDevice) throws HubRegistrationException {
-    if (retiredDevice == null || deviceRegistry.isEmpty()) {
-      throw new HubRegistrationException("No device passed.");
-    }
-    if (deviceRegistry.containsKey(retiredDevice.getIdentifier())) {
-      deviceRegistry.remove(retiredDevice.getIdentifier());
-    } else {
-      throw new HubRegistrationException("Device does not exist.");
-    }
-  }
-
+  
+  
+  /*
+   * @pre newAccount != null
+   */
   public void register(UserAccount newAccount) {
-    try {
-      registerNew(newAccount);
-    } catch (HubRegistrationException e) {
-      // TODO: Logging and Alerts
-    }
-  }
-
+	    try {
+	      registerNew(newAccount);
+	    } catch (HubRegistrationException e) {
+	      // TODO: Logging and Alerts
+	    }
+	  }
+  
   /*
    * @pre newAccount != null
    */
@@ -55,6 +52,36 @@ public class Hub {
       throw new HubRegistrationException("User already registered");
     }
   }
+
+  public void unregister(UUID murdered) {
+	  if(this.deviceRegistry.containsKey(murdered)) {
+		  try {
+		  unregister(this.deviceRegistry.get(murdered));
+		  }catch(HubRegistrationException e) {
+			  //TODO: logging & alert
+		  }
+	  }else if(this.userAccountRegistry.containsKey(murdered)){
+		  try {
+			  unregister(this.userAccountRegistry.get(murdered));
+			  }catch(HubRegistrationException e) {
+				//TODO: logging & alert
+			  }
+	  }	  else {
+		  //TODO: alert that nothing corresponds to given UUID
+	  }
+  }
+  
+  public void unregister(Device retiredDevice) throws HubRegistrationException {
+    if (retiredDevice == null || deviceRegistry.isEmpty()) {
+      throw new HubRegistrationException("No device passed.");
+    }
+    if (deviceRegistry.containsKey(retiredDevice.getIdentifier())) {
+      deviceRegistry.remove(retiredDevice.getIdentifier());
+    } else {
+      throw new HubRegistrationException("Device does not exist.");
+    }
+  }
+
 
   public void unregister(UserAccount killedAccount) throws HubRegistrationException {
     if (killedAccount == null
@@ -132,10 +159,18 @@ public class Hub {
 
   }
 
-  public ArrayList<UUID> getIDList() {
+  public ArrayList<UUID> getIDList(boolean isDeviceList) {
     ArrayList<UUID> idList = new ArrayList<UUID>();
-    for (UUID key : deviceRegistry.keySet()) {
-      idList.add(key);
+    if (isDeviceList) {
+      for (UUID key : deviceRegistry.keySet()) {
+        idList.add(key);
+      }
+    } else {
+      for (UUID key : userAccountRegistry.keySet()) {
+        if (!userAccountRegistry.get(key).isAdmin()) {
+          idList.add(key);
+        }
+      }
     }
     return idList;
   }
