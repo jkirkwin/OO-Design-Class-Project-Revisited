@@ -21,9 +21,9 @@ public class SmartPlug extends Device {
     this.isOn = false;
   }
   
-  public SmartPlug(UUID id, String label, Hub hub) {
+  public SmartPlug(boolean isOn, UUID id, String label, Hub hub) {
     super(id, label, Status.NORMAL, hub);
-    this.isOn = false;
+    this.isOn = isOn;
   }
 
   public boolean isOn() {

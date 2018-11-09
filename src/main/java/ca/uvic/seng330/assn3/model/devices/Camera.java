@@ -9,27 +9,31 @@ import org.json.JSONObject;
 
 public class Camera extends Device {
 
+  private static int DEFAULT_MAX_SIZE = 50;
   static int numCamera = 0;
   private int diskSize;
-  private final int maxSize = 50;
+  private final int maxSize;
   private boolean isRecording;
 
   public Camera(Hub hub) {
     super("Cam" + numCamera, Status.NORMAL, hub);
     this.isRecording = false;
     this.diskSize = 0;
+    this.maxSize = DEFAULT_MAX_SIZE;
   }
   
   public Camera(String label, Hub hub) {
     super(label, Status.NORMAL, hub);
     this.isRecording = false;
     this.diskSize = 0;
+    this.maxSize = DEFAULT_MAX_SIZE;
   }
   
-  public Camera(UUID id, String label, Hub hub) {
+  protected Camera(int diskSize, int maxSize, boolean isRecording, UUID id, String label, Hub hub) {
     super(id, label, Status.NORMAL, hub);
-    this.isRecording = false;
-    this.diskSize = 0;
+    this.isRecording = isRecording;
+    this.diskSize = diskSize;
+    this.maxSize = maxSize;
   }
 
   public boolean isRecording() {
