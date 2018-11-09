@@ -9,11 +9,11 @@
 		"access_level":"ADMIN",
 
 		"black_list" : [
-			"id": {
+			{
 					"low":<long>,
 					"high":<long>
 			},
-			"id": {
+			{
 					"low":<long>,
 					"high":<long>
 			},
@@ -58,11 +58,22 @@
 		"access_level":"BASIC",
 
 		"black_list" : [
-			"Some device's UUID",
-			"Some device's UUID",
-			"Some device's UUID",
-			"Some device's UUID",
-			"Some device's UUID",
+			{
+					"low":<long>,
+					"high":<long>
+			},
+			{
+					"low":<long>,
+					"high":<long>
+			},
+			{
+					"low":<long>,
+					"high":<long>
+			},
+			{
+					"low":<long>,
+					"high":<long>
+			},
 		],
 
 		"notifications" : [
