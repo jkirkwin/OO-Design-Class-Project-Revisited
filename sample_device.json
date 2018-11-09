@@ -2,7 +2,7 @@
 	{
 		"device_type" : "Camera",
 		"id" : {
-			"low" : <long>
+			"low" : <long>,
 			"high" : <long>
 		},
 		"label" : "User-Specified label",
@@ -18,7 +18,7 @@
 	{
 		"device_type" : "Lightbulb",
 		"id" : {
-			"low" : <long>
+			"low" : <long>,
 			"high" : <long>
 		},
 		"label" : "User-Specified label",
@@ -31,7 +31,7 @@
 	{
 		"device_type" : "SmartPlug",
 		"id" : {
-			"low" : <long>
+			"low" : <long>,
 			"high" : <long>
 		},
 		"label" : "User-Specified label",
@@ -44,7 +44,7 @@
 	{
 		"device_type" : "Thermostat",
 		"id" : {
-			"low" : <long>
+			"low" : <long>,
 			"high" : <long>
 		},
 		"label" : "User-Specified label",
