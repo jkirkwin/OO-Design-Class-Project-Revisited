@@ -5,7 +5,7 @@ plugins {
 }
 // Apply the java-library plugin to add support for Java Library
 apply plugin: 'java-library'
-apply plugin: 'checkstyle'
+// apply plugin: 'checkstyle'
 
 group 'ca.uvic.seng330.assn3'
 version '1.0-SNAPSHOT'
@@ -25,10 +25,10 @@ jcenter()
     mavenCentral()
     }
     
-checkstyle {
-  toolVersion = "${versions.checkstyle}"
-  config = resources.text.fromArchiveEntry(configurations.checkstyleConfig, 'google_checks.xml')
-}
+//checkstyle {
+//  toolVersion = "${versions.checkstyle}"
+//  config = resources.text.fromArchiveEntry(configurations.checkstyleConfig, 'google_checks.xml')
+//}
 
 spotless {
   java {

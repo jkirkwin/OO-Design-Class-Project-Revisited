@@ -1,5 +1,8 @@
 package ca.uvic.seng330.assn3.model.storage;
 
+import ca.uvic.seng330.assn3.model.Hub;
+import ca.uvic.seng330.assn3.model.UserAccount;
+import ca.uvic.seng330.assn3.model.devices.Device;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
@@ -9,23 +12,18 @@ import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 import java.util.UUID;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
-
-import ca.uvic.seng330.assn3.model.Hub;
-import ca.uvic.seng330.assn3.model.UserAccount;
-import ca.uvic.seng330.assn3.model.devices.Device;
 
 public class Storage {
   private final String storageDirPath = "storage" + File.pathSeparator;
   private final String oldPath = storageDirPath + "old" + File.pathSeparator;
   private final String deviceFileName = "devices.json";
   private final String accountFileName = "accounts.json";
-  
+
   /*
    * Moves old files from storage\ directory if they exist.
-   * Creates new files for devices and accounts, and fills them 
+   * Creates new files for devices and accounts, and fills them
    * with a JSONArray representation of these objects
    */
   public void store(Collection<StorageEntity> devices, Collection<StorageEntity> accounts) {
@@ -33,7 +31,7 @@ public class Storage {
     storeEntities(devices, deviceFileName);
     storeEntities(accounts, accountFileName);
   }
-  
+
   private void storeEntities(Collection<StorageEntity> entities, String fileName) {
     File entityFile = new File(fileName);
     assert !entityFile.exists();
@@ -46,7 +44,7 @@ public class Storage {
       // TODO Log error creating/writing to file and consider handling procedures
       e.printStackTrace();
     } finally {
-      if(entityStream != null) {
+      if (entityStream != null) {
         entityStream.close();
       }
     }
@@ -54,14 +52,14 @@ public class Storage {
 
   private JSONArray getJSONArray(Collection<StorageEntity> entities) {
     JSONArray arr = new JSONArray();
-    for(StorageEntity e : entities) {
+    for (StorageEntity e : entities) {
       arr.put(e.getJSON());
     }
     return arr;
   }
 
   /*
-   * Moves files from storage directory root into their own subfolder of 
+   * Moves files from storage directory root into their own subfolder of
    * storage subfolder "old".
    * @pre storage file structure is as specified.
    */
@@ -72,29 +70,30 @@ public class Storage {
     File destinationDir = new File(oldPath + dateStamp + File.pathSeparator);
     boolean deviceFileExists = deviceFile.exists();
     boolean accountFileExists = deviceFile.exists();
-    
-    if(deviceFileExists || accountFileExists) {
+
+    if (deviceFileExists || accountFileExists) {
       // make new storage\old\ subfolder for the files
-      if(destinationDir.exists()) {
+      if (destinationDir.exists()) {
         // handle the possibility that some file will already have this name
         int i = 1;
         File collisionFile = new File(destinationDir.getPath());
-        while(destinationDir.exists()) {
+        while (destinationDir.exists()) {
           collisionFile = new File(destinationDir.getPath() + " (" + i + ")");
-          i++;    
+          i++;
         }
         destinationDir = collisionFile;
       }
     }
-    
+
     // move device file to destination
-    if(deviceFileExists) {
+    if (deviceFileExists) {
       deviceFile.renameTo(new File(destinationDir.getPath() + File.pathSeparator + deviceFileName));
     }
-    
+
     // move account file to destination
-    if(accountFileExists) {
-      accountFile.renameTo(new File(destinationDir.getPath() + File.pathSeparator + accountFileName));
+    if (accountFileExists) {
+      accountFile.renameTo(
+          new File(destinationDir.getPath() + File.pathSeparator + accountFileName));
     }
   }
 
@@ -109,26 +108,25 @@ public class Storage {
     List<Device> javaDevices = new ArrayList<Device>();
 
     File deviceFile = new File(deviceFileName);
-    if(!deviceFile.exists() || !deviceFile.canRead()) {
+    if (!deviceFile.exists() || !deviceFile.canRead()) {
       return javaDevices;
     }
-    
+
     try {
-      String jsonString = getFileContents(deviceFile);      
+      String jsonString = getFileContents(deviceFile);
       JSONArray jsonDevices = new JSONArray(jsonString);
-      for(int i = 0; i < jsonDevices.length(); i++) {
+      for (int i = 0; i < jsonDevices.length(); i++) {
         javaDevices.add(Device.getDeviceFromJSON(jsonDevices.getJSONObject(i), hub));
-        
       }
-    } catch(IOException e) {
+    } catch (IOException e) {
       e.printStackTrace();
       // TODO Log error
       // Consider handling options
     }
-    
+
     return javaDevices;
   }
-  
+
   /*
    * @pre file != null
    */
@@ -136,7 +134,7 @@ public class Storage {
     assert file != null;
     Scanner sc = new Scanner(file);
     String content = "";
-    while(sc.hasNextLine()) {
+    while (sc.hasNextLine()) {
       content = content + sc.nextLine();
     }
     sc.close();
@@ -144,43 +142,42 @@ public class Storage {
   }
 
   public Collection<UserAccount> getAccounts(Hub hub) {
-    // retrieve useraccount json objects from storage, convert them into UserAccount objects, and return them
-    
+    // retrieve useraccount json objects from storage, convert them into UserAccount objects, and
+    // return them
+
     List<UserAccount> javaAccounts = new ArrayList<UserAccount>();
 
     File accountFile = new File(accountFileName);
-    if(!accountFile.exists() || !accountFile.canRead()) {
+    if (!accountFile.exists() || !accountFile.canRead()) {
       return javaAccounts;
     }
-    
+
     try {
-      String jsonString = getFileContents(accountFile);      
+      String jsonString = getFileContents(accountFile);
       JSONArray jsonAccounts = new JSONArray(jsonString);
-      for(int i = 0; i < jsonAccounts.length(); i++) {
+      for (int i = 0; i < jsonAccounts.length(); i++) {
         javaAccounts.add(UserAccount.getAccountFromJSON(jsonAccounts.getJSONObject(i), hub));
-        
       }
-    } catch(IOException e) {
+    } catch (IOException e) {
       e.printStackTrace();
       // TODO Log error
       // Consider handling options
     }
-    
+
     return javaAccounts;
   }
-  
+
   public static UUID getUUID(JSONObject jsonID) {
-    assert jsonID != null; 
+    assert jsonID != null;
     long low = jsonID.getLong("low");
     long high = jsonID.getLong("high");
     return new UUID(high, low);
   }
-  
+
   public static JSONObject getJsonUUID(UUID id) {
     JSONObject idObj = new JSONObject();
     idObj.put("low", id.getLeastSignificantBits());
     idObj.put("high", id.getMostSignificantBits());
     return idObj;
   }
-  
 }

@@ -5,7 +5,6 @@ import ca.uvic.seng330.assn3.model.HubRegistrationException;
 import ca.uvic.seng330.assn3.model.devices.Temperature.Unit;
 import ca.uvic.seng330.assn3.model.storage.Storage;
 import ca.uvic.seng330.assn3.model.storage.StorageEntity;
-
 import java.util.UUID;
 import org.json.JSONObject;
 
@@ -14,46 +13,46 @@ public abstract class Device implements StorageEntity {
   private String label;
   private Status status;
   private Hub hub;
-  
+
   /*
    * Returns the Device instance corresponding to the JSONObject
    * @pre o is a non-null well-formed JSONObject representation of an
    * instance of a subclass of Device
-   * @pre h != null 
+   * @pre h != null
    */
   public static Device getDeviceFromJSON(JSONObject o, Hub h) {
     assert o != null;
-    
+
     // TODO Log device creation
-    
+
     String dLabel = o.getString("label");
-    
+
     UUID dID = Storage.getUUID(o.getJSONObject("id"));
-    
+
     JSONObject dState = o.getJSONObject("state");
-    
+
     Device d = null;
-    switch(o.getString("device_type")) {
+    switch (o.getString("device_type")) {
       case "Camera":
         int diskSize = dState.getInt("disk_size");
         int maxSize = dState.getInt("max_size");
-        boolean isRecording = dState.getBoolean("is_recording"); 
+        boolean isRecording = dState.getBoolean("is_recording");
         Camera c = new Camera(diskSize, maxSize, isRecording, dID, dLabel, h);
         d = c;
         break;
-        
+
       case "Lightbulb":
         boolean isBulbOn = dState.getBoolean("is_on");
         Lightbulb l = new Lightbulb(isBulbOn, dID, dLabel, h);
         d = l;
         break;
-      
+
       case "SmartPlug":
         boolean isPlugOn = dState.getBoolean("is_on");
         SmartPlug s = new SmartPlug(isPlugOn, dID, dLabel, h);
         d = s;
         break;
-        
+
       case "Thermostat":
         JSONObject jsonTemp = dState.getJSONObject("temp");
         double magnitude = jsonTemp.getDouble("magnitude");
@@ -61,19 +60,19 @@ public abstract class Device implements StorageEntity {
         Thermostat t = new Thermostat(new Temperature(magnitude, unit), dID, dLabel, h);
         d = t;
         break;
-        
+
       default:
         // Should not be here. JSONObject passed is invalid
         // TODO Log this error
         return null;
     }
-    
+
     Status dStatus = Status.valueOf(o.getString("status").toUpperCase());
     d.setStatus(dStatus);
-    
+
     return d;
   }
-  
+
   /*
    * @pre label != null
    * @pre status != null
@@ -87,7 +86,7 @@ public abstract class Device implements StorageEntity {
     assert hub != null;
 
     // TODO Log device creation
-    
+
     this.setLabel(label);
     this.status = status;
     this.hub = hub;
@@ -99,7 +98,7 @@ public abstract class Device implements StorageEntity {
       //    aMediator.log("Registration Failed : " + e.getMessage(), Level.ERROR, getIdentifier());
     }
   }
-  
+
   /*
    * @pre label != null
    * @pre status != null
@@ -111,7 +110,7 @@ public abstract class Device implements StorageEntity {
     assert hub != null;
 
     // TODO Log device creation
-    
+
     this.setLabel(label);
     this.status = status;
     this.hub = hub;
@@ -131,7 +130,7 @@ public abstract class Device implements StorageEntity {
     assert hub != null;
 
     // TODO Log device creation
-    
+
     this.setLabel("Default Label");
     this.status = Status.NORMAL;
     this.hub = hub;
@@ -167,7 +166,7 @@ public abstract class Device implements StorageEntity {
   public String getLabel() {
     return label;
   }
-  
+
   /*
    * Should be extended by subClass for a more meaningful result
    */

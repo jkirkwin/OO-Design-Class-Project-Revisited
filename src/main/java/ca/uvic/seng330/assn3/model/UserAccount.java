@@ -1,5 +1,7 @@
 package ca.uvic.seng330.assn3.model;
 
+import ca.uvic.seng330.assn3.model.storage.Storage;
+import ca.uvic.seng330.assn3.model.storage.StorageEntity;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
@@ -7,9 +9,6 @@ import java.util.UUID;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import ca.uvic.seng330.assn3.model.storage.Storage;
-import ca.uvic.seng330.assn3.model.storage.StorageEntity;
 
 public class UserAccount implements StorageEntity {
 
@@ -20,7 +19,7 @@ public class UserAccount implements StorageEntity {
   private Stack<JSONMessaging> notificationList;
   private final String username;
   private final String password;
-  
+
   public UserAccount(Hub h, AccessLevel level, String username, String password) {
     this.hub = h;
     this.accessLevel = level;
@@ -32,8 +31,14 @@ public class UserAccount implements StorageEntity {
     hub.register(this);
   }
 
-  private UserAccount(Hub h, AccessLevel level, String username, String password, UUID accountID,
-      Stack<JSONMessaging> notificationList, ArrayList<UUID> blackList) {
+  private UserAccount(
+      Hub h,
+      AccessLevel level,
+      String username,
+      String password,
+      UUID accountID,
+      Stack<JSONMessaging> notificationList,
+      ArrayList<UUID> blackList) {
     this.hub = h;
     this.accessLevel = level;
     this.username = username;
@@ -139,28 +144,29 @@ public class UserAccount implements StorageEntity {
     String username = o.getString("username");
     String password = o.getString("password");
     AccessLevel level = AccessLevel.valueOf(o.getString("access_level").toUpperCase());
-    UUID accountID = Storage.getUUID(o.getJSONObject("id"));    
-    
+    UUID accountID = Storage.getUUID(o.getJSONObject("id"));
+
     // Create notificationList
     // TODO Check whether we need to invert this stack to preserve notification order
     Stack<JSONMessaging> notificationList = new Stack<JSONMessaging>();
     JSONArray JSONnotifications = new JSONArray(o.getJSONArray("notifications"));
-    for(int i = 0; i < JSONnotifications.length(); i++) {
+    for (int i = 0; i < JSONnotifications.length(); i++) {
       JSONObject notificationObj = JSONnotifications.getJSONObject(i);
       String body = notificationObj.getJSONObject("body").toString();
       UUID talkerID = Storage.getUUID(notificationObj.getJSONObject("id"));
       notificationList.push(new JSONMessaging(hub.getDevice(talkerID), body));
     }
-    
+
     // Create blackList
     ArrayList<UUID> blackList = new ArrayList<UUID>();
     JSONArray JSONblackList = new JSONArray(o.getJSONArray("black_list"));
-    for(int i = 0; i < JSONblackList.length(); i++) {
+    for (int i = 0; i < JSONblackList.length(); i++) {
       JSONObject listEntry = JSONblackList.getJSONObject(i);
       blackList.add(Storage.getUUID(listEntry));
     }
-    
-    UserAccount account = new UserAccount(hub, level, username, password, accountID, notificationList, blackList);
+
+    UserAccount account =
+        new UserAccount(hub, level, username, password, accountID, notificationList, blackList);
     return account;
   }
 }

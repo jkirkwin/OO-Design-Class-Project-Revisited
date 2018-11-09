@@ -5,7 +5,7 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
 public class TestLightbulb {
-  
+
   @Test
   public void sampleTest() {
     assertTrue(true);

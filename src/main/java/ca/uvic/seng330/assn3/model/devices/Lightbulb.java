@@ -1,9 +1,7 @@
 package ca.uvic.seng330.assn3.model.devices;
 
 import ca.uvic.seng330.assn3.model.Hub;
-
 import java.util.UUID;
-
 import org.json.JSONObject;
 
 public class Lightbulb extends Device {
@@ -15,13 +13,13 @@ public class Lightbulb extends Device {
     super("LightBulb" + numBulbs, Status.NORMAL, hub);
     this.isOn = false;
   }
-  
+
   public Lightbulb(String label, Hub hub) {
     super(label, Status.NORMAL, hub);
     this.isOn = false;
   }
-  
-  public Lightbulb(boolean isOn, UUID id,String label, Hub hub) {
+
+  public Lightbulb(boolean isOn, UUID id, String label, Hub hub) {
     super(id, label, Status.NORMAL, hub);
     this.isOn = isOn;
   }
