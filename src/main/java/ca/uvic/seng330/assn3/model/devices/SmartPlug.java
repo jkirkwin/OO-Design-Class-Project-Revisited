@@ -11,7 +11,11 @@ public class SmartPlug extends Device {
   public SmartPlug(Hub hub) {
     super("SmartPlug" + numPlug, Status.NORMAL, hub);
     this.isOn = false;
-    //    getMediator().log("Created new SmartPlug", Level.INFO, getIdentifier());
+  }
+  
+  public SmartPlug(String label, Hub hub) {
+    super(label, Status.NORMAL, hub);
+    this.isOn = false;
   }
 
   public boolean isOn() {

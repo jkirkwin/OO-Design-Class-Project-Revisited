@@ -15,7 +15,12 @@ public class Camera extends Device {
     super("Cam" + numCamera, Status.NORMAL, hub);
     this.isRecording = false;
     this.diskSize = 0;
-    //    getMediator().log("Created Camera.", Level.INFO, getIdentifier());
+  }
+  
+  public Camera( String label, Hub hub) {
+    super(label, Status.NORMAL, hub);
+    this.isRecording = false;
+    this.diskSize = 0;
   }
 
   public boolean isRecording() {

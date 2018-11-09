@@ -8,13 +8,14 @@ public class Lightbulb extends Device {
   static int numBulbs = 0;
   private boolean isOn;
 
-  /*
-   * @pre hub != null
-   */
   public Lightbulb(Hub hub) {
     super("LightBulb" + numBulbs, Status.NORMAL, hub);
     this.isOn = false;
-    //    getHub().log("Created new Lightbulb", Level.INFO, getIdentifier());
+  }
+  
+  public Lightbulb(String label, Hub hub) {
+    super(label, Status.NORMAL, hub);
+    this.isOn = false;
   }
 
   public boolean isOn() {

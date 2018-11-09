@@ -18,7 +18,11 @@ public class Thermostat extends Device {
   public Thermostat(Hub hub) {
     super("Thermostat" + numTherm, Status.NORMAL, hub);
     this.temp = null;
-    //    getHub().log("Created new Thermostat", Level.INFO, getIdentifier());
+  }
+  
+  public Thermostat(String label, Hub hub) {
+    super(label, Status.NORMAL, hub);
+    this.temp = null;
   }
 
   /**
