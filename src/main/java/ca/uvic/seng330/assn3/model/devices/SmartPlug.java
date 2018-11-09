@@ -23,6 +23,7 @@ public class SmartPlug extends Device {
   }
 
   public void toggle() {
+    // TODO Logging
     //    if (this.isOn) {
     //      getMediator().log("Turning SmartPlug Off", Level.INFO, getIdentifier());
     //    } else {

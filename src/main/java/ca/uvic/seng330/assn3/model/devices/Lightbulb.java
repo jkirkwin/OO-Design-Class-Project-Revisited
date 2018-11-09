@@ -23,6 +23,7 @@ public class Lightbulb extends Device {
   }
 
   public void toggle() {
+    // TODO Logging
     //    if (this.isOn) {
     //      getHub().log("Turning Lightbulb Off", Level.INFO, getIdentifier());
     //    } else {
