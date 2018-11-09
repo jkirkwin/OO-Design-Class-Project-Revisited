@@ -3,6 +3,7 @@ package ca.uvic.seng330.assn3.model.devices;
 import ca.uvic.seng330.assn3.model.Hub;
 import ca.uvic.seng330.assn3.model.HubRegistrationException;
 import ca.uvic.seng330.assn3.model.devices.Temperature.Unit;
+import ca.uvic.seng330.assn3.model.storage.Storage;
 import ca.uvic.seng330.assn3.model.storage.StorageEntity;
 
 import java.util.UUID;
@@ -27,10 +28,7 @@ public abstract class Device implements StorageEntity {
     
     String dLabel = o.getString("label");
     
-    JSONObject dIDObj = o.getJSONObject("id");
-    long dIDLow = dIDObj.getLong("low");
-    long dIDHigh = dIDObj.getLong("high");
-    UUID dID = new UUID(dIDHigh, dIDLow);
+    UUID dID = Storage.getUUID(o.getJSONObject("id"));
     
     JSONObject dState = o.getJSONObject("state");
     
@@ -177,10 +175,7 @@ public abstract class Device implements StorageEntity {
     JSONObject json = new JSONObject();
     json.put("status", this.getStatus());
     json.put("label", this.getLabel());
-    JSONObject idObj = new JSONObject();
-    idObj.put("low", this.getIdentifier().getLeastSignificantBits());
-    idObj.put("high", this.getIdentifier().getMostSignificantBits());
-    json.put("id", idObj);
+    json.put("id", Storage.getJsonUUID(this.getIdentifier()));
     return json;
   }
 }

@@ -5,6 +5,7 @@ import ca.uvic.seng330.assn3.model.devices.Device;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.UUID;
 
@@ -145,7 +146,7 @@ public class Hub {
     return deviceRegistry.get(uuid).getLabel();
   }
 
-  public ArrayList<UUID> getBlackList(UserAccount user) {
+  public List<UUID> getBlackList(UserAccount user) {
     return userAccountRegistry.get(user.getIdentifier()).getBlackList();
   }
 

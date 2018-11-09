@@ -8,10 +8,12 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
+import java.util.UUID;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import ca.uvic.seng330.assn3.model.Hub;
 import ca.uvic.seng330.assn3.model.UserAccount;
 import ca.uvic.seng330.assn3.model.devices.Device;
 
@@ -102,7 +104,7 @@ public class Storage {
     return stamp;
   }
 
-  public Collection<Device> getDevices() {
+  public Collection<Device> getDevices(Hub hub) {
     // retrieve device json objects from storage, convert them into Device objects, and return them
     List<Device> javaDevices = new ArrayList<Device>();
 
@@ -115,10 +117,7 @@ public class Storage {
       String jsonString = getFileContents(deviceFile);      
       JSONArray jsonDevices = new JSONArray(jsonString);
       for(int i = 0; i < jsonDevices.length(); i++) {
-        // TODO decide how devices and users should be created from a JSONObject
-        // Options include a static factory method for each in StorageEntity
-        // A static factory method for each in Device and UserAccount respectively
-        // A constructor that takes a JSONObject in Device, all subclasses of Device, and in UserAccount
+        javaDevices.add(Device.getDeviceFromJSON(jsonDevices.getJSONObject(i), hub));
         
       }
     } catch(IOException e) {
@@ -144,9 +143,44 @@ public class Storage {
     return content;
   }
 
-  public Collection<UserAccount> getAccounts() {
-    // TODO retrieve useraccount json objects from storage, convert them into UserAccount objects, and return them
-    return null;
+  public Collection<UserAccount> getAccounts(Hub hub) {
+    // retrieve useraccount json objects from storage, convert them into UserAccount objects, and return them
+    
+    List<UserAccount> javaAccounts = new ArrayList<UserAccount>();
+
+    File accountFile = new File(accountFileName);
+    if(!accountFile.exists() || !accountFile.canRead()) {
+      return javaAccounts;
+    }
+    
+    try {
+      String jsonString = getFileContents(accountFile);      
+      JSONArray jsonAccounts = new JSONArray(jsonString);
+      for(int i = 0; i < jsonAccounts.length(); i++) {
+        javaAccounts.add(UserAccount.getAccountFromJSON(jsonAccounts.getJSONObject(i), hub));
+        
+      }
+    } catch(IOException e) {
+      e.printStackTrace();
+      // TODO Log error
+      // Consider handling options
+    }
+    
+    return javaAccounts;
+  }
+  
+  public static UUID getUUID(JSONObject jsonID) {
+    assert jsonID != null; 
+    long low = jsonID.getLong("low");
+    long high = jsonID.getLong("high");
+    return new UUID(high, low);
+  }
+  
+  public static JSONObject getJsonUUID(UUID id) {
+    JSONObject idObj = new JSONObject();
+    idObj.put("low", id.getLeastSignificantBits());
+    idObj.put("high", id.getMostSignificantBits());
+    return idObj;
   }
   
 }

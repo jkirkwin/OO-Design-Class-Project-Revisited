@@ -30,4 +30,8 @@ public class JSONMessaging {
     }
     return json;
   }
+  
+  public Device getTalker() {
+    return this.talker;
+  }
 }
