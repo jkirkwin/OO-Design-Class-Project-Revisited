@@ -8,6 +8,7 @@ public class TestStorage {
 
   @Test
   public void testCleanDir() {
+    System.out.println("Probe---------------------------------------------------------------------------");
     assertTrue(true);
   }
 }
