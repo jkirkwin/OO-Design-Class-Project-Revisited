@@ -1,6 +1,6 @@
 package ca.uvic.seng330.assn3.controller;
 
-enum DeviceType {
+public enum DeviceType {
   CAMERA,
   SMARTPLUG,
   LIGHTSWITCH,

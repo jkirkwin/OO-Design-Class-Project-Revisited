@@ -4,11 +4,14 @@ import ca.uvic.seng330.assn3.model.AccessLevel;
 import ca.uvic.seng330.assn3.model.Hub;
 import ca.uvic.seng330.assn3.model.UserAccount;
 import ca.uvic.seng330.assn3.view.Client;
+import ca.uvic.seng330.assn3.view.CreateDeviceBuilder;
 import ca.uvic.seng330.assn3.view.HubSceneBuilder;
 import ca.uvic.seng330.assn3.view.LoginSceneBuilder;
-import ca.uvic.seng330.assn3.view.SceneBuilder;
+import ca.uvic.seng330.assn3.view.ManageDevicesBuilder;
 import ca.uvic.seng330.assn3.view.ManageUsersBuilder;
+import ca.uvic.seng330.assn3.view.SceneBuilder;
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.Stack;
 import java.util.UUID;
 import javafx.scene.control.Alert.AlertType;
@@ -37,11 +40,10 @@ public class Controller {
     this.views = new Stack<ViewType>();
 
     this.hub.startup();
-    
+
     // Load and display login screen
-    views.push(ViewType.LOGIN);
-    client.setTitle(ViewType.LOGIN.toString());
-    client.setView(loginBuilder);
+    client.setView(findBuilder(ViewType.LOGIN));
+    // client.setView(loginBuilder);
   }
 
   public void update(Object arg) {
@@ -87,35 +89,30 @@ public class Controller {
 
   private SceneBuilder findBuilder(ViewType view) {
     // TODO generate the appropriate SceneBuilder based on for the ViewType
+    views.push(view);
+    client.setTitle(view.toString());
     switch (view) {
       case LOGIN:
         return loginBuilder;
 
       case CREATE_DEVICE:
-        break;
+        return new CreateDeviceBuilder(this, "Back");
 
       case HUB_ADMIN:
-        views.push(ViewType.HUB_ADMIN);
-        client.setTitle(ViewType.HUB_ADMIN.toString());
         return new HubSceneBuilder(this, "Log Out", true);
 
       case HUB_BASIC:
-        views.push(ViewType.HUB_BASIC);
-        client.setTitle(ViewType.HUB_BASIC.toString());
         return new HubSceneBuilder(this, "Log Out", false);
 
       case MANAGE_DEVICES:
-        // TODO
-        break;
+        return new ManageDevicesBuilder(this, "Back");
 
       case MANAGE_NOTIFICATIONS:
         // TODO
         break;
 
       case MANAGE_USERS:
-    	  views.push(ViewType.MANAGE_USERS);
-          client.setTitle(ViewType.MANAGE_USERS.toString());
-          return new ManageUsersBuilder(this, "back");
+        return new ManageUsersBuilder(this, "Back");
 
       case SELECT_NOTIFICATIONS:
         // TODO
@@ -205,6 +202,7 @@ public class Controller {
 
   public void handleAdminManageDevicesClick() {
     System.out.println("Manage Devices");
+    client.setView(findBuilder(ViewType.MANAGE_DEVICES));
   }
 
   public void handleAdminManageNotificationsClick() {
@@ -252,8 +250,18 @@ public class Controller {
     // client.setView(new DeviceSceneBuilder(this, "Back"));
   }
 
-public void handleKillerClick(UUID uuid) {
-	//TODO: add confirmation alert
-	hub.unregister(uuid);
-}
+  public void handleKillerClick(UUID uuid) {
+    // TODO: add confirmation alert
+    hub.unregister(uuid);
+  }
+
+  public void handleCreateDeviceClick() {
+    client.setView(findBuilder(ViewType.CREATE_DEVICE));
+  }
+
+  public ArrayList<DeviceType> getDeviceTypes() {
+    ArrayList<DeviceType> deviceTypes = new ArrayList<DeviceType>();
+    EnumSet.allOf(DeviceType.class).forEach(devType -> deviceTypes.add(devType));
+    return deviceTypes;
+  }
 }

@@ -18,11 +18,6 @@ import java.util.UUID;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-// TODO Known Issues
-/*
- * Extra old subfolder being created
- */
-
 public class Storage {
   private static final String storageDirPath = "src" + File.separator + "storage" + File.separator;
   private static final String oldDirPath = storageDirPath + "old" + File.separator;
@@ -30,9 +25,9 @@ public class Storage {
   private static final String accountFileName = "accounts.json";
 
   /*
-   * If they exist, moves old files from storage\ to storage\old\timeStamp\ 
+   * If they exist, moves old files from storage\ to storage\old\timeStamp\
    * if they exist.
-   * 
+   *
    * Creates new files for devices and accounts, and fills them
    * with a JSONArray representation of these objects
    */
@@ -46,7 +41,7 @@ public class Storage {
   }
 
   /*
-   * filePath should end in separator 
+   * filePath should end in separator
    */
   private static void storeEntities(Collection<? extends StorageEntity> devices, String filePath, String fileName) {
     File entityFile = new File(filePath + fileName);
@@ -105,15 +100,10 @@ public class Storage {
     try {      
       // move device file to destination
       if (deviceFileToMove.exists()) {
-        System.out.println("Moving file " + deviceFileToMove.getPath() + " to " + destDeviceFile.getPath());
-        //deviceFileToMove.renameTo(destDeviceFile);
         Files.move(Paths.get(deviceFileToMove.getPath()), Paths.get(destDeviceFile.getPath()), StandardCopyOption.REPLACE_EXISTING);
       }
-  
       // move account file to destination
       if (accountFileToMove.exists()) {
-        System.out.println("Moving file " + accountFileToMove.getPath() + " to " + destAccountFile.getPath());
-        //accountFileToMove.renameTo(destAccountFile);
         Files.move(Paths.get(accountFileToMove.getPath()), Paths.get(destAccountFile.getPath()), StandardCopyOption.REPLACE_EXISTING);
       }
     } catch (IOException e) {
@@ -167,7 +157,7 @@ public class Storage {
   }
 
   public static Collection<UserAccount> getAccounts(Hub hub) {
-    // retrieve useraccount json objects from storage, convert them into UserAccount objects, 
+    // retrieve useraccount json objects from storage, convert them into UserAccount objects,
     // and return them
 
     List<UserAccount> javaAccounts = new ArrayList<UserAccount>();
