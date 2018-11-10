@@ -2,7 +2,6 @@ package ca.uvic.seng330.assn3.model;
 
 import ca.uvic.seng330.assn3.model.devices.Device;
 import ca.uvic.seng330.assn3.model.storage.Storage;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -151,10 +150,10 @@ public class Hub {
   public void startup() {
     Collection<Device> storedDevices = Storage.getDevices(this);
     Collection<UserAccount> storedAccounts = Storage.getAccounts(this);
-    for(Device d : storedDevices) {
+    for (Device d : storedDevices) {
       this.deviceRegistry.put(d.getIdentifier(), d);
     }
-    for(UserAccount u : storedAccounts) {
+    for (UserAccount u : storedAccounts) {
       this.userAccountRegistry.put(u.getIdentifier(), u);
     }
   }

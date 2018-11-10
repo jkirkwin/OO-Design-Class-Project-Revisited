@@ -11,6 +11,7 @@ import ca.uvic.seng330.assn3.view.ManageDevicesBuilder;
 import ca.uvic.seng330.assn3.view.ManageUsersBuilder;
 import ca.uvic.seng330.assn3.view.SceneBuilder;
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.Stack;
 import java.util.UUID;
 import javafx.scene.control.Alert.AlertType;
@@ -42,7 +43,7 @@ public class Controller {
 
     // Load and display login screen
     client.setView(findBuilder(ViewType.LOGIN));
-    //client.setView(loginBuilder);
+    // client.setView(loginBuilder);
   }
 
   public void update(Object arg) {
@@ -256,5 +257,11 @@ public class Controller {
 
   public void handleCreateDeviceClick() {
     client.setView(findBuilder(ViewType.CREATE_DEVICE));
+  }
+
+  public ArrayList<DeviceType> getDeviceTypes() {
+    ArrayList<DeviceType> deviceTypes = new ArrayList<DeviceType>();
+    EnumSet.allOf(DeviceType.class).forEach(devType -> deviceTypes.add(devType));
+    return deviceTypes;
   }
 }

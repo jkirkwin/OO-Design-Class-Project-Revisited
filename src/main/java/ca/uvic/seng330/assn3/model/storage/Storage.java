@@ -27,22 +27,24 @@ public class Storage {
   private static final String accountFileName = "accounts.json";
 
   /*
-   * If they exist, moves old files from storage\ to storage\old\timeStamp\ 
+   * If they exist, moves old files from storage\ to storage\old\timeStamp\
    * if they exist.
-   * 
+   *
    * Creates new files for devices and accounts, and fills them
    * with a JSONArray representation of these objects
    */
-  public static void store(Collection<? extends StorageEntity> devices, Collection<? extends StorageEntity> accounts) {
+  public static void store(
+      Collection<? extends StorageEntity> devices, Collection<? extends StorageEntity> accounts) {
     cleanStorageDir();
     storeEntities(devices, deviceFileName, storageDirPath);
     storeEntities(accounts, accountFileName, storageDirPath);
   }
 
   /*
-   * filePath should end in separator 
+   * filePath should end in separator
    */
-  private static void storeEntities(Collection<? extends StorageEntity> devices, String fileName, String filePath) {
+  private static void storeEntities(
+      Collection<? extends StorageEntity> devices, String fileName, String filePath) {
     File entityFile = new File(filePath + fileName);
     assert !entityFile.exists();
     PrintStream entityStream = null;
@@ -102,8 +104,7 @@ public class Storage {
 
     // move account file to destination
     if (accountFileExists) {
-      accountFile.renameTo(
-          new File(destinationDir.getPath() + File.separator + accountFileName));
+      accountFile.renameTo(new File(destinationDir.getPath() + File.separator + accountFileName));
     }
   }
 
@@ -152,7 +153,7 @@ public class Storage {
   }
 
   public static Collection<UserAccount> getAccounts(Hub hub) {
-    // retrieve useraccount json objects from storage, convert them into UserAccount objects, 
+    // retrieve useraccount json objects from storage, convert them into UserAccount objects,
     // and return them
 
     List<UserAccount> javaAccounts = new ArrayList<UserAccount>();
