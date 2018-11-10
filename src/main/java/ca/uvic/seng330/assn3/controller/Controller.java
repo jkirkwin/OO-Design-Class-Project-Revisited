@@ -39,9 +39,10 @@ public class Controller {
     this.views = new Stack<ViewType>();
 
     this.hub.startup();
-    
+
     // Load and display login screen
-    client.setView(loginBuilder);
+    client.setView(findBuilder(ViewType.LOGIN));
+    //client.setView(loginBuilder);
   }
 
   public void update(Object arg) {
@@ -87,8 +88,8 @@ public class Controller {
 
   private SceneBuilder findBuilder(ViewType view) {
     // TODO generate the appropriate SceneBuilder based on for the ViewType
-    views.push(ViewType.CREATE_DEVICE);
-    client.setTitle(ViewType.CREATE_DEVICE.toString());
+    views.push(view);
+    client.setTitle(view.toString());
     switch (view) {
       case LOGIN:
         return loginBuilder;
