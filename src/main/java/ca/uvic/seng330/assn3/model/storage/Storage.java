@@ -6,6 +6,9 @@ import ca.uvic.seng330.assn3.model.devices.Device;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -17,12 +20,12 @@ import org.json.JSONObject;
 
 // TODO Known Issues
 /*
- * JSON Files are being stored in root directors of project, not in storage directory
+ * Extra old subfolder being created
  */
 
 public class Storage {
-  private static final String storageDirPath = "storage" + File.separator;
-  private static final String oldPath = storageDirPath + "old" + File.separator;
+  private static final String storageDirPath = "src" + File.separator + "storage" + File.separator;
+  private static final String oldDirPath = storageDirPath + "old" + File.separator;
   private static final String deviceFileName = "devices.json";
   private static final String accountFileName = "accounts.json";
 
@@ -34,15 +37,18 @@ public class Storage {
    * with a JSONArray representation of these objects
    */
   public static void store(Collection<? extends StorageEntity> devices, Collection<? extends StorageEntity> accounts) {
-    cleanStorageDir();
-    storeEntities(devices, deviceFileName, storageDirPath);
-    storeEntities(accounts, accountFileName, storageDirPath);
+    ensureDirExists(storageDirPath);
+    ensureDirExists(oldDirPath);
+    String destinationDirPath = oldDirPath + getDateStamp() + File.separator;
+    cleanStorageDir(destinationDirPath);
+    storeEntities(devices, storageDirPath, deviceFileName);
+    storeEntities(accounts, storageDirPath, accountFileName);
   }
 
   /*
    * filePath should end in separator 
    */
-  private static void storeEntities(Collection<? extends StorageEntity> devices, String fileName, String filePath) {
+  private static void storeEntities(Collection<? extends StorageEntity> devices, String filePath, String fileName) {
     File entityFile = new File(filePath + fileName);
     assert !entityFile.exists();
     PrintStream entityStream = null;
@@ -73,44 +79,52 @@ public class Storage {
    * storage subfolder "old".
    * @pre storage file structure is as specified.
    */
-  private static void cleanStorageDir() {
-    File deviceFile = new File(storageDirPath + deviceFileName);
-    File accountFile = new File(storageDirPath + accountFileName);
-    String dateStamp = getDateStamp();
-    File destinationDir = new File(oldPath + dateStamp + File.separator);
-    boolean deviceFileExists = deviceFile.exists();
-    boolean accountFileExists = deviceFile.exists();
+  private static void cleanStorageDir(String destinationDirPath) {
+    File deviceFileToMove = new File(storageDirPath + deviceFileName);
+    File accountFileToMove = new File(storageDirPath + accountFileName);
+    
+    if(!deviceFileToMove.exists() && !accountFileToMove.exists()) {
+      return;
+    }
+    
+    ensureDirExists(destinationDirPath);
+    File destinationDir = new File(destinationDirPath);
+    assert destinationDir.exists() && destinationDir.isDirectory();
 
-    if (deviceFileExists || accountFileExists) {
-      // make new storage\old\ subfolder for the files
-      if (destinationDir.exists()) {
-        // handle the possibility that some file will already have this name
-        int i = 1;
-        File collisionFile = new File(destinationDir.getPath());
-        while (destinationDir.exists()) {
-          collisionFile = new File(destinationDir.getPath() + " (" + i + ")");
-          i++;
-        }
-        destinationDir = collisionFile;
+    File destDeviceFile = new File(destinationDirPath + deviceFileName);
+    File destAccountFile = new File(destinationDirPath + accountFileName);
+    
+    // handle name collisions in destination directory
+    int i = 0;
+    while (destDeviceFile.exists() || destAccountFile.exists()) {
+      destDeviceFile = new File(destinationDirPath + deviceFileName + "(" + i + ")");
+      destAccountFile = new File(destinationDirPath + accountFileName + "(" + i + ")");
+      i++;
+    }
+  
+    try {      
+      // move device file to destination
+      if (deviceFileToMove.exists()) {
+        System.out.println("Moving file " + deviceFileToMove.getPath() + " to " + destDeviceFile.getPath());
+        //deviceFileToMove.renameTo(destDeviceFile);
+        Files.move(Paths.get(deviceFileToMove.getPath()), Paths.get(destDeviceFile.getPath()), StandardCopyOption.REPLACE_EXISTING);
       }
-    }
-
-    // move device file to destination
-    if (deviceFileExists) {
-      deviceFile.renameTo(new File(destinationDir.getPath() + File.separator + deviceFileName));
-    }
-
-    // move account file to destination
-    if (accountFileExists) {
-      accountFile.renameTo(
-          new File(destinationDir.getPath() + File.separator + accountFileName));
+  
+      // move account file to destination
+      if (accountFileToMove.exists()) {
+        System.out.println("Moving file " + accountFileToMove.getPath() + " to " + destAccountFile.getPath());
+        //accountFileToMove.renameTo(destAccountFile);
+        Files.move(Paths.get(accountFileToMove.getPath()), Paths.get(destAccountFile.getPath()), StandardCopyOption.REPLACE_EXISTING);
+      }
+    } catch (IOException e) {
+      e.printStackTrace();
+      // TODO Log this error
     }
   }
 
   private static String getDateStamp() {
-    Date d = new Date();
-    String stamp = d.toString();
-    return stamp;
+    String rawDateString = new Date().toString();
+    return rawDateString.replace(':', '-');
   }
 
   public static Collection<Device> getDevices(Hub hub) {
@@ -119,6 +133,7 @@ public class Storage {
 
     File deviceFile = new File(storageDirPath + deviceFileName);
     if (!deviceFile.exists() || !deviceFile.canRead()) {
+      // TODO Log that no device file was found
       return javaDevices;
     }
 
@@ -157,8 +172,9 @@ public class Storage {
 
     List<UserAccount> javaAccounts = new ArrayList<UserAccount>();
 
-    File accountFile = new File(accountFileName);
+    File accountFile = new File(storageDirPath + accountFileName);
     if (!accountFile.exists() || !accountFile.canRead()) {
+      // TODO Log that no Accounts file was found
       return javaAccounts;
     }
 
@@ -175,6 +191,14 @@ public class Storage {
     }
 
     return javaAccounts;
+  }
+  
+  private static void ensureDirExists(String dirPath) {
+    File dir = new File(dirPath);
+    if(dir.exists() && dir.isDirectory()) {
+      return;
+    }
+    dir.mkdirs();
   }
 
   public static UUID getUUID(JSONObject jsonID) {
