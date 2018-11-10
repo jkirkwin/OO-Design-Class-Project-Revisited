@@ -106,7 +106,7 @@ public class UserAccount implements StorageEntity {
     try {
       json.put("username", this.username);
       json.put("password", this.password);
-      json.put("id", this.id);
+      json.put("id", Storage.getJsonUUID(this.id));
       json.put("access_level", this.getAccessLevel());
 
       // Create a JSON list of the UUID's of devices in the blacklist and add this under key
@@ -131,6 +131,7 @@ public class UserAccount implements StorageEntity {
         notifications.put(notificationWrapper);
         temp.push(notificationList.pop());
       }
+      json.put("notifications", notifications);
       while (!temp.isEmpty()) {
         notificationList.push(temp.pop()); // rebuild notificationList
       }
@@ -149,7 +150,7 @@ public class UserAccount implements StorageEntity {
     // Create notificationList
     // TODO Check whether we need to invert this stack to preserve notification order
     Stack<JSONMessaging> notificationList = new Stack<JSONMessaging>();
-    JSONArray JSONnotifications = new JSONArray(o.getJSONArray("notifications"));
+    JSONArray JSONnotifications = new JSONArray(o.getJSONArray("notifications").toString());
     for (int i = 0; i < JSONnotifications.length(); i++) {
       JSONObject notificationObj = JSONnotifications.getJSONObject(i);
       String body = notificationObj.getJSONObject("body").toString();
@@ -159,7 +160,7 @@ public class UserAccount implements StorageEntity {
 
     // Create blackList
     ArrayList<UUID> blackList = new ArrayList<UUID>();
-    JSONArray JSONblackList = new JSONArray(o.getJSONArray("black_list"));
+    JSONArray JSONblackList = new JSONArray(o.getJSONArray("black_list").toString());
     for (int i = 0; i < JSONblackList.length(); i++) {
       JSONObject listEntry = JSONblackList.getJSONObject(i);
       blackList.add(Storage.getUUID(listEntry));

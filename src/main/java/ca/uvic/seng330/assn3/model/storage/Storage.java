@@ -15,31 +15,41 @@ import java.util.UUID;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+// TODO Known Issues
+/*
+ * JSON Files are being stored in root directors of project, not in storage directory
+ */
+
 public class Storage {
-  private final String storageDirPath = "storage" + File.pathSeparator;
-  private final String oldPath = storageDirPath + "old" + File.pathSeparator;
-  private final String deviceFileName = "devices.json";
-  private final String accountFileName = "accounts.json";
+  private static final String storageDirPath = "storage" + File.separator;
+  private static final String oldPath = storageDirPath + "old" + File.separator;
+  private static final String deviceFileName = "devices.json";
+  private static final String accountFileName = "accounts.json";
 
   /*
-   * Moves old files from storage\ directory if they exist.
+   * If they exist, moves old files from storage\ to storage\old\timeStamp\ 
+   * if they exist.
+   * 
    * Creates new files for devices and accounts, and fills them
    * with a JSONArray representation of these objects
    */
-  public void store(Collection<StorageEntity> devices, Collection<StorageEntity> accounts) {
+  public static void store(Collection<? extends StorageEntity> devices, Collection<? extends StorageEntity> accounts) {
     cleanStorageDir();
-    storeEntities(devices, deviceFileName);
-    storeEntities(accounts, accountFileName);
+    storeEntities(devices, deviceFileName, storageDirPath);
+    storeEntities(accounts, accountFileName, storageDirPath);
   }
 
-  private void storeEntities(Collection<StorageEntity> entities, String fileName) {
-    File entityFile = new File(fileName);
+  /*
+   * filePath should end in separator 
+   */
+  private static void storeEntities(Collection<? extends StorageEntity> devices, String fileName, String filePath) {
+    File entityFile = new File(filePath + fileName);
     assert !entityFile.exists();
     PrintStream entityStream = null;
     try {
       entityFile.createNewFile();
       entityStream = new PrintStream(entityFile);
-      entityStream.println(getJSONArray(entities));
+      entityStream.println(getJSONArray(devices));
     } catch (IOException e) {
       // TODO Log error creating/writing to file and consider handling procedures
       e.printStackTrace();
@@ -50,9 +60,9 @@ public class Storage {
     }
   }
 
-  private JSONArray getJSONArray(Collection<StorageEntity> entities) {
+  private static JSONArray getJSONArray(Collection<? extends StorageEntity> devices) {
     JSONArray arr = new JSONArray();
-    for (StorageEntity e : entities) {
+    for (StorageEntity e : devices) {
       arr.put(e.getJSON());
     }
     return arr;
@@ -63,11 +73,11 @@ public class Storage {
    * storage subfolder "old".
    * @pre storage file structure is as specified.
    */
-  private void cleanStorageDir() {
+  private static void cleanStorageDir() {
     File deviceFile = new File(storageDirPath + deviceFileName);
     File accountFile = new File(storageDirPath + accountFileName);
     String dateStamp = getDateStamp();
-    File destinationDir = new File(oldPath + dateStamp + File.pathSeparator);
+    File destinationDir = new File(oldPath + dateStamp + File.separator);
     boolean deviceFileExists = deviceFile.exists();
     boolean accountFileExists = deviceFile.exists();
 
@@ -87,27 +97,27 @@ public class Storage {
 
     // move device file to destination
     if (deviceFileExists) {
-      deviceFile.renameTo(new File(destinationDir.getPath() + File.pathSeparator + deviceFileName));
+      deviceFile.renameTo(new File(destinationDir.getPath() + File.separator + deviceFileName));
     }
 
     // move account file to destination
     if (accountFileExists) {
       accountFile.renameTo(
-          new File(destinationDir.getPath() + File.pathSeparator + accountFileName));
+          new File(destinationDir.getPath() + File.separator + accountFileName));
     }
   }
 
-  private String getDateStamp() {
+  private static String getDateStamp() {
     Date d = new Date();
     String stamp = d.toString();
     return stamp;
   }
 
-  public Collection<Device> getDevices(Hub hub) {
+  public static Collection<Device> getDevices(Hub hub) {
     // retrieve device json objects from storage, convert them into Device objects, and return them
     List<Device> javaDevices = new ArrayList<Device>();
 
-    File deviceFile = new File(deviceFileName);
+    File deviceFile = new File(storageDirPath + deviceFileName);
     if (!deviceFile.exists() || !deviceFile.canRead()) {
       return javaDevices;
     }
@@ -130,7 +140,7 @@ public class Storage {
   /*
    * @pre file != null
    */
-  private String getFileContents(File file) throws IOException {
+  private static String getFileContents(File file) throws IOException {
     assert file != null;
     Scanner sc = new Scanner(file);
     String content = "";
@@ -141,9 +151,9 @@ public class Storage {
     return content;
   }
 
-  public Collection<UserAccount> getAccounts(Hub hub) {
-    // retrieve useraccount json objects from storage, convert them into UserAccount objects, and
-    // return them
+  public static Collection<UserAccount> getAccounts(Hub hub) {
+    // retrieve useraccount json objects from storage, convert them into UserAccount objects, 
+    // and return them
 
     List<UserAccount> javaAccounts = new ArrayList<UserAccount>();
 
