@@ -53,7 +53,6 @@ public class Client {
   }
 
   public void close() {
-    // TODO ensure state is saved
     window.close();
   }
 
@@ -63,5 +62,9 @@ public class Client {
     alert.setHeaderText(headerText);
     alert.setContentText(text);
     alert.showAndWait();
+  }
+  
+  public Stage getWindow() {
+    return this.window;
   }
 }

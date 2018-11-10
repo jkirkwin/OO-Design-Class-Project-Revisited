@@ -40,10 +40,15 @@ public class Controller {
     this.views = new Stack<ViewType>();
 
     this.hub.startup();
+    this.client.getWindow().setOnCloseRequest(event -> exitApplication());
 
     // Load and display login screen
     client.setView(findBuilder(ViewType.LOGIN));
     // client.setView(loginBuilder);
+  }
+
+  private void exitApplication() {
+    this.hub.shutdown();
   }
 
   public void update(Object arg) {
@@ -69,7 +74,7 @@ public class Controller {
   public void handleBackClick() {
     if (views.peek() == ViewType.LOGIN) {
       // close window
-      hub.shutdown();
+      exitApplication();
       client.close();
     } else if (views.peek() == ViewType.HUB_BASIC || views.peek() == ViewType.HUB_ADMIN) {
       // log out
