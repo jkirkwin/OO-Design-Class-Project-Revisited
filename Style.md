@@ -1,27 +1,30 @@
 # A style planning document to record the development of our design decisions and ideas
 
-## Planning & Concepts
-
-### User Management 
-User interface, implemented by a BasicUser class, AdminUser extends BasicUser
-Each user object should store the User's username, password, UUID?, and a list of all the devices (or their UUID's) that the user has access to.
-
-### Devices
-Devices should be designated PUBLIC or ADMIN_ONLY. This designation dictates the behaviour of the model when new users are added. Newly added users
-are given access to PUBLIC devices automatically but no ADMIN devices. This can be modified by AdminUsers in the admin view
-
 ## Testing
 
 Unit test ideas:
 * Test that view has no imports from model
 * Test that model has no imports from controller or from view
 
+## Controller
+
+### Active User
+* We need to track which user is active -> simply add a User activeUser field in controller. That should give us all the info we need.
+
+### ControllerObjects
+We could have a DeviceController Class with specific subtypes for each type of device. Within the controller we could have one DeviceController object for each device present in the model. This was suggested in class by a student and Neil seemed to be on board.
+
+
+### Devices
+Devices should be designated PUBLIC or ADMIN_ONLY. This designation dictates the behaviour of the model when new users are added. Newly added users
+are given access to PUBLIC devices automatically but no ADMIN devices. This can be modified by AdminUsers in the admin view
+
 ## Model 
 
 ### Startup and Shutdown
-For now, we will spin up a "blank" model each time - that is, no devices will be automatically associated and only two users (one admin and one regular user) will be available for use. Once the code base has been developed further, we will save the state of the model at shutdown() into text files containing JSON representations of the devices, users, and any other stateful objects. These files will be parsed during startup() to re-create all these objects as they were.
-
-See https://stackoverflow.com/questions/26619566/javafx-stage-close-handler for info on how to have safety code that executes when the application terminates. This should allow us to ensure state is saved when the user quits the app. 
+Startup is called upon Controller instantiation
+Shutdown is called on program exit (close button, X button, and force quit)
+These methods call the apropriate functions in model.storage.Storage.java to read previously generated JSON files and translate the contents to Java Device and UserAccount objects or convert all Devices and UserAccounts to their JSON representations and save these as appropriate.
 
 ## View
 LogIn screen prompts for username/password and either accesses or creates a user.
@@ -84,33 +87,20 @@ After selecting 'Edit User Visibility' from AdminHub, User is presented with a l
 Employs HubBuilder
 After selecting '-Kill-/Murder' from AdminHub, User is presented with a list of UsersAccounts or Devices based on which option was selected. Anything selected will prompt for comfirmation, then destroy the device.
 
-## Controller
-
-### Active User
-* We need to track which user is active -> simply add a User activeUser field in controller. That should give us all the info we need.
-
-### ControllerObjects
-We could have a DeviceController Class with specific subtypes for each type of device. Within the controller we could have one DeviceController object for each device present in the model. This was suggested in class by a student and Neil seemed to be on board.
-
 # Questions
 
 ## Design
 
 ### Questions
 * Who can make devices?
-* Is the first User automatically an Admin?
-* How is a User made an Admin?
 * Can Admin Kill Users?
 * Where does error checking happen?
 * Input checking?
 * Logging HOW!?
-* scrolling?
 * Devices extend Cloneable?
-* When creating user accounts, does there need to be a verification step if the new account is to be an Admin?
 * How should we parameterize the dynamic creation of scenes? Controll flow goes: controller calls setView(viewType); withing setView(), the client creates and populates a new scene. See FXClient.java for context and extra notes.
 
 ### Logistic Questions
-* JAVAFX vs Spring?
 * Gradle HOW?? -> Go to Neil's Office Hours
 * Is Travis working 100?
 * Logging where?
