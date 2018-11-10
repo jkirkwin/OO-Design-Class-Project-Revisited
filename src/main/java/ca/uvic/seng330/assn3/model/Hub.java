@@ -17,7 +17,6 @@ public class Hub {
     this.userAccountRegistry = new HashMap<UUID, UserAccount>();
   }
 
-  
   /*
    * @pre newDevice != null
    */
@@ -28,19 +27,18 @@ public class Hub {
       throw new HubRegistrationException("Device already registered.");
     }
   }
-  
-  
+
   /*
    * @pre newAccount != null
    */
   public void register(UserAccount newAccount) {
-	    try {
-	      registerNew(newAccount);
-	    } catch (HubRegistrationException e) {
-	      // TODO: Logging and Alerts
-	    }
-	  }
-  
+    try {
+      registerNew(newAccount);
+    } catch (HubRegistrationException e) {
+      // TODO: Logging and Alerts
+    }
+  }
+
   /*
    * @pre newAccount != null
    */
@@ -54,23 +52,23 @@ public class Hub {
   }
 
   public void unregister(UUID murdered) {
-	  if(this.deviceRegistry.containsKey(murdered)) {
-		  try {
-		  unregister(this.deviceRegistry.get(murdered));
-		  }catch(HubRegistrationException e) {
-			  //TODO: logging & alert
-		  }
-	  }else if(this.userAccountRegistry.containsKey(murdered)){
-		  try {
-			  unregister(this.userAccountRegistry.get(murdered));
-			  }catch(HubRegistrationException e) {
-				//TODO: logging & alert
-			  }
-	  }	  else {
-		  //TODO: alert that nothing corresponds to given UUID
-	  }
+    if (this.deviceRegistry.containsKey(murdered)) {
+      try {
+        unregister(this.deviceRegistry.get(murdered));
+      } catch (HubRegistrationException e) {
+        // TODO: logging & alert
+      }
+    } else if (this.userAccountRegistry.containsKey(murdered)) {
+      try {
+        unregister(this.userAccountRegistry.get(murdered));
+      } catch (HubRegistrationException e) {
+        // TODO: logging & alert
+      }
+    } else {
+      // TODO: alert that nothing corresponds to given UUID
+    }
   }
-  
+
   public void unregister(Device retiredDevice) throws HubRegistrationException {
     if (retiredDevice == null || deviceRegistry.isEmpty()) {
       throw new HubRegistrationException("No device passed.");
@@ -81,7 +79,6 @@ public class Hub {
       throw new HubRegistrationException("Device does not exist.");
     }
   }
-
 
   public void unregister(UserAccount killedAccount) throws HubRegistrationException {
     if (killedAccount == null
