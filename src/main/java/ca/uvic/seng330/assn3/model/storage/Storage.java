@@ -15,6 +15,11 @@ import java.util.UUID;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+// TODO Issues
+/*
+ * JSON Files are being stored in root directors of project, not in storage directory
+ */
+
 public class Storage {
   private static final String storageDirPath = "storage" + File.pathSeparator;
   private static final String oldPath = storageDirPath + "old" + File.pathSeparator;

@@ -36,6 +36,8 @@ public class Controller {
     this.hub = hub;
     this.views = new Stack<ViewType>();
 
+    this.hub.startup();
+    
     // Load and display login screen
     views.push(ViewType.LOGIN);
     client.setTitle(ViewType.LOGIN.toString());
@@ -65,6 +67,7 @@ public class Controller {
   public void handleBackClick() {
     if (views.peek() == ViewType.LOGIN) {
       // close window
+      hub.shutdown();
       client.close();
     } else if (views.peek() == ViewType.HUB_BASIC || views.peek() == ViewType.HUB_ADMIN) {
       // log out
