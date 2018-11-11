@@ -172,7 +172,7 @@ public abstract class Device implements StorageEntity {
    */
   public JSONObject getJSON() {
     JSONObject json = new JSONObject();
-    json.put("status", this.getStatus());
+    json.put("status", this.getStatus().toString());
     json.put("label", this.getLabel());
     json.put("id", Storage.getJsonUUID(this.getIdentifier()));
     return json;
