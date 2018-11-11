@@ -86,7 +86,7 @@ public class Controller {
       client.setTitle(views.peek().toString());
 
       // TODO generate appropriate builder based on the ViewType now on the top of the stack
-      client.setView(findBuilder(views.peek()));
+      client.setView(findBuilder(views.pop()));
     }
 
     System.out.println("Back"); // Test
@@ -229,7 +229,6 @@ public class Controller {
     for (UUID id : hub.getIDList(false)) {
       refined.add(id);
     }
-
     return refined;
   }
 

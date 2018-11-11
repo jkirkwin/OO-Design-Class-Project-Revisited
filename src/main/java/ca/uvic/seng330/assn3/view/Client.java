@@ -63,7 +63,7 @@ public class Client {
     alert.setContentText(text);
     alert.showAndWait();
   }
-  
+
   public Stage getWindow() {
     return this.window;
   }
