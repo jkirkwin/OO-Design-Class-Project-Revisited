@@ -31,7 +31,8 @@ public class Storage {
    * Creates new files for devices and accounts, and fills them
    * with a JSONArray representation of these objects
    */
-  public static void store(Collection<? extends StorageEntity> devices, Collection<? extends StorageEntity> accounts) {
+  public static void store(
+      Collection<? extends StorageEntity> devices, Collection<? extends StorageEntity> accounts) {
     ensureDirExists(storageDirPath);
     ensureDirExists(oldDirPath);
     String destinationDirPath = oldDirPath + getDateStamp() + File.separator;
@@ -43,7 +44,8 @@ public class Storage {
   /*
    * filePath should end in separator
    */
-  private static void storeEntities(Collection<? extends StorageEntity> devices, String filePath, String fileName) {
+  private static void storeEntities(
+      Collection<? extends StorageEntity> devices, String filePath, String fileName) {
     File entityFile = new File(filePath + fileName);
     assert !entityFile.exists();
     PrintStream entityStream = null;
@@ -77,18 +79,18 @@ public class Storage {
   private static void cleanStorageDir(String destinationDirPath) {
     File deviceFileToMove = new File(storageDirPath + deviceFileName);
     File accountFileToMove = new File(storageDirPath + accountFileName);
-    
-    if(!deviceFileToMove.exists() && !accountFileToMove.exists()) {
+
+    if (!deviceFileToMove.exists() && !accountFileToMove.exists()) {
       return;
     }
-    
+
     ensureDirExists(destinationDirPath);
     File destinationDir = new File(destinationDirPath);
     assert destinationDir.exists() && destinationDir.isDirectory();
 
     File destDeviceFile = new File(destinationDirPath + deviceFileName);
     File destAccountFile = new File(destinationDirPath + accountFileName);
-    
+
     // handle name collisions in destination directory
     int i = 0;
     while (destDeviceFile.exists() || destAccountFile.exists()) {
@@ -96,15 +98,21 @@ public class Storage {
       destAccountFile = new File(destinationDirPath + accountFileName + "(" + i + ")");
       i++;
     }
-  
-    try {      
+
+    try {
       // move device file to destination
       if (deviceFileToMove.exists()) {
-        Files.move(Paths.get(deviceFileToMove.getPath()), Paths.get(destDeviceFile.getPath()), StandardCopyOption.REPLACE_EXISTING);
+        Files.move(
+            Paths.get(deviceFileToMove.getPath()),
+            Paths.get(destDeviceFile.getPath()),
+            StandardCopyOption.REPLACE_EXISTING);
       }
       // move account file to destination
       if (accountFileToMove.exists()) {
-        Files.move(Paths.get(accountFileToMove.getPath()), Paths.get(destAccountFile.getPath()), StandardCopyOption.REPLACE_EXISTING);
+        Files.move(
+            Paths.get(accountFileToMove.getPath()),
+            Paths.get(destAccountFile.getPath()),
+            StandardCopyOption.REPLACE_EXISTING);
       }
     } catch (IOException e) {
       e.printStackTrace();
@@ -182,10 +190,10 @@ public class Storage {
 
     return javaAccounts;
   }
-  
+
   private static void ensureDirExists(String dirPath) {
     File dir = new File(dirPath);
-    if(dir.exists() && dir.isDirectory()) {
+    if (dir.exists() && dir.isDirectory()) {
       return;
     }
     dir.mkdirs();
