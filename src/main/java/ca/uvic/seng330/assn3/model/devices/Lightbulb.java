@@ -19,7 +19,7 @@ public class Lightbulb extends Device {
     this.isOn = false;
   }
 
-  public Lightbulb(boolean isOn, UUID id, String label, Hub hub) {
+  protected Lightbulb(boolean isOn, UUID id, String label, Hub hub) {
     super(id, label, Status.NORMAL, hub);
     this.isOn = isOn;
   }

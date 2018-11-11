@@ -26,7 +26,7 @@ public class Thermostat extends Device {
     this.temp = null;
   }
 
-  public Thermostat(Temperature temp, UUID id, String label, Hub hub) {
+  protected Thermostat(Temperature temp, UUID id, String label, Hub hub) {
     super(id, label, Status.NORMAL, hub);
     this.temp = temp;
   }
