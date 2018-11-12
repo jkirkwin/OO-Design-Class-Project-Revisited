@@ -46,6 +46,10 @@ public class CreateDeviceBuilder extends SceneBuilder {
     for (int i = 0; i < deviceTypes.size(); i++) {
       button = new RadioButton(deviceTypes.get(i).toString());
       button.setToggleGroup(group);
+      if(i==0) {
+    	  //TODO: janky
+    	  button.setSelected(true);
+      }
       button.setUserData(deviceTypes.get(i));
       typesForScroll.getChildren().add(button);
     }
