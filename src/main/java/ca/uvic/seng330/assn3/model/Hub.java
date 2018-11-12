@@ -215,7 +215,14 @@ public class Hub {
    */
   public String getLabel(UUID uuid) {
     assert uuid != null;
-    return deviceRegistry.get(uuid).getLabel();
+    if (deviceRegistry.containsKey(uuid)) {
+      return deviceRegistry.get(uuid).getLabel();
+    } else if (userAccountRegistry.containsKey(uuid)) {
+      return userAccountRegistry.get(uuid).getUsername();
+    } else {
+      // TODO: review this. throw exception?
+      return "Nothing Found";
+    }
   }
 
   /*
