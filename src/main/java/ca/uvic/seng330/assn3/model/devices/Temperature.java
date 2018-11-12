@@ -52,6 +52,7 @@ public class Temperature implements Cloneable {
 
   /**
    * Changes the unit used directly. Does NOT modify magnitude.
+   *
    * @pre unit != null
    * @param unit
    */
@@ -59,9 +60,10 @@ public class Temperature implements Cloneable {
     assert unit != null;
     this.unit = unit;
   }
-  
+
   /**
    * Converts the current temp to use the units specified, keeping the temp the same
+   *
    * @pre unit != null
    * @param unit
    */

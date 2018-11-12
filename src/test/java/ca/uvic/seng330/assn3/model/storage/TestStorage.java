@@ -13,17 +13,12 @@ import ca.uvic.seng330.assn3.model.devices.SmartPlug;
 import ca.uvic.seng330.assn3.model.devices.Temperature;
 import ca.uvic.seng330.assn3.model.devices.Temperature.Unit;
 import ca.uvic.seng330.assn3.model.devices.Thermostat;
-
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.PrintStream;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.Scanner;
 import java.util.Stack;
 import java.util.UUID;
 import org.json.JSONObject;
@@ -36,15 +31,15 @@ public class TestStorage {
     assert results != null;
     assert oracles.length == results.length;
     Field[] fields;
-    for(Class<?> c = oracles[0].getClass(); c != null; c = c.getSuperclass()) {
+    for (Class<?> c = oracles[0].getClass(); c != null; c = c.getSuperclass()) {
       fields = c.getDeclaredFields();
-      for(int i = 0; i < oracles.length; i++) {
+      for (int i = 0; i < oracles.length; i++) {
         assertTrue(checkFieldsEqual(fields, oracles[i], results[i]));
       }
     }
     return false;
   }
-  
+
   public static boolean checkFieldsEqual(Field[] fields, Object oracle, Object result) {
     for (Field f : fields) {
       f.setAccessible(true);
@@ -67,24 +62,25 @@ public class TestStorage {
     // TODO
     assertTrue(false);
   }
-  
+
   @Test
   public void testStoreAndRetrieveDevices() {
     // TODO
     assertTrue(false);
   }
-  
+
   @Test
   public void testCleanDir() {
     // TODO implement
     assertTrue(false);
   }
-  
+
   @Test
   public void testEnsureDirExists() {
-    String testDirPath = "src.test.java.ca.uvic.seng330.assn3.model.storage".replace(".", File.separator);
+    String testDirPath =
+        "src.test.java.ca.uvic.seng330.assn3.model.storage".replace(".", File.separator);
     File testDir = new File(testDirPath);
-    if(testDir.exists()) {
+    if (testDir.exists()) {
       testDir.delete();
     }
     try {
@@ -94,15 +90,19 @@ public class TestStorage {
       assertTrue(testDir.exists() && testDir.isDirectory());
       ensureDirExists.invoke(null, testDirPath);
       assertTrue(testDir.exists() && testDir.isDirectory());
-    } catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+    } catch (NoSuchMethodException
+        | SecurityException
+        | IllegalAccessException
+        | IllegalArgumentException
+        | InvocationTargetException e) {
       e.printStackTrace();
     } finally {
-      if(testDir.exists()) {
+      if (testDir.exists()) {
         testDir.delete();
       }
     }
   }
-  
+
   @Test
   public void testUUIDRecreation() {
     UUID idOracle = UUID.randomUUID();
@@ -196,8 +196,8 @@ public class TestStorage {
         | InvocationTargetException e) {
       e.printStackTrace();
     }
-    Camera [] oracles = new Camera[] {oracle1,  oracle2, oracle3};
-    Camera [] results = new Camera[3];
+    Camera[] oracles = new Camera[] {oracle1, oracle2, oracle3};
+    Camera[] results = new Camera[3];
     results[0] = (Camera) Camera.getDeviceFromJSON(oracle1.getJSON(), h);
     results[1] = (Camera) Camera.getDeviceFromJSON(oracle2.getJSON(), h);
     results[2] = (Camera) Camera.getDeviceFromJSON(oracle3.getJSON(), h);
@@ -230,8 +230,8 @@ public class TestStorage {
         | InvocationTargetException e) {
       e.printStackTrace();
     }
-    Lightbulb [] oracles = new Lightbulb[] {oracle1,  oracle2, oracle3};
-    Lightbulb [] results = new Lightbulb[3];
+    Lightbulb[] oracles = new Lightbulb[] {oracle1, oracle2, oracle3};
+    Lightbulb[] results = new Lightbulb[3];
     results[0] = (Lightbulb) Lightbulb.getDeviceFromJSON(oracle1.getJSON(), h);
     results[1] = (Lightbulb) Lightbulb.getDeviceFromJSON(oracle2.getJSON(), h);
     results[2] = (Lightbulb) Lightbulb.getDeviceFromJSON(oracle3.getJSON(), h);
@@ -264,8 +264,8 @@ public class TestStorage {
         | InvocationTargetException e) {
       e.printStackTrace();
     }
-    SmartPlug [] oracles = new SmartPlug[] {oracle1,  oracle2, oracle3};
-    SmartPlug [] results = new SmartPlug[3];
+    SmartPlug[] oracles = new SmartPlug[] {oracle1, oracle2, oracle3};
+    SmartPlug[] results = new SmartPlug[3];
     results[0] = (SmartPlug) SmartPlug.getDeviceFromJSON(oracle1.getJSON(), h);
     results[1] = (SmartPlug) SmartPlug.getDeviceFromJSON(oracle2.getJSON(), h);
     results[2] = (SmartPlug) SmartPlug.getDeviceFromJSON(oracle3.getJSON(), h);
@@ -300,8 +300,8 @@ public class TestStorage {
         | InvocationTargetException e) {
       e.printStackTrace();
     }
-    Thermostat [] oracles = new Thermostat[] {oracle1,  oracle2, oracle3};
-    Thermostat [] results = new Thermostat[3];
+    Thermostat[] oracles = new Thermostat[] {oracle1, oracle2, oracle3};
+    Thermostat[] results = new Thermostat[3];
     results[0] = (Thermostat) Thermostat.getDeviceFromJSON(oracle1.getJSON(), h);
     results[1] = (Thermostat) Thermostat.getDeviceFromJSON(oracle2.getJSON(), h);
     results[2] = (Thermostat) Thermostat.getDeviceFromJSON(oracle3.getJSON(), h);
