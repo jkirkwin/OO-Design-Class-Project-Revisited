@@ -13,11 +13,17 @@ import ca.uvic.seng330.assn3.model.devices.SmartPlug;
 import ca.uvic.seng330.assn3.model.devices.Temperature;
 import ca.uvic.seng330.assn3.model.devices.Temperature.Unit;
 import ca.uvic.seng330.assn3.model.devices.Thermostat;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.PrintStream;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Scanner;
 import java.util.Stack;
 import java.util.UUID;
 import org.json.JSONObject;
@@ -25,7 +31,21 @@ import org.junit.Test;
 
 public class TestStorage {
 
-  public static boolean checkFieldsIdentical(Field[] fields, Object oracle, Object result) {
+  public static boolean testAllFieldsEqual(Object[] oracles, Object[] results) {
+    assert oracles != null;
+    assert results != null;
+    assert oracles.length == results.length;
+    Field[] fields;
+    for(Class<?> c = oracles[0].getClass(); c != null; c = c.getSuperclass()) {
+      fields = c.getDeclaredFields();
+      for(int i = 0; i < oracles.length; i++) {
+        assertTrue(checkFieldsEqual(fields, oracles[i], results[i]));
+      }
+    }
+    return false;
+  }
+  
+  public static boolean checkFieldsEqual(Field[] fields, Object oracle, Object result) {
     for (Field f : fields) {
       f.setAccessible(true);
       try {
@@ -43,11 +63,46 @@ public class TestStorage {
   }
 
   @Test
+  public void testStoreAndRetrieveUserAccounts() {
+    // TODO
+    assertTrue(false);
+  }
+  
+  @Test
+  public void testStoreAndRetrieveDevices() {
+    // TODO
+    assertTrue(false);
+  }
+  
+  @Test
   public void testCleanDir() {
     // TODO implement
     assertTrue(false);
   }
-
+  
+  @Test
+  public void testEnsureDirExists() {
+    String testDirPath = "src.test.java.ca.uvic.seng330.assn3.model.storage".replace(".", File.separator);
+    File testDir = new File(testDirPath);
+    if(testDir.exists()) {
+      testDir.delete();
+    }
+    try {
+      Method ensureDirExists = Storage.class.getDeclaredMethod("ensureDirExists", String.class);
+      ensureDirExists.setAccessible(true);
+      ensureDirExists.invoke(null, testDirPath);
+      assertTrue(testDir.exists() && testDir.isDirectory());
+      ensureDirExists.invoke(null, testDirPath);
+      assertTrue(testDir.exists() && testDir.isDirectory());
+    } catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+      e.printStackTrace();
+    } finally {
+      if(testDir.exists()) {
+        testDir.delete();
+      }
+    }
+  }
+  
   @Test
   public void testUUIDRecreation() {
     UUID idOracle = UUID.randomUUID();
@@ -147,21 +202,6 @@ public class TestStorage {
     results[1] = (Camera) Camera.getDeviceFromJSON(oracle2.getJSON(), h);
     results[2] = (Camera) Camera.getDeviceFromJSON(oracle3.getJSON(), h);
     testAllFieldsEqual(oracles, results);
-  }
-  
-  
-  public static boolean testAllFieldsEqual(Object[] oracles, Object[] results) {
-    assert oracles != null;
-    assert results != null;
-    assert oracles.length == results.length;
-    Field[] fields;
-    for(Class<?> c = oracles[0].getClass(); c != null; c = c.getSuperclass()) {
-      fields = c.getDeclaredFields();
-      for(int i = 0; i < oracles.length; i++) {
-        assertTrue(checkFieldsIdentical(fields, oracles[i], results[i]));
-      }
-    }
-    return false;
   }
 
   @Test
@@ -292,11 +332,5 @@ public class TestStorage {
     }
     assertTrue(result1.equals(oracle1));
     assertTrue(result2.equals(oracle2));
-  }
-
-  @Test
-  public void testGetJSONArray() {
-    // TODO implement
-    assertTrue(false);
   }
 }

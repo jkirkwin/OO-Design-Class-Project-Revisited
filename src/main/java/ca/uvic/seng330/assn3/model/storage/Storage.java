@@ -156,12 +156,12 @@ public class Storage {
   private static String getFileContents(File file) throws IOException {
     assert file != null;
     Scanner sc = new Scanner(file);
-    String content = "";
+    StringBuilder sb = new StringBuilder();
     while (sc.hasNextLine()) {
-      content = content + sc.nextLine();
+      sb.append(sc.nextLine());
     }
     sc.close();
-    return content;
+    return sb.toString();
   }
 
   public static Collection<UserAccount> getAccounts(Hub hub) {

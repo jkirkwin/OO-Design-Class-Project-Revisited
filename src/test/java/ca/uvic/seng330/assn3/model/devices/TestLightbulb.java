@@ -7,7 +7,7 @@ import org.junit.Test;
 public class TestLightbulb {
 
   @Test
-  public void sampleTest() {
+  public void testInitialState() {
     assertTrue(false);
   }
 }
