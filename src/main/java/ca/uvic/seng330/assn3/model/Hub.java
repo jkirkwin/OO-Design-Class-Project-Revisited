@@ -254,7 +254,8 @@ public class Hub {
         added = new Camera(this);
         break;
       default:
-        // TODO: throw an error here.
+        // TODO: throw an error here and remove the assertion
+        assert (false);
     }
     try {
       register(added);

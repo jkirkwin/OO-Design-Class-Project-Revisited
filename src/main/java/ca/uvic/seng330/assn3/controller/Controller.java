@@ -133,7 +133,7 @@ public class Controller {
     }
     return null;
   }
- 
+
   /*
    * @pre username != null
    * @pre password != null
@@ -183,9 +183,9 @@ public class Controller {
    * @pre password != null
    */
   public void handleNewAdmin(String username, String password) {
-     assert username != null;
-     assert password != null;
-     
+    assert username != null;
+    assert password != null;
+
     // System.out.println("New Admin"); // Testing
     if (acceptableInputs(username, password)) {
       if (!hub.isUser(username)) {
