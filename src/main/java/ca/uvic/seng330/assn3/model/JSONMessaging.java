@@ -42,13 +42,13 @@ public class JSONMessaging {
   public Device getTalker() {
     return this.talker;
   }
-  
-  @Override 
+
+  @Override
   public boolean equals(Object other) {
-    if(other == null) {
+    if (other == null) {
       return false;
     }
-    if(!(other instanceof JSONMessaging)) {
+    if (!(other instanceof JSONMessaging)) {
       return false;
     }
     JSONMessaging o = (JSONMessaging) other;
