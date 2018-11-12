@@ -32,7 +32,7 @@ public class JSONMessaging {
       json.put("node_id", talker.getIdentifier());
       json.put("status", talker.getStatus());
       json.put("payload", message);
-      json.put("created_at", new Date());
+      json.put("sent_at", new Date());
     } catch (JSONException e) {
       // TODO Log failure
     }
@@ -41,5 +41,17 @@ public class JSONMessaging {
 
   public Device getTalker() {
     return this.talker;
+  }
+  
+  @Override 
+  public boolean equals(Object other) {
+    if(other == null) {
+      return false;
+    }
+    if(!(other instanceof JSONMessaging)) {
+      return false;
+    }
+    JSONMessaging o = (JSONMessaging) other;
+    return this.talker.equals(o.talker) && this.message.equals(o.message) && this.id.equals(o.id);
   }
 }
