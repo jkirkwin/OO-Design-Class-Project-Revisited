@@ -268,4 +268,8 @@ public class Controller {
     EnumSet.allOf(DeviceType.class).forEach(devType -> deviceTypes.add(devType));
     return deviceTypes;
   }
+
+  public void handleNewDeviceClick(DeviceType newDevice) {
+    hub.makeNewDevice(newDevice);
+  }
 }

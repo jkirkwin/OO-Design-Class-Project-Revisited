@@ -1,5 +1,7 @@
 package ca.uvic.seng330.assn3.model;
 
+import ca.uvic.seng330.assn3.controller.DeviceType;
+import ca.uvic.seng330.assn3.model.devices.Camera;
 import ca.uvic.seng330.assn3.model.devices.Device;
 import ca.uvic.seng330.assn3.model.storage.Storage;
 import java.util.ArrayList;
@@ -191,5 +193,31 @@ public class Hub {
 
   public Device getDevice(UUID uuid) {
     return deviceRegistry.get(uuid);
+  }
+
+  public void makeNewDevice(DeviceType newDevice) {
+    Device added = null;
+    switch (newDevice) {
+      case CAMERA:
+        added = new Camera(this);
+        break;
+      case SMARTPLUG:
+        added = new Camera(this);
+        break;
+      case LIGHTSWITCH:
+        added = new Camera(this);
+        break;
+      case THERMOSTAT:
+        added = new Camera(this);
+        break;
+      default:
+        // TODO: throw an error here.
+    }
+    try {
+      register(added);
+    } catch (HubRegistrationException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
   }
 }
