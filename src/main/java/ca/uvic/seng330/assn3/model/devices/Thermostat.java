@@ -28,7 +28,7 @@ public class Thermostat extends Device {
 
   protected Thermostat(Temperature temp, UUID id, String label, Hub hub) {
     super(id, label, Status.NORMAL, hub);
-    if(temp == null) {
+    if (temp == null) {
       this.temp = temp;
     } else {
       this.temp = temp.clone();
@@ -55,7 +55,7 @@ public class Thermostat extends Device {
   }
 
   public Temperature getTemp() {
-    if(this.temp == null) {
+    if (this.temp == null) {
       return null;
     } else {
       return this.temp.clone();
@@ -78,9 +78,9 @@ public class Thermostat extends Device {
     JSONObject json = super.getJSON();
     json.put("device_type", "Thermostat");
     JSONObject state = new JSONObject();
-    if(this.getTemp() == null) {
+    if (this.getTemp() == null) {
       state.put("temp", JSONObject.NULL);
-    }else {
+    } else {
       state.put("temp", this.getTemp().getJSON());
     }
     json.put("state", state);

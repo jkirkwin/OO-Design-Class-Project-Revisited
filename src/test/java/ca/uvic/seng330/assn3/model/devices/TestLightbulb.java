@@ -8,6 +8,6 @@ public class TestLightbulb {
 
   @Test
   public void sampleTest() {
-    assertTrue(true);
+    assertTrue(false);
   }
 }

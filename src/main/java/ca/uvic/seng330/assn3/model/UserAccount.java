@@ -100,26 +100,15 @@ public class UserAccount implements StorageEntity {
   public String getPassword() {
     return password;
   }
-  
+
   @Override
   public boolean equals(Object other) {
-//    System.out.println("In UserAccount.equals()");
-    if(!(other instanceof UserAccount)) {
+    if (!(other instanceof UserAccount)) {
       return false;
     }
-    
     UserAccount o = (UserAccount) other;
-//    System.out.println("----------------"); 
-//    System.out.println("this.hub == o.hub: " + (this.hub == o.hub));
-//    System.out.println("this.id.equals(o.id): " + (this.id.equals(o.id)));
-//    System.out.println("this.blackList.equals(o.blackList): " + this.blackList.equals(o.blackList));
-//    System.out.println("this.notificationList.equals(o.notificationList): " + this.notificationList.equals(o.notificationList));
-//    System.out.println("this.username.equals(o.username): " + this.username.equals(o.username));
-//    System.out.println("this.password.equals(o.password): " + this.password.equals(o.password));
-//    System.out.println("----------------"); 
-    
     return this.accessLevel.equals(o.accessLevel)
-        && this.hub == o.hub        // Note we are checking for identity here
+        && this.hub == o.hub // Note we are checking for identity here
         && this.id.equals(o.id)
         && this.blackList.equals(o.blackList)
         && this.notificationList.equals(o.notificationList)
@@ -181,7 +170,8 @@ public class UserAccount implements StorageEntity {
       JSONObject body = notificationObj.getJSONObject("body");
       UUID talkerID = Storage.getUUID(notificationObj.getJSONObject("id"));
       UUID messageID = Storage.getUUID(body.getJSONObject("msg_id"));
-      notificationList.push(new JSONMessaging(hub.getDevice(talkerID), body.getString("payload"), messageID));
+      notificationList.push(
+          new JSONMessaging(hub.getDevice(talkerID), body.getString("payload"), messageID));
     }
 
     // Create blackList

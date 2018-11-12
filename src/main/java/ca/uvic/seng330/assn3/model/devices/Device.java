@@ -6,8 +6,6 @@ import ca.uvic.seng330.assn3.model.devices.Temperature.Unit;
 import ca.uvic.seng330.assn3.model.storage.Storage;
 import ca.uvic.seng330.assn3.model.storage.StorageEntity;
 import java.util.UUID;
-
-import org.json.JSONException;
 import org.json.JSONObject;
 
 public abstract class Device implements StorageEntity {
@@ -25,7 +23,7 @@ public abstract class Device implements StorageEntity {
   public static Device getDeviceFromJSON(JSONObject o, Hub h) {
     assert o != null;
     assert h != null;
-    
+
     // TODO Log device creation
 
     String dLabel = o.getString("label");
@@ -55,11 +53,11 @@ public abstract class Device implements StorageEntity {
 
       case "Thermostat":
         Temperature temp = null;
-        
-        if(!dState.isNull("temp")) {
+
+        if (!dState.isNull("temp")) {
           JSONObject jsonTemp = dState.getJSONObject("temp");
           double magnitude = jsonTemp.getDouble("magnitude");
-          Unit unit = jsonTemp.getEnum(Unit.class, "unit");          
+          Unit unit = jsonTemp.getEnum(Unit.class, "unit");
           temp = new Temperature(magnitude, unit);
         }
 

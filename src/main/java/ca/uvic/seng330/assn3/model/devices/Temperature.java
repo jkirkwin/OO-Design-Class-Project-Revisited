@@ -79,7 +79,7 @@ public class Temperature implements Cloneable {
    */
   @Override
   public boolean equals(Object other) {
-    if(! (other instanceof Temperature)) {
+    if (!(other instanceof Temperature)) {
       return false;
     }
     Temperature otherTemp = (Temperature) other;
@@ -124,7 +124,7 @@ public class Temperature implements Cloneable {
 
     return json;
   }
-  
+
   /*
    * @pre json must be a non-null, well formed json Temperature object
    */

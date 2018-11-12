@@ -2,10 +2,8 @@ package ca.uvic.seng330.assn3.model;
 
 import ca.uvic.seng330.assn3.model.devices.Device;
 import ca.uvic.seng330.assn3.model.storage.Storage;
-
 import java.util.Date;
 import java.util.UUID;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -20,7 +18,7 @@ public class JSONMessaging {
     this.message = message;
     this.id = UUID.randomUUID();
   }
-  
+
   public JSONMessaging(Device talker, String message, UUID id) {
     this.talker = talker;
     this.message = message;
