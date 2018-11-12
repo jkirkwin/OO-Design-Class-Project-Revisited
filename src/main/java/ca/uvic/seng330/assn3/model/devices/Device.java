@@ -6,6 +6,8 @@ import ca.uvic.seng330.assn3.model.devices.Temperature.Unit;
 import ca.uvic.seng330.assn3.model.storage.Storage;
 import ca.uvic.seng330.assn3.model.storage.StorageEntity;
 import java.util.UUID;
+
+import org.json.JSONException;
 import org.json.JSONObject;
 
 public abstract class Device implements StorageEntity {
@@ -22,7 +24,8 @@ public abstract class Device implements StorageEntity {
    */
   public static Device getDeviceFromJSON(JSONObject o, Hub h) {
     assert o != null;
-
+    assert h != null;
+    
     // TODO Log device creation
 
     String dLabel = o.getString("label");
@@ -37,28 +40,30 @@ public abstract class Device implements StorageEntity {
         int diskSize = dState.getInt("disk_size");
         int maxSize = dState.getInt("max_size");
         boolean isRecording = dState.getBoolean("is_recording");
-        Camera c = new Camera(diskSize, maxSize, isRecording, dID, dLabel, h);
-        d = c;
+        d = new Camera(diskSize, maxSize, isRecording, dID, dLabel, h);
         break;
 
       case "Lightbulb":
         boolean isBulbOn = dState.getBoolean("is_on");
-        Lightbulb l = new Lightbulb(isBulbOn, dID, dLabel, h);
-        d = l;
+        d = new Lightbulb(isBulbOn, dID, dLabel, h);
         break;
 
       case "SmartPlug":
         boolean isPlugOn = dState.getBoolean("is_on");
-        SmartPlug s = new SmartPlug(isPlugOn, dID, dLabel, h);
-        d = s;
+        d = new SmartPlug(isPlugOn, dID, dLabel, h);
         break;
 
       case "Thermostat":
-        JSONObject jsonTemp = dState.getJSONObject("temp");
-        double magnitude = jsonTemp.getDouble("magnitude");
-        Unit unit = Unit.valueOf(jsonTemp.getString("unit").toUpperCase());
-        Thermostat t = new Thermostat(new Temperature(magnitude, unit), dID, dLabel, h);
-        d = t;
+        Temperature temp = null;
+        
+        if(!dState.isNull("temp")) {
+          JSONObject jsonTemp = dState.getJSONObject("temp");
+          double magnitude = jsonTemp.getDouble("magnitude");
+          Unit unit = jsonTemp.getEnum(Unit.class, "unit");          
+          temp = new Temperature(magnitude, unit);
+        }
+
+        d = new Thermostat(temp, dID, dLabel, h);
         break;
 
       default:

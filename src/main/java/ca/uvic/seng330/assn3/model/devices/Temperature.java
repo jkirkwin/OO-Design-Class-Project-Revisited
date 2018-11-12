@@ -77,8 +77,13 @@ public class Temperature implements Cloneable {
    * same temperature using the same unit.
    * @pre other != null
    */
-  public boolean equals(Temperature other) {
-    return this.magnitude == other.magnitude && this.unit == other.unit;
+  @Override
+  public boolean equals(Object other) {
+    if(! (other instanceof Temperature)) {
+      return false;
+    }
+    Temperature otherTemp = (Temperature) other;
+    return this.magnitude == otherTemp.magnitude && this.unit == otherTemp.unit;
   }
 
   /*
@@ -118,5 +123,14 @@ public class Temperature implements Cloneable {
     json.put("magnitude", this.getMagnitude());
 
     return json;
+  }
+  
+  /*
+   * @pre json must be a non-null, well formed json Temperature object
+   */
+  protected static Temperature getTemperatureFromJSON(JSONObject json) {
+    Unit unit = json.getEnum(Unit.class, "unit");
+    double magnitude = json.getDouble("magnitude");
+    return new Temperature(magnitude, unit);
   }
 }

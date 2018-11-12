@@ -28,7 +28,11 @@ public class Thermostat extends Device {
 
   protected Thermostat(Temperature temp, UUID id, String label, Hub hub) {
     super(id, label, Status.NORMAL, hub);
-    this.temp = temp;
+    if(temp == null) {
+      this.temp = temp;
+    } else {
+      this.temp = temp.clone();
+    }
   }
 
   /**
@@ -51,15 +55,19 @@ public class Thermostat extends Device {
   }
 
   public Temperature getTemp() {
-    return this.temp.clone();
+    if(this.temp == null) {
+      return null;
+    } else {
+      return this.temp.clone();
+    }
   }
 
   /** @pre pTemp != null */
   public void setTemp(Temperature temp) throws TemperatureOutofBoundsException {
     assert temp != null;
-    // TODO   getHub().log("Setting temp to " + pTemp, Level.INFO, getIdentifier());
+    // TODO log changing temp
     if (!isValidTemp(temp)) {
-      //   TODO   getHub().log("invalid temperature given", Level.ERROR, getIdentifier());
+      // TODO log invalid temp
       throw (temp.new TemperatureOutofBoundsException());
     }
     this.temp = temp.clone();
@@ -70,7 +78,12 @@ public class Thermostat extends Device {
     JSONObject json = super.getJSON();
     json.put("device_type", "Thermostat");
     JSONObject state = new JSONObject();
-    state.put("temp", this.getTemp().getJSON());
+    if(this.getTemp() == null) {
+      state.put("temp", JSONObject.NULL);
+    }else {
+      state.put("temp", this.getTemp().getJSON());
+    }
+    json.put("state", state);
     return json;
   }
 }
