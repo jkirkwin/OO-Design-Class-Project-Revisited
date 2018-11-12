@@ -25,6 +25,7 @@ public class Hub {
    * @pre newDevice != null
    */
   public void register(Device newDevice) throws HubRegistrationException {
+    assert newDevice != null;
     if (!deviceRegistry.containsKey(newDevice.getIdentifier())) {
       deviceRegistry.put(newDevice.getIdentifier(), newDevice);
     } else {
@@ -36,6 +37,7 @@ public class Hub {
    * @pre newAccount != null
    */
   public void register(UserAccount newAccount) {
+    assert newAccount != null;
     try {
       registerNew(newAccount);
     } catch (HubRegistrationException e) {
@@ -55,7 +57,11 @@ public class Hub {
     }
   }
 
+  /*
+   * @pre murdered != null
+   */
   public void unregister(UUID murdered) {
+    assert murdered != null;
     if (this.deviceRegistry.containsKey(murdered)) {
       try {
         unregister(this.deviceRegistry.get(murdered));
@@ -73,9 +79,13 @@ public class Hub {
     }
   }
 
+  /*
+   * @pre retiredDevice != null
+   */
   public void unregister(Device retiredDevice) throws HubRegistrationException {
-    if (retiredDevice == null || deviceRegistry.isEmpty()) {
-      throw new HubRegistrationException("No device passed.");
+    assert retiredDevice != null;
+    if (deviceRegistry.isEmpty()) {
+      throw new HubRegistrationException("No devices registered.");
     }
     if (deviceRegistry.containsKey(retiredDevice.getIdentifier())) {
       deviceRegistry.remove(retiredDevice.getIdentifier());
@@ -84,9 +94,12 @@ public class Hub {
     }
   }
 
+  /*
+   * @pre killedAccount != null
+   */
   public void unregister(UserAccount killedAccount) throws HubRegistrationException {
-    if (killedAccount == null
-        || userAccountRegistry.isEmpty()
+    assert killedAccount != null;
+    if (userAccountRegistry.isEmpty()
         || !userAccountRegistry.containsKey(killedAccount.getIdentifier())) {
       throw new HubRegistrationException("Account does not exist.");
     }
@@ -97,7 +110,11 @@ public class Hub {
     }
   }
 
+  /*
+   * @pre killedAccount != null
+   */
   private void unregisterRetired(UserAccount killedAccount) throws HubRegistrationException {
+    assert killedAccount != null;
     switch (killedAccount.getAccessLevel()) {
       case ADMIN:
         userAccountRegistry.remove(killedAccount.getIdentifier());
@@ -117,7 +134,13 @@ public class Hub {
     // Or should alert some list of observers in which Controller has registered
   }
 
+  /*
+   * @pre username != null
+   * @pre password != null
+   */
   public UserAccount getUser(String username, String password) throws NoSuchElementException {
+    assert username != null;
+    assert password != null;
     if (!isUser(username)) {
       throw new NoSuchElementException("No user with username " + username);
     }
@@ -137,7 +160,11 @@ public class Hub {
     throw new NoSuchElementException("Incorrect password");
   }
 
+  /*
+   * @pre username != null
+   */
   public boolean isUser(String username) {
+    assert username != null;
     for (UserAccount user : userAccountRegistry.values()) {
       if (user.getUsername().equals(username)) {
         return true;
@@ -183,19 +210,35 @@ public class Hub {
     return idList;
   }
 
+  /*
+   * @pre uuid != null
+   */
   public String getLabel(UUID uuid) {
+    assert uuid != null;
     return deviceRegistry.get(uuid).getLabel();
   }
 
+  /*
+   * @pre user != null
+   */
   public List<UUID> getBlackList(UserAccount user) {
+    assert user != null;
     return userAccountRegistry.get(user.getIdentifier()).getBlackList();
   }
 
+  /*
+   * @pre uuid != null
+   */
   public Device getDevice(UUID uuid) {
+    assert uuid != null;
     return deviceRegistry.get(uuid);
   }
 
+  /*
+   * @pre newDevice != null
+   */
   public void makeNewDevice(DeviceType newDevice) {
+    assert newDevice != null;
     Device added = null;
     switch (newDevice) {
       case CAMERA:
