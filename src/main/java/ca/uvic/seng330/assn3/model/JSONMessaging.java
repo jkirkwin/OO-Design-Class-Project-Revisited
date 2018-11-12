@@ -11,18 +11,26 @@ import org.json.JSONObject;
 
 public class JSONMessaging {
 
-  Device talker;
-  String message = "test message";
+  private final Device talker;
+  private final String message;
+  private final UUID id;
 
   public JSONMessaging(Device talker, String message) {
     this.talker = talker;
     this.message = message;
+    this.id = UUID.randomUUID();
+  }
+  
+  public JSONMessaging(Device talker, String message, UUID id) {
+    this.talker = talker;
+    this.message = message;
+    this.id = id;
   }
 
   public JSONObject invoke() {
     JSONObject json = new JSONObject();
     try {
-      json.put("msg_id", Storage.getJsonUUID(UUID.randomUUID()));
+      json.put("msg_id", Storage.getJsonUUID(this.id));
       json.put("node_id", talker.getIdentifier());
       json.put("status", talker.getStatus());
       json.put("payload", message);
@@ -36,6 +44,4 @@ public class JSONMessaging {
   public Device getTalker() {
     return this.talker;
   }
-  
-  
 }
