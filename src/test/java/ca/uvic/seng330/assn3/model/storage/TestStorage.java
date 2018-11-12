@@ -25,7 +25,7 @@ import org.junit.Test;
 
 public class TestStorage {
 
-  public static boolean testFieldsIdentical(Field[] fields, Object oracle, Object result) {
+  public static boolean checkFieldsIdentical(Field[] fields, Object oracle, Object result) {
     for (Field f : fields) {
       f.setAccessible(true);
       try {
@@ -141,18 +141,27 @@ public class TestStorage {
         | InvocationTargetException e) {
       e.printStackTrace();
     }
-
-    Camera result1 = (Camera) Camera.getDeviceFromJSON(oracle1.getJSON(), h);
-    Camera result2 = (Camera) Camera.getDeviceFromJSON(oracle2.getJSON(), h);
-    Camera result3 = (Camera) Camera.getDeviceFromJSON(oracle3.getJSON(), h);
-
-    // Iterate through all fields and compare
-    for (Class<?> c = oracle1.getClass(); c != null && c != Object.class; c = c.getSuperclass()) {
-      Field fields[] = c.getDeclaredFields();
-      assertTrue(testFieldsIdentical(fields, oracle1, result1));
-      assertTrue(testFieldsIdentical(fields, oracle2, result2));
-      assertTrue(testFieldsIdentical(fields, oracle3, result3));
+    Camera [] oracles = new Camera[] {oracle1,  oracle2, oracle3};
+    Camera [] results = new Camera[3];
+    results[0] = (Camera) Camera.getDeviceFromJSON(oracle1.getJSON(), h);
+    results[1] = (Camera) Camera.getDeviceFromJSON(oracle2.getJSON(), h);
+    results[2] = (Camera) Camera.getDeviceFromJSON(oracle3.getJSON(), h);
+    testAllFieldsEqual(oracles, results);
+  }
+  
+  
+  public static boolean testAllFieldsEqual(Object[] oracles, Object[] results) {
+    assert oracles != null;
+    assert results != null;
+    assert oracles.length == results.length;
+    Field[] fields;
+    for(Class<?> c = oracles[0].getClass(); c != null; c = c.getSuperclass()) {
+      fields = c.getDeclaredFields();
+      for(int i = 0; i < oracles.length; i++) {
+        assertTrue(checkFieldsIdentical(fields, oracles[i], results[i]));
+      }
     }
+    return false;
   }
 
   @Test
@@ -181,18 +190,12 @@ public class TestStorage {
         | InvocationTargetException e) {
       e.printStackTrace();
     }
-
-    Lightbulb result1 = (Lightbulb) Lightbulb.getDeviceFromJSON(oracle1.getJSON(), h);
-    Lightbulb result2 = (Lightbulb) Lightbulb.getDeviceFromJSON(oracle2.getJSON(), h);
-    Lightbulb result3 = (Lightbulb) Lightbulb.getDeviceFromJSON(oracle3.getJSON(), h);
-
-    // Iterate through all fields and compare
-    for (Class<?> c = oracle1.getClass(); c != null && c != Object.class; c = c.getSuperclass()) {
-      Field fields[] = c.getDeclaredFields();
-      assertTrue(testFieldsIdentical(fields, oracle1, result1));
-      assertTrue(testFieldsIdentical(fields, oracle2, result2));
-      assertTrue(testFieldsIdentical(fields, oracle3, result3));
-    }
+    Lightbulb [] oracles = new Lightbulb[] {oracle1,  oracle2, oracle3};
+    Lightbulb [] results = new Lightbulb[3];
+    results[0] = (Lightbulb) Lightbulb.getDeviceFromJSON(oracle1.getJSON(), h);
+    results[1] = (Lightbulb) Lightbulb.getDeviceFromJSON(oracle2.getJSON(), h);
+    results[2] = (Lightbulb) Lightbulb.getDeviceFromJSON(oracle3.getJSON(), h);
+    testAllFieldsEqual(oracles, results);
   }
 
   @Test
@@ -221,18 +224,12 @@ public class TestStorage {
         | InvocationTargetException e) {
       e.printStackTrace();
     }
-
-    SmartPlug result1 = (SmartPlug) SmartPlug.getDeviceFromJSON(oracle1.getJSON(), h);
-    SmartPlug result2 = (SmartPlug) SmartPlug.getDeviceFromJSON(oracle2.getJSON(), h);
-    SmartPlug result3 = (SmartPlug) SmartPlug.getDeviceFromJSON(oracle3.getJSON(), h);
-
-    // Iterate through all fields and compare
-    for (Class<?> c = oracle1.getClass(); c != null && c != Object.class; c = c.getSuperclass()) {
-      Field fields[] = c.getDeclaredFields();
-      assertTrue(testFieldsIdentical(fields, oracle1, result1));
-      assertTrue(testFieldsIdentical(fields, oracle2, result2));
-      assertTrue(testFieldsIdentical(fields, oracle3, result3));
-    }
+    SmartPlug [] oracles = new SmartPlug[] {oracle1,  oracle2, oracle3};
+    SmartPlug [] results = new SmartPlug[3];
+    results[0] = (SmartPlug) SmartPlug.getDeviceFromJSON(oracle1.getJSON(), h);
+    results[1] = (SmartPlug) SmartPlug.getDeviceFromJSON(oracle2.getJSON(), h);
+    results[2] = (SmartPlug) SmartPlug.getDeviceFromJSON(oracle3.getJSON(), h);
+    testAllFieldsEqual(oracles, results);
   }
 
   @Test
@@ -263,18 +260,12 @@ public class TestStorage {
         | InvocationTargetException e) {
       e.printStackTrace();
     }
-
-    Thermostat result1 = (Thermostat) Thermostat.getDeviceFromJSON(oracle1.getJSON(), h);
-    Thermostat result2 = (Thermostat) Thermostat.getDeviceFromJSON(oracle2.getJSON(), h);
-    Thermostat result3 = (Thermostat) Thermostat.getDeviceFromJSON(oracle3.getJSON(), h);
-
-    // Iterate through all fields and compare
-    for (Class<?> c = oracle1.getClass(); c != null && c != Object.class; c = c.getSuperclass()) {
-      Field fields[] = c.getDeclaredFields();
-      assertTrue(testFieldsIdentical(fields, oracle1, result1));
-      assertTrue(testFieldsIdentical(fields, oracle2, result2));
-      assertTrue(testFieldsIdentical(fields, oracle3, result3));
-    }
+    Thermostat [] oracles = new Thermostat[] {oracle1,  oracle2, oracle3};
+    Thermostat [] results = new Thermostat[3];
+    results[0] = (Thermostat) Thermostat.getDeviceFromJSON(oracle1.getJSON(), h);
+    results[1] = (Thermostat) Thermostat.getDeviceFromJSON(oracle2.getJSON(), h);
+    results[2] = (Thermostat) Thermostat.getDeviceFromJSON(oracle3.getJSON(), h);
+    testAllFieldsEqual(oracles, results);
   }
 
   @Test
@@ -299,7 +290,6 @@ public class TestStorage {
     } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
       e.printStackTrace();
     }
-
     assertTrue(result1.equals(oracle1));
     assertTrue(result2.equals(oracle2));
   }
