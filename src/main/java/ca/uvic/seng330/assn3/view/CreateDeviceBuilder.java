@@ -36,6 +36,7 @@ public class CreateDeviceBuilder extends SceneBuilder {
     layout.setVbarPolicy(ScrollBarPolicy.ALWAYS);
 
     // TODO: review import DeviceType from controller
+    // TODO remove the arraylist and instead use the builtin DeviceType.values() array
     ArrayList<DeviceType> deviceTypes = getController().getDeviceTypes();
     VBox typesForScroll = new VBox();
     final ToggleGroup group = new ToggleGroup();
