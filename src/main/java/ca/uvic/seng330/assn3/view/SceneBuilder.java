@@ -17,7 +17,13 @@ public abstract class SceneBuilder {
   private String backText;
   private Controller controller;
 
+  /*
+   * @pre controller != null
+   * @pre backText != null
+   */
   public SceneBuilder(Controller controller, String backText) {
+    assert controller != null;
+    assert backText != null;
     this.backText = backText;
     this.controller = controller;
   }
@@ -49,7 +55,11 @@ public abstract class SceneBuilder {
 
   protected abstract Node buildSpecifics();
 
+  /*
+   * @pre content != null
+   */
   protected static ScrollPane createScrollPane(Node content) {
+    assert content != null;
     ScrollPane s = new ScrollPane();
     s.setContent(content);
     return s;
@@ -57,9 +67,10 @@ public abstract class SceneBuilder {
 
   /* Gets a List of UUIDs from controller.
    *  builds
-   *
+   * @pre col != null
    */
   protected VBox hubDeviceList(VBox col) {
+    assert col != null;
     ArrayList<UUID> deviceList = getController().getDeviceIDList();
     for (int i = 0; i < deviceList.size(); i++) {
       Button button = new Button(getController().getLabel(deviceList.get(i)));
@@ -71,7 +82,13 @@ public abstract class SceneBuilder {
     return col;
   }
 
+  /*
+   * @pre col != null
+   * @pre killList != null
+   */
   protected VBox hubKillList(VBox col, ArrayList<UUID> killList) {
+    assert col != null;
+    assert killList != null;
     for (int i = 0; i < killList.size(); i++) {
       Button button = new Button(getController().getLabel(killList.get(i)));
       button.setUserData(killList.get(i));

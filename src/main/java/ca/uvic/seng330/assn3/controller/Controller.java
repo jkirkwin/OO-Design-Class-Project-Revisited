@@ -92,7 +92,11 @@ public class Controller {
     System.out.println("Back"); // Test
   }
 
+  /*
+   * @pre view != null
+   */
   private SceneBuilder findBuilder(ViewType view) {
+    assert view != null;
     // TODO generate the appropriate SceneBuilder based on for the ViewType
     views.push(view);
     client.setTitle(view.toString());
@@ -129,11 +133,14 @@ public class Controller {
     }
     return null;
   }
-
+ 
+  /*
+   * @pre username != null
+   * @pre password != null
+   */
   public void handleLoginClick(String username, String password) {
-    /* TODO
-     * Log in if valid
-     */
+    assert username != null;
+    assert password != null;
     if (hub.isUser(username)) {
       System.out.println("Logged in"); // Testing
       if (hub.getUser(username, password).isAdmin()) {
@@ -150,7 +157,13 @@ public class Controller {
     }
   }
 
+  /*
+   * @pre username != null
+   * @pre password != null
+   */
   public void handleNewUser(String username, String password) {
+    assert username != null;
+    assert password != null;
     if (acceptableInputs(username, password)) {
       if (!hub.isUser(username)) {
         hub.register(new UserAccount(this.hub, AccessLevel.BASIC, username, password));
@@ -165,7 +178,14 @@ public class Controller {
     }
   }
 
+  /*
+   * @pre username != null
+   * @pre password != null
+   */
   public void handleNewAdmin(String username, String password) {
+     assert username != null;
+     assert password != null;
+     
     // System.out.println("New Admin"); // Testing
     if (acceptableInputs(username, password)) {
       if (!hub.isUser(username)) {
@@ -181,8 +201,14 @@ public class Controller {
     }
   }
 
+  /*
+   * @pre username != null
+   * @pre password != null
+   */
   private boolean acceptableInputs(String username, String password) {
-    if (username.toLowerCase() == "username" || username.isEmpty()) {
+    assert username != null;
+    assert password != null;
+    if (username.toLowerCase().equals("username") || username.isEmpty()) {
       client.alertUser(
           AlertType.INFORMATION,
           "Failure",
@@ -232,11 +258,19 @@ public class Controller {
     return refined;
   }
 
+  /*
+   * @pre uuid != null
+   */
   public String getLabel(UUID uuid) {
+    assert uuid != null;
     return hub.getLabel(uuid);
   }
 
+  /*
+   * @pre uuid != null
+   */
   public void handleDeviceViewClick(UUID uuid) {
+    assert uuid != null;
     // TODO: review use of import of Device
 
     views.push(ViewType.DEVICE_VIEW);
@@ -254,7 +288,11 @@ public class Controller {
     // client.setView(new DeviceSceneBuilder(this, "Back"));
   }
 
+  /*
+   * @pre uuid != null
+   */
   public void handleKillerClick(UUID uuid) {
+    assert uuid != null;
     // TODO: add confirmation alert
     hub.unregister(uuid);
   }
@@ -269,7 +307,11 @@ public class Controller {
     return deviceTypes;
   }
 
+  /*
+   * @pre newDevice != null
+   */
   public void handleNewDeviceClick(DeviceType newDevice) {
+    assert newDevice != null;
     hub.makeNewDevice(newDevice);
   }
 }
