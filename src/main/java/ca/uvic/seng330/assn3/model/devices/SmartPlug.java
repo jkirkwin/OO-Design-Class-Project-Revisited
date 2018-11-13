@@ -10,18 +10,18 @@ public class SmartPlug extends Device {
   private boolean isOn;
 
   public SmartPlug(Hub hub) {
-    super("SmartPlug" + numPlug, Status.NORMAL, hub);
+    super("SmartPlug" + numPlug, Status.ON, hub);
     this.isOn = false;
     numPlug++;
   }
 
   public SmartPlug(String label, Hub hub) {
-    super(label, Status.NORMAL, hub);
+    super(label, Status.ON, hub);
     this.isOn = false;
   }
 
   protected SmartPlug(boolean isOn, UUID id, String label, Hub hub) {
-    super(id, label, Status.NORMAL, hub);
+    super(id, label, Status.ON, hub);
     this.isOn = isOn;
   }
 

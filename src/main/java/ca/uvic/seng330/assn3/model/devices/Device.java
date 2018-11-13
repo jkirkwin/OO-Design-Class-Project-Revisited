@@ -135,7 +135,7 @@ public abstract class Device implements StorageEntity {
     // TODO Log device creation
 
     this.setLabel("Default Label");
-    this.status = Status.NORMAL;
+    this.status = Status.ON;
     this.hub = hub;
     this.id = UUID.randomUUID();
 

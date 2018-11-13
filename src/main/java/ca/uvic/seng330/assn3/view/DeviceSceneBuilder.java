@@ -3,6 +3,7 @@ package ca.uvic.seng330.assn3.view;
 import ca.uvic.seng330.assn3.controller.Controller;
 import java.util.UUID;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 
 public abstract class DeviceSceneBuilder extends SceneBuilder {
@@ -13,8 +14,9 @@ public abstract class DeviceSceneBuilder extends SceneBuilder {
   }
 
   protected HBox basicBuild(UUID id) {
-    HBox hbox = new HBox(50);
-    Button toggle = new Button("ON/OFF");
+    HBox hbox = new HBox(30);
+    hbox.getChildren().add(new Label("Device Status -->"));
+    Button toggle = new Button(getController().getStatus(id));
     toggle.setOnAction(event -> getController().toggleDevice(id));
     hbox.getChildren().add(toggle);
     return hbox;

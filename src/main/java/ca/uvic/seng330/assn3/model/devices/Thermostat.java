@@ -17,18 +17,18 @@ public class Thermostat extends Device {
   private Temperature temp;
 
   public Thermostat(Hub hub) {
-    super("Thermostat" + numTherm, Status.NORMAL, hub);
+    super("Thermostat" + numTherm, Status.ON, hub);
     this.temp = null;
     numTherm++;
   }
 
   public Thermostat(String label, Hub hub) {
-    super(label, Status.NORMAL, hub);
+    super(label, Status.ON, hub);
     this.temp = null;
   }
 
   protected Thermostat(Temperature temp, UUID id, String label, Hub hub) {
-    super(id, label, Status.NORMAL, hub);
+    super(id, label, Status.ON, hub);
     if (temp == null) {
       this.temp = temp;
     } else {

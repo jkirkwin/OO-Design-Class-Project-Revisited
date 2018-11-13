@@ -14,7 +14,7 @@ public class Camera extends Device {
   private boolean isRecording;
 
   public Camera(Hub hub) {
-    super("Cam" + numCamera, Status.NORMAL, hub);
+    super("Cam" + numCamera, Status.ON, hub);
     this.isRecording = false;
     this.diskSize = 0;
     this.maxSize = DEFAULT_MAX_SIZE;
@@ -22,14 +22,14 @@ public class Camera extends Device {
   }
 
   public Camera(String label, Hub hub) {
-    super(label, Status.NORMAL, hub);
+    super(label, Status.ON, hub);
     this.isRecording = false;
     this.diskSize = 0;
     this.maxSize = DEFAULT_MAX_SIZE;
   }
 
   protected Camera(int diskSize, int maxSize, boolean isRecording, UUID id, String label, Hub hub) {
-    super(id, label, Status.NORMAL, hub);
+    super(id, label, Status.ON, hub);
     this.isRecording = isRecording;
     this.diskSize = diskSize;
     this.maxSize = maxSize;
@@ -37,6 +37,17 @@ public class Camera extends Device {
 
   public boolean isRecording() {
     return this.isRecording;
+  }
+
+  public int currentDiskSize() {
+    return this.diskSize;
+  }
+
+  public void emptyDisk() {
+    if (this.getStatus() == Status.ERROR) {
+      this.setStatus(Status.OFF);
+    }
+    this.diskSize = 0;
   }
 
   public void record() throws CameraFullException {
@@ -75,5 +86,9 @@ public class Camera extends Device {
     state.put("is_recording", this.isRecording());
     json.put("state", state);
     return json;
+  }
+
+  public int maxDiskSize() {
+    return maxSize;
   }
 }

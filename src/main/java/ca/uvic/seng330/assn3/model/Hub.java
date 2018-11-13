@@ -266,7 +266,7 @@ public class Hub {
         return;
     }
     if (startingState) {
-      added.setStatus(Status.NORMAL);
+      added.setStatus(Status.ON);
     } else {
       added.setStatus(Status.OFF);
     }

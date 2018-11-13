@@ -3,6 +3,8 @@ package ca.uvic.seng330.assn3.controller;
 import ca.uvic.seng330.assn3.model.AccessLevel;
 import ca.uvic.seng330.assn3.model.Hub;
 import ca.uvic.seng330.assn3.model.UserAccount;
+import ca.uvic.seng330.assn3.model.devices.Camera;
+import ca.uvic.seng330.assn3.model.devices.CameraFullException;
 import ca.uvic.seng330.assn3.model.devices.Device;
 import ca.uvic.seng330.assn3.model.devices.Status;
 import ca.uvic.seng330.assn3.view.CameraSceneBuilder;
@@ -342,13 +344,49 @@ public class Controller {
 
   public void toggleDevice(UUID id) {
     Device curr = hub.getDevice(id);
-    if (curr.getStatus() == Status.NORMAL) {
+    if (curr.getStatus() == Status.ON) {
       curr.setStatus(Status.OFF);
     } else if (curr.getStatus() == Status.OFF) {
-      curr.setStatus(Status.NORMAL);
+      curr.setStatus(Status.ON);
     } else {
       // TODO: alert that device is broken.
     }
     deviceViewSwitch(id);
   }
+
+  public String getStatus(UUID id) {
+    return hub.getDevice(id).getStatus().toString();
+  }
+
+  // ==================camera specific=====================//
+  public boolean getCameraRecording(UUID id) {
+    assert id != null;
+    // TODO: review importing devices.camera
+    return ((Camera) hub.getDevice(id)).isRecording();
+  }
+
+  public void setCameraRecording(UUID id) {
+    assert id != null;
+    try {
+      ((Camera) hub.getDevice(id)).record();
+    } catch (CameraFullException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+    deviceViewSwitch(id);
+  }
+
+  public int getCurrCameraDiskSize(UUID id) {
+    return ((Camera) hub.getDevice(id)).currentDiskSize();
+  }
+
+  public int getMaxCameraDiskSize(UUID id) {
+    return ((Camera) hub.getDevice(id)).maxDiskSize();
+  }
+
+  public void emptyCameraDiskSize(UUID id) {
+    ((Camera) hub.getDevice(id)).emptyDisk();
+    deviceViewSwitch(id);
+  }
+  // ==================camera specific=====================//
 }
