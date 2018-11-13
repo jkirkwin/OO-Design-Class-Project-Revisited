@@ -39,13 +39,13 @@ public class CreateDeviceBuilder extends SceneBuilder {
     // TODO remove the arraylist and instead use the builtin DeviceType.values() array
     ArrayList<DeviceType> deviceTypes = getController().getDeviceTypes();
     VBox typesForScroll = new VBox();
-    final ToggleGroup group = new ToggleGroup();
+    final ToggleGroup upperGroup = new ToggleGroup();
 
     RadioButton button;
     // TODO: ensure only one button can be pressed at a time.
     for (int i = 0; i < deviceTypes.size(); i++) {
       button = new RadioButton(deviceTypes.get(i).toString());
-      button.setToggleGroup(group);
+      button.setToggleGroup(upperGroup);
       //      if (i == 0) {
       //        // TODO: janky
       //        button.setSelected(true);
@@ -68,26 +68,29 @@ public class CreateDeviceBuilder extends SceneBuilder {
     lowerHalf.getChildren().add(lowerLeft);
 
     VBox lowerMiddle = new VBox(10);
-    // TODO: add radio buttons here
+    final ToggleGroup lowerGroup = new ToggleGroup();
+    
     RadioButton statusButton = new RadioButton("ON");
+    statusButton.setToggleGroup(lowerGroup);
     statusButton.setUserData(true);
+    statusButton.setSelected(true);
     lowerMiddle.getChildren().add(statusButton);
+    
     statusButton = new RadioButton("OFF");
+    statusButton.setToggleGroup(lowerGroup);
     statusButton.setUserData(false);
     lowerMiddle.getChildren().add(statusButton);
 
     Button lowerRight = new Button("Create Device");
-    // TODO: add create device button here
     lowerRight.setOnAction(
-        event ->
-            getController()
-                .handleNewDeviceClick((DeviceType) group.getSelectedToggle().getUserData()));
+	        event ->
+	            getController()
+	                .handleNewDeviceClick((DeviceType) upperGroup.getSelectedToggle().getUserData(), (boolean) lowerGroup.getSelectedToggle().getUserData(), customLabel.getText()));
 
     lowerHalf.getChildren().add(lowerMiddle);
     lowerHalf.getChildren().add(lowerRight);
 
     vbox.getChildren().add(lowerHalf);
-
     return vbox;
   }
 }

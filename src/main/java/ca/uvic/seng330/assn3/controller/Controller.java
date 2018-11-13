@@ -312,8 +312,9 @@ public class Controller {
   /*
    * @pre newDevice != null
    */
-  public void handleNewDeviceClick(DeviceType newDevice) {
+  public void handleNewDeviceClick(DeviceType newDevice, boolean startingState, String customLabel) {
     assert newDevice != null;
-    hub.makeNewDevice(newDevice);
+    assert customLabel != null;
+    hub.makeNewDevice(newDevice, startingState, customLabel);
   }
 }
