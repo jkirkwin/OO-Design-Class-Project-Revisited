@@ -69,13 +69,13 @@ public class CreateDeviceBuilder extends SceneBuilder {
 
     VBox lowerMiddle = new VBox(10);
     final ToggleGroup lowerGroup = new ToggleGroup();
-    
+
     RadioButton statusButton = new RadioButton("ON");
     statusButton.setToggleGroup(lowerGroup);
     statusButton.setUserData(true);
     statusButton.setSelected(true);
     lowerMiddle.getChildren().add(statusButton);
-    
+
     statusButton = new RadioButton("OFF");
     statusButton.setToggleGroup(lowerGroup);
     statusButton.setUserData(false);
@@ -83,9 +83,12 @@ public class CreateDeviceBuilder extends SceneBuilder {
 
     Button lowerRight = new Button("Create Device");
     lowerRight.setOnAction(
-	        event ->
-	            getController()
-	                .handleNewDeviceClick((DeviceType) upperGroup.getSelectedToggle().getUserData(), (boolean) lowerGroup.getSelectedToggle().getUserData(), customLabel.getText()));
+        event ->
+            getController()
+                .handleNewDeviceClick(
+                    (DeviceType) upperGroup.getSelectedToggle().getUserData(),
+                    (boolean) lowerGroup.getSelectedToggle().getUserData(),
+                    customLabel.getText()));
 
     lowerHalf.getChildren().add(lowerMiddle);
     lowerHalf.getChildren().add(lowerRight);

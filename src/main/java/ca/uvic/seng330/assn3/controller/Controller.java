@@ -3,6 +3,12 @@ package ca.uvic.seng330.assn3.controller;
 import ca.uvic.seng330.assn3.model.AccessLevel;
 import ca.uvic.seng330.assn3.model.Hub;
 import ca.uvic.seng330.assn3.model.UserAccount;
+import ca.uvic.seng330.assn3.model.devices.Camera;
+import ca.uvic.seng330.assn3.model.devices.Device;
+import ca.uvic.seng330.assn3.model.devices.Lightbulb;
+import ca.uvic.seng330.assn3.model.devices.SmartPlug;
+import ca.uvic.seng330.assn3.model.devices.Status;
+import ca.uvic.seng330.assn3.model.devices.Thermostat;
 import ca.uvic.seng330.assn3.view.Client;
 import ca.uvic.seng330.assn3.view.CreateDeviceBuilder;
 import ca.uvic.seng330.assn3.view.HubSceneBuilder;
@@ -277,17 +283,42 @@ public class Controller {
 
     views.push(ViewType.DEVICE_VIEW);
     client.setTitle(ViewType.DEVICE_VIEW.toString());
-    // Class currDevice = hub.getDevice(uuid).getClass();
+    // TODO: review following lines for more efficient switch.
+    //  Class<? extends Device> c = hub.getDevice(uuid).getClass();
+    //  switch (DeviceType.valueOf(c.toString().toUpperCase())) {
+    switch (getDeviceType(hub.getDevice(uuid).getClass())) {
+      case CAMERA:
+        // client.setView(new DeviceSceneBuilder(this, "Back"));
+        System.out.println("Camera View");
+        break;
+      case LIGHTBULB:
+        // client.setView(new DeviceSceneBuilder(this, "Back"));
+        System.out.println("Lightbulb View");
+        break;
+      case SMARTPLUG:
+        // client.setView(new DeviceSceneBuilder(this, "Back"));
+        System.out.println("SmartPlug View");
+        break;
+      case THERMOSTAT:
+        // client.setView(new DeviceSceneBuilder(this, "Back"));
+        System.out.println("Thermostat View");
+        break;
+    }
+  }
 
-    //      if() {
-    //
-    //      }else if() {
-    //
-    //      }else if() {
-    //
-    //      }
-
-    // client.setView(new DeviceSceneBuilder(this, "Back"));
+  private DeviceType getDeviceType(Class<? extends Device> currDevice) {
+    if (currDevice.equals(Camera.class)) {
+      return DeviceType.CAMERA;
+    } else if (currDevice.equals(Lightbulb.class)) {
+      return DeviceType.LIGHTBULB;
+    } else if (currDevice.equals(SmartPlug.class)) {
+      return DeviceType.SMARTPLUG;
+    } else if (currDevice.equals(Thermostat.class)) {
+      return DeviceType.THERMOSTAT;
+    } else {
+      // TODO: throw error
+      return null;
+    }
   }
 
   /*
@@ -312,9 +343,21 @@ public class Controller {
   /*
    * @pre newDevice != null
    */
-  public void handleNewDeviceClick(DeviceType newDevice, boolean startingState, String customLabel) {
+  public void handleNewDeviceClick(
+      DeviceType newDevice, boolean startingState, String customLabel) {
     assert newDevice != null;
     assert customLabel != null;
     hub.makeNewDevice(newDevice, startingState, customLabel);
+  }
+
+  public void toggleDevice(UUID id) {
+    Device curr = hub.getDevice(id);
+    if (curr.getStatus() == Status.NORMAL) {
+      curr.setStatus(Status.OFF);
+    } else if (curr.getStatus() == Status.OFF) {
+      curr.setStatus(Status.NORMAL);
+    } else {
+      // TODO: alert that device is broken.
+    }
   }
 }

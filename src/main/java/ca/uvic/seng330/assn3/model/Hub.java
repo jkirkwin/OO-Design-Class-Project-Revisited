@@ -252,27 +252,26 @@ public class Hub {
         added = new Camera(this);
         break;
       case SMARTPLUG:
-    	  added = new SmartPlug(this);
+        added = new SmartPlug(this);
         break;
       case LIGHTBULB:
-    	  added = new Lightbulb(this);
+        added = new Lightbulb(this);
         break;
       case THERMOSTAT:
-    	  added = new Thermostat(this);
+        added = new Thermostat(this);
         break;
       default:
         // TODO: throw an error here and remove the assertion
         assert (false);
         return;
     }
-    if(startingState) {
-    	added.setStatus(Status.NORMAL);
-    }else {
-    	added.setStatus(Status.OFF);
+    if (startingState) {
+      added.setStatus(Status.NORMAL);
+    } else {
+      added.setStatus(Status.OFF);
     }
-    if(customLabel!="") {
-    	added.setLabel(customLabel);
+    if (customLabel != "") {
+      added.setLabel(customLabel);
     }
-    
   }
 }
