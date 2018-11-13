@@ -18,13 +18,25 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import java.util.Stack;
 import java.util.UUID;
 import org.json.JSONObject;
 import org.junit.Test;
 
 public class TestStorage {
+
+  private static void editStaticFinalField(Field f, Object newValue)
+      throws NoSuchFieldException, SecurityException, IllegalArgumentException,
+          IllegalAccessException {
+    Field modifiers = Field.class.getDeclaredField("modifiers");
+    modifiers.setAccessible(true);
+    modifiers.setInt(f, f.getModifiers() & ~Modifier.FINAL);
+    f.set(null, newValue);
+  }
 
   public static boolean testAllFieldsEqual(Object[] oracles, Object[] results) {
     assert oracles != null;
@@ -59,13 +71,78 @@ public class TestStorage {
 
   @Test
   public void testStoreAndRetrieveUserAccounts() {
-    // TODO
-    assertTrue(false);
+    Hub h = new Hub();
+    List<ArrayList<UserAccount>> oracles = new ArrayList<ArrayList<UserAccount>>();
+    ArrayList<UserAccount> oracle1 = new ArrayList<UserAccount>();
+
+    ArrayList<UserAccount> oracle2 = new ArrayList<UserAccount>();
+    oracle2.add(new UserAccount(h, AccessLevel.ADMIN, "user", "pw"));
+    oracle2.add(new UserAccount(h, AccessLevel.BASIC, "some username", "some password"));
+
+    ArrayList<UserAccount> oracle3 = new ArrayList<UserAccount>();
+    String username, password;
+    AccessLevel level;
+    for (int i = 0; i < 100; i++) {
+      username = "aUsername" + i;
+      password = i + "A quite long password";
+      level = AccessLevel.values()[i % 2];
+      oracle3.add(new UserAccount(h, level, username, password));
+    }
+    oracles.add(oracle1);
+    oracles.add(oracle2);
+    oracles.add(oracle3);
+
+    try {
+      Field storageDirPath = Storage.class.getDeclaredField("storageDirPath");
+      Field accountFileName = Storage.class.getDeclaredField("accountFileName");
+      Method storeEntities =
+          Storage.class.getDeclaredMethod(
+              "storeEntities", Collection.class, String.class, String.class);
+      storageDirPath.setAccessible(true);
+      accountFileName.setAccessible(true);
+      storeEntities.setAccessible(true);
+
+      String fileName = "accounts.json";
+      String filePath =
+          "src.test.java.ca.uvic.seng330.assn3.model.storage.resources."
+              .replace(".", File.separator);
+      File tempDir = new File(filePath);
+      File tempFile = new File(filePath + fileName);
+      List<UserAccount> result;
+      for (int i = 0; i < oracles.size(); i++) {
+        if (!tempDir.exists()) {
+          tempDir.mkdirs();
+        }
+        if (tempFile.exists()) {
+          tempFile.delete();
+        }
+        editStaticFinalField(storageDirPath, filePath);
+
+        storeEntities.invoke(null, oracles.get(i), filePath, fileName);
+        result = Storage.getAccounts(h);
+        assertTrue(result.equals(oracles.get(i)));
+      }
+    } catch (NoSuchMethodException
+        | SecurityException
+        | IllegalAccessException
+        | IllegalArgumentException
+        | InvocationTargetException
+        | NoSuchFieldException e) {
+      e.printStackTrace();
+    }
   }
 
   @Test
   public void testStoreAndRetrieveDevices() {
     // TODO
+
+    /*
+    0. Generate a divers list of devices (oracle)
+    1. call storeEntities with this list of devices
+    2. call getDevices and save the resulting list (result)
+    3. Compare oracle and result
+    */
+
     assertTrue(false);
   }
 

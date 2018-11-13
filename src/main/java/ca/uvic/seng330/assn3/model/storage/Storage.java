@@ -42,7 +42,8 @@ public class Storage {
   }
 
   /*
-   * filePath should end in separator
+   * @pre filePath should end in separator
+   * @pre specified file must not exist
    */
   private static void storeEntities(
       Collection<? extends StorageEntity> devices, String filePath, String fileName) {
@@ -125,7 +126,7 @@ public class Storage {
     return rawDateString.replace(':', '-');
   }
 
-  public static Collection<Device> getDevices(Hub hub) {
+  public static List<Device> getDevices(Hub hub) {
     // retrieve device json objects from storage, convert them into Device objects, and return them
     List<Device> javaDevices = new ArrayList<Device>();
 
@@ -164,10 +165,9 @@ public class Storage {
     return sb.toString();
   }
 
-  public static Collection<UserAccount> getAccounts(Hub hub) {
+  public static List<UserAccount> getAccounts(Hub hub) {
     // retrieve useraccount json objects from storage, convert them into UserAccount objects,
     // and return them
-
     List<UserAccount> javaAccounts = new ArrayList<UserAccount>();
 
     File accountFile = new File(storageDirPath + accountFileName);
