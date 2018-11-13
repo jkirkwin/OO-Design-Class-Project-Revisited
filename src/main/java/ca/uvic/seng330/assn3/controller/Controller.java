@@ -185,8 +185,6 @@ public class Controller {
   public void handleNewAdmin(String username, String password) {
     assert username != null;
     assert password != null;
-
-    // System.out.println("New Admin"); // Testing
     if (acceptableInputs(username, password)) {
       if (!hub.isUser(username)) {
         hub.register(new UserAccount(this.hub, AccessLevel.ADMIN, username, password));
@@ -250,6 +248,9 @@ public class Controller {
     return refined;
   }
 
+  /*
+   * Returns a list of all *NON-ADMIN* users's UUIDs
+   */
   public ArrayList<UUID> getAccountIDList() {
     ArrayList<UUID> refined = new ArrayList<UUID>();
     for (UUID id : hub.getIDList(false)) {

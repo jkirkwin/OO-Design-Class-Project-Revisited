@@ -194,6 +194,9 @@ public class Hub {
     Storage.store(this.deviceRegistry.values(), this.userAccountRegistry.values());
   }
 
+  /*
+   * When returning users, returns ONLY non-admin users
+   */
   public ArrayList<UUID> getIDList(boolean isDeviceList) {
     ArrayList<UUID> idList = new ArrayList<UUID>();
     if (isDeviceList) {
@@ -220,8 +223,7 @@ public class Hub {
     } else if (userAccountRegistry.containsKey(uuid)) {
       return userAccountRegistry.get(uuid).getUsername();
     } else {
-      // TODO: review this. throw exception?
-      return "Nothing Found";
+      throw new NoSuchElementException("No user or device contains the specified UUID");
     }
   }
 
