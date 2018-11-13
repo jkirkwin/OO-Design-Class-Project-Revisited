@@ -1,7 +1,6 @@
 package ca.uvic.seng330.assn3.model.storage;
 
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import ca.uvic.seng330.assn3.model.AccessLevel;
 import ca.uvic.seng330.assn3.model.Hub;
@@ -20,7 +19,6 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
-import java.time.temporal.TemporalField;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -95,11 +93,10 @@ public class TestStorage {
     oracles.add(oracle3);
     String fileName = "accounts.json";
     String filePath =
-        "src.test.java.ca.uvic.seng330.assn3.model.storage.resources."
-            .replace(".", File.separator);
+        "src.test.java.ca.uvic.seng330.assn3.model.storage.resources.".replace(".", File.separator);
     File tempDir = new File(filePath);
     File tempFile = new File(filePath + fileName);
-    
+
     try {
       Method storeEntities =
           Storage.class.getDeclaredMethod(
@@ -129,10 +126,10 @@ public class TestStorage {
         | NoSuchFieldException e) {
       e.printStackTrace();
     } finally {
-      if(tempFile.exists()) {
+      if (tempFile.exists()) {
         tempFile.delete();
       }
-      if(tempDir.exists()) {
+      if (tempDir.exists()) {
         tempDir.delete();
       }
     }
@@ -152,8 +149,8 @@ public class TestStorage {
     String label;
     Device d = null;
     for (int i = 0; i < 100; i++) {
-      label = "aLabel" + i; 
-      switch(i%4) {
+      label = "aLabel" + i;
+      switch (i % 4) {
         case 0:
           d = new Lightbulb(label, h);
           break;
@@ -174,11 +171,10 @@ public class TestStorage {
     oracles.add(oracle3);
     String fileName = "devices.json";
     String filePath =
-        "src.test.java.ca.uvic.seng330.assn3.model.storage.resources."
-            .replace(".", File.separator);
+        "src.test.java.ca.uvic.seng330.assn3.model.storage.resources.".replace(".", File.separator);
     File tempDir = new File(filePath);
     File tempFile = new File(filePath + fileName);
-    
+
     try {
       Method storeEntities =
           Storage.class.getDeclaredMethod(
@@ -199,7 +195,7 @@ public class TestStorage {
         storeEntities.invoke(null, oracles.get(i), filePath, fileName);
         result = Storage.getDevices(h);
         assertTrue(result.size() == oracles.get(i).size());
-        for(int j = 0; j < result.size(); j++) {
+        for (int j = 0; j < result.size(); j++) {
           // Need only compare the labels. We are testing for ordering and completeness of the list.
           // The reconstruction process is tested in test[deviceType]Recreation
           assertTrue(result.get(j).getLabel().equals(oracles.get(i).get(j).getLabel()));
@@ -213,15 +209,14 @@ public class TestStorage {
         | NoSuchFieldException e) {
       e.printStackTrace();
     } finally {
-      if(tempFile.exists()) {
+      if (tempFile.exists()) {
         tempFile.delete();
       }
-      if(tempDir.exists()) {
+      if (tempDir.exists()) {
         tempDir.delete();
       }
     }
   }
-
 
   @Test
   public void testCleanDir() {
