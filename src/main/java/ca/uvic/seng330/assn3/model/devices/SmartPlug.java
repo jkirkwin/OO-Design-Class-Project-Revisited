@@ -12,6 +12,7 @@ public class SmartPlug extends Device {
   public SmartPlug(Hub hub) {
     super("SmartPlug" + numPlug, Status.NORMAL, hub);
     this.isOn = false;
+    numPlug++;
   }
 
   public SmartPlug(String label, Hub hub) {

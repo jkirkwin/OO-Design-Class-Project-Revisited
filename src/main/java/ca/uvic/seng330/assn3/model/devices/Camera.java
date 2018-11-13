@@ -18,6 +18,7 @@ public class Camera extends Device {
     this.isRecording = false;
     this.diskSize = 0;
     this.maxSize = DEFAULT_MAX_SIZE;
+    numCamera++;
   }
 
   public Camera(String label, Hub hub) {

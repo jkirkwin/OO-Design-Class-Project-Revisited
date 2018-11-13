@@ -3,7 +3,6 @@ package ca.uvic.seng330.assn3.model;
 import ca.uvic.seng330.assn3.model.storage.Storage;
 import ca.uvic.seng330.assn3.model.storage.StorageEntity;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Stack;
 import java.util.UUID;
 import org.json.JSONArray;
@@ -15,7 +14,7 @@ public class UserAccount implements StorageEntity {
   private AccessLevel accessLevel;
   private Hub hub;
   private final UUID id;
-  private List<UUID> blackList;
+  private ArrayList<UUID> blackList;
   private Stack<JSONMessaging> notificationList;
   private final String username;
   private final String password;
@@ -79,8 +78,9 @@ public class UserAccount implements StorageEntity {
     }
   }
 
-  protected List<UUID> getBlackList() {
+  protected ArrayList<UUID> getBlackList() {
     // TODO: clone for encapsulation
+    assert this.blackList != null;
     return this.blackList;
   }
 
