@@ -3,19 +3,19 @@ package ca.uvic.seng330.assn3.controller;
 import ca.uvic.seng330.assn3.model.AccessLevel;
 import ca.uvic.seng330.assn3.model.Hub;
 import ca.uvic.seng330.assn3.model.UserAccount;
-import ca.uvic.seng330.assn3.model.devices.Camera;
 import ca.uvic.seng330.assn3.model.devices.Device;
-import ca.uvic.seng330.assn3.model.devices.Lightbulb;
-import ca.uvic.seng330.assn3.model.devices.SmartPlug;
 import ca.uvic.seng330.assn3.model.devices.Status;
-import ca.uvic.seng330.assn3.model.devices.Thermostat;
+import ca.uvic.seng330.assn3.view.CameraSceneBuilder;
 import ca.uvic.seng330.assn3.view.Client;
 import ca.uvic.seng330.assn3.view.CreateDeviceBuilder;
 import ca.uvic.seng330.assn3.view.HubSceneBuilder;
+import ca.uvic.seng330.assn3.view.LightbulbSceneBuilder;
 import ca.uvic.seng330.assn3.view.LoginSceneBuilder;
 import ca.uvic.seng330.assn3.view.ManageDevicesBuilder;
 import ca.uvic.seng330.assn3.view.ManageUsersBuilder;
 import ca.uvic.seng330.assn3.view.SceneBuilder;
+import ca.uvic.seng330.assn3.view.SmartPlugSceneBuilder;
+import ca.uvic.seng330.assn3.view.ThermostatSceneBuilder;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.Stack;
@@ -23,6 +23,7 @@ import java.util.UUID;
 import javafx.scene.control.Alert.AlertType;
 
 public class Controller {
+  // TODO: implement observable
 
   private final Hub hub;
   private final Client client;
@@ -283,41 +284,30 @@ public class Controller {
 
     views.push(ViewType.DEVICE_VIEW);
     client.setTitle(ViewType.DEVICE_VIEW.toString());
-    // TODO: review following lines for more efficient switch.
-    //  Class<? extends Device> c = hub.getDevice(uuid).getClass();
-    //  switch (DeviceType.valueOf(c.toString().toUpperCase())) {
-    switch (getDeviceType(hub.getDevice(uuid).getClass())) {
+    deviceViewSwitch(uuid);
+  }
+
+  /*
+   * Allows the skipping of views.push() etc...
+   */
+  private void deviceViewSwitch(UUID uuid) {
+    switch (DeviceType.valueOf(hub.getDevice(uuid).getClass().getSimpleName().toUpperCase())) {
       case CAMERA:
-        // client.setView(new DeviceSceneBuilder(this, "Back"));
+        client.setView(new CameraSceneBuilder(this, "Back", uuid));
         System.out.println("Camera View");
         break;
       case LIGHTBULB:
-        // client.setView(new DeviceSceneBuilder(this, "Back"));
+        client.setView(new LightbulbSceneBuilder(this, "Back", uuid));
         System.out.println("Lightbulb View");
         break;
       case SMARTPLUG:
-        // client.setView(new DeviceSceneBuilder(this, "Back"));
+        client.setView(new SmartPlugSceneBuilder(this, "Back", uuid));
         System.out.println("SmartPlug View");
         break;
       case THERMOSTAT:
-        // client.setView(new DeviceSceneBuilder(this, "Back"));
+        client.setView(new ThermostatSceneBuilder(this, "Back", uuid));
         System.out.println("Thermostat View");
         break;
-    }
-  }
-
-  private DeviceType getDeviceType(Class<? extends Device> currDevice) {
-    if (currDevice.equals(Camera.class)) {
-      return DeviceType.CAMERA;
-    } else if (currDevice.equals(Lightbulb.class)) {
-      return DeviceType.LIGHTBULB;
-    } else if (currDevice.equals(SmartPlug.class)) {
-      return DeviceType.SMARTPLUG;
-    } else if (currDevice.equals(Thermostat.class)) {
-      return DeviceType.THERMOSTAT;
-    } else {
-      // TODO: throw error
-      return null;
     }
   }
 
@@ -359,5 +349,6 @@ public class Controller {
     } else {
       // TODO: alert that device is broken.
     }
+    deviceViewSwitch(id);
   }
 }

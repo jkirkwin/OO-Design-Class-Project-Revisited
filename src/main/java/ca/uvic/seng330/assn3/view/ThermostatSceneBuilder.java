@@ -5,11 +5,11 @@ import java.util.UUID;
 import javafx.scene.Node;
 import javafx.scene.layout.HBox;
 
-public class CameraSceneBuilder extends DeviceSceneBuilder {
+public class ThermostatSceneBuilder extends DeviceSceneBuilder {
 
   UUID deviceID;
 
-  public CameraSceneBuilder(Controller controller, String backText, UUID id) {
+  public ThermostatSceneBuilder(Controller controller, String backText, UUID id) {
     super(controller, backText);
     this.deviceID = id;
   }
