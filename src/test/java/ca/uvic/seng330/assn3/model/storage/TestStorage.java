@@ -1,6 +1,7 @@
 package ca.uvic.seng330.assn3.model.storage;
 
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import ca.uvic.seng330.assn3.model.AccessLevel;
 import ca.uvic.seng330.assn3.model.Hub;
@@ -19,6 +20,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.time.temporal.TemporalField;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -72,14 +74,14 @@ public class TestStorage {
   @Test
   public void testStoreAndRetrieveUserAccounts() {
     Hub h = new Hub();
-    List<ArrayList<UserAccount>> oracles = new ArrayList<ArrayList<UserAccount>>();
-    ArrayList<UserAccount> oracle1 = new ArrayList<UserAccount>();
+    List<ArrayList<StorageEntity>> oracles = new ArrayList<ArrayList<StorageEntity>>();
+    ArrayList<StorageEntity> oracle1 = new ArrayList<StorageEntity>();
 
-    ArrayList<UserAccount> oracle2 = new ArrayList<UserAccount>();
+    ArrayList<StorageEntity> oracle2 = new ArrayList<StorageEntity>();
     oracle2.add(new UserAccount(h, AccessLevel.ADMIN, "user", "pw"));
     oracle2.add(new UserAccount(h, AccessLevel.BASIC, "some username", "some password"));
 
-    ArrayList<UserAccount> oracle3 = new ArrayList<UserAccount>();
+    ArrayList<StorageEntity> oracle3 = new ArrayList<StorageEntity>();
     String username, password;
     AccessLevel level;
     for (int i = 0; i < 100; i++) {
@@ -91,23 +93,22 @@ public class TestStorage {
     oracles.add(oracle1);
     oracles.add(oracle2);
     oracles.add(oracle3);
-
+    String fileName = "accounts.json";
+    String filePath =
+        "src.test.java.ca.uvic.seng330.assn3.model.storage.resources."
+            .replace(".", File.separator);
+    File tempDir = new File(filePath);
+    File tempFile = new File(filePath + fileName);
+    
     try {
-      Field storageDirPath = Storage.class.getDeclaredField("storageDirPath");
-      Field accountFileName = Storage.class.getDeclaredField("accountFileName");
       Method storeEntities =
           Storage.class.getDeclaredMethod(
               "storeEntities", Collection.class, String.class, String.class);
-      storageDirPath.setAccessible(true);
-      accountFileName.setAccessible(true);
+      Field storageDirPath = Storage.class.getDeclaredField("storageDirPath");
       storeEntities.setAccessible(true);
+      storageDirPath.setAccessible(true);
+      editStaticFinalField(storageDirPath, filePath);
 
-      String fileName = "accounts.json";
-      String filePath =
-          "src.test.java.ca.uvic.seng330.assn3.model.storage.resources."
-              .replace(".", File.separator);
-      File tempDir = new File(filePath);
-      File tempFile = new File(filePath + fileName);
       List<UserAccount> result;
       for (int i = 0; i < oracles.size(); i++) {
         if (!tempDir.exists()) {
@@ -116,8 +117,6 @@ public class TestStorage {
         if (tempFile.exists()) {
           tempFile.delete();
         }
-        editStaticFinalField(storageDirPath, filePath);
-
         storeEntities.invoke(null, oracles.get(i), filePath, fileName);
         result = Storage.getAccounts(h);
         assertTrue(result.equals(oracles.get(i)));
@@ -129,22 +128,100 @@ public class TestStorage {
         | InvocationTargetException
         | NoSuchFieldException e) {
       e.printStackTrace();
+    } finally {
+      if(tempFile.exists()) {
+        tempFile.delete();
+      }
+      if(tempDir.exists()) {
+        tempDir.delete();
+      }
     }
   }
 
   @Test
   public void testStoreAndRetrieveDevices() {
-    // TODO
+    Hub h = new Hub();
+    List<ArrayList<Device>> oracles = new ArrayList<ArrayList<Device>>();
+    ArrayList<Device> oracle1 = new ArrayList<Device>();
 
-    /*
-    0. Generate a divers list of devices (oracle)
-    1. call storeEntities with this list of devices
-    2. call getDevices and save the resulting list (result)
-    3. Compare oracle and result
-    */
+    ArrayList<Device> oracle2 = new ArrayList<Device>();
+    oracle2.add(new Camera(h));
+    oracle2.add(new Thermostat(h));
 
-    assertTrue(false);
+    ArrayList<Device> oracle3 = new ArrayList<Device>();
+    String label;
+    Device d = null;
+    for (int i = 0; i < 100; i++) {
+      label = "aLabel" + i; 
+      switch(i%4) {
+        case 0:
+          d = new Lightbulb(label, h);
+          break;
+        case 1:
+          d = new Camera(label, h);
+          break;
+        case 2:
+          d = new Thermostat(label, h);
+          break;
+        case 3:
+          d = new SmartPlug(label, h);
+          break;
+      }
+      oracle3.add(d);
+    }
+    oracles.add(oracle1);
+    oracles.add(oracle2);
+    oracles.add(oracle3);
+    String fileName = "devices.json";
+    String filePath =
+        "src.test.java.ca.uvic.seng330.assn3.model.storage.resources."
+            .replace(".", File.separator);
+    File tempDir = new File(filePath);
+    File tempFile = new File(filePath + fileName);
+    
+    try {
+      Method storeEntities =
+          Storage.class.getDeclaredMethod(
+              "storeEntities", Collection.class, String.class, String.class);
+      Field storageDirPath = Storage.class.getDeclaredField("storageDirPath");
+      storeEntities.setAccessible(true);
+      storageDirPath.setAccessible(true);
+      editStaticFinalField(storageDirPath, filePath);
+
+      List<Device> result;
+      for (int i = 0; i < oracles.size(); i++) {
+        if (!tempDir.exists()) {
+          tempDir.mkdirs();
+        }
+        if (tempFile.exists()) {
+          tempFile.delete();
+        }
+        storeEntities.invoke(null, oracles.get(i), filePath, fileName);
+        result = Storage.getDevices(h);
+        assertTrue(result.size() == oracles.get(i).size());
+        for(int j = 0; j < result.size(); j++) {
+          // Need only compare the labels. We are testing for ordering and completeness of the list.
+          // The reconstruction process is tested in test[deviceType]Recreation
+          assertTrue(result.get(j).getLabel().equals(oracles.get(i).get(j).getLabel()));
+        }
+      }
+    } catch (NoSuchMethodException
+        | SecurityException
+        | IllegalAccessException
+        | IllegalArgumentException
+        | InvocationTargetException
+        | NoSuchFieldException e) {
+      e.printStackTrace();
+    } finally {
+      if(tempFile.exists()) {
+        tempFile.delete();
+      }
+      if(tempDir.exists()) {
+        tempDir.delete();
+      }
+    }
   }
+
 
   @Test
   public void testCleanDir() {

@@ -169,7 +169,7 @@ public class Storage {
     // retrieve useraccount json objects from storage, convert them into UserAccount objects,
     // and return them
     List<UserAccount> javaAccounts = new ArrayList<UserAccount>();
-
+    
     File accountFile = new File(storageDirPath + accountFileName);
     if (!accountFile.exists() || !accountFile.canRead()) {
       // TODO Log that no Accounts file was found
