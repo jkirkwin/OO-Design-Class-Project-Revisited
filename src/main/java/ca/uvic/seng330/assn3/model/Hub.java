@@ -244,24 +244,35 @@ public class Hub {
   /*
    * @pre newDevice != null
    */
-  public void makeNewDevice(DeviceType newDevice) {
+  public void makeNewDevice(DeviceType newDevice, boolean startingState, String customLabel) {
     assert newDevice != null;
+    Device added = null;
     switch (newDevice) {
       case CAMERA:
-        new Camera(this);
+        added = new Camera(this);
         break;
       case SMARTPLUG:
-        new SmartPlug(this);
+    	  added = new SmartPlug(this);
         break;
       case LIGHTBULB:
-        new Lightbulb(this);
+    	  added = new Lightbulb(this);
         break;
       case THERMOSTAT:
-        new Thermostat(this);
+    	  added = new Thermostat(this);
         break;
       default:
         // TODO: throw an error here and remove the assertion
         assert (false);
+        return;
     }
+    if(startingState) {
+    	added.setStatus(Status.NORMAL);
+    }else {
+    	added.setStatus(Status.OFF);
+    }
+    if(customLabel!="") {
+    	added.setLabel(customLabel);
+    }
+    
   }
 }
