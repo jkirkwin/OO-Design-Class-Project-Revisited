@@ -1,13 +1,11 @@
 package ca.uvic.seng330.assn3.model;
 
 import ca.uvic.seng330.assn3.controller.DeviceType;
-import ca.uvic.seng330.assn3.model.devices.Camera;
-import ca.uvic.seng330.assn3.model.devices.Device;
+import ca.uvic.seng330.assn3.model.devices.*;
 import ca.uvic.seng330.assn3.model.storage.Storage;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.UUID;
 
@@ -230,7 +228,7 @@ public class Hub {
   /*
    * @pre user != null
    */
-  public List<UUID> getBlackList(UserAccount user) {
+  public ArrayList<UUID> getBlackList(UserAccount user) {
     assert user != null;
     return userAccountRegistry.get(user.getIdentifier()).getBlackList();
   }
@@ -253,13 +251,13 @@ public class Hub {
         new Camera(this);
         break;
       case SMARTPLUG:
-        new Camera(this);
+        new SmartPlug(this);
         break;
-      case LIGHTSWITCH:
-        new Camera(this);
+      case LIGHTBULB:
+        new Lightbulb(this);
         break;
       case THERMOSTAT:
-        new Camera(this);
+        new Thermostat(this);
         break;
       default:
         // TODO: throw an error here and remove the assertion

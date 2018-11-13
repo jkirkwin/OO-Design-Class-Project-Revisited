@@ -143,7 +143,8 @@ public class Controller {
     assert password != null;
     if (hub.isUser(username)) {
       System.out.println("Logged in"); // Testing
-      if (hub.getUser(username, password).isAdmin()) {
+      this.activeUser = hub.getUser(username, password);
+      if (this.activeUser.isAdmin()) {
         client.setView(findBuilder(ViewType.HUB_ADMIN));
       } else {
         client.setView(findBuilder(ViewType.HUB_BASIC));

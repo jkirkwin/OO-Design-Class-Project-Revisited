@@ -12,6 +12,7 @@ public class Lightbulb extends Device {
   public Lightbulb(Hub hub) {
     super("LightBulb" + numBulbs, Status.NORMAL, hub);
     this.isOn = false;
+    numBulbs++;
   }
 
   public Lightbulb(String label, Hub hub) {
