@@ -375,14 +375,12 @@ public class Controller {
     assert newDevice != null;
     assert customLabel != null;
 
-
     String baseLabel = customLabel.equals("") ? newDevice.getEnglishName() : customLabel;
     String uniqueLabel = getUniqueDeviceLabel(baseLabel);
 
     hub.makeNewDevice(newDevice, startingState, uniqueLabel);
 
     client.alertUser(
-
         AlertType.INFORMATION,
         "Device Added",
         "New " + newDevice.toString(),
@@ -484,24 +482,20 @@ public class Controller {
     assert id != null;
     return String.valueOf(((Thermostat) hub.getDevice(id)).getTempType());
   }
-  
+
   public void changeThermostatDegreeType(UUID id) {
-		Thermostat thermostat = ((Thermostat) hub.getDevice(id));
-		switch(thermostat.getTempType()) {
-		case CELSIUS:
-			thermostat.getTemp().convertTemp(thermostat.getTemp(), Unit.FAHRENHEIT);
-			break;
-		case FAHRENHEIT:
-			thermostat.getTemp().convertTemp(thermostat.getTemp(), Unit.CELSIUS);
-			break;
-		}
-	    deviceViewSwitch(id);
-	}
+    Thermostat thermostat = ((Thermostat) hub.getDevice(id));
+    try {
+      thermostat.convertTemp();
+    } catch (TemperatureOutofBoundsException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+    deviceViewSwitch(id);
+  }
   // ==================thermostat specific=====================//
 
   public void handleUserViewClick(UUID id) {
     client.setView(findBuilder(ViewType.SELECT_DEVICES));
   }
-
-
 }

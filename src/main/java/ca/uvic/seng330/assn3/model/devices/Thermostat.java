@@ -72,24 +72,26 @@ public class Thermostat extends Device {
     }
     this.temp = temp.clone();
   }
-  
+
   public double getTempMag() {
-	  return this.getTemp().getMagnitude();
+    return this.getTemp().getMagnitude();
   }
-  
+
   public Unit getTempType() {
-	  return this.getTemp().getUnit();
+    return this.getTemp().getUnit();
   }
-  
-  public Temperature convertTemp() {
-	  //TODO: fix static problems
-	  switch(getTempType()) {
-	  case CELSIUS:
-		  return this.getTemp().convertTemp(temp, Unit.FAHRENHEIT);
-	  case FAHRENHEIT:
-		  return this.getTemp().convertTemp(temp, Unit.CELSIUS);
-	  }
-	return temp.clone();
+
+  @SuppressWarnings("static-access")
+  // TODO: fix static problems
+  public void convertTemp() throws TemperatureOutofBoundsException {
+    switch (getTempType()) {
+      case CELSIUS:
+        setTemp(getTemp().convertTemp(temp, Unit.FAHRENHEIT));
+        break;
+      case FAHRENHEIT:
+        setTemp(getTemp().convertTemp(temp, Unit.CELSIUS));
+        break;
+    }
   }
 
   @Override

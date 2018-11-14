@@ -26,27 +26,30 @@ public class ThermostatSceneBuilder extends DeviceSceneBuilder {
   @Override
   protected Node buildSpecifics() {
     HBox basics = basicBuild(deviceID);
-    
+
     VBox specifics = new VBox(10);
-    
+
     HBox currTempActions = new HBox(10);
     Label currTemp = new Label("Current Temp -->");
-    Label displayTemp =
-            new Label(
-                String.valueOf(getController().getThermostatTempMag(deviceID))
-                    + " degrees "
-                    + getController().getThermostatTempType(deviceID));
+    String currentTemp =
+        String.valueOf(getController().getThermostatTempMag(deviceID))
+            + " degrees "
+            + getController().getThermostatTempType(deviceID);
+    if (getController().getThermostatTempType(deviceID) == "CELSIUS") {
+      currentTemp += "        ";
+    }
+    Label displayTemp = new Label(currentTemp);
     Button switchTempType = new Button("Change Degrees");
     switchTempType.setOnAction(event -> getController().changeThermostatDegreeType(deviceID));
     currTempActions.getChildren().add(currTemp);
     currTempActions.getChildren().add(displayTemp);
     currTempActions.getChildren().add(switchTempType);
-    
+
     HBox newTempActions = new HBox(10);
     Label newTemp = new Label("Create new Temp");
     TextField tempNum = new TextField();
     tempNum.setPromptText("New Temperature");
-    
+
     ArrayList<Unit> degreeTypes = getController().getThermostatDegreeTypes();
     VBox degreeChoice = new VBox(10);
     final ToggleGroup degrees = new ToggleGroup();
@@ -62,8 +65,6 @@ public class ThermostatSceneBuilder extends DeviceSceneBuilder {
     newTempActions.getChildren().add(tempNum);
     newTempActions.getChildren().add(degreeChoice);
 
-    
-    
     Button createNewTemp = new Button("Set New Temperature");
     // TODO: new temp isnt being set right
     try {
@@ -75,7 +76,7 @@ public class ThermostatSceneBuilder extends DeviceSceneBuilder {
         event ->
             getController()
                 .setThermostatTemp(deviceID, magnitude, degrees.getSelectedToggle().getUserData()));
-    
+
     specifics.getChildren().add(currTempActions);
     specifics.getChildren().add(newTempActions);
     specifics.getChildren().add(createNewTemp);
