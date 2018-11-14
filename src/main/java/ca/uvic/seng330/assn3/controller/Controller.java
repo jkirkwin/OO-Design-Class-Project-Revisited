@@ -3,13 +3,25 @@ package ca.uvic.seng330.assn3.controller;
 import ca.uvic.seng330.assn3.model.AccessLevel;
 import ca.uvic.seng330.assn3.model.Hub;
 import ca.uvic.seng330.assn3.model.UserAccount;
+import ca.uvic.seng330.assn3.model.devices.Camera;
+import ca.uvic.seng330.assn3.model.devices.CameraFullException;
+import ca.uvic.seng330.assn3.model.devices.Device;
+import ca.uvic.seng330.assn3.model.devices.Status;
+import ca.uvic.seng330.assn3.model.devices.Temperature;
+import ca.uvic.seng330.assn3.model.devices.Temperature.TemperatureOutofBoundsException;
+import ca.uvic.seng330.assn3.model.devices.Temperature.Unit;
+import ca.uvic.seng330.assn3.model.devices.Thermostat;
+import ca.uvic.seng330.assn3.view.CameraSceneBuilder;
 import ca.uvic.seng330.assn3.view.Client;
 import ca.uvic.seng330.assn3.view.CreateDeviceBuilder;
 import ca.uvic.seng330.assn3.view.HubSceneBuilder;
+import ca.uvic.seng330.assn3.view.LightbulbSceneBuilder;
 import ca.uvic.seng330.assn3.view.LoginSceneBuilder;
 import ca.uvic.seng330.assn3.view.ManageDevicesBuilder;
 import ca.uvic.seng330.assn3.view.ManageUsersBuilder;
 import ca.uvic.seng330.assn3.view.SceneBuilder;
+import ca.uvic.seng330.assn3.view.SmartPlugSceneBuilder;
+import ca.uvic.seng330.assn3.view.ThermostatSceneBuilder;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.Stack;
@@ -17,6 +29,7 @@ import java.util.UUID;
 import javafx.scene.control.Alert.AlertType;
 
 public class Controller {
+  // TODO: implement observable
 
   private final Hub hub;
   private final Client client;
@@ -126,6 +139,9 @@ public class Controller {
       case SELECT_NOTIFICATIONS:
         // TODO
         break;
+
+      case SELECT_DEVICES:
+        return new SelectDevicesBuilder(this, "Back");
 
       default:
         System.out.println("No case in controller.findBuilder() for viewType " + view);
@@ -277,17 +293,31 @@ public class Controller {
 
     views.push(ViewType.DEVICE_VIEW);
     client.setTitle(ViewType.DEVICE_VIEW.toString());
-    // Class currDevice = hub.getDevice(uuid).getClass();
+    deviceViewSwitch(uuid);
+  }
 
-    //      if() {
-    //
-    //      }else if() {
-    //
-    //      }else if() {
-    //
-    //      }
-
-    // client.setView(new DeviceSceneBuilder(this, "Back"));
+  /*
+   * Allows the skipping of views.push() etc...
+   */
+  private void deviceViewSwitch(UUID uuid) {
+    switch (DeviceType.valueOf(hub.getDevice(uuid).getClass().getSimpleName().toUpperCase())) {
+      case CAMERA:
+        client.setView(new CameraSceneBuilder(this, "Back", uuid));
+        System.out.println("Camera View");
+        break;
+      case LIGHTBULB:
+        client.setView(new LightbulbSceneBuilder(this, "Back", uuid));
+        System.out.println("Lightbulb View");
+        break;
+      case SMARTPLUG:
+        client.setView(new SmartPlugSceneBuilder(this, "Back", uuid));
+        System.out.println("SmartPlug View");
+        break;
+      case THERMOSTAT:
+        client.setView(new ThermostatSceneBuilder(this, "Back", uuid));
+        System.out.println("Thermostat View");
+        break;
+    }
   }
 
   /*
@@ -312,9 +342,95 @@ public class Controller {
   /*
    * @pre newDevice != null
    */
-  public void handleNewDeviceClick(DeviceType newDevice, boolean startingState, String customLabel) {
+  public void handleNewDeviceClick(
+      DeviceType newDevice, boolean startingState, String customLabel) {
     assert newDevice != null;
     assert customLabel != null;
     hub.makeNewDevice(newDevice, startingState, customLabel);
+  }
+
+  public void toggleDevice(UUID id) {
+    Device curr = hub.getDevice(id);
+    if (curr.getStatus() == Status.ON) {
+      curr.setStatus(Status.OFF);
+    } else if (curr.getStatus() == Status.OFF) {
+      curr.setStatus(Status.ON);
+    } else {
+      // TODO: alert that device is broken.
+    }
+    deviceViewSwitch(id);
+  }
+
+  public String getStatus(UUID id) {
+    return hub.getDevice(id).getStatus().toString();
+  }
+
+  // ==================camera specific=====================//
+  public boolean getCameraRecording(UUID id) {
+    assert id != null;
+    // TODO: review importing devices.camera
+    return ((Camera) hub.getDevice(id)).isRecording();
+  }
+
+  public void setCameraRecording(UUID id) {
+    assert id != null;
+    try {
+      ((Camera) hub.getDevice(id)).record();
+    } catch (CameraFullException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+    deviceViewSwitch(id);
+  }
+
+  public int getCurrCameraDiskSize(UUID id) {
+    assert id != null;
+    return ((Camera) hub.getDevice(id)).currentDiskSize();
+  }
+
+  public int getMaxCameraDiskSize(UUID id) {
+    assert id != null;
+    return ((Camera) hub.getDevice(id)).maxDiskSize();
+  }
+
+  public void emptyCameraDiskSize(UUID id) {
+    assert id != null;
+    ((Camera) hub.getDevice(id)).emptyDisk();
+    deviceViewSwitch(id);
+  }
+  // ==================camera specific=====================//
+
+  // ==================thermostat specific=====================//
+  public ArrayList<Unit> getThermostatDegreeTypes() {
+    ArrayList<Unit> degreeType = new ArrayList<Unit>();
+    EnumSet.allOf(Unit.class).forEach(type -> degreeType.add(type));
+    return degreeType;
+  }
+
+  public void setThermostatTemp(UUID id, double magnitude, Object degreeType) {
+    assert id != null;
+    assert degreeType != null;
+    try {
+      ((Thermostat) hub.getDevice(id)).setTemp(new Temperature(magnitude, (Unit) degreeType));
+    } catch (TemperatureOutofBoundsException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+    deviceViewSwitch(id);
+  }
+
+  public double getThermostatTempMag(UUID id) {
+    assert id != null;
+    return ((Thermostat) hub.getDevice(id)).getTemp().getMagnitude();
+  }
+
+  public String getThermostatTempType(UUID id) {
+    assert id != null;
+    return String.valueOf(((Thermostat) hub.getDevice(id)).getTemp().getUnit());
+  }
+  // ==================thermostat specific=====================//
+
+  public void handleUserViewClick(UUID id) {
+    client.setView(findBuilder(ViewType.SELECT_DEVICES));
   }
 }
