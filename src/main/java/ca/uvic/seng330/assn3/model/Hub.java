@@ -20,6 +20,19 @@ public class Hub {
   }
 
   /*
+   * @pre label != null
+   */
+  public boolean isLabelUsed(String label) {
+    assert label != null;
+    for (Device d : deviceRegistry.values()) {
+      if (d.getLabel().equals(label)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  /*
    * @pre newDevice != null
    */
   public void register(Device newDevice) throws HubRegistrationException {
@@ -286,8 +299,6 @@ public class Hub {
     } else {
       added.setStatus(Status.OFF);
     }
-    if (!customLabel.equals("")) {
-      added.setLabel(customLabel);
-    }
+    added.setLabel(customLabel);
   }
 }

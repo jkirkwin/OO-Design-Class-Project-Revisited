@@ -6,13 +6,11 @@ import org.json.JSONObject;
 
 public class Lightbulb extends Device {
 
-  static int numBulbs = 0;
   private boolean isOn;
 
   public Lightbulb(Hub hub) {
-    super("LightBulb" + numBulbs, Status.ON, hub);
+    super(hub);
     this.isOn = false;
-    numBulbs++;
   }
 
   public Lightbulb(String label, Hub hub) {

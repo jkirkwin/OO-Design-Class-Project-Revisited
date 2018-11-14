@@ -13,19 +13,16 @@ public class Thermostat extends Device {
   private static final Temperature MIN_FAHRENHEIT = new Temperature(0.0, Unit.FAHRENHEIT);
   private static final Temperature MAX_FAHRENHEIT = new Temperature(110.0, Unit.FAHRENHEIT);
 
-  static int numTherm = 0;
   private Temperature temp;
 
   public Thermostat(Hub hub) {
-    super("Thermostat" + numTherm, Status.ON, hub);
+    super(hub);
     this.temp = new Temperature(15.0, Unit.CELSIUS);
-    numTherm++;
   }
 
   public Thermostat(String label, Hub hub) {
     super(label, Status.ON, hub);
     this.temp = new Temperature(15.0, Unit.CELSIUS);
-    numTherm++;
   }
 
   protected Thermostat(Temperature temp, UUID id, String label, Hub hub) {

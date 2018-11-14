@@ -235,7 +235,7 @@ public class TestStorage {
     }
   }
 
-  // Depends on Storage.ensureDirExists (tested below) and the above helper 
+  // Depends on Storage.ensureDirExists (tested below) and the above helper
   @Test
   public void testCleanStorageDir() {
     String tempStorageDirPath =
@@ -265,13 +265,13 @@ public class TestStorage {
       cleanStorageDir.invoke(null, tempOldDirPath + "0" + File.separator);
       assertTrue(!accountFile.exists() && !deviceFile.exists());
       assertTrue(new File(tempOldDirPath + "1").listFiles() == null);
-      
-      // Test method with only deviceFile, only accountFile, and both 
-      int[] sizeOracles = new int [] {1, 1, 2};
-      for(int i = 1; i <= 3; i++) {
+
+      // Test method with only deviceFile, only accountFile, and both
+      int[] sizeOracles = new int[] {1, 1, 2};
+      for (int i = 1; i <= 3; i++) {
         String destPath = tempOldDirPath + i + File.separator;
         File destDir = new File(destPath);
-        switch(i) {
+        switch (i) {
           case 1:
             accountFile.createNewFile();
             break;
@@ -286,7 +286,7 @@ public class TestStorage {
         cleanStorageDir.invoke(null, destPath);
         assertTrue(!accountFile.exists() && !deviceFile.exists());
         System.out.println(destDir.listFiles().length);
-        assertTrue(destDir.listFiles().length == sizeOracles[i-1]);
+        assertTrue(destDir.listFiles().length == sizeOracles[i - 1]);
       }
     } catch (NoSuchFieldException
         | SecurityException

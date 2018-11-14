@@ -60,7 +60,7 @@ public class Controller {
   private void exitApplication() {
     this.hub.shutdown();
   }
-  
+
   /*
    * @pre views cannot be empty
    */
@@ -155,6 +155,8 @@ public class Controller {
     return null;
   }
 
+  // ======================== Login =============================//
+
   /*
    * @pre username != null
    * @pre password != null
@@ -246,6 +248,8 @@ public class Controller {
     return true;
   }
 
+  // ============================ Admin Console =========================//
+
   public void handleAdminManageUsersClick() {
     client.setView(findBuilder(ViewType.MANAGE_USERS));
   }
@@ -335,10 +339,15 @@ public class Controller {
     assert isDevice || isUserAccount;
     String label = hub.getLabel(uuid);
     hub.unregister(uuid);
-    if(isDevice) {
-      client.alertUser(AlertType.INFORMATION, "Device Removed", "Device Removed", "Unregistered Device: " + label);
-    } else if(isUserAccount) {
-      client.alertUser(AlertType.INFORMATION, "User Removed", "User Removed", "Unregistered User: " + label);      
+    if (isDevice) {
+      client.alertUser(
+          AlertType.INFORMATION,
+          "Device Removed",
+          "Device Removed",
+          "Unregistered Device: " + label);
+    } else if (isUserAccount) {
+      client.alertUser(
+          AlertType.INFORMATION, "User Removed", "User Removed", "Unregistered User: " + label);
     }
     refresh();
   }
@@ -346,11 +355,11 @@ public class Controller {
   public void handleCreateDeviceClick() {
     client.setView(findBuilder(ViewType.CREATE_DEVICE));
   }
-  
+
   private DeviceType getDeviceType(Device d) {
     return DeviceType.valueOf(d.getClass().getSimpleName().toUpperCase());
   }
-  
+
   // TODO remove and replace usages with use of library function DeviceType.values()
   public ArrayList<DeviceType> getDeviceTypes() {
     ArrayList<DeviceType> deviceTypes = new ArrayList<DeviceType>();
@@ -365,20 +374,33 @@ public class Controller {
       DeviceType newDevice, boolean startingState, String customLabel) {
     assert newDevice != null;
     assert customLabel != null;
-    hub.makeNewDevice(newDevice, startingState, customLabel);
 
-    String alertText = newDevice.toString() + " created.";
-    if(!customLabel.equals("")) {
-      alertText = alertText + "With label: " + customLabel;
-    }
+    String baseLabel = customLabel.equals("") ? newDevice.getEnglishName() : customLabel;
+    String uniqueLabel = getUniqueDeviceLabel(baseLabel);
+
+    hub.makeNewDevice(newDevice, startingState, uniqueLabel);
+
     client.alertUser(
-        AlertType.INFORMATION, 
-        "Device Added", 
-        "New " + newDevice.toString(), 
-        alertText
-        ); 
-    
+        AlertType.INFORMATION,
+        "Device Added",
+        "New " + newDevice.toString(),
+        newDevice.toString() + " created with label: \"" + uniqueLabel + "\"");
+
     refresh();
+  }
+
+  /*
+   * @pre baseLabel != null
+   */
+  private String getUniqueDeviceLabel(String baseLabel) {
+    assert baseLabel != null;
+    String uniqueLabel = baseLabel;
+    int i = 1;
+    while (hub.isLabelUsed(uniqueLabel)) {
+      uniqueLabel = baseLabel + "(" + i + ")";
+      i++;
+    }
+    return uniqueLabel;
   }
 
   public void toggleDevice(UUID id) {

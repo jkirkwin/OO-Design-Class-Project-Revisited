@@ -6,13 +6,11 @@ import org.json.JSONObject;
 
 public class SmartPlug extends Device {
 
-  static int numPlug = 0;
   private boolean isOn;
 
   public SmartPlug(Hub hub) {
-    super("SmartPlug" + numPlug, Status.ON, hub);
+    super(hub);
     this.isOn = false;
-    numPlug++;
   }
 
   public SmartPlug(String label, Hub hub) {
