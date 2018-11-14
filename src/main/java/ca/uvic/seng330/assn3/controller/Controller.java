@@ -20,6 +20,7 @@ import ca.uvic.seng330.assn3.view.LoginSceneBuilder;
 import ca.uvic.seng330.assn3.view.ManageDevicesBuilder;
 import ca.uvic.seng330.assn3.view.ManageUsersBuilder;
 import ca.uvic.seng330.assn3.view.SceneBuilder;
+import ca.uvic.seng330.assn3.view.SelectDevicesBuilder;
 import ca.uvic.seng330.assn3.view.SmartPlugSceneBuilder;
 import ca.uvic.seng330.assn3.view.ThermostatSceneBuilder;
 import java.util.ArrayList;
@@ -322,11 +323,20 @@ public class Controller {
 
   /*
    * @pre uuid != null
+   * @pre uuid must be the identifier for some entity registered to the hub.
    */
   public void handleKillerClick(UUID uuid) {
     assert uuid != null;
-    // TODO: add confirmation alert
+    boolean isDevice = hub.isRegisteredDevice(uuid);
+    boolean isUserAccount = hub.isRegisteredUserAccount(uuid);
+    assert isDevice || isUserAccount;
+    String label = hub.getLabel(uuid);
     hub.unregister(uuid);
+    if(isDevice) {
+      client.alertUser(AlertType.INFORMATION, "Device Removed", "Device Removed", "Unregistered Device: " + label);
+    } else if(isUserAccount) {
+      client.alertUser(AlertType.INFORMATION, "User Removed", "User Removed", "Unregistered User: " + label);      
+    }
   }
 
   public void handleCreateDeviceClick() {
@@ -347,6 +357,14 @@ public class Controller {
     assert newDevice != null;
     assert customLabel != null;
     hub.makeNewDevice(newDevice, startingState, customLabel);
+
+    // TODO add verifyLabel function in controller and remove that logic from Hub.makeNewDevice()
+    //      currently, this alert does not print the correct result if the label field is left blank
+    client.alertUser(
+        AlertType.INFORMATION, 
+        "Device Added", 
+        "New " + newDevice.toString(), 
+        newDevice.toString() + " created. Label: " + customLabel); 
   }
 
   public void toggleDevice(UUID id) {

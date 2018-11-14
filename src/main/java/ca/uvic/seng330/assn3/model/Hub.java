@@ -172,6 +172,22 @@ public class Hub {
   }
 
   /*
+   * @pre id != null
+   */
+  public boolean isRegisteredDevice(UUID id) {
+    assert id != null;
+    return this.deviceRegistry.containsKey(id);
+  }
+
+  /*
+   * @pre id != null
+   */
+  public boolean isRegisteredUserAccount(UUID id) {
+    assert id != null;
+    return this.userAccountRegistry.containsKey(id);
+  }
+  
+  /*
    * Populate deviceRegistry and userRegistry from storage files
    */
   public void startup() {

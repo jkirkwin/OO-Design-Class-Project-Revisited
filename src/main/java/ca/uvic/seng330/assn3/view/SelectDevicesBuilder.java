@@ -1,6 +1,6 @@
-package ca.uvic.seng330.assn3.controller;
+package ca.uvic.seng330.assn3.view;
 
-import ca.uvic.seng330.assn3.view.SceneBuilder;
+import ca.uvic.seng330.assn3.controller.Controller;
 import javafx.scene.Node;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
