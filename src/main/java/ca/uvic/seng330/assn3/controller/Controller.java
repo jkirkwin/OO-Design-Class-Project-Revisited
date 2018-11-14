@@ -64,7 +64,7 @@ public class Controller {
   private void exitApplication() {
     this.hub.shutdown();
   }
-  
+
   /*
    * @pre views cannot be empty
    */
@@ -341,10 +341,15 @@ public class Controller {
     assert isDevice || isUserAccount;
     String label = hub.getLabel(uuid);
     hub.unregister(uuid);
-    if(isDevice) {
-      client.alertUser(AlertType.INFORMATION, "Device Removed", "Device Removed", "Unregistered Device: " + label);
-    } else if(isUserAccount) {
-      client.alertUser(AlertType.INFORMATION, "User Removed", "User Removed", "Unregistered User: " + label);      
+    if (isDevice) {
+      client.alertUser(
+          AlertType.INFORMATION,
+          "Device Removed",
+          "Device Removed",
+          "Unregistered Device: " + label);
+    } else if (isUserAccount) {
+      client.alertUser(
+          AlertType.INFORMATION, "User Removed", "User Removed", "Unregistered User: " + label);
     }
     refresh();
   }
@@ -370,16 +375,12 @@ public class Controller {
 
     // TODO change button label to default label if label passed is empty string
     String alertText = newDevice.toString() + " created.";
-    if(!customLabel.equals("")) {
+    if (!customLabel.equals("")) {
       alertText = alertText + "With label: " + customLabel;
     }
     client.alertUser(
-        AlertType.INFORMATION, 
-        "Device Added", 
-        "New " + newDevice.toString(), 
-        alertText
-        ); 
-    
+        AlertType.INFORMATION, "Device Added", "New " + newDevice.toString(), alertText);
+
     refresh();
   }
 
@@ -455,16 +456,31 @@ public class Controller {
 
   public double getThermostatTempMag(UUID id) {
     assert id != null;
-    return ((Thermostat) hub.getDevice(id)).getTemp().getMagnitude();
+    return ((Thermostat) hub.getDevice(id)).getTempMag();
   }
 
   public String getThermostatTempType(UUID id) {
     assert id != null;
-    return String.valueOf(((Thermostat) hub.getDevice(id)).getTemp().getUnit());
+    return String.valueOf(((Thermostat) hub.getDevice(id)).getTempType());
   }
+  
+  public void changeThermostatDegreeType(UUID id) {
+		Thermostat thermostat = ((Thermostat) hub.getDevice(id));
+		switch(thermostat.getTempType()) {
+		case CELSIUS:
+			thermostat.getTemp().convertTemp(thermostat.getTemp(), Unit.FAHRENHEIT);
+			break;
+		case FAHRENHEIT:
+			thermostat.getTemp().convertTemp(thermostat.getTemp(), Unit.CELSIUS);
+			break;
+		}
+	    deviceViewSwitch(id);
+	}
   // ==================thermostat specific=====================//
 
   public void handleUserViewClick(UUID id) {
     client.setView(findBuilder(ViewType.SELECT_DEVICES));
   }
+
+
 }

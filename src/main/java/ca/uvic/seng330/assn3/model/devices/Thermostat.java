@@ -75,6 +75,25 @@ public class Thermostat extends Device {
     }
     this.temp = temp.clone();
   }
+  
+  public double getTempMag() {
+	  return this.getTemp().getMagnitude();
+  }
+  
+  public Unit getTempType() {
+	  return this.getTemp().getUnit();
+  }
+  
+  public Temperature convertTemp() {
+	  //TODO: fix static problems
+	  switch(getTempType()) {
+	  case CELSIUS:
+		  return this.getTemp().convertTemp(temp, Unit.FAHRENHEIT);
+	  case FAHRENHEIT:
+		  return this.getTemp().convertTemp(temp, Unit.CELSIUS);
+	  }
+	return temp.clone();
+  }
 
   @Override
   public JSONObject getJSON() {

@@ -26,43 +26,30 @@ public class ThermostatSceneBuilder extends DeviceSceneBuilder {
   @Override
   protected Node buildSpecifics() {
     HBox basics = basicBuild(deviceID);
-
+    
     VBox specifics = new VBox(10);
-    HBox hbox = new HBox(10);
-
-    VBox labels = new VBox(20);
-    Label currTemp = new Label("Current Temp");
-    labels.getChildren().add(currTemp);
+    
+    HBox currTempActions = new HBox(10);
+    Label currTemp = new Label("Current Temp -->");
+    Label displayTemp =
+            new Label(
+                String.valueOf(getController().getThermostatTempMag(deviceID))
+                    + " degrees "
+                    + getController().getThermostatTempType(deviceID));
+    Button switchTempType = new Button("Change Degrees");
+    switchTempType.setOnAction(event -> getController().changeThermostatDegreeType(deviceID));
+    currTempActions.getChildren().add(currTemp);
+    currTempActions.getChildren().add(displayTemp);
+    currTempActions.getChildren().add(switchTempType);
+    
+    HBox newTempActions = new HBox(10);
     Label newTemp = new Label("Create new Temp");
-    labels.getChildren().add(newTemp);
-
-    VBox actions = new VBox(10);
-    Button displayTemp =
-        new Button(
-            String.valueOf(getController().getThermostatTempMag(deviceID))
-                + " degrees "
-                + getController().getThermostatTempType(deviceID));
-    actions.getChildren().add(displayTemp);
-
-    HBox tempMaker = new HBox(10);
     TextField tempNum = new TextField();
     tempNum.setPromptText("New Temperature");
-
-    //    TODO: tempNum should only take numbers!!!
-    //
-    //    Pattern pattern = Pattern.compile("\\d*|\\d+\\,\\d*");
-    //    TextFormatter formatter = new TextFormatter((UnaryOperator<TextFormatter.Change>) change
-    // -> {
-    //        return pattern.matcher(change.getControlNewText()).matches() ? change : null;
-    //    });
-    //
-    //    tempNum.setTextFormatter(formatter);
-
-    // TODO: review importing unit enum
+    
     ArrayList<Unit> degreeTypes = getController().getThermostatDegreeTypes();
     VBox degreeChoice = new VBox(10);
     final ToggleGroup degrees = new ToggleGroup();
-
     RadioButton button;
     for (int i = 0; i < degreeTypes.size(); i++) {
       button = new RadioButton(degreeTypes.get(i).toString());
@@ -71,11 +58,12 @@ public class ThermostatSceneBuilder extends DeviceSceneBuilder {
       degreeChoice.getChildren().add(button);
     }
     degrees.getToggles().get(0).setSelected(true);
+    newTempActions.getChildren().add(newTemp);
+    newTempActions.getChildren().add(tempNum);
+    newTempActions.getChildren().add(degreeChoice);
 
-    tempMaker.getChildren().add(tempNum);
-    tempMaker.getChildren().add(degreeChoice);
-    actions.getChildren().add(tempMaker);
-
+    
+    
     Button createNewTemp = new Button("Set New Temperature");
     // TODO: new temp isnt being set right
     try {
@@ -87,12 +75,11 @@ public class ThermostatSceneBuilder extends DeviceSceneBuilder {
         event ->
             getController()
                 .setThermostatTemp(deviceID, magnitude, degrees.getSelectedToggle().getUserData()));
+    
+    specifics.getChildren().add(currTempActions);
+    specifics.getChildren().add(newTempActions);
+    specifics.getChildren().add(createNewTemp);
 
-    actions.getChildren().add(createNewTemp);
-
-    hbox.getChildren().add(labels);
-    hbox.getChildren().add(actions);
-    specifics.getChildren().add(hbox);
     basics.getChildren().add(specifics);
 
     return basics;
