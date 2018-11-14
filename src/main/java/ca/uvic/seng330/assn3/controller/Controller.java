@@ -64,6 +64,15 @@ public class Controller {
   private void exitApplication() {
     this.hub.shutdown();
   }
+  
+  /*
+   * @pre views cannot be empty
+   */
+  public void refresh() {
+    assert !views.isEmpty();
+    ViewType currentView = views.pop();
+    client.setView(findBuilder(currentView));
+  }
 
   public void update(Object arg) {
     // TODO
@@ -337,6 +346,7 @@ public class Controller {
     } else if(isUserAccount) {
       client.alertUser(AlertType.INFORMATION, "User Removed", "User Removed", "Unregistered User: " + label);      
     }
+    refresh();
   }
 
   public void handleCreateDeviceClick() {
@@ -365,6 +375,8 @@ public class Controller {
         "Device Added", 
         "New " + newDevice.toString(), 
         newDevice.toString() + " created. Label: " + customLabel); 
+    
+    refresh();
   }
 
   public void toggleDevice(UUID id) {
