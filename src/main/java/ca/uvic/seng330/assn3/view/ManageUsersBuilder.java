@@ -26,10 +26,10 @@ public class ManageUsersBuilder extends SceneBuilder {
     HBox hbox = new HBox(30);
     VBox viewUsers = hubUsersList(new VBox(10));
     viewUsers.getChildren().add(0, new Label("View User\nVisability"));
-    VBox killUsers = hubKillList(new VBox(10), getController().getAccountIDList());
-    killUsers.getChildren().add(0, new Label("Kill User\nAccount"));
+    VBox deleteUsers = hubDeleteList(new VBox(10), getController().getAccountIDList());
+    deleteUsers.getChildren().add(0, new Label("Delete User\nAccount"));
     hbox.getChildren().add(viewUsers);
-    hbox.getChildren().add(killUsers);
+    hbox.getChildren().add(deleteUsers);
 
     layout.setContent(hbox);
 

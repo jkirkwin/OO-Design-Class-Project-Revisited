@@ -96,15 +96,15 @@ public abstract class SceneBuilder {
 
   /*
    * @pre col != null
-   * @pre killList != null
+   * @pre deleteList != null
    */
-  protected VBox hubKillList(VBox col, ArrayList<UUID> killList) {
+  protected VBox hubDeleteList(VBox col, ArrayList<UUID> deleteList) {
     assert col != null;
-    assert killList != null;
-    for (int i = 0; i < killList.size(); i++) {
-      Button button = new Button(getController().getLabel(killList.get(i)));
-      button.setUserData(killList.get(i));
-      button.setOnAction(event -> getController().handleKillerClick((UUID) button.getUserData()));
+    assert deleteList != null;
+    for (int i = 0; i < deleteList.size(); i++) {
+      Button button = new Button(getController().getLabel(deleteList.get(i)));
+      button.setUserData(deleteList.get(i));
+      button.setOnAction(event -> getController().handleDeleteClick((UUID) button.getUserData()));
       col.getChildren().add(button);
     }
     return col;

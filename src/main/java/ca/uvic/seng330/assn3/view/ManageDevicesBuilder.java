@@ -33,7 +33,7 @@ public class ManageDevicesBuilder extends SceneBuilder {
     layout.setHbarPolicy(ScrollBarPolicy.NEVER);
     layout.setVbarPolicy(ScrollBarPolicy.ALWAYS);
 
-    layout.setContent(hubKillList(new VBox(10), getController().getDeviceIDList()));
+    layout.setContent(hubDeleteList(new VBox(10), getController().getDeviceIDList()));
     hbox.getChildren().add(layout);
 
     return hbox;

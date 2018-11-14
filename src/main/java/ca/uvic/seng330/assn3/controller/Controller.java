@@ -334,7 +334,7 @@ public class Controller {
    * @pre uuid != null
    * @pre uuid must be the identifier for some entity registered to the hub.
    */
-  public void handleKillerClick(UUID uuid) {
+  public void handleDeleteClick(UUID uuid) {
     assert uuid != null;
     boolean isDevice = hub.isRegisteredDevice(uuid);
     boolean isUserAccount = hub.isRegisteredUserAccount(uuid);

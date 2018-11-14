@@ -56,19 +56,19 @@ public class Hub {
   }
 
   /*
-   * @pre murdered != null
+   * @pre uuid != null
    */
-  public void unregister(UUID murdered) {
-    assert murdered != null;
-    if (this.deviceRegistry.containsKey(murdered)) {
+  public void unregister(UUID uuid) {
+    assert uuid != null;
+    if (this.deviceRegistry.containsKey(uuid)) {
       try {
-        unregister(this.deviceRegistry.get(murdered));
+        unregister(this.deviceRegistry.get(uuid));
       } catch (HubRegistrationException e) {
         // TODO: logging & alert
       }
-    } else if (this.userAccountRegistry.containsKey(murdered)) {
+    } else if (this.userAccountRegistry.containsKey(uuid)) {
       try {
-        unregister(this.userAccountRegistry.get(murdered));
+        unregister(this.userAccountRegistry.get(uuid));
       } catch (HubRegistrationException e) {
         // TODO: logging & alert
       }
@@ -93,32 +93,32 @@ public class Hub {
   }
 
   /*
-   * @pre killedAccount != null
+   * @pre deletedAccount != null
    */
-  public void unregister(UserAccount killedAccount) throws HubRegistrationException {
-    assert killedAccount != null;
+  public void unregister(UserAccount deletedAccount) throws HubRegistrationException {
+    assert deletedAccount != null;
     if (userAccountRegistry.isEmpty()
-        || !userAccountRegistry.containsKey(killedAccount.getIdentifier())) {
+        || !userAccountRegistry.containsKey(deletedAccount.getIdentifier())) {
       throw new HubRegistrationException("Account does not exist.");
     }
     try {
-      unregisterRetired(killedAccount);
+      unregisterRetired(deletedAccount);
     } catch (HubRegistrationException e) {
       // TODO:  Logging and Alerts
     }
   }
 
   /*
-   * @pre killedAccount != null
+   * @pre deletedAccount != null
    */
-  private void unregisterRetired(UserAccount killedAccount) throws HubRegistrationException {
-    assert killedAccount != null;
-    switch (killedAccount.getAccessLevel()) {
+  private void unregisterRetired(UserAccount deletedAccount) throws HubRegistrationException {
+    assert deletedAccount != null;
+    switch (deletedAccount.getAccessLevel()) {
       case ADMIN:
-        userAccountRegistry.remove(killedAccount.getIdentifier());
+        userAccountRegistry.remove(deletedAccount.getIdentifier());
         break;
       case BASIC:
-        userAccountRegistry.remove(killedAccount.getIdentifier());
+        userAccountRegistry.remove(deletedAccount.getIdentifier());
         break;
     }
   }
