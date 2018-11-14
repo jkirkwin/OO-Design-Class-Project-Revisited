@@ -14,6 +14,7 @@ import ca.uvic.seng330.assn3.model.devices.Temperature;
 import ca.uvic.seng330.assn3.model.devices.Temperature.Unit;
 import ca.uvic.seng330.assn3.model.devices.Thermostat;
 import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -29,6 +30,22 @@ import org.junit.Test;
 
 public class TestStorage {
 
+  /*
+   * Delete the directory and all contents
+   * @pre dir is a directory
+   */
+  private static void deleteDir(File dir) {
+    assert dir.isDirectory();
+    for(File f : dir.listFiles()) {
+      if(f.isDirectory()) {
+        deleteDir(f);
+      } else {
+        f.delete();
+      }
+    }
+    dir.delete();
+  }
+  
   private static void editStaticFinalField(Field f, Object newValue)
       throws NoSuchFieldException, SecurityException, IllegalArgumentException,
           IllegalAccessException {
@@ -218,10 +235,67 @@ public class TestStorage {
     }
   }
 
+  // Depends on ensureDirExists
   @Test
-  public void testCleanDir() {
-    // TODO implement
-    assertTrue(false);
+  public void testCleanStorageDir() {
+    String tempStorageDirPath = "src.test.java.ca.uvic.seng330.assn3.model.storage.temp.".replace(".",  File.separator);
+    String tempOldDirPath = tempStorageDirPath + "old";
+    File tempStorageDir = new File(tempStorageDirPath);
+    try {
+      if(tempStorageDir.exists()) {
+        deleteDir(tempStorageDir);
+      }
+      
+      Method cleanStorageDir = Storage.class.getDeclaredMethod("cleanStorageDir", String.class);
+      cleanStorageDir.setAccessible(true);
+      Method ensureDirExists = Storage.class.getDeclaredMethod("ensureDirExists", String.class);
+      ensureDirExists.setAccessible(true);
+      Field storageDirPath = Storage.class.getDeclaredField("storageDirPath");
+      storageDirPath.setAccessible(true);
+      editStaticFinalField(storageDirPath, tempStorageDirPath);
+
+      ensureDirExists.invoke(null, tempStorageDirPath);
+      ensureDirExists.invoke(null, tempStorageDirPath + "old" + File.separator);
+      
+      // test functionality when dir has no files, accounts file, devices file, both files
+      File accountFile = new File(tempStorageDirPath + File.separator + "accounts.json");
+      File deviceFile = new File(tempStorageDirPath + File.separator + "devices.json");
+
+      // TODO It is 1am and I just had surgery. Re-factor to use a loop instead of this nastiness. 
+      cleanStorageDir.invoke(null, tempOldDirPath + "1" + File.separator);
+      assertTrue(!accountFile.exists() && !deviceFile.exists());
+      assertTrue(new File(tempOldDirPath + "1").listFiles() == null);
+      
+      accountFile.createNewFile();
+      cleanStorageDir.invoke(null, tempOldDirPath + "2" + File.separator);
+      assertTrue(!accountFile.exists() && !deviceFile.exists());
+      System.out.println(new File(tempOldDirPath + "2").listFiles().length); 
+      assertTrue(new File(tempOldDirPath + "2").listFiles().length == 1);
+      
+      deviceFile.createNewFile();
+      cleanStorageDir.invoke(null, tempOldDirPath + "3" + File.separator);
+      assertTrue(!accountFile.exists() && !deviceFile.exists());
+      assertTrue(new File(tempOldDirPath + "3").listFiles().length == 1);
+
+      accountFile.createNewFile();
+      deviceFile.createNewFile();
+      cleanStorageDir.invoke(null, tempOldDirPath + "4" + File.separator);
+      assertTrue(!accountFile.exists() && !deviceFile.exists());
+      assertTrue(new File(tempOldDirPath + "4").listFiles().length == 2);
+
+    } catch (NoSuchFieldException
+        | SecurityException
+        | IllegalArgumentException
+        | IllegalAccessException 
+        | NoSuchMethodException 
+        | InvocationTargetException 
+        | IOException e) {
+      e.printStackTrace();
+    } finally {
+      if(tempStorageDir.exists()) {
+        deleteDir(tempStorageDir);
+      }
+    }
   }
 
   @Test
