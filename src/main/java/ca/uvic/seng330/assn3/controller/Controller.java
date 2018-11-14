@@ -368,13 +368,17 @@ public class Controller {
     assert customLabel != null;
     hub.makeNewDevice(newDevice, startingState, customLabel);
 
-    // TODO add verifyLabel function in controller and remove that logic from Hub.makeNewDevice()
-    //      currently, this alert does not print the correct result if the label field is left blank
+    // TODO change button label to default label if label passed is empty string
+    String alertText = newDevice.toString() + " created.";
+    if(!customLabel.equals("")) {
+      alertText = alertText + "With label: " + customLabel;
+    }
     client.alertUser(
         AlertType.INFORMATION, 
         "Device Added", 
         "New " + newDevice.toString(), 
-        newDevice.toString() + " created. Label: " + customLabel); 
+        alertText
+        ); 
     
     refresh();
   }

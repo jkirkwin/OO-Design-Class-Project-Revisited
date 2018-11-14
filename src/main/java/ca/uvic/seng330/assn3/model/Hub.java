@@ -286,7 +286,7 @@ public class Hub {
     } else {
       added.setStatus(Status.OFF);
     }
-    if (customLabel != "") {
+    if (!customLabel.equals("")) {
       added.setLabel(customLabel);
     }
   }
