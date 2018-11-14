@@ -52,13 +52,9 @@ public class Controller {
     this.client.setController(this);
     this.hub = hub;
     this.views = new Stack<ViewType>();
-
     this.hub.startup();
     this.client.getWindow().setOnCloseRequest(event -> exitApplication());
-
-    // Load and display login screen
     client.setView(findBuilder(ViewType.LOGIN));
-    // client.setView(loginBuilder);
   }
 
   private void exitApplication() {
@@ -101,14 +97,13 @@ public class Controller {
       client.close();
     } else if (views.peek() == ViewType.HUB_BASIC || views.peek() == ViewType.HUB_ADMIN) {
       // log out
-      client.setView(loginBuilder);
       views.pop();
+      client.setTitle(views.peek().toString());
+      client.setView(loginBuilder);
       this.activeUser = null;
     } else {
       views.pop();
       client.setTitle(views.peek().toString());
-
-      // TODO generate appropriate builder based on the ViewType now on the top of the stack
       client.setView(findBuilder(views.pop()));
     }
 
@@ -252,16 +247,15 @@ public class Controller {
   }
 
   public void handleAdminManageUsersClick() {
-    System.out.println("Manage Users");
     client.setView(findBuilder(ViewType.MANAGE_USERS));
   }
 
   public void handleAdminManageDevicesClick() {
-    System.out.println("Manage Devices");
     client.setView(findBuilder(ViewType.MANAGE_DEVICES));
   }
 
   public void handleAdminManageNotificationsClick() {
+    // TODO
     System.out.println("Manage Notifications");
   }
 
@@ -310,7 +304,7 @@ public class Controller {
    * Allows the skipping of views.push() etc...
    */
   private void deviceViewSwitch(UUID uuid) {
-    switch (DeviceType.valueOf(hub.getDevice(uuid).getClass().getSimpleName().toUpperCase())) {
+    switch (getDeviceType(hub.getDevice(uuid))) {
       case CAMERA:
         client.setView(new CameraSceneBuilder(this, "Back", uuid));
         System.out.println("Camera View");
@@ -352,7 +346,12 @@ public class Controller {
   public void handleCreateDeviceClick() {
     client.setView(findBuilder(ViewType.CREATE_DEVICE));
   }
-
+  
+  private DeviceType getDeviceType(Device d) {
+    return DeviceType.valueOf(d.getClass().getSimpleName().toUpperCase());
+  }
+  
+  // TODO remove and replace usages with use of library function DeviceType.values()
   public ArrayList<DeviceType> getDeviceTypes() {
     ArrayList<DeviceType> deviceTypes = new ArrayList<DeviceType>();
     EnumSet.allOf(DeviceType.class).forEach(devType -> deviceTypes.add(devType));
@@ -368,7 +367,6 @@ public class Controller {
     assert customLabel != null;
     hub.makeNewDevice(newDevice, startingState, customLabel);
 
-    // TODO change button label to default label if label passed is empty string
     String alertText = newDevice.toString() + " created.";
     if(!customLabel.equals("")) {
       alertText = alertText + "With label: " + customLabel;
