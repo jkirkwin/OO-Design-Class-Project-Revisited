@@ -7,6 +7,10 @@ import ca.uvic.seng330.assn3.model.devices.Camera;
 import ca.uvic.seng330.assn3.model.devices.CameraFullException;
 import ca.uvic.seng330.assn3.model.devices.Device;
 import ca.uvic.seng330.assn3.model.devices.Status;
+import ca.uvic.seng330.assn3.model.devices.Temperature;
+import ca.uvic.seng330.assn3.model.devices.Temperature.TemperatureOutofBoundsException;
+import ca.uvic.seng330.assn3.model.devices.Temperature.Unit;
+import ca.uvic.seng330.assn3.model.devices.Thermostat;
 import ca.uvic.seng330.assn3.view.CameraSceneBuilder;
 import ca.uvic.seng330.assn3.view.Client;
 import ca.uvic.seng330.assn3.view.CreateDeviceBuilder;
@@ -135,6 +139,9 @@ public class Controller {
       case SELECT_NOTIFICATIONS:
         // TODO
         break;
+
+      case SELECT_DEVICES:
+        return new SelectDevicesBuilder(this, "Back");
 
       default:
         System.out.println("No case in controller.findBuilder() for viewType " + view);
@@ -377,16 +384,53 @@ public class Controller {
   }
 
   public int getCurrCameraDiskSize(UUID id) {
+    assert id != null;
     return ((Camera) hub.getDevice(id)).currentDiskSize();
   }
 
   public int getMaxCameraDiskSize(UUID id) {
+    assert id != null;
     return ((Camera) hub.getDevice(id)).maxDiskSize();
   }
 
   public void emptyCameraDiskSize(UUID id) {
+    assert id != null;
     ((Camera) hub.getDevice(id)).emptyDisk();
     deviceViewSwitch(id);
   }
   // ==================camera specific=====================//
+
+  // ==================thermostat specific=====================//
+  public ArrayList<Unit> getThermostatDegreeTypes() {
+    ArrayList<Unit> degreeType = new ArrayList<Unit>();
+    EnumSet.allOf(Unit.class).forEach(type -> degreeType.add(type));
+    return degreeType;
+  }
+
+  public void setThermostatTemp(UUID id, double magnitude, Object degreeType) {
+    assert id != null;
+    assert degreeType != null;
+    try {
+      ((Thermostat) hub.getDevice(id)).setTemp(new Temperature(magnitude, (Unit) degreeType));
+    } catch (TemperatureOutofBoundsException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+    deviceViewSwitch(id);
+  }
+
+  public double getThermostatTempMag(UUID id) {
+    assert id != null;
+    return ((Thermostat) hub.getDevice(id)).getTemp().getMagnitude();
+  }
+
+  public String getThermostatTempType(UUID id) {
+    assert id != null;
+    return String.valueOf(((Thermostat) hub.getDevice(id)).getTemp().getUnit());
+  }
+  // ==================thermostat specific=====================//
+
+  public void handleUserViewClick(UUID id) {
+    client.setView(findBuilder(ViewType.SELECT_DEVICES));
+  }
 }

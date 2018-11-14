@@ -18,18 +18,20 @@ public class Thermostat extends Device {
 
   public Thermostat(Hub hub) {
     super("Thermostat" + numTherm, Status.ON, hub);
-    this.temp = null;
+    this.temp = new Temperature(15.0, Unit.CELSIUS);
     numTherm++;
   }
 
   public Thermostat(String label, Hub hub) {
     super(label, Status.ON, hub);
-    this.temp = null;
+    this.temp = new Temperature(15.0, Unit.CELSIUS);
+    numTherm++;
   }
 
   protected Thermostat(Temperature temp, UUID id, String label, Hub hub) {
     super(id, label, Status.ON, hub);
     if (temp == null) {
+      // TODO: temp shouldnt be null
       this.temp = temp;
     } else {
       this.temp = temp.clone();

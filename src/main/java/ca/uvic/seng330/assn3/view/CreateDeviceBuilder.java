@@ -42,17 +42,13 @@ public class CreateDeviceBuilder extends SceneBuilder {
     final ToggleGroup upperGroup = new ToggleGroup();
 
     RadioButton button;
-    // TODO: ensure only one button can be pressed at a time.
     for (int i = 0; i < deviceTypes.size(); i++) {
       button = new RadioButton(deviceTypes.get(i).toString());
       button.setToggleGroup(upperGroup);
-      //      if (i == 0) {
-      //        // TODO: janky
-      //        button.setSelected(true);
-      //      }
       button.setUserData(deviceTypes.get(i));
       typesForScroll.getChildren().add(button);
     }
+    upperGroup.getToggles().get(0).setSelected(true);
     topHalf.getChildren().add(typesForScroll);
     vbox.getChildren().add(topHalf);
 
