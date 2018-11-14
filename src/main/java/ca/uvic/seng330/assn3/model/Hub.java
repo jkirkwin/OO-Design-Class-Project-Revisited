@@ -186,7 +186,7 @@ public class Hub {
     assert id != null;
     return this.userAccountRegistry.containsKey(id);
   }
-  
+
   /*
    * Populate deviceRegistry and userRegistry from storage files
    */

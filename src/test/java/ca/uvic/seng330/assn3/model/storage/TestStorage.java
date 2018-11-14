@@ -31,13 +31,13 @@ import org.junit.Test;
 public class TestStorage {
 
   /*
-   * Delete the directory and all contents
+   * Recursively delete the directory and all contents
    * @pre dir is a directory
    */
   private static void deleteDir(File dir) {
     assert dir.isDirectory();
-    for(File f : dir.listFiles()) {
-      if(f.isDirectory()) {
+    for (File f : dir.listFiles()) {
+      if (f.isDirectory()) {
         deleteDir(f);
       } else {
         f.delete();
@@ -45,7 +45,7 @@ public class TestStorage {
     }
     dir.delete();
   }
-  
+
   private static void editStaticFinalField(Field f, Object newValue)
       throws NoSuchFieldException, SecurityException, IllegalArgumentException,
           IllegalAccessException {
@@ -235,17 +235,18 @@ public class TestStorage {
     }
   }
 
-  // Depends on ensureDirExists
+  // Depends on Storage.ensureDirExists (tested below) and the above helper 
   @Test
   public void testCleanStorageDir() {
-    String tempStorageDirPath = "src.test.java.ca.uvic.seng330.assn3.model.storage.temp.".replace(".",  File.separator);
+    String tempStorageDirPath =
+        "src.test.java.ca.uvic.seng330.assn3.model.storage.temp.".replace(".", File.separator);
     String tempOldDirPath = tempStorageDirPath + "old";
     File tempStorageDir = new File(tempStorageDirPath);
     try {
-      if(tempStorageDir.exists()) {
+      if (tempStorageDir.exists()) {
         deleteDir(tempStorageDir);
       }
-      
+
       Method cleanStorageDir = Storage.class.getDeclaredMethod("cleanStorageDir", String.class);
       cleanStorageDir.setAccessible(true);
       Method ensureDirExists = Storage.class.getDeclaredMethod("ensureDirExists", String.class);
@@ -256,43 +257,47 @@ public class TestStorage {
 
       ensureDirExists.invoke(null, tempStorageDirPath);
       ensureDirExists.invoke(null, tempStorageDirPath + "old" + File.separator);
-      
-      // test functionality when dir has no files, accounts file, devices file, both files
       File accountFile = new File(tempStorageDirPath + File.separator + "accounts.json");
       File deviceFile = new File(tempStorageDirPath + File.separator + "devices.json");
+      assert !accountFile.exists() && !deviceFile.exists();
 
-      // TODO It is 1am and I just had surgery. Re-factor to use a loop instead of this nastiness. 
-      cleanStorageDir.invoke(null, tempOldDirPath + "1" + File.separator);
+      // Test calling method when neither file exists
+      cleanStorageDir.invoke(null, tempOldDirPath + "0" + File.separator);
       assertTrue(!accountFile.exists() && !deviceFile.exists());
       assertTrue(new File(tempOldDirPath + "1").listFiles() == null);
       
-      accountFile.createNewFile();
-      cleanStorageDir.invoke(null, tempOldDirPath + "2" + File.separator);
-      assertTrue(!accountFile.exists() && !deviceFile.exists());
-      System.out.println(new File(tempOldDirPath + "2").listFiles().length); 
-      assertTrue(new File(tempOldDirPath + "2").listFiles().length == 1);
-      
-      deviceFile.createNewFile();
-      cleanStorageDir.invoke(null, tempOldDirPath + "3" + File.separator);
-      assertTrue(!accountFile.exists() && !deviceFile.exists());
-      assertTrue(new File(tempOldDirPath + "3").listFiles().length == 1);
-
-      accountFile.createNewFile();
-      deviceFile.createNewFile();
-      cleanStorageDir.invoke(null, tempOldDirPath + "4" + File.separator);
-      assertTrue(!accountFile.exists() && !deviceFile.exists());
-      assertTrue(new File(tempOldDirPath + "4").listFiles().length == 2);
-
+      // Test method with only deviceFile, only accountFile, and both 
+      int[] sizeOracles = new int [] {1, 1, 2};
+      for(int i = 1; i <= 3; i++) {
+        String destPath = tempOldDirPath + i + File.separator;
+        File destDir = new File(destPath);
+        switch(i) {
+          case 1:
+            accountFile.createNewFile();
+            break;
+          case 2:
+            deviceFile.createNewFile();
+            break;
+          case 3:
+            accountFile.createNewFile();
+            deviceFile.createNewFile();
+            break;
+        }
+        cleanStorageDir.invoke(null, destPath);
+        assertTrue(!accountFile.exists() && !deviceFile.exists());
+        System.out.println(destDir.listFiles().length);
+        assertTrue(destDir.listFiles().length == sizeOracles[i-1]);
+      }
     } catch (NoSuchFieldException
         | SecurityException
         | IllegalArgumentException
-        | IllegalAccessException 
-        | NoSuchMethodException 
-        | InvocationTargetException 
+        | IllegalAccessException
+        | NoSuchMethodException
+        | InvocationTargetException
         | IOException e) {
       e.printStackTrace();
     } finally {
-      if(tempStorageDir.exists()) {
+      if (tempStorageDir.exists()) {
         deleteDir(tempStorageDir);
       }
     }
