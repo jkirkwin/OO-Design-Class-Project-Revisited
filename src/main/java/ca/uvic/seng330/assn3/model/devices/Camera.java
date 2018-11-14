@@ -8,17 +8,15 @@ import org.json.JSONObject;
 public class Camera extends Device {
 
   private static int DEFAULT_MAX_SIZE = 50;
-  static int numCamera = 0;
   private int diskSize;
   private final int maxSize;
   private boolean isRecording;
 
   public Camera(Hub hub) {
-    super("Cam" + numCamera, Status.ON, hub);
+    super(hub);
     this.isRecording = false;
     this.diskSize = 0;
     this.maxSize = DEFAULT_MAX_SIZE;
-    numCamera++;
   }
 
   public Camera(String label, Hub hub) {
