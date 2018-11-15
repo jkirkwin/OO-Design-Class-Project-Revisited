@@ -3,12 +3,9 @@ package ca.uvic.seng330.assn3.view.scenebuilders.devicebuilders;
 import ca.uvic.seng330.assn3.controller.Controller;
 import ca.uvic.seng330.assn3.view.scenebuilders.SceneBuilder;
 import java.util.UUID;
-
-import javafx.geometry.Orientation;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.Separator;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -30,14 +27,15 @@ public abstract class DeviceSceneBuilder extends SceneBuilder {
 
     VBox vbox = new VBox(20);
     vbox.getChildren().add(new Label(getController().getLabel(deviceID)));
-    
+
     TextField newLabel = new TextField();
     newLabel.setPromptText("New Label");
     vbox.getChildren().add(newLabel);
     Button confirmLabel = new Button("Change Label");
-    confirmLabel.setOnAction(event -> getController().changeDeviceLabel(deviceID, newLabel.getText()));
+    confirmLabel.setOnAction(
+        event -> getController().changeDeviceLabel(deviceID, newLabel.getText()));
     vbox.getChildren().add(confirmLabel);
-    
+
     HBox hbox = new HBox(30);
     hbox.getChildren().add(new Label("Device Status -->"));
     Button toggle = new Button(getController().getStatus(deviceID));

@@ -4,7 +4,6 @@ import ca.uvic.seng330.assn3.controller.Controller;
 import ca.uvic.seng330.assn3.model.devices.Temperature.Unit;
 import java.util.ArrayList;
 import java.util.UUID;
-
 import javafx.geometry.Orientation;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
