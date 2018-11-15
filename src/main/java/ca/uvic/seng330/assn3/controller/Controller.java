@@ -428,4 +428,11 @@ public class Controller {
   public void handleUserViewClick(UUID id) {
     client.setView(findBuilder(ViewType.SELECT_DEVICES));
   }
+
+public void changeDeviceLabel(UUID id, String newLabel) {
+	assert id !=null;
+	assert newLabel != null;
+	hub.getDevice(id).setLabel(newLabel);
+	deviceViewSwitch(id);
+}
 }
