@@ -8,7 +8,6 @@ import ca.uvic.seng330.assn3.view.scenebuilders.devicebuilders.CameraSceneBuilde
 import ca.uvic.seng330.assn3.view.scenebuilders.devicebuilders.LightbulbSceneBuilder;
 import ca.uvic.seng330.assn3.view.scenebuilders.devicebuilders.SmartPlugSceneBuilder;
 import ca.uvic.seng330.assn3.view.scenebuilders.devicebuilders.ThermostatSceneBuilder;
-
 import java.util.UUID;
 
 public class BasicDeviceController extends Controller {
