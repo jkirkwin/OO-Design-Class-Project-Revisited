@@ -32,7 +32,7 @@ import javafx.scene.control.Alert.AlertType;
 public class Controller {
   // TODO: implement observable
 
-  private final Hub hub;
+  protected final Hub hub;
   private final Client client;
   private UserAccount activeUser;
   private final Stack<ViewType> views;
@@ -307,7 +307,7 @@ public class Controller {
   /*
    * Allows the skipping of views.push() etc...
    */
-  private void deviceViewSwitch(UUID uuid) {
+  protected void deviceViewSwitch(UUID uuid) {
     switch (getDeviceType(hub.getDevice(uuid))) {
       case CAMERA:
         client.setView(new CameraSceneBuilder(this, "Back", uuid));
