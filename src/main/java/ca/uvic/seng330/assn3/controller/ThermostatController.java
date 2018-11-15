@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.UUID;
 
-public class ThermostatController extends Controller {
+public class ThermostatController extends BasicDeviceController {
 
   public ThermostatController(Hub hub, Client client) {
     super(hub, client);

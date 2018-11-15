@@ -6,7 +6,7 @@ import ca.uvic.seng330.assn3.model.devices.CameraFullException;
 import ca.uvic.seng330.assn3.view.Client;
 import java.util.UUID;
 
-public class CameraController extends Controller {
+public class CameraController extends BasicDeviceController {
 
   public CameraController(Hub hub, Client client) {
     super(hub, client);

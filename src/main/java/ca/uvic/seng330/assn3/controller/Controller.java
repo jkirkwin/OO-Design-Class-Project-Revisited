@@ -33,9 +33,9 @@ public class Controller {
   // TODO: implement observable
 
   protected final Hub hub;
-  private final Client client;
+  protected final Client client;
   private UserAccount activeUser;
-  private final Stack<ViewType> views;
+  protected final Stack<ViewType> views;
   private final SceneBuilder loginBuilder;
 
   /*
@@ -347,7 +347,10 @@ public class Controller {
           "Unregistered Device: " + label);
     } else if (isUserAccount) {
       client.alertUser(
-          AlertType.INFORMATION, "User Removed", "User Removed", "Unregistered User: " + label);
+          AlertType.INFORMATION,
+          "User Removed",
+          "User Removed",
+          "Unregistered User: " + label);
     }
     refresh();
   }
@@ -356,7 +359,7 @@ public class Controller {
     client.setView(findBuilder(ViewType.CREATE_DEVICE));
   }
 
-  private DeviceType getDeviceType(Device d) {
+  protected DeviceType getDeviceType(Device d) {
     return DeviceType.valueOf(d.getClass().getSimpleName().toUpperCase());
   }
 
