@@ -15,12 +15,11 @@ public class Startup extends Application {
   @Override
   public void start(Stage primaryStage) throws Exception {
     Hub hub = new Hub();
-    Stage stage = new Stage();
-    stage.setMaxHeight(750);
-    stage.setMinHeight(250);
-    stage.setMaxWidth(750);
-    stage.setMinWidth(250);
-    Client client = new Client(stage);
+    primaryStage.setMaxHeight(750);
+    primaryStage.setMinHeight(250);
+    primaryStage.setMaxWidth(750);
+    primaryStage.setMinWidth(250);
+    Client client = new Client(primaryStage);
     Controller controller = new Controller(hub, client);
   }
 }
