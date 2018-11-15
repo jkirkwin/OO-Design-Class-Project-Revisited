@@ -11,7 +11,7 @@ public class TestLightbulb {
     // TODO Test each contructor
     assertTrue(false);
   }
-  
+
   @Test
   public void testToggle() {
     assertTrue(false);

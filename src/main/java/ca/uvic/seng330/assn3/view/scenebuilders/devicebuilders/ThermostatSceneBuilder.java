@@ -4,10 +4,13 @@ import ca.uvic.seng330.assn3.controller.Controller;
 import ca.uvic.seng330.assn3.model.devices.Temperature.Unit;
 import java.util.ArrayList;
 import java.util.UUID;
+
+import javafx.geometry.Orientation;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.Separator;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.HBox;
@@ -71,6 +74,9 @@ public class ThermostatSceneBuilder extends DeviceSceneBuilder {
     specifics.getChildren().add(currTempActions);
     specifics.getChildren().add(newTempActions);
     specifics.getChildren().add(createNewTemp);
-    return specifics;
+    HBox withBoarder = new HBox();
+    withBoarder.getChildren().add(new Separator(Orientation.VERTICAL));
+    withBoarder.getChildren().add(specifics);
+    return withBoarder;
   }
 }
