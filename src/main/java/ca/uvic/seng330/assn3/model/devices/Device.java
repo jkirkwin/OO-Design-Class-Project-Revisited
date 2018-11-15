@@ -11,7 +11,7 @@ import org.json.JSONObject;
 public abstract class Device implements StorageEntity {
   private final UUID id;
   private String label;
-  private Status status;
+  protected Status status;
   private Hub hub;
 
   /*

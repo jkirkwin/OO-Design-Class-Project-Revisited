@@ -66,11 +66,13 @@ public class Thermostat extends Device {
   public void setTemp(Temperature temp) throws TemperatureOutofBoundsException {
     assert temp != null;
     // TODO log changing temp
-    if (!isValidTemp(temp)) {
-      // TODO log invalid temp
-      throw (temp.new TemperatureOutofBoundsException());
+    if (this.getStatus() == Status.ON) {
+      if (!isValidTemp(temp)) {
+        // TODO log invalid temp
+        throw (temp.new TemperatureOutofBoundsException());
+      }
+      this.temp = temp.clone();
     }
-    this.temp = temp.clone();
   }
 
   public double getTempMag() {

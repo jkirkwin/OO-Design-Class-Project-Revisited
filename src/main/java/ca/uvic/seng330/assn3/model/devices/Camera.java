@@ -49,7 +49,7 @@ public class Camera extends Device {
   }
 
   public void record() throws CameraFullException {
-    if (this.getStatus() != Status.ERROR) {
+    if (this.getStatus() == Status.ON) {
       if (this.isRecording) {
         this.diskSize++;
         // TODO Logging
@@ -71,6 +71,8 @@ public class Camera extends Device {
         throw new CameraFullException();
       }
       this.isRecording = !this.isRecording;
+    } else {
+      this.isRecording = false;
     }
   }
 
@@ -88,5 +90,18 @@ public class Camera extends Device {
 
   public int maxDiskSize() {
     return maxSize;
+  }
+
+  @Override
+  public void setStatus(Status status) {
+    if (status == Status.OFF && this.isRecording()) {
+      try {
+        this.record();
+      } catch (CameraFullException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+      }
+    }
+    this.status = status;
   }
 }

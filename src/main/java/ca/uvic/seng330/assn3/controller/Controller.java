@@ -485,6 +485,8 @@ public class Controller {
 
   public void changeThermostatDegreeType(UUID id) {
     Thermostat thermostat = ((Thermostat) hub.getDevice(id));
+    // TODO: handle temp out of bound exceptions
+    // TODO: set to max or min acceptable?
     try {
       thermostat.convertTemp();
     } catch (TemperatureOutofBoundsException e) {
@@ -492,6 +494,14 @@ public class Controller {
       e.printStackTrace();
     }
     deviceViewSwitch(id);
+  }
+
+  public void constructTemp(UUID id, String newTempMag, Unit degree) {
+    try {
+      setThermostatTemp(id, Double.parseDouble(newTempMag), degree);
+    } catch (NumberFormatException e) {
+      // TODO: alert to missing textfield
+    }
   }
   // ==================thermostat specific=====================//
 

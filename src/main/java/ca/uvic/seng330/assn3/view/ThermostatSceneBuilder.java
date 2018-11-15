@@ -66,16 +66,11 @@ public class ThermostatSceneBuilder extends DeviceSceneBuilder {
     newTempActions.getChildren().add(degreeChoice);
 
     Button createNewTemp = new Button("Set New Temperature");
-    // TODO: new temp isnt being set right
-    try {
-      this.magnitude = Double.parseDouble(tempNum.getText());
-    } catch (NumberFormatException err) {
-      // TODO: error and alert of invalid input
-    }
     createNewTemp.setOnAction(
         event ->
             getController()
-                .setThermostatTemp(deviceID, magnitude, degrees.getSelectedToggle().getUserData()));
+                .constructTemp(
+                    deviceID, tempNum.getText(), (Unit) degrees.getSelectedToggle().getUserData()));
 
     specifics.getChildren().add(currTempActions);
     specifics.getChildren().add(newTempActions);
