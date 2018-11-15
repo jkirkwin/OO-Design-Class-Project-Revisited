@@ -410,7 +410,7 @@ public class Controller {
     try {
       thermostat.convertTemp();
     } catch (TemperatureOutofBoundsException e) {
-      // TODO Auto-generated catch block
+      // TODO alert?
       e.printStackTrace();
     }
     deviceViewSwitch(id);
