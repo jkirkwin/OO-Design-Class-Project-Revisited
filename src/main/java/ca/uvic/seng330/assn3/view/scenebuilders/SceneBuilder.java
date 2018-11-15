@@ -1,4 +1,4 @@
-package ca.uvic.seng330.assn3.view;
+package ca.uvic.seng330.assn3.view.scenebuilders;
 
 import ca.uvic.seng330.assn3.controller.Controller;
 import java.util.ArrayList;
@@ -84,7 +84,7 @@ public abstract class SceneBuilder {
 
   protected VBox hubUsersList(VBox col) {
     assert col != null;
-    ArrayList<UUID> userList = getController().getAccountIDList();
+    ArrayList<UUID> userList = getController().getBasicUserAccountIDs();
     for (int i = 0; i < userList.size(); i++) {
       Button button = new Button(getController().getLabel(userList.get(i)));
       button.setUserData(userList.get(i));

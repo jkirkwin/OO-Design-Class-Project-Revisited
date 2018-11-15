@@ -6,6 +6,7 @@ import org.json.JSONObject;
 
 public class SmartPlug extends Device {
 
+  // TODO remove isOn, change isOn() to return this.getStatus() == ON
   private boolean isOn;
 
   public SmartPlug(Hub hub) {

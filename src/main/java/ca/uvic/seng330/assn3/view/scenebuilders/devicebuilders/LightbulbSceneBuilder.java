@@ -1,4 +1,4 @@
-package ca.uvic.seng330.assn3.view;
+package ca.uvic.seng330.assn3.view.scenebuilders.devicebuilders;
 
 import ca.uvic.seng330.assn3.controller.Controller;
 import java.util.UUID;
@@ -7,17 +7,12 @@ import javafx.scene.layout.HBox;
 
 public class LightbulbSceneBuilder extends DeviceSceneBuilder {
 
-  UUID deviceID;
-
   public LightbulbSceneBuilder(Controller controller, String backText, UUID id) {
-    super(controller, backText);
-    this.deviceID = id;
+    super(controller, backText, id);
   }
 
   @Override
   protected Node buildSpecifics() {
-    HBox basics = basicBuild(deviceID);
-
-    return basics;
+    return new HBox(); // TODO Add specific fomratting for lightbulb here
   }
 }

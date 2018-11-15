@@ -1,4 +1,4 @@
-package ca.uvic.seng330.assn3.view;
+package ca.uvic.seng330.assn3.view.scenebuilders.devicebuilders;
 
 import ca.uvic.seng330.assn3.controller.Controller;
 import java.util.UUID;
@@ -10,17 +10,12 @@ import javafx.scene.layout.VBox;
 
 public class CameraSceneBuilder extends DeviceSceneBuilder {
 
-  UUID deviceID;
-
   public CameraSceneBuilder(Controller controller, String backText, UUID id) {
-    super(controller, backText);
-    this.deviceID = id;
+    super(controller, backText, id);
   }
 
   @Override
   protected Node buildSpecifics() {
-    HBox basics = basicBuild(deviceID);
-
     VBox specifics = new VBox(10);
     HBox hbox = new HBox(10);
 
@@ -47,7 +42,6 @@ public class CameraSceneBuilder extends DeviceSceneBuilder {
     hbox.getChildren().add(labels);
     hbox.getChildren().add(actions);
     specifics.getChildren().add(hbox);
-    basics.getChildren().add(specifics);
-    return basics;
+    return specifics;
   }
 }

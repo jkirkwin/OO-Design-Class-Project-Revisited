@@ -1,4 +1,4 @@
-package ca.uvic.seng330.assn3.view;
+package ca.uvic.seng330.assn3.view.scenebuilders;
 
 import ca.uvic.seng330.assn3.controller.Controller;
 import ca.uvic.seng330.assn3.controller.DeviceType;

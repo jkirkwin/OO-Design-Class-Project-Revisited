@@ -11,7 +11,8 @@ public class LoginController {
    * @pre username != null
    * @pre password != null
    */
-  public static void handleLoginClick(Controller controller, Hub hub, Client client, String username, String password) {
+  public static void handleLoginClick(
+      Controller controller, Hub hub, Client client, String username, String password) {
     assert username != null;
     assert password != null;
     if (hub.isUser(username)) {
@@ -30,7 +31,7 @@ public class LoginController {
           "Username \"" + username + "\" is not in use. Please try a different one.");
     }
   }
-  
+
   /*
    * @pre username != null
    * @pre password != null
@@ -51,7 +52,7 @@ public class LoginController {
       }
     }
   }
-  
+
   /*
    * @pre username != null
    * @pre password != null
@@ -72,7 +73,7 @@ public class LoginController {
       }
     }
   }
-  
+
   /*
    * @pre username != null
    * @pre password != null

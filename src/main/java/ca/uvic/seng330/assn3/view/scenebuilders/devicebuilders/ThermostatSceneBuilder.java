@@ -1,4 +1,4 @@
-package ca.uvic.seng330.assn3.view;
+package ca.uvic.seng330.assn3.view.scenebuilders.devicebuilders;
 
 import ca.uvic.seng330.assn3.controller.Controller;
 import ca.uvic.seng330.assn3.model.devices.Temperature.Unit;
@@ -15,18 +15,14 @@ import javafx.scene.layout.VBox;
 
 public class ThermostatSceneBuilder extends DeviceSceneBuilder {
 
-  UUID deviceID;
   double magnitude = 0;
 
   public ThermostatSceneBuilder(Controller controller, String backText, UUID id) {
-    super(controller, backText);
-    this.deviceID = id;
+    super(controller, backText, id);
   }
 
   @Override
   protected Node buildSpecifics() {
-    HBox basics = basicBuild(deviceID);
-
     VBox specifics = new VBox(10);
 
     HBox currTempActions = new HBox(10);
@@ -75,9 +71,6 @@ public class ThermostatSceneBuilder extends DeviceSceneBuilder {
     specifics.getChildren().add(currTempActions);
     specifics.getChildren().add(newTempActions);
     specifics.getChildren().add(createNewTemp);
-
-    basics.getChildren().add(specifics);
-
-    return basics;
+    return specifics;
   }
 }

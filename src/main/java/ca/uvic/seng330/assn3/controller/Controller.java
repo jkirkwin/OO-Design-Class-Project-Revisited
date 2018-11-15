@@ -1,6 +1,5 @@
 package ca.uvic.seng330.assn3.controller;
 
-import ca.uvic.seng330.assn3.model.AccessLevel;
 import ca.uvic.seng330.assn3.model.Hub;
 import ca.uvic.seng330.assn3.model.UserAccount;
 import ca.uvic.seng330.assn3.model.devices.Camera;
@@ -11,18 +10,19 @@ import ca.uvic.seng330.assn3.model.devices.Temperature;
 import ca.uvic.seng330.assn3.model.devices.Temperature.TemperatureOutofBoundsException;
 import ca.uvic.seng330.assn3.model.devices.Temperature.Unit;
 import ca.uvic.seng330.assn3.model.devices.Thermostat;
-import ca.uvic.seng330.assn3.view.CameraSceneBuilder;
 import ca.uvic.seng330.assn3.view.Client;
-import ca.uvic.seng330.assn3.view.CreateDeviceBuilder;
-import ca.uvic.seng330.assn3.view.HubSceneBuilder;
-import ca.uvic.seng330.assn3.view.LightbulbSceneBuilder;
-import ca.uvic.seng330.assn3.view.LoginSceneBuilder;
-import ca.uvic.seng330.assn3.view.ManageDevicesBuilder;
-import ca.uvic.seng330.assn3.view.ManageUsersBuilder;
-import ca.uvic.seng330.assn3.view.SceneBuilder;
-import ca.uvic.seng330.assn3.view.SelectDevicesBuilder;
-import ca.uvic.seng330.assn3.view.SmartPlugSceneBuilder;
-import ca.uvic.seng330.assn3.view.ThermostatSceneBuilder;
+import ca.uvic.seng330.assn3.view.scenebuilders.CreateDeviceBuilder;
+import ca.uvic.seng330.assn3.view.scenebuilders.HubSceneBuilder;
+import ca.uvic.seng330.assn3.view.scenebuilders.LoginSceneBuilder;
+import ca.uvic.seng330.assn3.view.scenebuilders.ManageDevicesBuilder;
+import ca.uvic.seng330.assn3.view.scenebuilders.ManageUsersBuilder;
+import ca.uvic.seng330.assn3.view.scenebuilders.SceneBuilder;
+import ca.uvic.seng330.assn3.view.scenebuilders.SelectDevicesBuilder;
+import ca.uvic.seng330.assn3.view.scenebuilders.devicebuilders.CameraSceneBuilder;
+import ca.uvic.seng330.assn3.view.scenebuilders.devicebuilders.LightbulbSceneBuilder;
+import ca.uvic.seng330.assn3.view.scenebuilders.devicebuilders.SmartPlugSceneBuilder;
+import ca.uvic.seng330.assn3.view.scenebuilders.devicebuilders.ThermostatSceneBuilder;
+
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.Stack;
@@ -57,6 +57,8 @@ public class Controller {
     client.setView(findBuilder(ViewType.LOGIN));
   }
 
+  // ========================= General Controller Functions ====================//
+
   private void exitApplication() {
     this.hub.shutdown();
   }
@@ -68,26 +70,6 @@ public class Controller {
     assert !views.isEmpty();
     ViewType currentView = views.pop();
     client.setView(findBuilder(currentView));
-  }
-
-  public void update(Object arg) {
-    // TODO
-    // this is the mega-handler to be used to delegate action to
-    // the appropriate function to update the view and/or model
-    // once we've got this thing functional we can see if there is
-    // an easy way to re-factor it into something less god-function-esque.
-
-    // Will need to add some argument that tells us about the button that was pressed/
-    // the radio item selected/the text entered in a field.
-
-    // Set active user on whenever an account successfully logs in, and remove it
-    // whenever they log out
-
-    // Way better idea: have a controller for each style of view we have and hold one
-    // of each in this main controller
-
-    // For now we're just going to split up handlers and see how that works out. Later on
-    // we can combine some, and/or package them into various classes
   }
 
   public void handleBackClick() {
@@ -155,6 +137,37 @@ public class Controller {
     return null;
   }
 
+  public ArrayList<UUID> getDeviceIDList() {
+    ArrayList<UUID> refined = new ArrayList<UUID>();
+    for (UUID id : hub.getIDList(true)) {
+      if (!hub.getBlackList(activeUser).contains(id)) {
+        refined.add(id);
+      }
+    }
+    return refined;
+  }
+
+  /*
+   * Returns a list of all *NON-ADMIN* users's UUIDs
+   */
+  public ArrayList<UUID> getBasicUserAccountIDs() {
+    ArrayList<UUID> refined = new ArrayList<UUID>();
+    for (UUID id : hub.getIDList(false)) {
+      refined.add(id);
+    }
+    return refined;
+  }
+
+  /*
+   * If uuid corresponds to a device, returns device's label
+   * If uuid corresponds to a userAcct, returns username
+   * @pre uuid != null
+   */
+  public String getLabel(UUID uuid) {
+    assert uuid != null;
+    return hub.getLabel(uuid);
+  }
+
   // ======================== Login =============================//
 
   /*
@@ -183,6 +196,32 @@ public class Controller {
 
   // ============================ Admin Console =========================//
 
+  /*
+   * @pre uuid != null
+   * @pre uuid must be the identifier for some entity registered to the hub.
+   */
+  // Could stay as part of the core controller functionality, or could get packaged in with admin
+  // functions
+  public void handleDeleteClick(UUID uuid) {
+    assert uuid != null;
+    boolean isDevice = hub.isRegisteredDevice(uuid);
+    boolean isUserAccount = hub.isRegisteredUserAccount(uuid);
+    assert isDevice || isUserAccount;
+    String label = hub.getLabel(uuid);
+    hub.unregister(uuid);
+    if (isDevice) {
+      client.alertUser(
+          AlertType.INFORMATION,
+          "Device Removed",
+          "Device Removed",
+          "Unregistered Device: " + label);
+    } else if (isUserAccount) {
+      client.alertUser(
+          AlertType.INFORMATION, "User Removed", "User Removed", "Unregistered User: " + label);
+    }
+    refresh();
+  }
+
   public void handleAdminManageUsersClick() {
     client.setView(findBuilder(ViewType.MANAGE_USERS));
   }
@@ -196,34 +235,7 @@ public class Controller {
     System.out.println("Manage Notifications");
   }
 
-  public ArrayList<UUID> getDeviceIDList() {
-    ArrayList<UUID> refined = new ArrayList<UUID>();
-    for (UUID id : hub.getIDList(true)) {
-      if (!hub.getBlackList(activeUser).contains(id)) {
-        refined.add(id);
-      }
-    }
-    return refined;
-  }
-
-  /*
-   * Returns a list of all *NON-ADMIN* users's UUIDs
-   */
-  public ArrayList<UUID> getAccountIDList() {
-    ArrayList<UUID> refined = new ArrayList<UUID>();
-    for (UUID id : hub.getIDList(false)) {
-      refined.add(id);
-    }
-    return refined;
-  }
-
-  /*
-   * @pre uuid != null
-   */
-  public String getLabel(UUID uuid) {
-    assert uuid != null;
-    return hub.getLabel(uuid);
-  }
+  // ===================== DeviceView ======================== //
 
   /*
    * @pre uuid != null
@@ -259,33 +271,6 @@ public class Controller {
         System.out.println("Thermostat View");
         break;
     }
-  }
-
-  /*
-   * @pre uuid != null
-   * @pre uuid must be the identifier for some entity registered to the hub.
-   */
-  public void handleDeleteClick(UUID uuid) {
-    assert uuid != null;
-    boolean isDevice = hub.isRegisteredDevice(uuid);
-    boolean isUserAccount = hub.isRegisteredUserAccount(uuid);
-    assert isDevice || isUserAccount;
-    String label = hub.getLabel(uuid);
-    hub.unregister(uuid);
-    if (isDevice) {
-      client.alertUser(
-          AlertType.INFORMATION,
-          "Device Removed",
-          "Device Removed",
-          "Unregistered Device: " + label);
-    } else if (isUserAccount) {
-      client.alertUser(
-          AlertType.INFORMATION,
-          "User Removed",
-          "User Removed",
-          "Unregistered User: " + label);
-    }
-    refresh();
   }
 
   public void handleCreateDeviceClick() {

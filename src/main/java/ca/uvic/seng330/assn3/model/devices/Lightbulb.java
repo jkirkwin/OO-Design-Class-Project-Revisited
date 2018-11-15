@@ -6,6 +6,7 @@ import org.json.JSONObject;
 
 public class Lightbulb extends Device {
 
+  // TODO remove isOn, change isOn() to return this.getStatus() == ON
   private boolean isOn;
 
   public Lightbulb(Hub hub) {

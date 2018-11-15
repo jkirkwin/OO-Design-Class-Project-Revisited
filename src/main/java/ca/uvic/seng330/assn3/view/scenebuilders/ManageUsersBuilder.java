@@ -1,4 +1,4 @@
-package ca.uvic.seng330.assn3.view;
+package ca.uvic.seng330.assn3.view.scenebuilders;
 
 import ca.uvic.seng330.assn3.controller.Controller;
 import javafx.scene.Node;
@@ -26,7 +26,7 @@ public class ManageUsersBuilder extends SceneBuilder {
     HBox hbox = new HBox(30);
     VBox viewUsers = hubUsersList(new VBox(10));
     viewUsers.getChildren().add(0, new Label("View User\nVisability"));
-    VBox deleteUsers = hubDeleteList(new VBox(10), getController().getAccountIDList());
+    VBox deleteUsers = hubDeleteList(new VBox(10), getController().getBasicUserAccountIDs());
     deleteUsers.getChildren().add(0, new Label("Delete User\nAccount"));
     hbox.getChildren().add(viewUsers);
     hbox.getChildren().add(deleteUsers);
