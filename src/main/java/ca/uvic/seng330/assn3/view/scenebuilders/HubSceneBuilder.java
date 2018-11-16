@@ -43,11 +43,15 @@ public class HubSceneBuilder extends SceneBuilder {
       Separator divider = new Separator(Orientation.VERTICAL);
 
       VBox adminPanel = new VBox(5);
+      adminPanel.setId("admin_panel");
       Button manageUsers = new Button("Manage Users");
+      manageUsers.setId("manage_users");
       manageUsers.setOnAction(event -> getController().handleAdminManageUsersClick());
       Button manageDevices = new Button("Manage Devices");
       manageDevices.setOnAction(event -> getController().handleAdminManageDevicesClick());
+      manageDevices.setId("manage_devices");
       Button manageNotifications = new Button("Manage Notifications");
+      manageNotifications.setId("manage_notifications");
       manageNotifications.setOnAction(
           event -> getController().handleAdminManageNotificationsClick());
 
@@ -62,6 +66,7 @@ public class HubSceneBuilder extends SceneBuilder {
       hbox.getChildren().add(hubView);
     }
 
+    hbox.setId("specifics");
     return hbox;
   }
 }

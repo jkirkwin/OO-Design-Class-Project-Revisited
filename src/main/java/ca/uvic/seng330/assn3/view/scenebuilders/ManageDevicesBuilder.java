@@ -23,6 +23,7 @@ public class ManageDevicesBuilder extends SceneBuilder {
     VBox vbox = new VBox();
     vbox.getChildren().add(new Label("Click Device\nto Delete -->\n\n\n"));
     Button createDevice = new Button("New Device");
+    createDevice.setId("new_device");
     createDevice.setOnAction(event -> getController().handleCreateDeviceClick());
     vbox.getChildren().add(createDevice);
     hbox.getChildren().add(vbox);

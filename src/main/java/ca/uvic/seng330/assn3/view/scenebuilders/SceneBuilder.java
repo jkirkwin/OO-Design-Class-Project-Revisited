@@ -30,11 +30,15 @@ public abstract class SceneBuilder {
 
   public Scene build() {
     GridPane grid = new GridPane();
-    grid.add(this.buildCommon(), 0, 0);
+    Node common = this.buildCommon();
+    grid.add(common, 0, 0);
 
     // this is the template part: buildSpecifics is the 'hook' method implemented by the concrete
     // subclasses of this one
-    grid.add(this.buildSpecifics(), 1, 1);
+    Node specifics = this.buildSpecifics();
+    specifics.setId("specifics");
+    grid.add(specifics, 1, 1);
+    grid.setId("root");
     Scene s = new Scene(grid);
     return s;
   }
@@ -43,6 +47,7 @@ public abstract class SceneBuilder {
   protected Node buildCommon() {
     Button backButton = new Button();
     backButton.setText(this.backText);
+    backButton.setId("back");
     backButton.setOnAction(
         new EventHandler<ActionEvent>() {
           @Override

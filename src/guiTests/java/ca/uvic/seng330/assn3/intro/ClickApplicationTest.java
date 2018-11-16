@@ -31,13 +31,13 @@ public class ClickApplicationTest extends ApplicationTest {
     }
   }
 
-  @Test
+//  @Test
   public void should_contain_button() {
     // expect:
     verifyThat(".button", hasText("click me!"));
   }
 
-  @Test
+//  @Test
   public void should_click_on_button() {
     // when:
     clickOn(".button");

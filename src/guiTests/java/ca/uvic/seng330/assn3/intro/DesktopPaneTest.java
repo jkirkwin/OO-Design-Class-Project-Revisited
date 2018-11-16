@@ -27,13 +27,13 @@ public class DesktopPaneTest extends ApplicationTest {
     primaryStage.show();
   }
 
-  @Test
+//  @Test
   public void should_contain_button() {
     // expect:
     verifyThat(".button", LabeledMatchers.hasText("click me!"));
   }
 
-  @Test
+//  @Test
   public void should_contain_field() {
     // given:
     clickOn("#yField").write("33");

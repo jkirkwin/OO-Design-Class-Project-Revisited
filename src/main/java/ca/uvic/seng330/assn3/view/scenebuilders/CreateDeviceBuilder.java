@@ -43,7 +43,10 @@ public class CreateDeviceBuilder extends SceneBuilder {
 
     RadioButton button;
     for (int i = 0; i < deviceTypes.size(); i++) {
-      button = new RadioButton(deviceTypes.get(i).toString());
+      String typeName = deviceTypes.get(i).toString();
+      button = new RadioButton(typeName);
+      button.setId(typeName.toLowerCase());
+      System.out.println(typeName.toLowerCase()); 
       button.setToggleGroup(upperGroup);
       button.setUserData(deviceTypes.get(i));
       typesForScroll.getChildren().add(button);
@@ -59,6 +62,7 @@ public class CreateDeviceBuilder extends SceneBuilder {
     VBox lowerLeft = new VBox(10);
     lowerLeft.getChildren().add(new Label("Device Status"));
     TextField customLabel = new TextField();
+    customLabel.setId("label");
     customLabel.setPromptText("Label");
     lowerLeft.getChildren().add(customLabel);
     lowerHalf.getChildren().add(lowerLeft);
@@ -67,17 +71,20 @@ public class CreateDeviceBuilder extends SceneBuilder {
     final ToggleGroup lowerGroup = new ToggleGroup();
 
     RadioButton statusButton = new RadioButton("ON");
+    statusButton.setId("on");
     statusButton.setToggleGroup(lowerGroup);
     statusButton.setUserData(true);
     statusButton.setSelected(true);
     lowerMiddle.getChildren().add(statusButton);
 
     statusButton = new RadioButton("OFF");
+    statusButton.setId("off");
     statusButton.setToggleGroup(lowerGroup);
     statusButton.setUserData(false);
     lowerMiddle.getChildren().add(statusButton);
 
     Button lowerRight = new Button("Create Device");
+    lowerRight.setId("create");
     lowerRight.setOnAction(
         event ->
             getController()

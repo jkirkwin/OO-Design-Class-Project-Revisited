@@ -50,18 +50,4 @@ public class LoginSceneBuilder extends SceneBuilder {
 
     return hbox;
   }
-
-  /*
-  @Override
-  public void handle(ActionEvent event) {
-    // call getClient().getController().theAppropriateHandlerFunction()
-    // this handler function will depend on the
-
-  }
-  */
 }
-
-// Idea: create wrappers for buttons to have DeviceButtons, LoginButtons, ManagementButtons etc
-// that contain within them the information needed by the handlers in the controller package
-// in the case of LoginButtons, these would extend button but would contain a LoginButtonType
-// enum that has values NEW_USER, NEW_ADMIN, and LOGIN to be used by the handler
