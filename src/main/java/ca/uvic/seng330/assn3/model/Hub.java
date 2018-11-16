@@ -218,6 +218,7 @@ public class Hub {
    * Populate storage files with JSON representations of device/user registries
    */
   public void shutdown() {
+    // TODO: turn off all devices
     Storage.store(this.deviceRegistry.values(), this.userAccountRegistry.values());
   }
 

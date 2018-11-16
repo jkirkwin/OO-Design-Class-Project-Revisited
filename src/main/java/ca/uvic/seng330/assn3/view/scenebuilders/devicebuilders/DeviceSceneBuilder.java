@@ -6,6 +6,7 @@ import java.util.UUID;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -26,6 +27,14 @@ public abstract class DeviceSceneBuilder extends SceneBuilder {
 
     VBox vbox = new VBox(20);
     vbox.getChildren().add(new Label(getController().getLabel(deviceID)));
+
+    TextField newLabel = new TextField();
+    newLabel.setPromptText("New Label");
+    vbox.getChildren().add(newLabel);
+    Button confirmLabel = new Button("Change Label");
+    confirmLabel.setOnAction(
+        event -> getController().changeDeviceLabel(deviceID, newLabel.getText()));
+    vbox.getChildren().add(confirmLabel);
 
     HBox hbox = new HBox(30);
     hbox.getChildren().add(new Label("Device Status -->"));

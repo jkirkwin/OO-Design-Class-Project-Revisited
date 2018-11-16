@@ -2,9 +2,11 @@ package ca.uvic.seng330.assn3.view.scenebuilders.devicebuilders;
 
 import ca.uvic.seng330.assn3.controller.Controller;
 import java.util.UUID;
+import javafx.geometry.Orientation;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.Separator;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
@@ -39,8 +41,10 @@ public class CameraSceneBuilder extends DeviceSceneBuilder {
     emptyDisk.setOnAction(event -> getController().emptyCameraDiskSize(deviceID));
     actions.getChildren().add(emptyDisk);
 
+    hbox.getChildren().add(new Separator(Orientation.VERTICAL));
     hbox.getChildren().add(labels);
     hbox.getChildren().add(actions);
+
     specifics.getChildren().add(hbox);
     return specifics;
   }

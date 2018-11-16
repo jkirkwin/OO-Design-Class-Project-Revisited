@@ -1,10 +1,13 @@
 package ca.uvic.seng330.assn3.view.scenebuilders;
 
 import ca.uvic.seng330.assn3.controller.Controller;
+import javafx.geometry.Orientation;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
+import javafx.scene.control.Separator;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
@@ -31,9 +34,14 @@ public class HubSceneBuilder extends SceneBuilder {
     VBox buttons = new VBox(10);
     layout.setContent(hubDeviceList(buttons));
 
-    hbox.getChildren().add(layout);
+    VBox hubView = new VBox(10);
+    hubView.getChildren().add(new Label("Device Config"));
+    hubView.getChildren().add(layout);
+    hbox.getChildren().add(hubView);
 
     if (isAdmin) {
+      Separator divider = new Separator(Orientation.VERTICAL);
+
       VBox adminPanel = new VBox(5);
       Button manageUsers = new Button("Manage Users");
       manageUsers.setOnAction(event -> getController().handleAdminManageUsersClick());
@@ -47,7 +55,11 @@ public class HubSceneBuilder extends SceneBuilder {
       adminPanel.getChildren().add(manageDevices);
       adminPanel.getChildren().add(manageNotifications);
 
-      hbox.getChildren().add(adminPanel);
+      hbox.getChildren().add(divider);
+      hubView = new VBox(10);
+      hubView.getChildren().add(new Label("Admin Panel"));
+      hubView.getChildren().add(adminPanel);
+      hbox.getChildren().add(hubView);
     }
 
     return hbox;
