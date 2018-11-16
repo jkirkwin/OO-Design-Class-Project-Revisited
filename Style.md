@@ -92,16 +92,11 @@ After selecting '-Kill-/Murder' from AdminHub, User is presented with a list of 
 ## Design
 
 ### Questions
-* Who can make devices?
-* Can Admin Kill Users?
 * Where does error checking happen?
 * Input checking?
 * Logging HOW!?
 * Devices extend Cloneable?
-* How should we parameterize the dynamic creation of scenes? Controll flow goes: controller calls setView(viewType); withing setView(), the client creates and populates a new scene. See FXClient.java for context and extra notes.
 
 ### Logistic Questions
-* Gradle HOW?? -> Go to Neil's Office Hours
 * Is Travis working 100?
 * Logging where?
-* CheckStyle working?

@@ -410,8 +410,11 @@ public class Controller {
     try {
       thermostat.convertTemp();
     } catch (TemperatureOutofBoundsException e) {
-      // TODO alert?
-      e.printStackTrace();
+      client.alertUser(
+          AlertType.INFORMATION,
+          "Temp Converted",
+          "New " + thermostat.getTemp().toString(),
+          thermostat.toString() + " cannot take temp oustide bounds");
     }
     deviceViewSwitch(id);
   }

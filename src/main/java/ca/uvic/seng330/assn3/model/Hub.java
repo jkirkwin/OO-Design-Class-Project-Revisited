@@ -302,18 +302,17 @@ public class Hub {
     }
     added.setLabel(customLabel);
   }
-  
+
   /*
    * Returns the UUID of the first device with a matching label. Null otherwise.
    */
   public UUID getFirstID(String label) {
     assert label != null;
-    for(Device d : deviceRegistry.values()) {
-      if(d.getLabel().equals(label)) {
+    for (Device d : deviceRegistry.values()) {
+      if (d.getLabel().equals(label)) {
         return d.getIdentifier();
       }
     }
     return null;
-    
   }
 }

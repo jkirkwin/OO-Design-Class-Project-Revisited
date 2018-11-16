@@ -86,23 +86,12 @@ public class Thermostat extends Device {
   @SuppressWarnings("static-access")
   // TODO: fix static problems
   public void convertTemp() throws TemperatureOutofBoundsException {
-	  Temperature converted=null;
-	  switch (getTempType()) {
+    switch (getTempType()) {
       case CELSIUS:
-    	  converted = getTemp().convertTemp(temp, Unit.FAHRENHEIT);
-    	  if(this.MIN_CELSIUS.getMagnitude()<converted.getMagnitude() && converted.getMagnitude()>this.MAX_CELSIUS.getMagnitude()) {
-    		  setTemp(converted);
-    	  } else {
-    		  throw converted.new TemperatureOutofBoundsException("TEMP OUT OF BOUNDS");
-    	  }
+        setTemp(getTemp().convertTemp(temp, Unit.FAHRENHEIT));
         break;
       case FAHRENHEIT:
-        converted = getTemp().convertTemp(temp, Unit.CELSIUS);
-  	  if(this.MIN_FAHRENHEIT.getMagnitude()<converted.getMagnitude() && converted.getMagnitude()>this.MAX_FAHRENHEIT.getMagnitude()) {
-  		  setTemp(converted);
-  	  }else {
-		  throw converted.new TemperatureOutofBoundsException("TEMP OUT OF BOUNDS");
-  	  }
+        setTemp(getTemp().convertTemp(temp, Unit.CELSIUS));
         break;
     }
   }
