@@ -22,19 +22,22 @@ public class LoginSceneBuilder extends SceneBuilder {
     username.setId("username");
     username.setPromptText("username");
     TextField password = new TextField();
-    username.setId("password");
+    password.setId("password");
     password.setPromptText("password");
     textFields.getChildren().add(username);
     textFields.getChildren().add(password);
 
     VBox buttons = new VBox(5);
     Button login = new Button("Login");
+    login.setId("login");
     login.setOnAction(
         event -> getController().handleLoginClick(username.getText(), password.getText()));
     Button user = new Button("New User");
+    user.setId("new_user");
     user.setOnAction(
         event -> getController().handleNewUser(username.getText(), password.getText()));
     Button admin = new Button("New Admin");
+    admin.setId("new_admin");
     admin.setOnAction(
         event -> getController().handleNewAdmin(username.getText(), password.getText()));
 
