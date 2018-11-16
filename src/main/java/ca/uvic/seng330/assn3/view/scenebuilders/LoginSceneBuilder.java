@@ -19,8 +19,10 @@ public class LoginSceneBuilder extends SceneBuilder {
 
     VBox textFields = new VBox(5);
     TextField username = new TextField();
+    username.setId("username");
     username.setPromptText("username");
     TextField password = new TextField();
+    username.setId("password");
     password.setPromptText("password");
     textFields.getChildren().add(username);
     textFields.getChildren().add(password);

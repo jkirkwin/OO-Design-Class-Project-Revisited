@@ -34,7 +34,7 @@ public class TestStorage {
    * Recursively delete the directory and all contents
    * @pre dir is a directory
    */
-  private static void deleteDir(File dir) {
+  public static void deleteDir(File dir) {
     assert dir.isDirectory();
     for (File f : dir.listFiles()) {
       if (f.isDirectory()) {

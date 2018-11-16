@@ -37,7 +37,8 @@ public class Client {
    */
   public void setView(SceneBuilder builder) {
     assert builder != null;
-    this.window.setScene(builder.build());
+    this.view = builder.build();
+    this.window.setScene(view);
 
     // TODO unsure if this is necessary to call every time, but it definitely needs to be called at
     // least once,
@@ -50,7 +51,7 @@ public class Client {
   }
 
   public Scene getView() {
-    return this.getView();
+    return this.view;
   }
 
   public void close() {
