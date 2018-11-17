@@ -5,7 +5,7 @@
     project="assn3-team-connor-and-jamie" 
     file="/assn3-team-connor-and-jamie/src/main/java/ca/uvic/seng330/assn3/controller/ViewType.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="268" width="248" x="251" y="659"/>    
+    <position height="-1" width="-1" x="151" y="527"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -16,7 +16,7 @@
     project="assn3-team-connor-and-jamie" 
     file="/assn3-team-connor-and-jamie/src/main/java/ca/uvic/seng330/assn3/controller/DeviceType.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1624" y="782"/>    
+    <position height="-1" width="-1" x="1360" y="728"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -27,7 +27,7 @@
     project="assn3-team-connor-and-jamie" 
     file="/assn3-team-connor-and-jamie/src/main/java/ca/uvic/seng330/assn3/controller/BasicDeviceController.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="142" width="223" x="539" y="659"/>    
+    <position height="-1" width="-1" x="460" y="730"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -38,7 +38,7 @@
     project="assn3-team-connor-and-jamie" 
     file="/assn3-team-connor-and-jamie/src/main/java/ca/uvic/seng330/assn3/controller/ThermostatController.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="196" width="288" x="375" y="967"/>    
+    <position height="-1" width="-1" x="157" y="805"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -49,7 +49,7 @@
     project="assn3-team-connor-and-jamie" 
     file="/assn3-team-connor-and-jamie/src/main/java/ca/uvic/seng330/assn3/controller/CameraController.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="178" width="234" x="703" y="967"/>    
+    <position height="-1" width="-1" x="694" y="808"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -81,7 +81,7 @@
     project="assn3-team-connor-and-jamie" 
     file="/assn3-team-connor-and-jamie/src/main/java/ca/uvic/seng330/assn3/view/scenebuilders/SceneBuilder.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1786" y="280"/>    
+    <position height="-1" width="-1" x="1308" y="328"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -92,7 +92,7 @@
     project="assn3-team-connor-and-jamie" 
     file="/assn3-team-connor-and-jamie/src/main/java/ca/uvic/seng330/assn3/view/scenebuilders/SelectDevicesBuilder.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1050" y="530"/>    
+    <position height="-1" width="-1" x="852" y="562"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -103,7 +103,7 @@
     project="assn3-team-connor-and-jamie" 
     file="/assn3-team-connor-and-jamie/src/main/java/ca/uvic/seng330/assn3/view/scenebuilders/ManageUsersBuilder.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1337" y="530"/>    
+    <position height="-1" width="-1" x="1099" y="562"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -114,7 +114,7 @@
     project="assn3-team-connor-and-jamie" 
     file="/assn3-team-connor-and-jamie/src/main/java/ca/uvic/seng330/assn3/view/scenebuilders/CreateDeviceBuilder.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1622" y="530"/>    
+    <position height="-1" width="-1" x="1344" y="562"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -125,7 +125,7 @@
     project="assn3-team-connor-and-jamie" 
     file="/assn3-team-connor-and-jamie/src/main/java/ca/uvic/seng330/assn3/view/scenebuilders/LoginSceneBuilder.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1907" y="530"/>    
+    <position height="-1" width="-1" x="1589" y="566"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -136,7 +136,7 @@
     project="assn3-team-connor-and-jamie" 
     file="/assn3-team-connor-and-jamie/src/main/java/ca/uvic/seng330/assn3/view/scenebuilders/ManageDevicesBuilder.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="2198" y="530"/>    
+    <position height="-1" width="-1" x="1754" y="412"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -147,7 +147,7 @@
     project="assn3-team-connor-and-jamie" 
     file="/assn3-team-connor-and-jamie/src/main/java/ca/uvic/seng330/assn3/view/scenebuilders/HubSceneBuilder.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="2504" y="539"/>    
+    <position height="-1" width="-1" x="1818" y="215"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -158,7 +158,7 @@
     project="assn3-team-connor-and-jamie" 
     file="/assn3-team-connor-and-jamie/src/main/java/ca/uvic/seng330/assn3/view/scenebuilders/devicebuilders/DeviceSceneBuilder.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1782" y="-88"/>    
+    <position height="-1" width="-1" x="1312" y="108"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -169,7 +169,7 @@
     project="assn3-team-connor-and-jamie" 
     file="/assn3-team-connor-and-jamie/src/main/java/ca/uvic/seng330/assn3/view/scenebuilders/devicebuilders/SmartPlugSceneBuilder.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1230" y="71"/>    
+    <position height="-1" width="-1" x="872" y="-85"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -180,7 +180,7 @@
     project="assn3-team-connor-and-jamie" 
     file="/assn3-team-connor-and-jamie/src/main/java/ca/uvic/seng330/assn3/view/scenebuilders/devicebuilders/ThermostatSceneBuilder.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1598" y="80"/>    
+    <position height="-1" width="-1" x="900" y="94"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -191,7 +191,7 @@
     project="assn3-team-connor-and-jamie" 
     file="/assn3-team-connor-and-jamie/src/main/java/ca/uvic/seng330/assn3/view/scenebuilders/devicebuilders/CameraSceneBuilder.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1966" y="71"/>    
+    <position height="-1" width="-1" x="1300" y="-91"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -202,7 +202,7 @@
     project="assn3-team-connor-and-jamie" 
     file="/assn3-team-connor-and-jamie/src/main/java/ca/uvic/seng330/assn3/view/scenebuilders/devicebuilders/LightbulbSceneBuilder.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="2334" y="71"/>    
+    <position height="-1" width="-1" x="1642" y="-59"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -219,72 +219,88 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <association id="21">    
-    <end type="SOURCE" refId="6" navigable="false">      
-      <attribute id="22" name="client"/>      
-      <multiplicity id="23" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="20" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <generalization id="24">    
-    <end type="SOURCE" refId="11"/>    
-    <end type="TARGET" refId="8"/>  
-  </generalization>  
-  <generalization id="25">    
-    <end type="SOURCE" refId="9"/>    
-    <end type="TARGET" refId="8"/>  
-  </generalization>  
-  <association id="26">    
-    <end type="SOURCE" refId="8" navigable="false">      
-      <attribute id="27" name="controller"/>      
-      <multiplicity id="28" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="6" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <generalization id="29">    
-    <end type="SOURCE" refId="17"/>    
-    <end type="TARGET" refId="15"/>  
-  </generalization>  
-  <generalization id="30">    
-    <end type="SOURCE" refId="5"/>    
-    <end type="TARGET" refId="3"/>  
-  </generalization>  
-  <generalization id="31">    
-    <end type="SOURCE" refId="15"/>    
-    <end type="TARGET" refId="8"/>  
-  </generalization>  
-  <generalization id="32">    
+  <generalization id="21">    
     <end type="SOURCE" refId="19"/>    
     <end type="TARGET" refId="15"/>  
   </generalization>  
-  <association id="33">    
+  <association id="22">    
     <end type="SOURCE" refId="11" navigable="false">      
-      <attribute id="34" name="chosenDevice"/>      
-      <multiplicity id="35" minimum="0" maximum="1"/>    
+      <attribute id="23" name="chosenDevice">        
+        <position height="0" width="0" x="-264" y="-54"/>      
+      </attribute>      
+      <multiplicity id="24" minimum="0" maximum="1">        
+        <position height="0" width="0" x="-264" y="-54"/>      
+      </multiplicity>    
     </end>    
     <end type="TARGET" refId="2" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <generalization id="36">    
-    <end type="SOURCE" refId="14"/>    
-    <end type="TARGET" refId="8"/>  
-  </generalization>  
-  <generalization id="37">    
-    <end type="SOURCE" refId="10"/>    
-    <end type="TARGET" refId="8"/>  
-  </generalization>  
-  <generalization id="38">    
-    <end type="SOURCE" refId="3"/>    
-    <end type="TARGET" refId="6"/>  
-  </generalization>  
-  <association id="39">    
+  <association id="25">    
+    <end type="SOURCE" refId="8" navigable="false">      
+      <attribute id="26" name="controller">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="27" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="6" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="28">    
     <end type="SOURCE" refId="6" navigable="false">      
-      <attribute id="40" name="loginBuilder"/>      
-      <multiplicity id="41" minimum="0" maximum="1"/>    
+      <attribute id="29" name="client">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="30" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="20" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="31">    
+    <end type="SOURCE" refId="6" navigable="false">      
+      <attribute id="32" name="loginBuilder">        
+        <position height="0" width="0" x="-478" y="48"/>      
+      </attribute>      
+      <multiplicity id="33" minimum="0" maximum="1">        
+        <position height="0" width="0" x="-478" y="48"/>      
+      </multiplicity>    
     </end>    
     <end type="TARGET" refId="8" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="34">    
+    <end type="SOURCE" refId="5"/>    
+    <end type="TARGET" refId="3"/>  
+  </generalization>  
+  <generalization id="35">    
+    <end type="SOURCE" refId="17"/>    
+    <end type="TARGET" refId="15"/>  
+  </generalization>  
+  <association id="36">    
+    <end type="SOURCE" refId="20" navigable="false">      
+      <attribute id="37" name="controller">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="38" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="6" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="39">    
+    <end type="SOURCE" refId="6" navigable="false">      
+      <attribute id="40" name="views">        
+        <position height="0" width="0" x="-224" y="-266"/>      
+      </attribute>      
+      <multiplicity id="41" minimum="0" maximum="2147483647">        
+        <position height="0" width="0" x="-224" y="-266"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="1" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
   <generalization id="42">    
@@ -292,37 +308,45 @@
     <end type="TARGET" refId="15"/>  
   </generalization>  
   <generalization id="43">    
-    <end type="SOURCE" refId="18"/>    
-    <end type="TARGET" refId="15"/>  
-  </generalization>  
-  <association id="44">    
-    <end type="SOURCE" refId="6" navigable="false">      
-      <attribute id="45" name="views"/>      
-      <multiplicity id="46" minimum="0" maximum="2147483647"/>    
-    </end>    
-    <end type="TARGET" refId="1" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <generalization id="47">    
-    <end type="SOURCE" refId="13"/>    
-    <end type="TARGET" refId="8"/>  
-  </generalization>  
-  <generalization id="48">    
     <end type="SOURCE" refId="4"/>    
     <end type="TARGET" refId="3"/>  
   </generalization>  
+  <generalization id="44">    
+    <end type="SOURCE" refId="3"/>    
+    <end type="TARGET" refId="6"/>  
+  </generalization>  
+  <generalization id="45">    
+    <end type="SOURCE" refId="10"/>    
+    <end type="TARGET" refId="8"/>  
+  </generalization>  
+  <generalization id="46">    
+    <end type="SOURCE" refId="18"/>    
+    <end type="TARGET" refId="15"/>  
+  </generalization>  
+  <generalization id="47">    
+    <end type="SOURCE" refId="14"/>    
+    <end type="TARGET" refId="8"/>  
+  </generalization>  
+  <generalization id="48">    
+    <end type="SOURCE" refId="11"/>    
+    <end type="TARGET" refId="8"/>  
+  </generalization>  
   <generalization id="49">    
+    <end type="SOURCE" refId="9"/>    
+    <end type="TARGET" refId="8"/>  
+  </generalization>  
+  <generalization id="50">    
+    <end type="SOURCE" refId="13"/>    
+    <end type="TARGET" refId="8"/>  
+  </generalization>  
+  <generalization id="51">    
+    <end type="SOURCE" refId="15"/>    
+    <end type="TARGET" refId="8"/>  
+  </generalization>  
+  <generalization id="52">    
     <end type="SOURCE" refId="12"/>    
     <end type="TARGET" refId="8"/>  
   </generalization>  
-  <association id="50">    
-    <end type="SOURCE" refId="20" navigable="false">      
-      <attribute id="51" name="controller"/>      
-      <multiplicity id="52" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="6" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
   <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
     sort-features="false" accessors="true" visibility="true">    
     <attributes public="true" package="true" protected="true" private="true" static="true"/>    
