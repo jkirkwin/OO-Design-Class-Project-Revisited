@@ -44,7 +44,7 @@ The Storage sub-package of model is repsonsible for converting all stateful enti
 
 ### Model UML
 
-![](UML Diagrams/Model.jpg)
+![](UML Diagrams/Model.png)
 
 ## Controller
 
@@ -86,7 +86,7 @@ The controller re-factor will focus on seperating all specific use functions (se
 
 ### System UML
 
-![](UML Diagrams/System.jpg)
+![](UML Diagrams/System.png)
 
 
 ## View
@@ -137,7 +137,7 @@ The remaining Devices only require the basic Device Functionality but have been 
 
 ### View Diagram
 
-![](UML Diagrams/View.jpg)
+![](UML Diagrams/View.png)
 
 ## Tests
 
