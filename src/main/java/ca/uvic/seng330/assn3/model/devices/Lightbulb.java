@@ -6,17 +6,17 @@ import org.json.JSONObject;
 
 public class Lightbulb extends Device {
 
-  // TODO remove isOn, change isOn() to return this.getStatus() == ON
+  // TODO remove isOn, it is made redundant by status
   private boolean isOn;
 
   public Lightbulb(Hub hub) {
     super(hub);
-    this.isOn = false;
+    this.isOn = true;
   }
 
   public Lightbulb(String label, Hub hub) {
     super(label, Status.ON, hub);
-    this.isOn = false;
+    this.isOn = true;
   }
 
   protected Lightbulb(boolean isOn, UUID id, String label, Hub hub) {
@@ -29,14 +29,16 @@ public class Lightbulb extends Device {
   }
 
   public void toggle() {
-    // TODO Logging
-    //    if (this.isOn) {
-    //      getHub().log("Turning Lightbulb Off", Level.INFO, getIdentifier());
-    //    } else {
-    //      getHub().log("Turning Lightbulb On", Level.INFO, getIdentifier());
-    //    }
-
+    // TODO Log change
     this.isOn = !this.isOn;
+    if (this.status.equals(Status.OFF)) {
+      setStatus(Status.ON);
+    } else if (this.status.equals(Status.ON)) {
+      setStatus(Status.OFF);
+    } else {
+      // TODO Log error
+      assert false;
+    }
   }
 
   @Override
