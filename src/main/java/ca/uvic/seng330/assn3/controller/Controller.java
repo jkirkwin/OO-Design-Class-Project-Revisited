@@ -409,7 +409,11 @@ public class Controller {
     try {
       thermostat.changeTempUnits();
     } catch (TemperatureOutofBoundsException e) {
-      client.alertUser(AlertType.ERROR, "Invalid Temperature", "Invalid Temperature", "Try something more reasonable...");
+      client.alertUser(
+          AlertType.ERROR,
+          "Temp Converted",
+          "New " + thermostat.getTemp().toString(),
+          thermostat.toString() + " cannot take temp oustide bounds");
     }
     deviceViewSwitch(id);
   }
@@ -418,6 +422,7 @@ public class Controller {
     try {
       setThermostatTemp(id, Double.parseDouble(newTempMag), degree);
     } catch (NumberFormatException e) {
+      // TODO: alert to missing textfield
       assert false;
     }
   }

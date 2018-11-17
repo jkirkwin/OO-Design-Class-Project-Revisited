@@ -14,7 +14,7 @@ public class Startup extends Application {
   private Controller controller;
   private Client client;
   private Hub hub;
-  
+
   @SuppressWarnings("unused")
   @Override
   public void start(Stage primaryStage) throws Exception {
