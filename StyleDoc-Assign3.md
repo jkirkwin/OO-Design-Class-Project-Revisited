@@ -164,3 +164,7 @@ C:
 D: 1, 2, 3, 4, 5
 E: 1, 2
 F: 1, 2, 3
+
+B6 - we use ON/OFF/ERROR vs functioning, offline, error
+D1 - we use a toggle instead of seperate buttons
+F3 - Status is displayed on the toggle button itself
