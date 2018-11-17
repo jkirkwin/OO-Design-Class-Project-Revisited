@@ -4,6 +4,7 @@ import ca.uvic.seng330.assn3.model.AccessLevel;
 import ca.uvic.seng330.assn3.model.Hub;
 import ca.uvic.seng330.assn3.model.UserAccount;
 import ca.uvic.seng330.assn3.view.Client;
+import java.util.NoSuchElementException;
 import javafx.scene.control.Alert.AlertType;
 
 public class LoginController {
@@ -16,8 +17,16 @@ public class LoginController {
     assert username != null;
     assert password != null;
     if (hub.isUser(username)) {
-      System.out.println("Logged in"); // Testing
-      controller.activeUser = hub.getUser(username, password);
+      try {
+        controller.activeUser = hub.getUser(username, password);
+      } catch (NoSuchElementException e) {
+        client.alertUser(
+            AlertType.INFORMATION,
+            "Failure",
+            "Incorrect password",
+            "The credentials entered are incorrect. Please try a different password or just look at the storage files because security reasons.");
+        return;
+      }
       if (controller.activeUser.isAdmin()) {
         client.setView(controller.findBuilder(ViewType.HUB_ADMIN));
       } else {

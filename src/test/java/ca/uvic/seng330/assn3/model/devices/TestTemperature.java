@@ -16,7 +16,7 @@ public class TestTemperature {
     assertTrue(oracle1.equals(new Temperature(oracle1.toString())));
     assertTrue(oracle2.equals(new Temperature(oracle2.toString())));
   }
-  
+
   @Test
   public void testTempEquals() {
     Temperature c1 = new Temperature(0.0, Unit.CELSIUS);

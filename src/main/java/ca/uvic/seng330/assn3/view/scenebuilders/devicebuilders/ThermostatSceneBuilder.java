@@ -33,9 +33,9 @@ public class ThermostatSceneBuilder extends DeviceSceneBuilder {
         String.valueOf(getController().getThermostatTempMag(deviceID))
             + " degrees "
             + getController().getThermostatTempType(deviceID);
-//    if (getController().getThermostatTempType(deviceID) == "CELSIUS") {
-//      currentTemp += "        ";
-//    }
+    //    if (getController().getThermostatTempType(deviceID) == "CELSIUS") {
+    //      currentTemp += "        ";
+    //    }
     Label displayTemp = new Label(currentTemp);
     displayTemp.setId("current_temp");
     Button switchTempType = new Button("Change Degrees");

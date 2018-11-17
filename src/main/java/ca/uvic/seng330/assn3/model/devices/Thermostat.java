@@ -83,10 +83,9 @@ public class Thermostat extends Device {
     return this.getTemp().getUnit();
   }
 
-
   public void changeTempUnits() throws TemperatureOutofBoundsException {
-	  assert isValidTemp(this.temp);
-	  Unit newUnit = this.getTempType().equals(Unit.CELSIUS) ? Unit.FAHRENHEIT: Unit.CELSIUS;
+    assert isValidTemp(this.temp);
+    Unit newUnit = this.getTempType().equals(Unit.CELSIUS) ? Unit.FAHRENHEIT : Unit.CELSIUS;
     this.temp.changeUnit(newUnit);
   }
 

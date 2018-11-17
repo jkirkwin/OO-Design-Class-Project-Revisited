@@ -387,7 +387,11 @@ public class Controller {
     try {
       ((Thermostat) hub.getDevice(id)).setTemp(new Temperature(magnitude, (Unit) degreeType));
     } catch (TemperatureOutofBoundsException e) {
-      client.alertUser(AlertType.ERROR, "Invalid Temperature", "Invalid Temperature", "Try something more reasonable...");
+      client.alertUser(
+          AlertType.ERROR,
+          "Invalid Temperature",
+          "Invalid Temperature",
+          "Try something more reasonable...");
     }
     deviceViewSwitch(id);
   }
