@@ -16,52 +16,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.testfx.framework.junit.ApplicationTest;
 
-public class TestLogin extends ApplicationTest {
-
-  Hub hub;
-  Controller controller;
-  Client client;
-  Startup app;
-
-  @SuppressWarnings("unused")
-  @Override
-  public void start(Stage primaryStage) throws Exception {
-    this.app = new Startup();
-    this.app.start(primaryStage);
-    this.hub = (Hub) GUITestUtilities.getAccessibleField(app, "hub").get(app);
-    this.client = (Client) GUITestUtilities.getAccessibleField(app, "client").get(app);
-    this.controller = (Controller) GUITestUtilities.getAccessibleField(app, "controller").get(app);
-  }
-
-  //   TODO Set up a testing directory so that the state of the model is not deleted when these
-  // tests run
-  @Before
-  public void setup() {
-    try {
-      GUITestUtilities.deleteState();
-    } catch (NoSuchMethodException
-        | SecurityException
-        | IllegalAccessException
-        | IllegalArgumentException
-        | InvocationTargetException
-        | NoSuchFieldException e) {
-      e.printStackTrace();
-    }
-  }
-
-  @After
-  public void teardown() {
-    try {
-      GUITestUtilities.deleteState();
-    } catch (NoSuchMethodException
-        | SecurityException
-        | IllegalAccessException
-        | IllegalArgumentException
-        | InvocationTargetException
-        | NoSuchFieldException e) {
-      e.printStackTrace();
-    }
-  }
+public class TestLogin extends IOTApplicationTest {
 
   @Test
   public void testAdminLogin() throws InterruptedException {

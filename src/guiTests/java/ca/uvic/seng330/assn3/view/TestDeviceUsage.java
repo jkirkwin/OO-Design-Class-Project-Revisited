@@ -21,39 +21,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.testfx.framework.junit.ApplicationTest;
 
-public class TestDeviceUsage extends ApplicationTest {
+public class TestDeviceUsage extends IOTApplicationTest {
 
   // TODO Add camera usage tests
-
-  Hub hub;
-  Controller controller;
-  Client client;
-  Startup app;
-
-  @SuppressWarnings("unused")
-  @Override
-  public void start(Stage primaryStage) throws Exception {
-    this.app = new Startup();
-    this.app.start(primaryStage);
-    this.hub = (Hub) GUITestUtilities.getAccessibleField(app, "hub").get(app);
-    this.client = (Client) GUITestUtilities.getAccessibleField(app, "client").get(app);
-    this.controller = (Controller) GUITestUtilities.getAccessibleField(app, "controller").get(app);
-  }
-
-  @Before
-  @After
-  public void setup() {
-    try {
-      GUITestUtilities.deleteState();
-    } catch (NoSuchMethodException
-        | SecurityException
-        | IllegalAccessException
-        | IllegalArgumentException
-        | InvocationTargetException
-        | NoSuchFieldException e) {
-      e.printStackTrace();
-    }
-  }
 
   /*
    * change label

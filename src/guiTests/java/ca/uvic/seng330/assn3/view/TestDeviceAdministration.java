@@ -21,39 +21,9 @@ import org.junit.Test;
 import org.testfx.api.FxRobotException;
 import org.testfx.framework.junit.ApplicationTest;
 
-public class TestDeviceAdministration extends ApplicationTest {
-  // Should test the device admin tasks possible from admin login -> manage devices
+public class TestDeviceAdministration extends IOTApplicationTest {
 
-  Hub hub;
-  Controller controller;
-  Client client;
-  Startup app;
-
-  @SuppressWarnings("unused")
-  @Override
-  public void start(Stage primaryStage) throws Exception {
-    this.app = new Startup();
-    this.app.start(primaryStage);
-    this.hub = (Hub) GUITestUtilities.getAccessibleField(app, "hub").get(app);
-    this.client = (Client) GUITestUtilities.getAccessibleField(app, "client").get(app);
-    this.controller = (Controller) GUITestUtilities.getAccessibleField(app, "controller").get(app);
-  }
-
-  @Before
-  @After
-  public void setup() {
-    try {
-      GUITestUtilities.deleteState();
-    } catch (NoSuchMethodException
-        | SecurityException
-        | IllegalAccessException
-        | IllegalArgumentException
-        | InvocationTargetException
-        | NoSuchFieldException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    }
-  }
+  // Tests the device admin tasks possible from admin login -> manage devices
 
   public void makeDevice(String typeId, String status, String label) {
     clickOn("#" + typeId.toLowerCase());
@@ -64,8 +34,9 @@ public class TestDeviceAdministration extends ApplicationTest {
     clickOn("OK");
   }
 
-  //  @Test
+  @Test
   public void testCreateCamera() {
+    GUITestUtilities.goToCreateDevice(this);
     String label = "a camera";
     Status status = Status.OFF;
     makeDevice("camera", status.toString(), label);
@@ -73,8 +44,9 @@ public class TestDeviceAdministration extends ApplicationTest {
     assertTrue(hub.getDevice(hub.getFirstID(label)).getStatus().equals(status));
   }
 
-  //  @Test
+  @Test
   public void testCreateLightBulb() {
+    GUITestUtilities.goToCreateDevice(this);
     String label = "a bulb";
     Status status = Status.ON;
     makeDevice("lightbulb", status.toString(), label);
@@ -82,8 +54,9 @@ public class TestDeviceAdministration extends ApplicationTest {
     assertTrue(hub.getDevice(hub.getFirstID(label)).getStatus().equals(status));
   }
 
-  //  @Test
+  @Test
   public void testCreateThermostat() {
+    GUITestUtilities.goToCreateDevice(this);
     String label = "a stat";
     Status status = Status.OFF;
     makeDevice("thermostat", status.toString(), label);
@@ -91,8 +64,9 @@ public class TestDeviceAdministration extends ApplicationTest {
     assertTrue(hub.getDevice(hub.getFirstID(label)).getStatus().equals(status));
   }
 
-  //  @Test
+  @Test
   public void testCreateSmartPlug() {
+    GUITestUtilities.goToCreateDevice(this);
     String label = "a plug";
     Status status = Status.ON;
     makeDevice("smartplug", status.toString(), label);
