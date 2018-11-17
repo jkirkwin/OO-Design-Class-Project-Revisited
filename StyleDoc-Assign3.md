@@ -83,19 +83,37 @@
 
 #### LoginView
 
+	Upon opening the application, the User is greeted by the LogIn screen. From this screen we can create new Accounts, Basic or Admin. We may then press the login button to go to HubView.
+
 #### HubView
+
+	The HubView, much like Model's Hub, is the core of the application. It is from here that all other screens originate.
 
 ##### Basic
 
+	If the User logs in with a Basic UserAccount they are presented with a simple HubView. Consisting of all the Devices they're allowed to see. Selecting any of these will open the Device Config Screen for the specific Device.
+
 ##### Admin
+
+	If the User logs in with an Admin UserAccount they are presented with the same simple HubView as a Basic UserAccount, as well as the Admin Panel. Manage Users will let you go see a list of all non-Admin Users and either delete the UserAccount or see their Basic HubViews. In future an Admin User will be able to add Devices to the BlackList of any user in the list.
+	Manage Devices takes the User to a list of Devices in the system. Selecting any of these Devices will delete it from the System. Selecting the New Device Button will take the User to the Create Device screen where a new Device can be created of any available type (Any new DeviceTypes will automatically be added to the list). The Device will be given a default label or a custom one if specified. It can also be created in either the ON or OFF state.
+	Manage Notifications will in future allow the admin to dictate which devices will send notifications.
 
 ### DeviceSceneBuilder
 
+	The DeviceSceneBuilder class provides the basis for all the Device Config Screens. It is used to construct the basic functions common to all Device Screens. Such as relabeling and turning the device on and off.
+
 #### CameraScene
+
+	Camera Scene allows for the Camera to start and stop recording when Device is ON. It also displays how full the diskSpace is. If the disk is full, the camera goes into an errored state.
 
 #### ThermostatScene
 
+	Thermostat Scene displays current Temperature in the correct DegreeType and can be converted from CELSIUS to FAHRENHEIT and back. New temperatures can be made with either DegreeType but will reject any Temperatures that are out of bounds.
+
 #### Lightbulb & SmartPlug
+
+	The remaining Devices only require the basic Device Functionality but have been given their own ViewBuilders for easy of future development. Dimmers or Meters come to mind.
 
 ## Tests
 
