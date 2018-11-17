@@ -36,19 +36,15 @@ public class BasicDeviceController extends Controller {
     switch (getDeviceType(hub.getDevice(uuid))) {
       case CAMERA:
         client.setView(new CameraSceneBuilder(this, "Back", uuid));
-        System.out.println("Camera View");
         break;
       case LIGHTBULB:
         client.setView(new LightbulbSceneBuilder(this, "Back", uuid));
-        System.out.println("Lightbulb View");
         break;
       case SMARTPLUG:
         client.setView(new SmartPlugSceneBuilder(this, "Back", uuid));
-        System.out.println("SmartPlug View");
         break;
       case THERMOSTAT:
         client.setView(new ThermostatSceneBuilder(this, "Back", uuid));
-        System.out.println("Thermostat View");
         break;
     }
   }

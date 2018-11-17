@@ -46,7 +46,6 @@ public class CreateDeviceBuilder extends SceneBuilder {
       String typeName = deviceTypes.get(i).toString();
       button = new RadioButton(typeName);
       button.setId(typeName.toLowerCase());
-      System.out.println(typeName.toLowerCase());
       button.setToggleGroup(upperGroup);
       button.setUserData(deviceTypes.get(i));
       typesForScroll.getChildren().add(button);
