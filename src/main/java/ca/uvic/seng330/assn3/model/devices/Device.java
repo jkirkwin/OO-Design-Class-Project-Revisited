@@ -159,7 +159,7 @@ public abstract class Device implements StorageEntity {
   }
 
   public Hub getHub() {
-    return this.getHub();
+    return this.hub;
   }
 
   public void setLabel(String newLabel) {

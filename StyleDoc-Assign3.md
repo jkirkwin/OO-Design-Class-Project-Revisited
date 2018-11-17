@@ -120,7 +120,8 @@
 ### How to Run them
 
 	To build the project and start the application from the command line (at least on Jamie's machine!!) type `gradle run`
-	To run the test suite (including UI tests) from the command line (on Jamie's machine!!) type `gradle test`
+	To run the test suite (including UI tests) from the command line (on Jamie's machine!!) type `gradle test`. 
+	Unfortunately, gradle does not play nicely with one of our UI tests (although it runs and passes as expected when run as a JUnit test from within Eclipse). Because of this, `gradle test` appears to hang up after a little while. Once this happens go ahead and force end the process with Control+C. Then you'll get the failure report. (PS, @The Marker, if you know why it works in eclipse but not when run from cmd, PLEASE let us know).
 
 ## Diagrams
 

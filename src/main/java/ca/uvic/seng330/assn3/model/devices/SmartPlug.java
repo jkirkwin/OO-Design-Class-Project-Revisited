@@ -6,17 +6,17 @@ import org.json.JSONObject;
 
 public class SmartPlug extends Device {
 
-  // TODO remove isOn, change isOn() to return this.getStatus() == ON
+  // TODO remove isOn, it is made redundant by status
   private boolean isOn;
 
   public SmartPlug(Hub hub) {
     super(hub);
-    this.isOn = false;
+    this.isOn = true;
   }
 
   public SmartPlug(String label, Hub hub) {
     super(label, Status.ON, hub);
-    this.isOn = false;
+    this.isOn = true;
   }
 
   protected SmartPlug(boolean isOn, UUID id, String label, Hub hub) {
@@ -36,6 +36,14 @@ public class SmartPlug extends Device {
     //      getMediator().log("Turning SmartPlug On", Level.INFO, getIdentifier());
     //    }
     this.isOn = !this.isOn;
+    if (this.status.equals(Status.OFF)) {
+      setStatus(Status.ON);
+    } else if (this.status.equals(Status.ON)) {
+      setStatus(Status.OFF);
+    } else {
+      // TODO Log error
+      assert false;
+    }
   }
 
   @Override
