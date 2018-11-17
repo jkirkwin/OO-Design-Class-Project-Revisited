@@ -155,3 +155,12 @@ We have done our best to have our test package structure mimic that of the sourc
 * From the command line (on Jamie's win 10 machine!!) type `gradle test`. 
 Unfortunately, gradle does not play nicely with one of our UI tests (although it runs and passes as expected when run as a JUnit test from within Eclipse). Because of this, `gradle test` appears to hang up after a little while. Once this happens go ahead and force end the process with Control+C. Then you'll get the failure report. (PS, @The Marker, if you know why it works in eclipse but not when run from cmd, PLEASE let us know).
 * From eclipse, run the src/test/java folder as a JUnit test.
+
+### Tests to Grade
+
+A: 1, 2, 3, 4, 7
+B: 2, 3, 4, 6
+C: 
+D: 1, 2, 3, 4, 5
+E: 1, 2
+F: 1, 2, 3
