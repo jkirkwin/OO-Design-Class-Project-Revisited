@@ -42,13 +42,11 @@ public abstract class Device implements StorageEntity {
         break;
 
       case "Lightbulb":
-        boolean isBulbOn = dState.getBoolean("is_on");
-        d = new Lightbulb(isBulbOn, dID, dLabel, h);
+        d = new Lightbulb(dID, dLabel, h);
         break;
 
       case "SmartPlug":
-        boolean isPlugOn = dState.getBoolean("is_on");
-        d = new SmartPlug(isPlugOn, dID, dLabel, h);
+        d = new SmartPlug(dID, dLabel, h);
         break;
 
       case "Thermostat":

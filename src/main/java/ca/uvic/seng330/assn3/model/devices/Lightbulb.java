@@ -6,31 +6,24 @@ import org.json.JSONObject;
 
 public class Lightbulb extends Device {
 
-  // TODO remove isOn, it is made redundant by status
-  private boolean isOn;
-
   public Lightbulb(Hub hub) {
     super(hub);
-    this.isOn = true;
   }
 
   public Lightbulb(String label, Hub hub) {
     super(label, Status.ON, hub);
-    this.isOn = true;
   }
 
-  protected Lightbulb(boolean isOn, UUID id, String label, Hub hub) {
+  protected Lightbulb(UUID id, String label, Hub hub) {
     super(id, label, Status.ON, hub);
-    this.isOn = isOn;
   }
 
   public boolean isOn() {
-    return this.isOn;
+    return this.getStatus().equals(Status.ON);
   }
 
   public void toggle() {
     // TODO Log change
-    this.isOn = !this.isOn;
     if (this.status.equals(Status.OFF)) {
       setStatus(Status.ON);
     } else if (this.status.equals(Status.ON)) {
@@ -46,7 +39,6 @@ public class Lightbulb extends Device {
     JSONObject json = super.getJSON();
     json.put("device_type", "Lightbulb");
     JSONObject state = new JSONObject();
-    state.put("is_on", this.isOn());
     json.put("state", state);
     return json;
   }

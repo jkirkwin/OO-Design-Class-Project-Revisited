@@ -438,18 +438,17 @@ public class TestStorage {
     Lightbulb oracle1 = new Lightbulb(h);
     Lightbulb oracle2 = new Lightbulb("a really weirdly long label", h);
     Lightbulb oracle3 = null;
-    Class<?>[] arg = new Class<?>[4];
-    arg[0] = Boolean.TYPE;
-    arg[1] = UUID.class;
-    arg[2] = String.class;
-    arg[3] = Hub.class;
+    Class<?>[] arg = new Class<?>[3];
+    arg[0] = UUID.class;
+    arg[1] = String.class;
+    arg[2] = Hub.class;
 
     Constructor<? extends Lightbulb> protectedConstructor = null;
     try {
       protectedConstructor = oracle1.getClass().getDeclaredConstructor(arg);
       protectedConstructor.setAccessible(true);
       oracle3 =
-          (Lightbulb) protectedConstructor.newInstance(true, UUID.randomUUID(), "someLabel", h);
+          (Lightbulb) protectedConstructor.newInstance(UUID.randomUUID(), "someLabel", h);
     } catch (NoSuchMethodException
         | SecurityException
         | InstantiationException
@@ -472,18 +471,17 @@ public class TestStorage {
     SmartPlug oracle1 = new SmartPlug(h);
     SmartPlug oracle2 = new SmartPlug("a really weirdly long label", h);
     SmartPlug oracle3 = null;
-    Class<?>[] arg = new Class<?>[4];
-    arg[0] = Boolean.TYPE;
-    arg[1] = UUID.class;
-    arg[2] = String.class;
-    arg[3] = Hub.class;
+    Class<?>[] arg = new Class<?>[3];
+    arg[0] = UUID.class;      
+    arg[1] = String.class;    
+    arg[2] = Hub.class;       
 
     Constructor<? extends SmartPlug> protectedConstructor = null;
     try {
       protectedConstructor = oracle1.getClass().getDeclaredConstructor(arg);
       protectedConstructor.setAccessible(true);
       oracle3 =
-          (SmartPlug) protectedConstructor.newInstance(true, UUID.randomUUID(), "someLabel", h);
+          (SmartPlug) protectedConstructor.newInstance(UUID.randomUUID(), "someLabel", h);
     } catch (NoSuchMethodException
         | SecurityException
         | InstantiationException
