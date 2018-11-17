@@ -139,12 +139,19 @@ The remaining Devices only require the basic Device Functionality but have been 
 
 ![](UML Diagrams/View.png)
 
-## Tests
+## Testing / App launch / Running test suite
 
-### How to Run them
+### Testing
 
-To build the project and start the application from the command line (at least on Jamie's machine!!) type `gradle run`
+We have done our best to have our test package structure mimic that of the source code. The storage package has been fully tested, and the UI processes needed for our acceptance tests has been tested for the most part. We have a few basic model tests, and our next step before anything else will be fleshing out our model coverage. Once the controller re-factor is complete, we will move forward with unit tests for that package too, noting that some controller testing has been done via the UI tests found in the view package.
 
-To run the test suite (including UI tests) from the command line (on Jamie's machine!!) type `gradle test`. 
+### How to Launch the app
 
+* From the command line (at least on Jamie's win 10 machine!!) type `gradle run`.
+* From eclipse, just run Startup.java as a Java Application.
+
+### How to run the test suite
+
+* From the command line (on Jamie's win 10 machine!!) type `gradle test`. 
 Unfortunately, gradle does not play nicely with one of our UI tests (although it runs and passes as expected when run as a JUnit test from within Eclipse). Because of this, `gradle test` appears to hang up after a little while. Once this happens go ahead and force end the process with Control+C. Then you'll get the failure report. (PS, @The Marker, if you know why it works in eclipse but not when run from cmd, PLEASE let us know).
+* From eclipse, run the src/test/java folder as a JUnit test.
