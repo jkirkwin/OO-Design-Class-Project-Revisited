@@ -387,8 +387,7 @@ public class Controller {
     try {
       ((Thermostat) hub.getDevice(id)).setTemp(new Temperature(magnitude, (Unit) degreeType));
     } catch (TemperatureOutofBoundsException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
+      client.alertUser(AlertType.ERROR, "Invalid Temperature", "Invalid Temperature", "Try something more reasonable...");
     }
     deviceViewSwitch(id);
   }
@@ -408,10 +407,9 @@ public class Controller {
     // TODO: handle temp out of bound exceptions
     // TODO: set to max or min acceptable?
     try {
-      thermostat.convertTemp();
+      thermostat.changeTempUnits();
     } catch (TemperatureOutofBoundsException e) {
-      // TODO alert?
-      e.printStackTrace();
+      client.alertUser(AlertType.ERROR, "Invalid Temperature", "Invalid Temperature", "Try something more reasonable...");
     }
     deviceViewSwitch(id);
   }
@@ -420,7 +418,7 @@ public class Controller {
     try {
       setThermostatTemp(id, Double.parseDouble(newTempMag), degree);
     } catch (NumberFormatException e) {
-      // TODO: alert to missing textfield
+      assert false;
     }
   }
   // ==================thermostat specific=====================//

@@ -10,6 +10,14 @@ import org.junit.Test;
 public class TestTemperature {
 
   @Test
+  public void testTempFromString() {
+    Temperature oracle1 = new Temperature(2.12, Unit.CELSIUS);
+    Temperature oracle2 = new Temperature(10.90, Unit.FAHRENHEIT);
+    assertTrue(oracle1.equals(new Temperature(oracle1.toString())));
+    assertTrue(oracle2.equals(new Temperature(oracle2.toString())));
+  }
+  
+  @Test
   public void testTempEquals() {
     Temperature c1 = new Temperature(0.0, Unit.CELSIUS);
     Temperature c2 = new Temperature(0.0, Unit.CELSIUS);

@@ -1,5 +1,8 @@
 package ca.uvic.seng330.assn3.model.devices;
 
+import java.io.IOException;
+import java.util.Scanner;
+
 import org.json.JSONObject;
 
 public class Temperature implements Cloneable {
@@ -32,6 +35,29 @@ public class Temperature implements Cloneable {
     assert unit != null;
     this.setMagnitude(magnitude);
     this.setUnit(unit);
+  }
+  
+  /*
+   * s must be of the form given by the toString method
+   */
+  public Temperature(String s) {
+    assert s != null;
+    Scanner inputScanner = null;
+    try {
+      inputScanner = new Scanner(s);
+      assert(inputScanner.hasNextDouble());
+      this.setMagnitude(inputScanner.nextDouble());
+      assert inputScanner.next().equalsIgnoreCase("Degrees");
+      assert inputScanner.hasNext();
+      this.setUnit(Unit.valueOf(inputScanner.next().toUpperCase()));      
+    } catch(Exception e) {
+      // TODO Log error
+      assert false;
+    } finally {
+      if(inputScanner != null) {
+        inputScanner.close();
+      }
+    }
   }
 
   @Override
@@ -146,4 +172,5 @@ public class Temperature implements Cloneable {
     double magnitude = json.getDouble("magnitude");
     return new Temperature(magnitude, unit);
   }
+  
 }

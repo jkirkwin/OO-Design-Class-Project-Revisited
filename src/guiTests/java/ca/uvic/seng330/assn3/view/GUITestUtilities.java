@@ -100,4 +100,11 @@ public class GUITestUtilities {
     goToManageDevices(test);
     test.clickOn("#new_device");
   }
+  
+  public static void backToLogin(ApplicationTest test, Client client) {
+    while(!client.getWindow().getTitle().equals("LOGIN")) {
+      System.out.println(client.getWindow().getTitle());
+      test.clickOn("#back");
+    }
+  }
 }

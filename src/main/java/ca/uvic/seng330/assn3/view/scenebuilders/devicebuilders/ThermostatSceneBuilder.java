@@ -33,11 +33,13 @@ public class ThermostatSceneBuilder extends DeviceSceneBuilder {
         String.valueOf(getController().getThermostatTempMag(deviceID))
             + " degrees "
             + getController().getThermostatTempType(deviceID);
-    if (getController().getThermostatTempType(deviceID) == "CELSIUS") {
-      currentTemp += "        ";
-    }
+//    if (getController().getThermostatTempType(deviceID) == "CELSIUS") {
+//      currentTemp += "        ";
+//    }
     Label displayTemp = new Label(currentTemp);
+    displayTemp.setId("current_temp");
     Button switchTempType = new Button("Change Degrees");
+    switchTempType.setId("change_units");
     switchTempType.setOnAction(event -> getController().changeThermostatDegreeType(deviceID));
     currTempActions.getChildren().add(currTemp);
     currTempActions.getChildren().add(displayTemp);
@@ -46,6 +48,7 @@ public class ThermostatSceneBuilder extends DeviceSceneBuilder {
     HBox newTempActions = new HBox(10);
     Label newTemp = new Label("Create new Temp");
     TextField tempNum = new TextField();
+    tempNum.setId("temp_field");
     tempNum.setPromptText("New Temperature");
 
     ArrayList<Unit> degreeTypes = getController().getThermostatDegreeTypes();
@@ -54,6 +57,7 @@ public class ThermostatSceneBuilder extends DeviceSceneBuilder {
     RadioButton button;
     for (int i = 0; i < degreeTypes.size(); i++) {
       button = new RadioButton(degreeTypes.get(i).toString());
+      button.setId(degreeTypes.get(i).toString().toLowerCase());
       button.setToggleGroup(degrees);
       button.setUserData(degreeTypes.get(i));
       degreeChoice.getChildren().add(button);
@@ -64,6 +68,7 @@ public class ThermostatSceneBuilder extends DeviceSceneBuilder {
     newTempActions.getChildren().add(degreeChoice);
 
     Button createNewTemp = new Button("Set New Temperature");
+    createNewTemp.setId("set_temp");
     createNewTemp.setOnAction(
         event ->
             getController()

@@ -12,8 +12,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.testfx.framework.junit.ApplicationTest;
-import static org.testfx.api.FxAssert.verifyThat;
-import static org.testfx.matcher.control.LabeledMatchers.hasText;
 
 import ca.uvic.seng330.assn3.controller.Controller;
 import ca.uvic.seng330.assn3.model.AccessLevel;

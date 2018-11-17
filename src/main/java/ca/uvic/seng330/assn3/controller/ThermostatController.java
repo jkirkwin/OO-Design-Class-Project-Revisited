@@ -50,7 +50,7 @@ public class ThermostatController extends BasicDeviceController {
     // TODO: handle temp out of bound exceptions
     // TODO: set to max or min acceptable?
     try {
-      thermostat.convertTemp();
+      thermostat.changeTempUnits();
     } catch (TemperatureOutofBoundsException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
