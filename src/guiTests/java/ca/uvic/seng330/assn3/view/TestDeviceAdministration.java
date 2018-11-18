@@ -4,22 +4,14 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import ca.uvic.seng330.assn3.controller.Controller;
-import ca.uvic.seng330.assn3.model.Hub;
 import ca.uvic.seng330.assn3.model.devices.Camera;
 import ca.uvic.seng330.assn3.model.devices.Device;
 import ca.uvic.seng330.assn3.model.devices.Lightbulb;
 import ca.uvic.seng330.assn3.model.devices.SmartPlug;
 import ca.uvic.seng330.assn3.model.devices.Status;
 import ca.uvic.seng330.assn3.model.devices.Thermostat;
-import ca.uvic.seng330.assn3.startup.Startup;
-import java.lang.reflect.InvocationTargetException;
-import javafx.stage.Stage;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 import org.testfx.api.FxRobotException;
-import org.testfx.framework.junit.ApplicationTest;
 
 public class TestDeviceAdministration extends IOTApplicationTest {
 

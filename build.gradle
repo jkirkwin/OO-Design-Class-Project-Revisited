@@ -46,4 +46,5 @@ dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
     testCompile "org.testfx:testfx-core:4.0.15-alpha"
     testCompile "org.testfx:testfx-junit:4.0.15-alpha"
+    //testRuntime 'org.testfx:openjfx-monocle:1.8.0_20' // For headless testing
 }
