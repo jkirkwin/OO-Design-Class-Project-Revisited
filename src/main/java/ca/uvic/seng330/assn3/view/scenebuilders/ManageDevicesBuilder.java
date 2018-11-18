@@ -1,6 +1,6 @@
 package ca.uvic.seng330.assn3.view.scenebuilders;
 
-import ca.uvic.seng330.assn3.controller.Controller;
+import ca.uvic.seng330.assn3.controller.ManageDevicesController;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -11,8 +11,13 @@ import javafx.scene.layout.VBox;
 
 public class ManageDevicesBuilder extends SceneBuilder {
 
-  public ManageDevicesBuilder(Controller controller, String backText) {
+  public ManageDevicesBuilder(ManageDevicesController controller, String backText) {
     super(controller, backText);
+  }
+
+  @Override
+  public ManageDevicesController getController() {
+    return (ManageDevicesController) super.getController();
   }
 
   @Override

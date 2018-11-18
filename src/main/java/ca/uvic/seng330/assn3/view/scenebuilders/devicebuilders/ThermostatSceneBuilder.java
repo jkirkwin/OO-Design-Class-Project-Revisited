@@ -1,6 +1,6 @@
 package ca.uvic.seng330.assn3.view.scenebuilders.devicebuilders;
 
-import ca.uvic.seng330.assn3.controller.Controller;
+import ca.uvic.seng330.assn3.controller.ThermostatController;
 import ca.uvic.seng330.assn3.model.devices.Temperature.Unit;
 import java.util.ArrayList;
 import java.util.UUID;
@@ -19,8 +19,13 @@ public class ThermostatSceneBuilder extends DeviceSceneBuilder {
 
   double magnitude = 0;
 
-  public ThermostatSceneBuilder(Controller controller, String backText, UUID id) {
+  public ThermostatSceneBuilder(ThermostatController controller, String backText, UUID id) {
     super(controller, backText, id);
+  }
+
+  @Override
+  public ThermostatController getController() {
+    return (ThermostatController) super.getController();
   }
 
   @Override

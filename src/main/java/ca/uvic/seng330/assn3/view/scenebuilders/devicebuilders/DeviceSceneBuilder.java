@@ -1,6 +1,6 @@
 package ca.uvic.seng330.assn3.view.scenebuilders.devicebuilders;
 
-import ca.uvic.seng330.assn3.controller.Controller;
+import ca.uvic.seng330.assn3.controller.DeviceController;
 import ca.uvic.seng330.assn3.view.scenebuilders.SceneBuilder;
 import java.util.UUID;
 import javafx.scene.Node;
@@ -15,9 +15,14 @@ public abstract class DeviceSceneBuilder extends SceneBuilder {
 
   UUID deviceID;
 
-  public DeviceSceneBuilder(Controller controller, String backText, UUID id) {
+  public DeviceSceneBuilder(DeviceController controller, String backText, UUID id) {
     super(controller, backText);
     this.deviceID = id;
+  }
+
+  @Override
+  public DeviceController getController() {
+    return (DeviceController) super.getController();
   }
 
   @Override

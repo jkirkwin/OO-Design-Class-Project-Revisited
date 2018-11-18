@@ -19,7 +19,6 @@ public class Client {
    */
   public Client(Stage window) {
     assert window != null;
-
     this.window = window;
     this.view = null;
   }

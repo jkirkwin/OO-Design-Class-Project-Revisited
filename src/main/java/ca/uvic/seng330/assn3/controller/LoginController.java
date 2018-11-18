@@ -1,24 +1,22 @@
 package ca.uvic.seng330.assn3.controller;
 
 import ca.uvic.seng330.assn3.model.AccessLevel;
-import ca.uvic.seng330.assn3.model.Hub;
 import ca.uvic.seng330.assn3.model.UserAccount;
-import ca.uvic.seng330.assn3.view.Client;
 import java.util.NoSuchElementException;
 import javafx.scene.control.Alert.AlertType;
 
-public class LoginController {
+public class LoginController extends Controller {
+
   /*
    * @pre username != null
    * @pre password != null
    */
-  public static void handleLoginClick(
-      Controller controller, Hub hub, Client client, String username, String password) {
+  public void handleLoginClick(String username, String password) {
     assert username != null;
     assert password != null;
     if (hub.isUser(username)) {
       try {
-        controller.activeUser = hub.getUser(username, password);
+        activeUser = hub.getUser(username, password);
       } catch (NoSuchElementException e) {
         client.alertUser(
             AlertType.INFORMATION,
@@ -27,10 +25,10 @@ public class LoginController {
             "The credentials entered are incorrect. Please try a different password or just look at the storage files because security reasons.");
         return;
       }
-      if (controller.activeUser.isAdmin()) {
-        client.setView(controller.findBuilder(ViewType.HUB_ADMIN));
+      if (activeUser.isAdmin()) {
+        client.setView(findBuilder(ViewType.HUB_ADMIN));
       } else {
-        client.setView(controller.findBuilder(ViewType.HUB_BASIC));
+        client.setView(findBuilder(ViewType.HUB_BASIC));
       }
     } else {
       client.alertUser(
@@ -45,10 +43,10 @@ public class LoginController {
    * @pre username != null
    * @pre password != null
    */
-  public static void handleNewUser(Hub hub, Client client, String username, String password) {
+  public void handleNewUser(String username, String password) {
     assert username != null;
     assert password != null;
-    if (acceptableInputs(client, username, password)) {
+    if (acceptableInputs(username, password)) {
       if (!hub.isUser(username)) {
         hub.register(new UserAccount(hub, AccessLevel.BASIC, username, password));
         client.alertUser(AlertType.INFORMATION, "Success", "Success", "User Account Created.");
@@ -66,10 +64,10 @@ public class LoginController {
    * @pre username != null
    * @pre password != null
    */
-  public static void handleNewAdmin(Hub hub, Client client, String username, String password) {
+  public void handleNewAdmin(String username, String password) {
     assert username != null;
     assert password != null;
-    if (acceptableInputs(client, username, password)) {
+    if (acceptableInputs(username, password)) {
       if (!hub.isUser(username)) {
         hub.register(new UserAccount(hub, AccessLevel.ADMIN, username, password));
         client.alertUser(AlertType.INFORMATION, "Success", "Success", "Admin Account Created.");
@@ -87,7 +85,7 @@ public class LoginController {
    * @pre username != null
    * @pre password != null
    */
-  private static boolean acceptableInputs(Client client, String username, String password) {
+  private boolean acceptableInputs(String username, String password) {
     assert username != null;
     assert password != null;
     if (username.toLowerCase().equals("username") || username.isEmpty()) {

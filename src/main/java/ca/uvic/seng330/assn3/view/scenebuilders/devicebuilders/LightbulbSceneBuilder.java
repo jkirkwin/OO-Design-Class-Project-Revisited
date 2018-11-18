@@ -1,14 +1,18 @@
 package ca.uvic.seng330.assn3.view.scenebuilders.devicebuilders;
 
-import ca.uvic.seng330.assn3.controller.Controller;
 import java.util.UUID;
 import javafx.scene.Node;
 import javafx.scene.layout.HBox;
 
 public class LightbulbSceneBuilder extends DeviceSceneBuilder {
 
-  public LightbulbSceneBuilder(Controller controller, String backText, UUID id) {
+  public LightbulbSceneBuilder(LightbulbController controller, String backText, UUID id) {
     super(controller, backText, id);
+  }
+
+  @Override
+  public LightbulbController getController() {
+    return (LightbulbController) super.getController();
   }
 
   @Override

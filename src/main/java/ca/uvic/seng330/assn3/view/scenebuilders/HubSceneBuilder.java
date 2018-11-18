@@ -1,6 +1,6 @@
 package ca.uvic.seng330.assn3.view.scenebuilders;
 
-import ca.uvic.seng330.assn3.controller.Controller;
+import ca.uvic.seng330.assn3.controller.HubController;
 import javafx.geometry.Orientation;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -15,14 +15,18 @@ public class HubSceneBuilder extends SceneBuilder {
 
   private final boolean isAdmin;
 
-  public HubSceneBuilder(Controller controller, String backText, boolean isAdmin) {
+  public HubSceneBuilder(HubController controller, String backText, boolean isAdmin) {
     super(controller, backText);
     this.isAdmin = isAdmin;
   }
 
   @Override
+  public HubController getController() {
+    return (HubController) super.getController();
+  }
+
+  @Override
   protected Node buildSpecifics() {
-    // TODO: change stagename to Hubview
     HBox hbox = new HBox(10);
 
     ScrollPane layout = new ScrollPane();

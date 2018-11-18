@@ -1,6 +1,8 @@
 package ca.uvic.seng330.assn3.startup;
 
 import ca.uvic.seng330.assn3.controller.Controller;
+import ca.uvic.seng330.assn3.controller.LoginController;
+import ca.uvic.seng330.assn3.controller.ViewType;
 import ca.uvic.seng330.assn3.model.Hub;
 import ca.uvic.seng330.assn3.view.Client;
 import javafx.application.Application;
@@ -19,11 +21,17 @@ public class Startup extends Application {
   @Override
   public void start(Stage primaryStage) throws Exception {
     hub = new Hub();
+    hub.startup(); // TODO As per acceptance tests make this up to the user
+
     primaryStage.setMaxHeight(750);
     primaryStage.setMinHeight(250);
     primaryStage.setMaxWidth(750);
     primaryStage.setMinWidth(250);
     client = new Client(primaryStage);
-    controller = new Controller(hub, client);
+    controller = new LoginController();
+    controller.init(client, hub);
+    client.setController(controller);
+    client.getWindow().setOnCloseRequest(event -> controller.exitApplication());
+    client.setView(controller.findBuilder(ViewType.LOGIN));
   }
 }

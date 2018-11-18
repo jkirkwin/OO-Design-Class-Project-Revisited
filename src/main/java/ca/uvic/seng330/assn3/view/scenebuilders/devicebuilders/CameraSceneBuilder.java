@@ -1,6 +1,6 @@
 package ca.uvic.seng330.assn3.view.scenebuilders.devicebuilders;
 
-import ca.uvic.seng330.assn3.controller.Controller;
+import ca.uvic.seng330.assn3.controller.CameraController;
 import java.util.UUID;
 import javafx.geometry.Orientation;
 import javafx.scene.Node;
@@ -12,8 +12,13 @@ import javafx.scene.layout.VBox;
 
 public class CameraSceneBuilder extends DeviceSceneBuilder {
 
-  public CameraSceneBuilder(Controller controller, String backText, UUID id) {
+  public CameraSceneBuilder(CameraController controller, String backText, UUID id) {
     super(controller, backText, id);
+  }
+
+  @Override
+  public CameraController getController() {
+    return (CameraController) super.getController();
   }
 
   @Override

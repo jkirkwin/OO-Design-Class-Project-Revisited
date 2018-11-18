@@ -52,7 +52,7 @@ public abstract class SceneBuilder {
         new EventHandler<ActionEvent>() {
           @Override
           public void handle(ActionEvent event) {
-            getController().handleBackClick();
+            controller.handleBackClick();
           }
         });
     return backButton;
@@ -76,12 +76,11 @@ public abstract class SceneBuilder {
    */
   protected VBox hubDeviceList(VBox col) {
     assert col != null;
-    ArrayList<UUID> deviceList = getController().getDeviceIDList();
+    ArrayList<UUID> deviceList = controller.getDeviceIDList();
     for (int i = 0; i < deviceList.size(); i++) {
-      Button button = new Button(getController().getLabel(deviceList.get(i)));
+      Button button = new Button(controller.getLabel(deviceList.get(i)));
       button.setUserData(deviceList.get(i));
-      button.setOnAction(
-          event -> getController().handleDeviceViewClick((UUID) button.getUserData()));
+      button.setOnAction(event -> controller.handleDeviceViewClick((UUID) button.getUserData()));
       col.getChildren().add(button);
     }
     return col;

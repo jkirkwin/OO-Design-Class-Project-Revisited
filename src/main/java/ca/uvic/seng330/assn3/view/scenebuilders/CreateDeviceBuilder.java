@@ -1,7 +1,7 @@
 package ca.uvic.seng330.assn3.view.scenebuilders;
 
-import ca.uvic.seng330.assn3.controller.Controller;
 import ca.uvic.seng330.assn3.controller.DeviceType;
+import ca.uvic.seng330.assn3.controller.ManageDevicesController;
 import java.util.ArrayList;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -18,8 +18,13 @@ public class CreateDeviceBuilder extends SceneBuilder {
 
   DeviceType chosenDevice;
 
-  public CreateDeviceBuilder(Controller controller, String backText) {
+  public CreateDeviceBuilder(ManageDevicesController controller, String backText) {
     super(controller, backText);
+  }
+
+  @Override
+  public ManageDevicesController getController() {
+    return (ManageDevicesController) super.getController();
   }
 
   @Override

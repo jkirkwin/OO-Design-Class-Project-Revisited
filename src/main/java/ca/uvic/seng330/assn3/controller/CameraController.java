@@ -1,16 +1,13 @@
 package ca.uvic.seng330.assn3.controller;
 
-import ca.uvic.seng330.assn3.model.Hub;
 import ca.uvic.seng330.assn3.model.devices.Camera;
 import ca.uvic.seng330.assn3.model.devices.CameraFullException;
-import ca.uvic.seng330.assn3.view.Client;
 import java.util.UUID;
 
-public class CameraController extends BasicDeviceController {
+public class CameraController extends DeviceController {
 
-  public CameraController(Hub hub, Client client) {
-    super(hub, client);
-    // TODO Auto-generated constructor stub
+  public CameraController(UUID id) {
+    super(id);
   }
 
   public boolean getCameraRecording(UUID id) {

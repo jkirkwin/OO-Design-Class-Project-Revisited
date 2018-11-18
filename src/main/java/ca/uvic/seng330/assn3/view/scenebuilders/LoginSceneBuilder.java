@@ -1,6 +1,6 @@
 package ca.uvic.seng330.assn3.view.scenebuilders;
 
-import ca.uvic.seng330.assn3.controller.Controller;
+import ca.uvic.seng330.assn3.controller.LoginController;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
@@ -9,8 +9,13 @@ import javafx.scene.layout.VBox;
 
 public class LoginSceneBuilder extends SceneBuilder {
 
-  public LoginSceneBuilder(Controller controller, String backText) {
+  public LoginSceneBuilder(LoginController controller, String backText) {
     super(controller, backText);
+  }
+
+  @Override
+  public LoginController getController() {
+    return (LoginController) super.getController();
   }
 
   @Override

@@ -285,7 +285,6 @@ public class TestStorage {
         }
         cleanStorageDir.invoke(null, destPath);
         assertTrue(!accountFile.exists() && !deviceFile.exists());
-        System.out.println(destDir.listFiles().length);
         assertTrue(destDir.listFiles().length == sizeOracles[i - 1]);
       }
     } catch (NoSuchFieldException
@@ -447,8 +446,7 @@ public class TestStorage {
     try {
       protectedConstructor = oracle1.getClass().getDeclaredConstructor(arg);
       protectedConstructor.setAccessible(true);
-      oracle3 =
-          (Lightbulb) protectedConstructor.newInstance(UUID.randomUUID(), "someLabel", h);
+      oracle3 = (Lightbulb) protectedConstructor.newInstance(UUID.randomUUID(), "someLabel", h);
     } catch (NoSuchMethodException
         | SecurityException
         | InstantiationException
@@ -472,16 +470,15 @@ public class TestStorage {
     SmartPlug oracle2 = new SmartPlug("a really weirdly long label", h);
     SmartPlug oracle3 = null;
     Class<?>[] arg = new Class<?>[3];
-    arg[0] = UUID.class;      
-    arg[1] = String.class;    
-    arg[2] = Hub.class;       
+    arg[0] = UUID.class;
+    arg[1] = String.class;
+    arg[2] = Hub.class;
 
     Constructor<? extends SmartPlug> protectedConstructor = null;
     try {
       protectedConstructor = oracle1.getClass().getDeclaredConstructor(arg);
       protectedConstructor.setAccessible(true);
-      oracle3 =
-          (SmartPlug) protectedConstructor.newInstance(UUID.randomUUID(), "someLabel", h);
+      oracle3 = (SmartPlug) protectedConstructor.newInstance(UUID.randomUUID(), "someLabel", h);
     } catch (NoSuchMethodException
         | SecurityException
         | InstantiationException

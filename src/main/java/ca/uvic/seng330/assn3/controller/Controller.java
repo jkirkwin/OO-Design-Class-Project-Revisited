@@ -2,14 +2,8 @@ package ca.uvic.seng330.assn3.controller;
 
 import ca.uvic.seng330.assn3.model.Hub;
 import ca.uvic.seng330.assn3.model.UserAccount;
-import ca.uvic.seng330.assn3.model.devices.Camera;
-import ca.uvic.seng330.assn3.model.devices.CameraFullException;
 import ca.uvic.seng330.assn3.model.devices.Device;
 import ca.uvic.seng330.assn3.model.devices.Status;
-import ca.uvic.seng330.assn3.model.devices.Temperature;
-import ca.uvic.seng330.assn3.model.devices.Temperature.TemperatureOutofBoundsException;
-import ca.uvic.seng330.assn3.model.devices.Temperature.Unit;
-import ca.uvic.seng330.assn3.model.devices.Thermostat;
 import ca.uvic.seng330.assn3.view.Client;
 import ca.uvic.seng330.assn3.view.scenebuilders.CreateDeviceBuilder;
 import ca.uvic.seng330.assn3.view.scenebuilders.HubSceneBuilder;
@@ -19,6 +13,7 @@ import ca.uvic.seng330.assn3.view.scenebuilders.ManageUsersBuilder;
 import ca.uvic.seng330.assn3.view.scenebuilders.SceneBuilder;
 import ca.uvic.seng330.assn3.view.scenebuilders.SelectDevicesBuilder;
 import ca.uvic.seng330.assn3.view.scenebuilders.devicebuilders.CameraSceneBuilder;
+import ca.uvic.seng330.assn3.view.scenebuilders.devicebuilders.LightbulbController;
 import ca.uvic.seng330.assn3.view.scenebuilders.devicebuilders.LightbulbSceneBuilder;
 import ca.uvic.seng330.assn3.view.scenebuilders.devicebuilders.SmartPlugSceneBuilder;
 import ca.uvic.seng330.assn3.view.scenebuilders.devicebuilders.ThermostatSceneBuilder;
@@ -28,38 +23,26 @@ import java.util.Stack;
 import java.util.UUID;
 import javafx.scene.control.Alert.AlertType;
 
-public class Controller {
+public abstract class Controller {
   // TODO: implement observable
 
-  protected final Hub hub;
-  protected final Client client;
-  protected UserAccount activeUser;
-  protected final Stack<ViewType> views;
-  private final SceneBuilder loginBuilder;
+  // Currently holds functions used by multiple subclasses as well as general purpose functions that
+  // can be called at any time in the app's life-cycle (refresh, for example)
 
-  /*
-   * @pre hub != null
-   * @pre client != null
-   */
-  public Controller(Hub hub, Client client) {
-    assert hub != null;
+  protected static Hub hub;
+  protected static Client client;
+  protected static UserAccount activeUser;
+  protected static final Stack<ViewType> views = new Stack<ViewType>();
+
+  public void init(Client client, Hub hub) {
     assert client != null;
-
-    this.loginBuilder = new LoginSceneBuilder(this, "Close");
-    this.activeUser = null;
+    assert hub != null;
     this.client = client;
-    this.client.setController(this);
     this.hub = hub;
-    this.views = new Stack<ViewType>();
-    this.hub.startup();
-    this.client.getWindow().setOnCloseRequest(event -> exitApplication());
-    client.setView(findBuilder(ViewType.LOGIN));
   }
 
-  // ========================= General Controller Functions ====================//
-
-  private void exitApplication() {
-    this.hub.shutdown();
+  public void exitApplication() {
+    hub.shutdown();
   }
 
   /*
@@ -72,46 +55,46 @@ public class Controller {
   }
 
   public void handleBackClick() {
+    assert !views.isEmpty();
     if (views.peek() == ViewType.LOGIN) {
-      // close window
       exitApplication();
       client.close();
+      return;
     } else if (views.peek() == ViewType.HUB_BASIC || views.peek() == ViewType.HUB_ADMIN) {
       // log out
-      views.pop();
-      client.setTitle(views.peek().toString());
-      client.setView(loginBuilder);
-      this.activeUser = null;
-    } else {
-      views.pop();
-      client.setTitle(views.peek().toString());
-      client.setView(findBuilder(views.pop()));
+      activeUser = null;
     }
+    client.setTitle(views.peek().toString());
+    views.pop();
+    client.setView(findBuilder(views.pop()));
   }
 
   /*
    * @pre view != null
    */
-  SceneBuilder findBuilder(ViewType view) {
+  public SceneBuilder findBuilder(ViewType view) {
     assert view != null;
-    // TODO generate the appropriate SceneBuilder based on for the ViewType
+    // Generate the appropriate SceneBuilder based on for the ViewType
     views.push(view);
     client.setTitle(view.toString());
     switch (view) {
       case LOGIN:
-        return loginBuilder;
+        return new LoginSceneBuilder(new LoginController(), "Close");
 
       case CREATE_DEVICE:
-        return new CreateDeviceBuilder(this, "Back");
+        // TODO
+        // We don't need to create a new one, since it's the same kind of controller used
+        // at manage devices, which is the sole precursor to this view
+        return new CreateDeviceBuilder(new ManageDevicesController(), "Back");
 
       case HUB_ADMIN:
-        return new HubSceneBuilder(this, "Log Out", true);
+        return new HubSceneBuilder(new HubController(), "Log Out", true);
 
       case HUB_BASIC:
-        return new HubSceneBuilder(this, "Log Out", false);
+        return new HubSceneBuilder(new HubController(), "Log Out", false);
 
       case MANAGE_DEVICES:
-        return new ManageDevicesBuilder(this, "Back");
+        return new ManageDevicesBuilder(new ManageDevicesController(), "Back");
 
       case MANAGE_NOTIFICATIONS:
         // TODO
@@ -129,11 +112,22 @@ public class Controller {
 
       default:
         // TODO: logging/Alert
-        // System.out.println("No case in controller.findBuilder() for viewType " + view);
-
+        System.out.println("No case in controller.findBuilder() for viewType " + view);
         break;
     }
     return null;
+  }
+
+  public void toggleDevice(UUID id) {
+    Device curr = hub.getDevice(id);
+    if (curr.getStatus() == Status.ON) {
+      curr.setStatus(Status.OFF);
+    } else if (curr.getStatus() == Status.OFF) {
+      curr.setStatus(Status.ON);
+    } else {
+      // TODO: alert that device is broken.
+    }
+    deviceViewSwitch(id);
   }
 
   public ArrayList<UUID> getDeviceIDList() {
@@ -167,40 +161,14 @@ public class Controller {
     return hub.getLabel(uuid);
   }
 
-  // ======================== Login =============================//
-
-  /*
-   * @pre username != null
-   * @pre password != null
-   */
-  public void handleLoginClick(String username, String password) {
-    LoginController.handleLoginClick(this, hub, client, username, password);
+  public Hub getHub() {
+    return this.hub;
   }
-
-  /*
-   * @pre username != null
-   * @pre password != null
-   */
-  public void handleNewUser(String username, String password) {
-    LoginController.handleNewUser(hub, client, username, password);
-  }
-
-  /*
-   * @pre username != null
-   * @pre password != null
-   */
-  public void handleNewAdmin(String username, String password) {
-    LoginController.handleNewAdmin(hub, client, username, password);
-  }
-
-  // ============================ Admin Console =========================//
 
   /*
    * @pre uuid != null
    * @pre uuid must be the identifier for some entity registered to the hub.
    */
-  // Could stay as part of the core controller functionality, or could get packaged in with admin
-  // functions
   public void handleDeleteClick(UUID uuid) {
     assert uuid != null;
     boolean isDevice = hub.isRegisteredDevice(uuid);
@@ -221,21 +189,6 @@ public class Controller {
     refresh();
   }
 
-  public void handleAdminManageUsersClick() {
-    client.setView(findBuilder(ViewType.MANAGE_USERS));
-  }
-
-  public void handleAdminManageDevicesClick() {
-    client.setView(findBuilder(ViewType.MANAGE_DEVICES));
-  }
-
-  public void handleAdminManageNotificationsClick() {
-    // TODO
-    // System.out.println("Manage Notifications");
-  }
-
-  // ===================== DeviceView ======================== //
-
   /*
    * @pre uuid != null
    */
@@ -252,24 +205,22 @@ public class Controller {
    * Allows the skipping of views.push() etc...
    */
   protected void deviceViewSwitch(UUID uuid) {
+    assert uuid != null;
     switch (getDeviceType(hub.getDevice(uuid))) {
       case CAMERA:
-        client.setView(new CameraSceneBuilder(this, "Back", uuid));
+        client.setView(
+            new CameraSceneBuilder(new CameraController(uuid), "Back", uuid)); // TODO Fix
         break;
       case LIGHTBULB:
-        client.setView(new LightbulbSceneBuilder(this, "Back", uuid));
+        client.setView(new LightbulbSceneBuilder(new LightbulbController(uuid), "Back", uuid));
         break;
       case SMARTPLUG:
-        client.setView(new SmartPlugSceneBuilder(this, "Back", uuid));
+        client.setView(new SmartPlugSceneBuilder(new SmartPlugController(uuid), "Back", uuid));
         break;
       case THERMOSTAT:
-        client.setView(new ThermostatSceneBuilder(this, "Back", uuid));
+        client.setView(new ThermostatSceneBuilder(new ThermostatController(uuid), "Back", uuid));
         break;
     }
-  }
-
-  public void handleCreateDeviceClick() {
-    client.setView(findBuilder(ViewType.CREATE_DEVICE));
   }
 
   protected DeviceType getDeviceType(Device d) {
@@ -283,159 +234,8 @@ public class Controller {
     return deviceTypes;
   }
 
-  /*
-   * @pre newDevice != null
-   */
-  public void handleNewDeviceClick(
-      DeviceType newDevice, boolean startingState, String customLabel) {
-    assert newDevice != null;
-    assert customLabel != null;
-
-    String baseLabel = customLabel.equals("") ? newDevice.getEnglishName() : customLabel;
-    String uniqueLabel = getUniqueDeviceLabel(baseLabel);
-
-    hub.makeNewDevice(newDevice, startingState, uniqueLabel);
-
-    client.alertUser(
-        AlertType.INFORMATION,
-        "Device Added",
-        "New " + newDevice.toString(),
-        newDevice.toString() + " created with label: \"" + uniqueLabel + "\"");
-
-    refresh();
-  }
-
-  /*
-   * @pre baseLabel != null
-   */
-  private String getUniqueDeviceLabel(String baseLabel) {
-    assert baseLabel != null;
-    String uniqueLabel = baseLabel;
-    int i = 1;
-    while (hub.isLabelUsed(uniqueLabel)) {
-      uniqueLabel = baseLabel + "(" + i + ")";
-      i++;
-    }
-    return uniqueLabel;
-  }
-
-  public void toggleDevice(UUID id) {
-    Device curr = hub.getDevice(id);
-    if (curr.getStatus() == Status.ON) {
-      curr.setStatus(Status.OFF);
-    } else if (curr.getStatus() == Status.OFF) {
-      curr.setStatus(Status.ON);
-    } else {
-      // TODO: alert that device is broken.
-    }
-    deviceViewSwitch(id);
-  }
-
-  public String getStatus(UUID id) {
-    return hub.getDevice(id).getStatus().toString();
-  }
-
-  // ==================camera specific=====================//
-  public boolean getCameraRecording(UUID id) {
-    assert id != null;
-    // TODO: review importing devices.camera
-    return ((Camera) hub.getDevice(id)).isRecording();
-  }
-
-  public void setCameraRecording(UUID id) {
-    assert id != null;
-    try {
-      ((Camera) hub.getDevice(id)).record();
-    } catch (CameraFullException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    }
-    deviceViewSwitch(id);
-  }
-
-  public int getCurrCameraDiskSize(UUID id) {
-    assert id != null;
-    return ((Camera) hub.getDevice(id)).currentDiskSize();
-  }
-
-  public int getMaxCameraDiskSize(UUID id) {
-    assert id != null;
-    return ((Camera) hub.getDevice(id)).maxDiskSize();
-  }
-
-  public void emptyCameraDiskSize(UUID id) {
-    assert id != null;
-    ((Camera) hub.getDevice(id)).emptyDisk();
-    deviceViewSwitch(id);
-  }
-  // ==================camera specific=====================//
-
-  // ==================thermostat specific=====================//
-  public ArrayList<Unit> getThermostatDegreeTypes() {
-    ArrayList<Unit> degreeType = new ArrayList<Unit>();
-    EnumSet.allOf(Unit.class).forEach(type -> degreeType.add(type));
-    return degreeType;
-  }
-
-  public void setThermostatTemp(UUID id, double magnitude, Object degreeType) {
-    assert id != null;
-    assert degreeType != null;
-    try {
-      ((Thermostat) hub.getDevice(id)).setTemp(new Temperature(magnitude, (Unit) degreeType));
-    } catch (TemperatureOutofBoundsException e) {
-      client.alertUser(
-          AlertType.ERROR,
-          "Invalid Temperature",
-          "Invalid Temperature",
-          "Try something more reasonable...");
-    }
-    deviceViewSwitch(id);
-  }
-
-  public double getThermostatTempMag(UUID id) {
-    assert id != null;
-    return ((Thermostat) hub.getDevice(id)).getTempMag();
-  }
-
-  public String getThermostatTempType(UUID id) {
-    assert id != null;
-    return String.valueOf(((Thermostat) hub.getDevice(id)).getTempType());
-  }
-
-  public void changeThermostatDegreeType(UUID id) {
-    Thermostat thermostat = ((Thermostat) hub.getDevice(id));
-    // TODO: handle temp out of bound exceptions
-    // TODO: set to max or min acceptable?
-    try {
-      thermostat.changeTempUnits();
-    } catch (TemperatureOutofBoundsException e) {
-      client.alertUser(
-          AlertType.ERROR,
-          "Temp Converted",
-          "New " + thermostat.getTemp().toString(),
-          thermostat.toString() + " cannot take temp oustide bounds");
-    }
-    deviceViewSwitch(id);
-  }
-
-  public void constructTemp(UUID id, String newTempMag, Unit degree) {
-    try {
-      setThermostatTemp(id, Double.parseDouble(newTempMag), degree);
-    } catch (NumberFormatException e) {
-      // TODO: alert to missing textfield
-      assert false;
-    }
-  }
-  // ==================thermostat specific=====================//
-
+  // TODO Move this?
   public void handleUserViewClick(UUID id) {
     client.setView(findBuilder(ViewType.SELECT_DEVICES));
-  }
-
-  public void changeDeviceLabel(UUID id, String newLabel) {
-    assert id != null;
-    assert newLabel != null;
-    hub.getDevice(id).setLabel(newLabel);
-    deviceViewSwitch(id);
   }
 }
