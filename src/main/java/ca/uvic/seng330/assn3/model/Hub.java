@@ -75,52 +75,52 @@ public class Hub {
       throw new HubRegistrationException("User already registered");
     }
   }
-  
+
   public void register(Room r) {
     assert r != null;
     if (!roomRegistry.containsKey(r.getID())) {
       roomRegistry.put(r.getID(), r);
     }
   }
-  
+
   public Room getRoomByID(UUID roomId) {
     assert roomId != null;
     assert roomRegistry.containsKey(roomId);
     return roomRegistry.get(roomId);
   }
-  
+
   public Room getRoomByDeviceID(UUID deviceId) {
     assert deviceId != null;
     assert this.deviceRegistry.containsKey(deviceId);
     Device d = deviceRegistry.get(deviceId);
     assert d.hasRoom();
     return d.getRoom();
-    }
-  
+  }
+
   /*
-   * TODO refactor room registry to partition deviceRegistry to avoid 
+   * TODO refactor room registry to partition deviceRegistry to avoid
    * O(n) operations like this one.
    */
   public List<Device> getRoomContents(Room r) {
     assert r != null;
     return getRoomContents(r.getID());
   }
-  
+
   public List<Device> getRoomContents(UUID roomID) {
     assert roomID != null;
     ArrayList<Device> matches = new ArrayList<Device>();
     Room r;
-    for(Device d : deviceRegistry.values()) {
+    for (Device d : deviceRegistry.values()) {
       r = d.getRoom();
-      if(r != null && r.getID().equals(roomID)) {
+      if (r != null && r.getID().equals(roomID)) {
         matches.add(d);
       }
     }
     return matches;
   }
-  
+
   public void unregister(Room r) {
-    // TODO If time permits, do a small refactor of device registry to hold a set of rooms that 
+    // TODO If time permits, do a small refactor of device registry to hold a set of rooms that
     //      partitions the device registry to make this not an O(n) operation
     assert r != null;
     assert roomRegistry.containsKey(r.getID());
@@ -149,11 +149,11 @@ public class Hub {
       } catch (HubRegistrationException e) {
         // TODO: logging & alert
       }
-    } else if(this.roomRegistry.containsKey(uuid)) {
+    } else if (this.roomRegistry.containsKey(uuid)) {
       unregister(this.roomRegistry.get(uuid));
     } else {
       // TODO: alert that nothing corresponds to given UUID
-    } 
+    }
   }
 
   /*

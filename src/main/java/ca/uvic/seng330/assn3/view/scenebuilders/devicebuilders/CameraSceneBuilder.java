@@ -9,14 +9,11 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Separator;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
-import javafx.scene.media.MediaView;
 import javafx.scene.web.WebView;
 
 public class CameraSceneBuilder extends DeviceSceneBuilder {
 
-//  String VideoURL = "http://download.oracle.com/otndocs/products/javafx/oow2010-2.flv";
+  //  String VideoURL = "http://download.oracle.com/otndocs/products/javafx/oow2010-2.flv";
   String VideoURL = "https://youtu.be/0TDN2qKjtck";
 
   public CameraSceneBuilder(CameraController controller, String backText, UUID id) {
@@ -55,9 +52,9 @@ public class CameraSceneBuilder extends DeviceSceneBuilder {
     emptyDisk.setOnAction(event -> getController().emptyCameraDiskSize(deviceID));
     actions.getChildren().add(emptyDisk);
 
-//        MediaPlayer player = new MediaPlayer(new Media(VideoURL));
-//        player.setAutoPlay(true);
-//        MediaView mediaView = new MediaView(player);
+    //        MediaPlayer player = new MediaPlayer(new Media(VideoURL));
+    //        player.setAutoPlay(true);
+    //        MediaView mediaView = new MediaView(player);
     WebView mediaView = new WebView();
     mediaView.getEngine().load(VideoURL);
 
