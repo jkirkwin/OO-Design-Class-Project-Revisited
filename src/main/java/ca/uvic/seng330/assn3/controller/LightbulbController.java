@@ -1,6 +1,5 @@
-package ca.uvic.seng330.assn3.view.scenebuilders.devicebuilders;
+package ca.uvic.seng330.assn3.controller;
 
-import ca.uvic.seng330.assn3.controller.DeviceController;
 import java.util.UUID;
 
 public class LightbulbController extends DeviceController {

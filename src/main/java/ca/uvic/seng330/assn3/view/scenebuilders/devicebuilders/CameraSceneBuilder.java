@@ -29,6 +29,7 @@ public class CameraSceneBuilder extends DeviceSceneBuilder {
     HBox hbox = new HBox(10);
 
     VBox labels = new VBox(10);
+    labels.setPrefWidth(700);
     Label isRecording = new Label("Recording");
     labels.getChildren().add(isRecording);
     Label diskSize = new Label("Disk Size\nClick to Reset");
@@ -38,6 +39,7 @@ public class CameraSceneBuilder extends DeviceSceneBuilder {
     labels.getChildren().add(videoSource);
 
     VBox actions = new VBox(10);
+    actions.setPrefWidth(700);
     Button toggleRecording =
         new Button(String.valueOf(getController().getCameraRecording(deviceID)));
     toggleRecording.setOnAction(event -> getController().setCameraRecording(deviceID));

@@ -31,6 +31,7 @@ public class ThermostatSceneBuilder extends DeviceSceneBuilder {
   @Override
   protected Node buildSpecifics() {
     VBox specifics = new VBox(10);
+    specifics.setPrefWidth(450);
 
     HBox currTempActions = new HBox(10);
     Label currTemp = new Label("Current Temp -->");
