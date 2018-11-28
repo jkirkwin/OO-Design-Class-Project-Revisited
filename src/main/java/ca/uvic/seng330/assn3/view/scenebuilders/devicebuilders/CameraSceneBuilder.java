@@ -14,8 +14,12 @@ import javafx.scene.web.WebView;
 public class CameraSceneBuilder extends DeviceSceneBuilder {
 
   //  String VideoURL = "http://download.oracle.com/otndocs/products/javafx/oow2010-2.flv";
-  String videoURL = "https://studentweb.uvic.ca/~jkirkwin/SENG330/";
+  public final String videoURL = "https://studentweb.uvic.ca/~jkirkwin/SENG330/video.html";
+  public final String blankURL = "https://studentweb.uvic.ca/~jkirkwin/SENG330/blank.html";
 
+  private WebView webView = new WebView();
+  
+  
   public CameraSceneBuilder(CameraController controller, String backText, UUID id) {
     super(controller, backText, id);
   }
@@ -23,6 +27,27 @@ public class CameraSceneBuilder extends DeviceSceneBuilder {
   @Override
   public CameraController getController() {
     return (CameraController) super.getController();
+  }
+  
+  @Override
+  protected Button makeBackButton() {
+    Button backButton = super.makeBackButton();
+    backButton.setOnAction(event -> {
+      setVideoURL(blankURL);
+      getController().handleBackClick();
+    });
+    return backButton;
+  }
+  
+  @Override
+  protected Button makeStatusToggle() {
+    Button toggle = super.makeStatusToggle();
+    toggle.setOnAction(event -> {
+      getController().toggleDevice(deviceID);
+      String url = getController().getCameraRecording() ? videoURL : blankURL;
+      setVideoURL(url);
+    });
+    return toggle;
   }
 
   @Override
@@ -40,31 +65,48 @@ public class CameraSceneBuilder extends DeviceSceneBuilder {
     VBox actions = new VBox(10);
     actions.setPrefWidth(200);
     Button toggleRecording =
-        new Button(String.valueOf(getController().getCameraRecording(deviceID)));
-    toggleRecording.setOnAction(event -> getController().setCameraRecording(deviceID));
+        new Button(String.valueOf(getController().getCameraRecording()));
+    toggleRecording.setOnAction(event -> {
+      getController().setCameraRecording();
+      toggleVideo();
+    });
+      
     actions.getChildren().add(toggleRecording);
     Button emptyDisk =
         new Button(
             String.format(
                 "%d/%d",
-                getController().getCurrCameraDiskSize(deviceID),
-                getController().getMaxCameraDiskSize(deviceID)));
-    emptyDisk.setOnAction(event -> getController().emptyCameraDiskSize(deviceID));
+                getController().getCurrCameraDiskSize(),
+                getController().getMaxCameraDiskSize()));
+    emptyDisk.setOnAction(event -> {
+      setVideoURL(blankURL);
+      getController().emptyCameraDiskSize();      
+    });
     actions.getChildren().add(emptyDisk);
 
-    //        MediaPlayer player = new MediaPlayer(new Media(VideoURL));
-    //        player.setAutoPlay(true);
-    //        MediaView mediaView = new MediaView(player);
-    WebView mediaView = new WebView();
-    mediaView.getEngine().load(videoURL);
-    mediaView.setPrefSize(500, 300);
-
+    String initialURL = getController().getCameraRecording() ? videoURL : blankURL;
+    webView.getEngine().load(initialURL);
+    webView.setPrefSize(500, 300);
+    
     hbox.getChildren().add(new Separator(Orientation.VERTICAL));
     hbox.getChildren().add(labels);
     hbox.getChildren().add(actions);
 
     specifics.getChildren().add(hbox);
-    specifics.getChildren().add(mediaView);
+    specifics.getChildren().add(webView);
     return specifics;
+  }
+  
+  private void toggleVideo() {
+    String url = isVideoSelected() ? blankURL : videoURL;
+    setVideoURL(url);
+  }
+  
+  private void setVideoURL(String url) {
+    this.webView.getEngine().load(url);    
+  }
+  
+  private boolean isVideoSelected() {
+    return this.webView.getEngine().getLocation().equals(videoURL);
   }
 }

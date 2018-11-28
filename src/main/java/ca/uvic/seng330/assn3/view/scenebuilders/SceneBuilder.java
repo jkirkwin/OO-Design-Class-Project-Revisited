@@ -45,6 +45,10 @@ public abstract class SceneBuilder {
 
   // The only thing common to all of our scenes is a back button
   protected Node buildCommon() {
+    return makeBackButton();
+  }
+  
+  protected Button makeBackButton() {
     Button backButton = new Button();
     backButton.setText(this.backText);
     backButton.setId("back");

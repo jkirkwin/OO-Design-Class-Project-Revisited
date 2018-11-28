@@ -117,18 +117,6 @@ public abstract class Controller {
     return null;
   }
 
-  public void toggleDevice(UUID id) {
-    Device curr = hub.getDevice(id);
-    if (curr.getStatus() == Status.ON) {
-      curr.setStatus(Status.OFF);
-    } else if (curr.getStatus() == Status.OFF) {
-      curr.setStatus(Status.ON);
-    } else {
-      // TODO: alert that device is broken.
-    }
-    deviceViewSwitch(id);
-  }
-
   public ArrayList<UUID> getDeviceIDList() {
     ArrayList<UUID> refined = new ArrayList<UUID>();
     for (UUID id : hub.getIDList(true)) {

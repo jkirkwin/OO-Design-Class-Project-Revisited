@@ -48,9 +48,7 @@ public abstract class DeviceSceneBuilder extends SceneBuilder {
 
     HBox hbox = new HBox(30);
     hbox.getChildren().add(new Label("Device Status -->"));
-    Button toggle = new Button(getController().getStatus(deviceID));
-    toggle.setId("status_toggle");
-    toggle.setOnAction(event -> getController().toggleDevice(deviceID));
+    Button toggle = makeStatusToggle();
     hbox.getChildren().add(toggle);
 
     vbox.getChildren().add(hbox);
@@ -59,5 +57,12 @@ public abstract class DeviceSceneBuilder extends SceneBuilder {
 
     container.add(hbox, 1, 1);
     return container;
+  }
+  
+  protected Button makeStatusToggle() {
+    Button toggle = new Button(getController().getStatus(deviceID));
+    toggle.setId("status_toggle");
+    toggle.setOnAction(event -> getController().toggleDevice(deviceID));
+    return toggle;
   }
 }

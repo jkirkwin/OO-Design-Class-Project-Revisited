@@ -2,6 +2,8 @@ package ca.uvic.seng330.assn3.controller;
 
 import ca.uvic.seng330.assn3.model.devices.Camera;
 import ca.uvic.seng330.assn3.model.devices.CameraFullException;
+import ca.uvic.seng330.assn3.view.scenebuilders.devicebuilders.CameraSceneBuilder;
+
 import java.util.UUID;
 
 public class CameraController extends DeviceController {
@@ -10,13 +12,13 @@ public class CameraController extends DeviceController {
     super(id);
   }
 
-  public boolean getCameraRecording(UUID id) {
+  public boolean getCameraRecording() {
     assert id != null;
     // TODO: review importing devices.camera
     return ((Camera) hub.getDevice(id)).isRecording();
   }
 
-  public void setCameraRecording(UUID id) {
+  public void setCameraRecording() {
     assert id != null;
     try {
       ((Camera) hub.getDevice(id)).record();
@@ -27,19 +29,25 @@ public class CameraController extends DeviceController {
     deviceViewSwitch(id);
   }
 
-  public int getCurrCameraDiskSize(UUID id) {
+  public int getCurrCameraDiskSize() {
     assert id != null;
     return ((Camera) hub.getDevice(id)).currentDiskSize();
   }
 
-  public int getMaxCameraDiskSize(UUID id) {
+  public int getMaxCameraDiskSize() {
     assert id != null;
     return ((Camera) hub.getDevice(id)).maxDiskSize();
   }
 
-  public void emptyCameraDiskSize(UUID id) {
+  public void emptyCameraDiskSize() {
     assert id != null;
     ((Camera) hub.getDevice(id)).emptyDisk();
     deviceViewSwitch(id);
+  }
+  
+  @Override
+  public void handleBackClick() {
+    
+    super.handleBackClick();
   }
 }
