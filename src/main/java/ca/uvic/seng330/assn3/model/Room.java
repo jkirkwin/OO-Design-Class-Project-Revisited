@@ -22,7 +22,7 @@ public class Room implements StorageEntity {
     this.id = id;
     this.label = label;
     this.hub = h;
-    hub.addRoom(this);
+    hub.register(this);
   }
 
   public String getLabel() {
