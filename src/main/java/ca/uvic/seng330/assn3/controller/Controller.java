@@ -13,7 +13,6 @@ import ca.uvic.seng330.assn3.view.scenebuilders.ManageUsersBuilder;
 import ca.uvic.seng330.assn3.view.scenebuilders.SceneBuilder;
 import ca.uvic.seng330.assn3.view.scenebuilders.SelectDevicesBuilder;
 import ca.uvic.seng330.assn3.view.scenebuilders.devicebuilders.CameraSceneBuilder;
-import ca.uvic.seng330.assn3.view.scenebuilders.devicebuilders.LightbulbController;
 import ca.uvic.seng330.assn3.view.scenebuilders.devicebuilders.LightbulbSceneBuilder;
 import ca.uvic.seng330.assn3.view.scenebuilders.devicebuilders.SmartPlugSceneBuilder;
 import ca.uvic.seng330.assn3.view.scenebuilders.devicebuilders.ThermostatSceneBuilder;
