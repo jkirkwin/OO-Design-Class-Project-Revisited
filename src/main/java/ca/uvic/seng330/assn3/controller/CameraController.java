@@ -42,13 +42,4 @@ public class CameraController extends DeviceController {
     ((Camera) hub.getDevice(id)).emptyDisk();
     deviceViewSwitch(id);
   }
-
-  public String getVideoSource(UUID id) {
-    return ((Camera) hub.getDevice(id)).getEyes();
-  }
-
-  public void setVideoSource(UUID id, String newEyes) {
-    ((Camera) hub.getDevice(id)).setEyes(newEyes);
-    refresh();
-  }
 }

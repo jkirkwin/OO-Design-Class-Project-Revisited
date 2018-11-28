@@ -11,7 +11,6 @@ public class Camera extends Device {
   private int diskSize;
   private final int maxSize;
   private boolean isRecording;
-  private String videoSource;
 
   public Camera(Hub hub) {
     super(hub);
@@ -104,13 +103,5 @@ public class Camera extends Device {
       }
     }
     this.status = status;
-  }
-
-  public String getEyes() {
-    return this.videoSource;
-  }
-
-  public void setEyes(String newEyes) {
-    this.videoSource = newEyes;
   }
 }
