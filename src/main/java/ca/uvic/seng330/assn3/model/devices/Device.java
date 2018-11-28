@@ -80,7 +80,7 @@ public abstract class Device implements StorageEntity {
       d.room = null;
     } else {
       UUID roomId = Storage.getUUID((JSONObject)JSONroomId);
-      d.room = h.getRoom(roomId);
+      d.room = h.getRoomByID(roomId);
     }
     
     return d;
