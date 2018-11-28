@@ -13,10 +13,12 @@ public class Hub {
 
   private final HashMap<UUID, Device> deviceRegistry;
   private HashMap<UUID, UserAccount> userAccountRegistry;
+  private HashMap<UUID, Room> roomRegistry;
 
   public Hub() {
     this.deviceRegistry = new HashMap<UUID, Device>();
     this.userAccountRegistry = new HashMap<UUID, UserAccount>();
+    this.roomRegistry = new HashMap<UUID, Room>();
   }
 
   /*
@@ -26,6 +28,11 @@ public class Hub {
     assert label != null;
     for (Device d : deviceRegistry.values()) {
       if (d.getLabel().equals(label)) {
+        return true;
+      }
+    }
+    for(Room r : roomRegistry.values()) {
+      if(r.getLabel().equals(label)) {
         return true;
       }
     }
@@ -66,6 +73,26 @@ public class Hub {
     } else {
       throw new HubRegistrationException("User already registered");
     }
+  }
+  
+  public void addRoom(Room r) {
+    assert r != null;
+    if(!roomRegistry.containsKey(r.getID())) {
+      roomRegistry.put(r.getID(), r);
+    }
+  }
+  
+  public void removeRoom(Room r) {
+    // TODO If time permits, do a small refactor of device registry to hold a set of rooms that 
+    //      partitions the device registry to make this not an O(n) operation
+    assert r != null;
+    assert roomRegistry.containsKey(r.getID());
+    for(Device d : deviceRegistry.values()) {
+      if(d.hasRoom() && d.getRoom().equals(r)) {
+        d.removeRoom();
+      }
+    }
+    this.roomRegistry.remove(r.getID());
   }
 
   /*
@@ -199,11 +226,20 @@ public class Hub {
     assert id != null;
     return this.userAccountRegistry.containsKey(id);
   }
+  
+  /*
+   * @pre id != null
+   */
+  public boolean isRegisteredRoom(UUID id) {
+    assert id != null;
+    return this.roomRegistry.containsKey(id);
+  }
 
   /*
    * Populate deviceRegistry and userRegistry from storage files
    */
   public void startup() {
+    Collection<Room> storedRooms = Storage.getRooms(this);
     Collection<Device> storedDevices = Storage.getDevices(this);
     Collection<UserAccount> storedAccounts = Storage.getAccounts(this);
     for (Device d : storedDevices) {
@@ -212,6 +248,9 @@ public class Hub {
     for (UserAccount u : storedAccounts) {
       this.userAccountRegistry.put(u.getIdentifier(), u);
     }
+    for (Room r : storedRooms) {
+      this.roomRegistry.put(r.getID(), r);
+    }
   }
 
   /*
@@ -219,7 +258,7 @@ public class Hub {
    */
   public void shutdown() {
     // TODO: turn off all devices
-    Storage.store(this.deviceRegistry.values(), this.userAccountRegistry.values());
+    Storage.store(this.deviceRegistry.values(), this.userAccountRegistry.values(), this.roomRegistry.values());
   }
 
   /*
@@ -315,4 +354,12 @@ public class Hub {
     }
     return null;
   }
+
+  public Room getRoom(UUID roomId) {
+    assert roomId != null;
+    assert roomRegistry.containsKey(roomId);
+    return roomRegistry.get(roomId);
+  }
+  
+  
 }

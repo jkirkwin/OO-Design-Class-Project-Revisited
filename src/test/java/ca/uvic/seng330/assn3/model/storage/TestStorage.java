@@ -1,10 +1,13 @@
 package ca.uvic.seng330.assn3.model.storage;
 
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import ca.uvic.seng330.assn3.model.AccessLevel;
 import ca.uvic.seng330.assn3.model.Hub;
+import ca.uvic.seng330.assn3.model.HubRegistrationException;
 import ca.uvic.seng330.assn3.model.JSONMessaging;
+import ca.uvic.seng330.assn3.model.Room;
 import ca.uvic.seng330.assn3.model.UserAccount;
 import ca.uvic.seng330.assn3.model.devices.Camera;
 import ca.uvic.seng330.assn3.model.devices.Device;
@@ -549,11 +552,40 @@ public class TestStorage {
     try {
       result1 = (Temperature) getTempFromJSON.invoke(oracle1, oracle1.getJSON());
       result2 = (Temperature) getTempFromJSON.invoke(oracle2, oracle2.getJSON());
-      getTempFromJSON.invoke(result2, oracle2.getJSON());
     } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
       e.printStackTrace();
     }
     assertTrue(result1.equals(oracle1));
     assertTrue(result2.equals(oracle2));
+  }
+  
+  @Test 
+  public void TestRoomRecreation() {
+    Hub h = new Hub();
+    Method getRoomFromJSON = null;
+    try {
+      getRoomFromJSON = Room.class.getDeclaredMethod("getRoomFromJSON", JSONObject.class, Hub.class);
+      getRoomFromJSON.setAccessible(true);
+    } catch (NoSuchMethodException | SecurityException e) {
+      e.printStackTrace();
+      fail("Could not get JSON Conversion method");
+    }
+    try {
+      Room oracle1 = new Room("room 1", h);
+      Room oracle2 = new Room("room 2", h);
+      Room result1 = null;
+      Room result2 = null;
+  
+      result1 = (Room) getRoomFromJSON.invoke(oracle1, oracle1.getJSON(), h);
+      result2 = (Room) getRoomFromJSON.invoke(oracle2, oracle2.getJSON(), h);
+      assertTrue(result1.equals(oracle1));
+      assertTrue(result2.equals(oracle2));
+    } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+      e.printStackTrace();
+    } catch (HubRegistrationException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+      fail("Error registering rooms");
+    }
   }
 }
