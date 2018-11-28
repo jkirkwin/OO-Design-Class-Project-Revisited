@@ -3,6 +3,12 @@
 ### Controller Refactor
 * Broke controller up into many different sub-controller, each extending Controller. Package structure now mimics that in view (i.e. there is a loose bijection between Controllers and SceneBuilders). Extensibility greatly improved.
 
+### Camera Video Data
+* added a WebView to camera
+
+TODO:
+* change to mediaPlayer/mediaView
+
 ### Room Associations
 * Create Room class 
 * Added a room field to Device. This is an optional feature that allows the user to group devices together. If there is no associated room set the field to null
@@ -10,5 +16,6 @@
 * Added storage code to allow storage and retrieval of rooms from separate file, and update storage code for device to hold the UUID of the room associated with a device, if such a room exists.
 * Added storage test for room recreation
 * Wrote tests to ensure that room mechanics within Model work as expected
-TODO 
+
+TODO: 
 * Add UI & Controller components to allow modification of rooms

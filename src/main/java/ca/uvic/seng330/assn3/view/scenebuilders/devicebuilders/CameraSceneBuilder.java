@@ -14,7 +14,7 @@ import javafx.scene.web.WebView;
 public class CameraSceneBuilder extends DeviceSceneBuilder {
 
   //  String VideoURL = "http://download.oracle.com/otndocs/products/javafx/oow2010-2.flv";
-  String VideoURL = "https://youtu.be/0TDN2qKjtck";
+  String VideoURL = "https://youtu.be/bWr2rZtV0Kk";
 
   public CameraSceneBuilder(CameraController controller, String backText, UUID id) {
     super(controller, backText, id);
