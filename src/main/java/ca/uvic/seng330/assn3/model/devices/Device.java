@@ -2,9 +2,11 @@ package ca.uvic.seng330.assn3.model.devices;
 
 import ca.uvic.seng330.assn3.model.Hub;
 import ca.uvic.seng330.assn3.model.HubRegistrationException;
+import ca.uvic.seng330.assn3.model.Room;
 import ca.uvic.seng330.assn3.model.devices.Temperature.Unit;
 import ca.uvic.seng330.assn3.model.storage.Storage;
 import ca.uvic.seng330.assn3.model.storage.StorageEntity;
+
 import java.util.UUID;
 import org.json.JSONObject;
 
@@ -13,6 +15,7 @@ public abstract class Device implements StorageEntity {
   private String label;
   protected Status status;
   private Hub hub;
+  private Room room; // The rooms this device is associated with
 
   /*
    * Returns the Device instance corresponding to the JSONObject
@@ -25,6 +28,7 @@ public abstract class Device implements StorageEntity {
     assert h != null;
 
     // TODO Log device creation
+    // TODO add room to device
 
     String dLabel = o.getString("label");
 
@@ -70,7 +74,15 @@ public abstract class Device implements StorageEntity {
 
     Status dStatus = Status.valueOf(o.getString("status").toUpperCase());
     d.setStatus(dStatus);
-
+    
+    Object JSONroomId = o.get("room_id");
+    if(JSONroomId.equals(JSONObject.NULL)) {
+      d.room = null;
+    } else {
+      UUID roomId = Storage.getUUID((JSONObject)JSONroomId);
+      d.room = h.getRoom(roomId);
+    }
+    
     return d;
   }
 
@@ -92,6 +104,7 @@ public abstract class Device implements StorageEntity {
     this.status = status;
     this.hub = hub;
     this.id = id;
+    this.room = null;
 
     try {
       hub.register(this);
@@ -116,7 +129,8 @@ public abstract class Device implements StorageEntity {
     this.status = status;
     this.hub = hub;
     this.id = UUID.randomUUID();
-
+    this.room = null;
+    
     try {
       hub.register(this);
     } catch (HubRegistrationException e) {
@@ -136,7 +150,8 @@ public abstract class Device implements StorageEntity {
     this.status = Status.ON;
     this.hub = hub;
     this.id = UUID.randomUUID();
-
+    this.room = null;
+    
     try {
       hub.register(this);
     } catch (HubRegistrationException e) {
@@ -167,6 +182,23 @@ public abstract class Device implements StorageEntity {
   public String getLabel() {
     return label;
   }
+  
+  public Room getRoom() {
+    return this.room;
+  }
+  
+  public boolean hasRoom() {
+    return this.room != null;
+  }
+  
+  public void removeRoom() {
+    this.room = null;
+  }
+  
+  public void setRoom(Room r) {
+    assert r != null;
+    this.room = r;
+  }
 
   /*
    * Should be extended by subClass for a more meaningful result
@@ -176,6 +208,11 @@ public abstract class Device implements StorageEntity {
     json.put("status", this.getStatus().toString());
     json.put("label", this.getLabel());
     json.put("id", Storage.getJsonUUID(this.getIdentifier()));
+    if(hasRoom()) {
+      json.put("room_id", Storage.getJsonUUID(this.room.getID()));
+    } else {
+      json.put("room_id", JSONObject.NULL);
+    }
     return json;
   }
 }
