@@ -9,10 +9,14 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Separator;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.MediaView;
 import javafx.scene.web.WebView;
 
 public class CameraSceneBuilder extends DeviceSceneBuilder {
 
+//  String VideoURL = "http://download.oracle.com/otndocs/products/javafx/oow2010-2.flv";
   String VideoURL = "https://youtu.be/0TDN2qKjtck";
 
   public CameraSceneBuilder(CameraController controller, String backText, UUID id) {
@@ -30,14 +34,14 @@ public class CameraSceneBuilder extends DeviceSceneBuilder {
     HBox hbox = new HBox(10);
 
     VBox labels = new VBox(10);
-    labels.setPrefWidth(700);
+    labels.setPrefWidth(200);
     Label isRecording = new Label("Recording");
     labels.getChildren().add(isRecording);
     Label diskSize = new Label("Disk Size\nClick to Reset");
     labels.getChildren().add(diskSize);
 
     VBox actions = new VBox(10);
-    actions.setPrefWidth(700);
+    actions.setPrefWidth(200);
     Button toggleRecording =
         new Button(String.valueOf(getController().getCameraRecording(deviceID)));
     toggleRecording.setOnAction(event -> getController().setCameraRecording(deviceID));
@@ -51,9 +55,9 @@ public class CameraSceneBuilder extends DeviceSceneBuilder {
     emptyDisk.setOnAction(event -> getController().emptyCameraDiskSize(deviceID));
     actions.getChildren().add(emptyDisk);
 
-    //    MediaPlayer player = new MediaPlayer(new Media(VideoURL));
-    //    player.setAutoPlay(true);
-    //    MediaView mediaView = new MediaView(player);
+//        MediaPlayer player = new MediaPlayer(new Media(VideoURL));
+//        player.setAutoPlay(true);
+//        MediaView mediaView = new MediaView(player);
     WebView mediaView = new WebView();
     mediaView.getEngine().load(VideoURL);
 
