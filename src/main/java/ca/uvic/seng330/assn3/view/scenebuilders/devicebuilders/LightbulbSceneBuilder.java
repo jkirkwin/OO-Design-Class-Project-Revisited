@@ -1,6 +1,8 @@
 package ca.uvic.seng330.assn3.view.scenebuilders.devicebuilders;
 
 import java.util.UUID;
+
+import ca.uvic.seng330.assn3.controller.LightbulbController;
 import javafx.scene.Node;
 import javafx.scene.layout.HBox;
 
