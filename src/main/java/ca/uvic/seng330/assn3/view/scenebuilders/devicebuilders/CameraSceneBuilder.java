@@ -13,7 +13,7 @@ import javafx.scene.web.WebView;
 
 public class CameraSceneBuilder extends DeviceSceneBuilder {
 
-  String VideoURL = "https://youtu.be/1tUeqG0hsDQ";
+  String VideoURL = "https://youtu.be/0TDN2qKjtck";
 
   public CameraSceneBuilder(CameraController controller, String backText, UUID id) {
     super(controller, backText, id);
@@ -60,9 +60,9 @@ public class CameraSceneBuilder extends DeviceSceneBuilder {
     hbox.getChildren().add(new Separator(Orientation.VERTICAL));
     hbox.getChildren().add(labels);
     hbox.getChildren().add(actions);
-    hbox.getChildren().add(mediaView);
 
     specifics.getChildren().add(hbox);
+    specifics.getChildren().add(mediaView);
     return specifics;
   }
 }
