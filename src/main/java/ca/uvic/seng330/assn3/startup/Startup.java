@@ -23,9 +23,7 @@ public class Startup extends Application {
     hub = new Hub();
     hub.startup(); // TODO As per acceptance tests make this up to the user
 
-    primaryStage.setMaxHeight(750);
     primaryStage.setMinHeight(250);
-    primaryStage.setMaxWidth(750);
     primaryStage.setMinWidth(250);
     client = new Client(primaryStage);
     controller = new LoginController();

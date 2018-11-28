@@ -14,7 +14,7 @@ import javafx.scene.web.WebView;
 public class CameraSceneBuilder extends DeviceSceneBuilder {
 
   //  String VideoURL = "http://download.oracle.com/otndocs/products/javafx/oow2010-2.flv";
-  String VideoURL = "https://youtu.be/bWr2rZtV0Kk";
+  String videoURL = "https://studentweb.uvic.ca/~jkirkwin/SENG330/";
 
   public CameraSceneBuilder(CameraController controller, String backText, UUID id) {
     super(controller, backText, id);
@@ -56,7 +56,8 @@ public class CameraSceneBuilder extends DeviceSceneBuilder {
     //        player.setAutoPlay(true);
     //        MediaView mediaView = new MediaView(player);
     WebView mediaView = new WebView();
-    mediaView.getEngine().load(VideoURL);
+    mediaView.getEngine().load(videoURL);
+    mediaView.setPrefSize(500, 300);
 
     hbox.getChildren().add(new Separator(Orientation.VERTICAL));
     hbox.getChildren().add(labels);
