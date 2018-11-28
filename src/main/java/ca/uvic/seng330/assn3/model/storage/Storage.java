@@ -35,7 +35,9 @@ public class Storage {
    * with a JSONArray representation of these objects
    */
   public static void store(
-      Collection<? extends StorageEntity> devices, Collection<? extends StorageEntity> accounts, Collection<? extends StorageEntity> rooms) {
+      Collection<? extends StorageEntity> devices,
+      Collection<? extends StorageEntity> accounts,
+      Collection<? extends StorageEntity> rooms) {
     ensureDirExists(storageDirPath);
     ensureDirExists(oldDirPath);
     String destinationDirPath = oldDirPath + getDateStamp() + File.separator;
@@ -123,13 +125,13 @@ public class Storage {
             StandardCopyOption.REPLACE_EXISTING);
       }
       // move room file to destination
-      if(roomFileToMove.exists()) {
+      if (roomFileToMove.exists()) {
         Files.move(
             Paths.get(roomFileToMove.getPath()),
             Paths.get(destRoomFile.getPath()),
             StandardCopyOption.REPLACE_EXISTING);
       }
-      
+
     } catch (IOException e) {
       e.printStackTrace();
       // TODO Log this error
@@ -185,11 +187,11 @@ public class Storage {
     }
     return javaAccounts;
   }
-  
+
   public static List<Room> getRooms(Hub hub) {
     List<Room> javaRooms = new ArrayList<Room>();
     File roomFile = new File(storageDirPath + roomFileName);
-    if(!roomFile.exists() || !roomFile.canRead()) {
+    if (!roomFile.exists() || !roomFile.canRead()) {
       // TODO that no rooms file was found
       return javaRooms;
     }
@@ -209,7 +211,7 @@ public class Storage {
     }
     return javaRooms;
   }
-  
+
   /*
    * @pre file != null
    */
@@ -231,7 +233,7 @@ public class Storage {
     }
     dir.mkdirs();
   }
-  
+
   private static String getDateStamp() {
     String rawDateString = new Date().toString();
     return rawDateString.replace(':', '-');
