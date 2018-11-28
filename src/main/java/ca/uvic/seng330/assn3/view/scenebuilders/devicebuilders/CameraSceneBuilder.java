@@ -7,8 +7,10 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Separator;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.web.WebView;
 
 public class CameraSceneBuilder extends DeviceSceneBuilder {
 
@@ -31,6 +33,9 @@ public class CameraSceneBuilder extends DeviceSceneBuilder {
     labels.getChildren().add(isRecording);
     Label diskSize = new Label("Disk Size\nClick to Reset");
     labels.getChildren().add(diskSize);
+    TextField videoSource = new TextField();
+    videoSource.setPromptText("New Video Source");
+    labels.getChildren().add(videoSource);
 
     VBox actions = new VBox(10);
     Button toggleRecording =
@@ -45,10 +50,22 @@ public class CameraSceneBuilder extends DeviceSceneBuilder {
                 getController().getMaxCameraDiskSize(deviceID)));
     emptyDisk.setOnAction(event -> getController().emptyCameraDiskSize(deviceID));
     actions.getChildren().add(emptyDisk);
+    Button videoSet = new Button("Set Video Source");
+    videoSet.setOnAction(event -> getController().setVideoSource(deviceID, videoSource.getText()));
+    actions.getChildren().add(videoSet);
+
+    String VideoURL = getController().getVideoSource(deviceID);
+    if (VideoURL == null) VideoURL = "https://youtu.be/1tUeqG0hsDQ";
+    //    MediaPlayer player = new MediaPlayer(new Media(VideoURL));
+    //    player.setAutoPlay(true);
+    //    MediaView mediaView = new MediaView(player);
+    WebView mediaView = new WebView();
+    mediaView.getEngine().load(VideoURL);
 
     hbox.getChildren().add(new Separator(Orientation.VERTICAL));
     hbox.getChildren().add(labels);
     hbox.getChildren().add(actions);
+    hbox.getChildren().add(mediaView);
 
     specifics.getChildren().add(hbox);
     return specifics;
