@@ -6,7 +6,6 @@ import ca.uvic.seng330.assn3.model.Room;
 import ca.uvic.seng330.assn3.model.devices.Temperature.Unit;
 import ca.uvic.seng330.assn3.model.storage.Storage;
 import ca.uvic.seng330.assn3.model.storage.StorageEntity;
-
 import java.util.UUID;
 import org.json.JSONObject;
 
@@ -74,15 +73,15 @@ public abstract class Device implements StorageEntity {
 
     Status dStatus = Status.valueOf(o.getString("status").toUpperCase());
     d.setStatus(dStatus);
-    
+
     Object JSONroomId = o.get("room_id");
-    if(JSONroomId.equals(JSONObject.NULL)) {
+    if (JSONroomId.equals(JSONObject.NULL)) {
       d.room = null;
     } else {
-      UUID roomId = Storage.getUUID((JSONObject)JSONroomId);
+      UUID roomId = Storage.getUUID((JSONObject) JSONroomId);
       d.room = h.getRoomByID(roomId);
     }
-    
+
     return d;
   }
 
@@ -130,7 +129,7 @@ public abstract class Device implements StorageEntity {
     this.hub = hub;
     this.id = UUID.randomUUID();
     this.room = null;
-    
+
     try {
       hub.register(this);
     } catch (HubRegistrationException e) {
@@ -151,7 +150,7 @@ public abstract class Device implements StorageEntity {
     this.hub = hub;
     this.id = UUID.randomUUID();
     this.room = null;
-    
+
     try {
       hub.register(this);
     } catch (HubRegistrationException e) {
@@ -182,19 +181,19 @@ public abstract class Device implements StorageEntity {
   public String getLabel() {
     return label;
   }
-  
+
   public Room getRoom() {
     return this.room;
   }
-  
+
   public boolean hasRoom() {
     return this.room != null;
   }
-  
+
   public void removeRoom() {
     this.room = null;
   }
-  
+
   public void setRoom(Room r) {
     assert r != null;
     this.room = r;
@@ -208,7 +207,7 @@ public abstract class Device implements StorageEntity {
     json.put("status", this.getStatus().toString());
     json.put("label", this.getLabel());
     json.put("id", Storage.getJsonUUID(this.getIdentifier()));
-    if(hasRoom()) {
+    if (hasRoom()) {
       json.put("room_id", Storage.getJsonUUID(this.room.getID()));
     } else {
       json.put("room_id", JSONObject.NULL);

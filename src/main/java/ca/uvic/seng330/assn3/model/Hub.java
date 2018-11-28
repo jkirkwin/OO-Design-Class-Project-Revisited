@@ -32,8 +32,8 @@ public class Hub {
         return true;
       }
     }
-    for(Room r : roomRegistry.values()) {
-      if(r.getLabel().equals(label)) {
+    for (Room r : roomRegistry.values()) {
+      if (r.getLabel().equals(label)) {
         return true;
       }
     }
@@ -78,7 +78,7 @@ public class Hub {
   
   public void register(Room r) {
     assert r != null;
-    if(!roomRegistry.containsKey(r.getID())) {
+    if (!roomRegistry.containsKey(r.getID())) {
       roomRegistry.put(r.getID(), r);
     }
   }
@@ -124,8 +124,8 @@ public class Hub {
     //      partitions the device registry to make this not an O(n) operation
     assert r != null;
     assert roomRegistry.containsKey(r.getID());
-    for(Device d : deviceRegistry.values()) {
-      if(d.hasRoom() && d.getRoom().equals(r)) {
+    for (Device d : deviceRegistry.values()) {
+      if (d.hasRoom() && d.getRoom().equals(r)) {
         d.removeRoom();
       }
     }
@@ -265,7 +265,7 @@ public class Hub {
     assert id != null;
     return this.userAccountRegistry.containsKey(id);
   }
-  
+
   /*
    * @pre id != null
    */
@@ -297,7 +297,10 @@ public class Hub {
    */
   public void shutdown() {
     // TODO: turn off all devices
-    Storage.store(this.deviceRegistry.values(), this.userAccountRegistry.values(), this.roomRegistry.values());
+    Storage.store(
+        this.deviceRegistry.values(),
+        this.userAccountRegistry.values(),
+        this.roomRegistry.values());
   }
 
   /*

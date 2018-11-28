@@ -558,13 +558,14 @@ public class TestStorage {
     assertTrue(result1.equals(oracle1));
     assertTrue(result2.equals(oracle2));
   }
-  
-  @Test 
+
+  @Test
   public void TestRoomRecreation() {
     Hub h = new Hub();
     Method getRoomFromJSON = null;
     try {
-      getRoomFromJSON = Room.class.getDeclaredMethod("getRoomFromJSON", JSONObject.class, Hub.class);
+      getRoomFromJSON =
+          Room.class.getDeclaredMethod("getRoomFromJSON", JSONObject.class, Hub.class);
       getRoomFromJSON.setAccessible(true);
     } catch (NoSuchMethodException | SecurityException e) {
       e.printStackTrace();
@@ -575,7 +576,7 @@ public class TestStorage {
       Room oracle2 = new Room("room 2", h);
       Room result1 = null;
       Room result2 = null;
-  
+
       result1 = (Room) getRoomFromJSON.invoke(oracle1, oracle1.getJSON(), h);
       result2 = (Room) getRoomFromJSON.invoke(oracle2, oracle2.getJSON(), h);
       assertTrue(result1.equals(oracle1));
