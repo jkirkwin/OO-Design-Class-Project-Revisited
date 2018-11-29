@@ -26,23 +26,7 @@ public class Hub {
     this.roomRegistry = new HashMap<UUID, Room>();
   }
 
-  /*
-   * @pre label != null
-   */
-  public boolean isLabelUsed(String label) {
-    assert label != null;
-    for (Device d : deviceRegistry.values()) {
-      if (d.getLabel().equals(label)) {
-        return true;
-      }
-    }
-    for (Room r : roomRegistry.values()) {
-      if (r.getLabel().equals(label)) {
-        return true;
-      }
-    }
-    return false;
-  }
+  // ======================= Registration ========================== //
 
   /*
    * @pre newDevice != null
@@ -52,82 +36,32 @@ public class Hub {
     if (!deviceRegistry.containsKey(newDevice.getIdentifier())) {
       deviceRegistry.put(newDevice.getIdentifier(), newDevice);
     } else {
-      throw new HubRegistrationException("Device already registered.");
+      throw new HubRegistrationException("Device with matching UUID previously registered.");
     }
   }
-
+  
   /*
    * @pre newAccount != null
    */
-  public void register(UserAccount newAccount) {
-    assert newAccount != null;
-    try {
-      registerNew(newAccount);
-    } catch (HubRegistrationException e) {
-      // TODO: Logging and Alerts
-    }
-  }
-
-  /*
-   * @pre newAccount != null
-   */
-  private void registerNew(UserAccount newAccount) throws HubRegistrationException {
+  public void register(UserAccount newAccount) throws HubRegistrationException {
     assert newAccount != null;
     if (!userAccountRegistry.containsKey(newAccount.getIdentifier())) {
       userAccountRegistry.put(newAccount.getIdentifier(), newAccount);
     } else {
-      throw new HubRegistrationException("User already registered");
+      throw new HubRegistrationException("User with matching UUID previously registered");
     }
   }
 
-  public void register(Room r) {
-    assert r != null;
-    if (!roomRegistry.containsKey(r.getID())) {
-      roomRegistry.put(r.getID(), r);
+  public void register(Room newRoom) throws HubRegistrationException {
+    assert newRoom != null;
+    if (!roomRegistry.containsKey(newRoom.getID())) {
+      roomRegistry.put(newRoom.getID(), newRoom);
+    } else {
+      throw new HubRegistrationException("Room with matching UUID previously registered");
     }
   }
-
-  public Room getRoomByID(UUID roomId) {
-    assert roomId != null;
-    assert roomRegistry.containsKey(roomId);
-    return roomRegistry.get(roomId);
-  }
-
-  public Room getRoomByDeviceID(UUID deviceId) {
-    assert deviceId != null;
-    assert this.deviceRegistry.containsKey(deviceId);
-    Device d = deviceRegistry.get(deviceId);
-    assert d.hasRoom();
-    return d.getRoom();
-  }
-
-  public void notifyRoom(UUID deviceId, IOEEventType event) {
-    getRoomByID(deviceId).notifyOccupants(event);
-    // TODO: notify users & log event?
-  }
-
-  /*
-   * TODO refactor room registry to partition deviceRegistry to avoid
-   * O(n) operations like this one.
-   */
-  public List<Device> getRoomContents(Room r) {
-    assert r != null;
-    return getRoomContents(r.getID());
-  }
-
-  public List<Device> getRoomContents(UUID roomID) {
-    assert roomID != null;
-    ArrayList<Device> matches = new ArrayList<Device>();
-    Room r;
-    for (Device d : deviceRegistry.values()) {
-      r = d.getRoom();
-      if (r != null && r.getID().equals(roomID)) {
-        matches.add(d);
-      }
-    }
-    return matches;
-  }
-
+  
+  // ======================= De-Registration ======================= //
   public void unregister(Room r) {
     // TODO If time permits, do a small refactor of device registry to hold a set of rooms that
     //      partitions the device registry to make this not an O(n) operation
@@ -210,16 +144,69 @@ public class Hub {
         break;
     }
   }
+  
+  
+  // ===================== End Registration ======================== //
 
-  public void log(String msg, UUID id) {
-    // TODO
+  public Room getRoomByID(UUID roomId) {
+    assert roomId != null;
+    assert roomRegistry.containsKey(roomId);
+    return roomRegistry.get(roomId);
+  }
+  
+  public Room getRoomByDeviceID(UUID deviceId) {
+    assert deviceId != null;
+    assert this.deviceRegistry.containsKey(deviceId);
+    Device d = deviceRegistry.get(deviceId);
+    assert d.hasRoom();
+    return d.getRoom();
+  }
+  
+  public void notifyRoom(UUID deviceId, IOEEventType event) {
+    getRoomByID(deviceId).notifyOccupants(event);
+    // TODO: notify users & log event?
   }
 
-  public void alert(String msg, Device pDevice) throws HubRegistrationException {
-    // TODO should be moved to controller
-    // Or should alert some list of observers in which Controller has registered
+  /*
+   * TODO refactor room registry to partition deviceRegistry to avoid
+   * O(n) operations like this one.
+   */
+  public List<Device> getRoomContents(Room r) {
+    assert r != null;
+    return getRoomContents(r.getID());
   }
 
+  public List<Device> getRoomContents(UUID roomID) {
+    assert roomID != null;
+    ArrayList<Device> matches = new ArrayList<Device>();
+    Room r;
+    for (Device d : deviceRegistry.values()) {
+      r = d.getRoom();
+      if (r != null && r.getID().equals(roomID)) {
+        matches.add(d);
+      }
+    }
+    return matches;
+  }
+
+  /*
+   * @pre label != null
+   */
+  public boolean isLabelUsed(String label) {
+    assert label != null;
+    for (Device d : deviceRegistry.values()) {
+      if (d.getLabel().equals(label)) {
+        return true;
+      }
+    }
+    for (Room r : roomRegistry.values()) {
+      if (r.getLabel().equals(label)) {
+        return true;
+      }
+    }
+    return false;
+  }
+  
   /*
    * @pre username != null
    * @pre password != null
@@ -389,7 +376,7 @@ public class Hub {
         break;
       default:
         // TODO: throw an error here and remove the assertion
-        assert (false);
+        assert false;
         return;
     }
     if (startingState) {
@@ -411,5 +398,14 @@ public class Hub {
       }
     }
     return null;
+  }
+
+  public void log(String msg, UUID id) {
+    // TODO
+  }
+  
+  public void alert(String msg, Device pDevice) throws HubRegistrationException {
+    // TODO should be moved to controller
+    // Or should alert some list of observers in which Controller has registered
   }
 }

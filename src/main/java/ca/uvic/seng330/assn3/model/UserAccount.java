@@ -27,7 +27,11 @@ public class UserAccount implements StorageEntity {
     this.notificationList = new Stack<JSONMessaging>();
     this.blackList = new ArrayList<UUID>();
     this.id = UUID.randomUUID();
-    hub.register(this);
+    try {
+      hub.register(this);
+    } catch(HubRegistrationException e) {
+      // TODO Log this error
+    }
   }
 
   private UserAccount(
@@ -45,7 +49,11 @@ public class UserAccount implements StorageEntity {
     this.id = accountID;
     this.notificationList = notificationList;
     this.blackList = blackList;
-    hub.register(this);
+    try {
+      hub.register(this);
+    } catch(HubRegistrationException e) {
+      // TODO Log this error
+    }
   }
 
   public UUID getIdentifier() {
@@ -108,7 +116,6 @@ public class UserAccount implements StorageEntity {
     }
     UserAccount o = (UserAccount) other;
     return this.accessLevel.equals(o.accessLevel)
-        && this.hub == o.hub // Note we are checking for identity here
         && this.id.equals(o.id)
         && this.blackList.equals(o.blackList)
         && this.notificationList.equals(o.notificationList)

@@ -1,6 +1,7 @@
 package ca.uvic.seng330.assn3.controller;
 
 import ca.uvic.seng330.assn3.model.AccessLevel;
+import ca.uvic.seng330.assn3.model.HubRegistrationException;
 import ca.uvic.seng330.assn3.model.UserAccount;
 import java.util.NoSuchElementException;
 import javafx.scene.control.Alert.AlertType;
@@ -48,7 +49,7 @@ public class LoginController extends Controller {
     assert password != null;
     if (acceptableInputs(username, password)) {
       if (!hub.isUser(username)) {
-        hub.register(new UserAccount(hub, AccessLevel.BASIC, username, password));
+        new UserAccount(hub, AccessLevel.BASIC, username, password);
         client.alertUser(AlertType.INFORMATION, "Success", "Success", "User Account Created.");
       } else {
         client.alertUser(
@@ -69,7 +70,7 @@ public class LoginController extends Controller {
     assert password != null;
     if (acceptableInputs(username, password)) {
       if (!hub.isUser(username)) {
-        hub.register(new UserAccount(hub, AccessLevel.ADMIN, username, password));
+        new UserAccount(hub, AccessLevel.ADMIN, username, password);
         client.alertUser(AlertType.INFORMATION, "Success", "Success", "Admin Account Created.");
       } else {
         client.alertUser(

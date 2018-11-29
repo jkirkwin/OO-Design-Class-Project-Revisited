@@ -56,7 +56,11 @@ public class TestHub extends IOTUnitTest {
       assertTrue(dummyHub.isRegisteredRoom(r.getID()));
       dummyHub.unregister(r);
       assertFalse(dummyHub.isRegisteredRoom(r.getID()));
-      h.register(r);
+      try {
+        h.register(r);
+      } catch (HubRegistrationException e) {
+        fail("unable to register room");
+      }
       assertTrue(h.isRegisteredRoom(r.getID()));
     }
   }
