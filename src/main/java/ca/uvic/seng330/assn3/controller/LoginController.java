@@ -1,7 +1,6 @@
 package ca.uvic.seng330.assn3.controller;
 
 import ca.uvic.seng330.assn3.model.AccessLevel;
-import ca.uvic.seng330.assn3.model.HubRegistrationException;
 import ca.uvic.seng330.assn3.model.UserAccount;
 import java.util.NoSuchElementException;
 import javafx.scene.control.Alert.AlertType;

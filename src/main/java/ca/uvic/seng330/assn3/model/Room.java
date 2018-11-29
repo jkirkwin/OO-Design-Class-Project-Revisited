@@ -7,7 +7,6 @@ import ca.uvic.seng330.assn3.model.devices.Thermostat;
 import ca.uvic.seng330.assn3.model.storage.Storage;
 import ca.uvic.seng330.assn3.model.storage.StorageEntity;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 import org.json.JSONObject;
@@ -51,7 +50,7 @@ public class Room implements StorageEntity {
     assert hub.isRegisteredDevice(id);
     Device d = hub.getDevice(id);
     occupants.add(d);
-    if(!d.hasRoom() || d.getRoom() != this) {
+    if (!d.hasRoom() || d.getRoom() != this) {
       d.setRoom(this);
     }
   }
@@ -124,7 +123,7 @@ public class Room implements StorageEntity {
   }
 
   public void empty() {
-    for(Device d : occupants) {
+    for (Device d : occupants) {
       d.removeRoom();
       occupants.remove(d);
     }

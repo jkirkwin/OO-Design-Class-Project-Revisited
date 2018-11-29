@@ -22,7 +22,7 @@ public class Startup extends Application {
   @Override
   public void start(Stage primaryStage) throws Exception {
     Logging.init();
-    
+
     hub = new Hub();
     hub.startup(); // TODO As per acceptance tests make this up to the user
 

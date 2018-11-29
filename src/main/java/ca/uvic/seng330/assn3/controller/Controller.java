@@ -147,9 +147,9 @@ public abstract class Controller {
     assert uuid != null;
     return hub.getLabel(uuid);
   }
-  
+
   public String devStatus(UUID id) {
-	  return hub.getDevice(id).getStatus().toString();
+    return hub.getDevice(id).getStatus().toString();
   }
 
   public Hub getHub() {

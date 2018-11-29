@@ -393,7 +393,7 @@ public class TestStorage extends IOTUnitTest {
         | InvocationTargetException e) {
       e.printStackTrace();
     }
-    for(Device d : devices) {
+    for (Device d : devices) {
       try {
         h2.register(d);
       } catch (HubRegistrationException e) {
@@ -587,7 +587,10 @@ public class TestStorage extends IOTUnitTest {
       Room result1 = null;
       Room result2 = null;
 
-      result1 = (Room) getRoomFromJSON.invoke(oracle1, oracle1.getJSON(), h2); // TODO Exception thrown (and handled) in here
+      result1 =
+          (Room)
+              getRoomFromJSON.invoke(
+                  oracle1, oracle1.getJSON(), h2); // TODO Exception thrown (and handled) in here
       result2 = (Room) getRoomFromJSON.invoke(oracle2, oracle2.getJSON(), h2);
       assertTrue(result1.equals(oracle1));
       assertTrue(result2.equals(oracle2));

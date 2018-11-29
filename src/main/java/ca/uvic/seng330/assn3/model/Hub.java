@@ -4,7 +4,6 @@ import ca.uvic.seng330.assn3.controller.DeviceType;
 import ca.uvic.seng330.assn3.logging.Logging;
 import ca.uvic.seng330.assn3.model.devices.*;
 import ca.uvic.seng330.assn3.model.storage.Storage;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -15,7 +14,7 @@ import java.util.UUID;
 import org.slf4j.event.Level;
 
 public class Hub {
-  
+
   private final HashMap<UUID, Device> deviceRegistry;
   private HashMap<UUID, UserAccount> userAccountRegistry;
   private HashMap<UUID, Room> roomRegistry;
@@ -38,7 +37,7 @@ public class Hub {
       throw new HubRegistrationException("Device with matching UUID previously registered.");
     }
   }
-  
+
   /*
    * @pre newAccount != null
    */
@@ -61,14 +60,14 @@ public class Hub {
       throw new HubRegistrationException("Room with matching UUID previously registered");
     }
   }
-  
+
   public void unregister(Room r) throws HubRegistrationException {
     assert r != null;
-    if(roomRegistry.isEmpty()) {
+    if (roomRegistry.isEmpty()) {
       throw new HubRegistrationException("No rooms registered.");
     }
-    if(roomRegistry.containsKey(r.getIdentifier())) {
-      r.empty();   
+    if (roomRegistry.containsKey(r.getIdentifier())) {
+      r.empty();
       roomRegistry.remove(r.getIdentifier());
       Logging.logWithID("Room unregistered", r.getIdentifier(), Level.INFO);
     } else {
@@ -86,7 +85,7 @@ public class Hub {
     }
     if (deviceRegistry.containsKey(retiredDevice.getIdentifier())) {
       deviceRegistry.remove(retiredDevice.getIdentifier());
-      if(retiredDevice.hasRoom()) {
+      if (retiredDevice.hasRoom()) {
         Room r = retiredDevice.getRoom();
         assert roomRegistry.containsKey(r.getIdentifier());
         roomRegistry.get(r.getIdentifier()).removeRoomDevice(retiredDevice);
@@ -105,7 +104,7 @@ public class Hub {
     if (userAccountRegistry.isEmpty()
         || !userAccountRegistry.containsKey(deletedAccount.getIdentifier())) {
       throw new HubRegistrationException("Account does not exist.");
-    } 
+    }
     switch (deletedAccount.getAccessLevel()) {
       case ADMIN:
         userAccountRegistry.remove(deletedAccount.getIdentifier());
@@ -116,7 +115,7 @@ public class Hub {
     }
     Logging.logWithID("Unregistered account", deletedAccount.getIdentifier(), Level.INFO);
   }
-  
+
   /*
    * @pre uuid != null
    */
@@ -132,13 +131,13 @@ public class Hub {
       throw new HubRegistrationException("No entity with matching UUID is registered to the hub.");
     }
   }
-  
+
   public Room getRoomByID(UUID roomId) {
     assert roomId != null;
     assert roomRegistry.containsKey(roomId);
     return roomRegistry.get(roomId);
   }
-  
+
   public Room getRoomByDeviceID(UUID deviceId) {
     assert deviceId != null;
     assert this.deviceRegistry.containsKey(deviceId);
@@ -146,7 +145,7 @@ public class Hub {
     assert d.hasRoom();
     return d.getRoom();
   }
-  
+
   public void notifyRoom(UUID deviceId, IOEEventType event) {
     getRoomByID(deviceId).notifyOccupants(event);
     Logging.logWithID("Event Occurred: " + event.toString(), deviceId, Level.INFO);
@@ -181,7 +180,7 @@ public class Hub {
     }
     return false;
   }
-  
+
   /*
    * @pre username != null
    * @pre password != null
@@ -381,7 +380,7 @@ public class Hub {
   public void log(String msg, UUID id) {
     // TODO
   }
-  
+
   public void alert(String msg, Device pDevice) throws HubRegistrationException {
     // TODO should be moved to controller
     // Or should alert some list of observers in which Controller has registered

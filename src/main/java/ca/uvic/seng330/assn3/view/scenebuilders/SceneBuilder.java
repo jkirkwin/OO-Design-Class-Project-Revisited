@@ -81,9 +81,13 @@ public abstract class SceneBuilder {
   protected VBox hubDeviceList(VBox col) {
     assert col != null;
     ArrayList<UUID> deviceList = controller.getDeviceIDList();
-    
+
     for (int i = 0; i < deviceList.size(); i++) {
-      Button button = new Button(controller.getLabel(deviceList.get(i))+" - "+controller.devStatus(deviceList.get(i)));
+      Button button =
+          new Button(
+              controller.getLabel(deviceList.get(i))
+                  + " - "
+                  + controller.devStatus(deviceList.get(i)));
       button.setId(getController().getLabel(deviceList.get(i)));
       button.setUserData(deviceList.get(i));
       button.setOnAction(event -> controller.handleDeviceViewClick((UUID) button.getUserData()));

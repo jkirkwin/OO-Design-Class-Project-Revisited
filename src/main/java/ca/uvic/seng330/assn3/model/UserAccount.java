@@ -31,8 +31,9 @@ public class UserAccount implements StorageEntity {
     this.id = UUID.randomUUID();
     try {
       hub.register(this);
-    } catch(HubRegistrationException e) {
-      Logging.logWithID("Failed to register useraccount from public constructor.", this.id, Level.ERROR);
+    } catch (HubRegistrationException e) {
+      Logging.logWithID(
+          "Failed to register useraccount from public constructor.", this.id, Level.ERROR);
     }
   }
 
@@ -53,8 +54,9 @@ public class UserAccount implements StorageEntity {
     this.blackList = blackList;
     try {
       hub.register(this);
-    } catch(HubRegistrationException e) {
-      Logging.logWithID("Failed to register useraccount from private constructor.", this.id, Level.ERROR);
+    } catch (HubRegistrationException e) {
+      Logging.logWithID(
+          "Failed to register useraccount from private constructor.", this.id, Level.ERROR);
     }
   }
 
@@ -72,7 +74,8 @@ public class UserAccount implements StorageEntity {
 
   public void blackList(UUID illegal) {
     if (this.isAdmin()) {
-      Logging.logWithID("Unable to blacklist device for admin account. No Action taken.", illegal, Level.WARN);
+      Logging.logWithID(
+          "Unable to blacklist device for admin account. No Action taken.", illegal, Level.WARN);
     } else if (this.blackList.contains(illegal)) {
       Logging.logWithID("Device already blacklisted. No Action taken.", illegal, Level.WARN);
     } else {
