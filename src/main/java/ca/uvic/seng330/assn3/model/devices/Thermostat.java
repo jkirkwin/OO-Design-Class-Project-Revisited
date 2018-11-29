@@ -1,7 +1,7 @@
 package ca.uvic.seng330.assn3.model.devices;
 
 import ca.uvic.seng330.assn3.model.Hub;
-import ca.uvic.seng330.assn3.model.devices.Temperature.TemperatureOutofBoundsException;
+import ca.uvic.seng330.assn3.model.devices.Temperature.TemperatureOutOfBoundsException;
 import ca.uvic.seng330.assn3.model.devices.Temperature.Unit;
 import java.util.UUID;
 import org.json.JSONObject;
@@ -12,27 +12,29 @@ public class Thermostat extends Device {
   private static final Temperature MAX_CELSIUS = new Temperature(40.0, Unit.CELSIUS);
   private static final Temperature MIN_FAHRENHEIT = new Temperature(0.0, Unit.FAHRENHEIT);
   private static final Temperature MAX_FAHRENHEIT = new Temperature(110.0, Unit.FAHRENHEIT);
+  private final double defaultMagnitude = 15.0;
+  private final Unit defaultUnit = Unit.CELSIUS;
 
   private Temperature temp;
 
+  public Temperature getDefaultTemperature() {
+    return new Temperature(defaultMagnitude, defaultUnit);
+  }
+  
   public Thermostat(Hub hub) {
     super(hub);
-    this.temp = new Temperature(15.0, Unit.CELSIUS);
+    this.temp = new Temperature(defaultMagnitude, defaultUnit);
   }
 
   public Thermostat(String label, Hub hub) {
     super(label, Status.ON, hub);
-    this.temp = new Temperature(15.0, Unit.CELSIUS);
+    this.temp = new Temperature(defaultMagnitude, defaultUnit);
   }
 
   protected Thermostat(Temperature temp, UUID id, String label, Hub hub) {
     super(id, label, Status.ON, hub);
-    if (temp == null) {
-      // TODO: temp shouldnt be null
-      this.temp = temp;
-    } else {
-      this.temp = temp.clone();
-    }
+    assert temp != null;
+    this.temp = temp.clone();
   }
 
   /**
@@ -55,21 +57,18 @@ public class Thermostat extends Device {
   }
 
   public Temperature getTemp() {
-    if (this.temp == null) {
-      return null;
-    } else {
-      return this.temp.clone();
-    }
+    assert this.temp != null;
+    return this.temp.clone();
   }
 
   /** @pre pTemp != null */
-  public void setTemp(Temperature temp) throws TemperatureOutofBoundsException {
+  public void setTemp(Temperature temp) throws TemperatureOutOfBoundsException {
     assert temp != null;
     // TODO log changing temp
     if (this.getStatus() == Status.ON) {
       if (!isValidTemp(temp)) {
         // TODO log invalid temp
-        throw (temp.new TemperatureOutofBoundsException());
+        throw (temp.new TemperatureOutOfBoundsException());
       }
       this.temp = temp.clone();
     }
@@ -83,7 +82,7 @@ public class Thermostat extends Device {
     return this.getTemp().getUnit();
   }
 
-  public void changeTempUnits() throws TemperatureOutofBoundsException {
+  public void changeTempUnits() throws TemperatureOutOfBoundsException {
     assert isValidTemp(this.temp);
     Unit newUnit = this.getTempType().equals(Unit.CELSIUS) ? Unit.FAHRENHEIT : Unit.CELSIUS;
     this.temp.changeUnit(newUnit);

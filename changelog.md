@@ -4,10 +4,7 @@
 * Broke controller up into many different sub-controller, each extending Controller. Package structure now mimics that in view (i.e. there is a loose bijection between Controllers and SceneBuilders). Extensibility greatly improved.
 
 ### Camera Video Data
-* added a WebView to camera
-
-TODO:
-* change to mediaPlayer/mediaView
+* added a WebView to camera showing a YouTube video when recording
 
 ### Room Associations
 * Create Room class 
@@ -19,3 +16,8 @@ TODO:
 
 TODO: 
 * Add UI & Controller components to allow modification of rooms
+
+### Expanded Test Suite
+* Tests for room association by hub
+* Tests for camera
+* Tests for Thermostat (All devices now have tests)

@@ -6,12 +6,12 @@ import org.json.JSONObject;
 public class Temperature implements Cloneable {
 
   @SuppressWarnings("serial")
-  public class TemperatureOutofBoundsException extends Exception {
-    public TemperatureOutofBoundsException() {
+  public class TemperatureOutOfBoundsException extends Exception {
+    public TemperatureOutOfBoundsException() {
       super();
     }
 
-    public TemperatureOutofBoundsException(String message) {
+    public TemperatureOutOfBoundsException(String message) {
       super(message);
     }
   }

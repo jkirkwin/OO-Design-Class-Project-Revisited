@@ -38,7 +38,7 @@ public class TestCamera {
   }
   
   @Test
-  public void testToggle() {
+  public void testToggleStatus() {
     Camera a = new Camera(h);
     assertTrue(a.getStatus().equals(Status.ON));
     assertFalse(a.isRecording());

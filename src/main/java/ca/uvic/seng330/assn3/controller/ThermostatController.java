@@ -1,7 +1,7 @@
 package ca.uvic.seng330.assn3.controller;
 
 import ca.uvic.seng330.assn3.model.devices.Temperature;
-import ca.uvic.seng330.assn3.model.devices.Temperature.TemperatureOutofBoundsException;
+import ca.uvic.seng330.assn3.model.devices.Temperature.TemperatureOutOfBoundsException;
 import ca.uvic.seng330.assn3.model.devices.Temperature.Unit;
 import ca.uvic.seng330.assn3.model.devices.Thermostat;
 import java.util.ArrayList;
@@ -20,7 +20,7 @@ public class ThermostatController extends DeviceController {
     assert degreeType != null;
     try {
       ((Thermostat) hub.getDevice(id)).setTemp(new Temperature(magnitude, (Unit) degreeType));
-    } catch (TemperatureOutofBoundsException e) {
+    } catch (TemperatureOutOfBoundsException e) {
       client.alertUser(
           AlertType.ERROR,
           "Invalid Temperature",
@@ -46,7 +46,7 @@ public class ThermostatController extends DeviceController {
     // TODO: set to max or min acceptable?
     try {
       thermostat.changeTempUnits();
-    } catch (TemperatureOutofBoundsException e) {
+    } catch (TemperatureOutOfBoundsException e) {
       client.alertUser(
           AlertType.ERROR,
           "Temp Converted",
