@@ -1,6 +1,7 @@
 package ca.uvic.seng330.assn3.controller;
 
 import ca.uvic.seng330.assn3.model.Hub;
+import ca.uvic.seng330.assn3.model.HubRegistrationException;
 import ca.uvic.seng330.assn3.model.UserAccount;
 import ca.uvic.seng330.assn3.model.devices.Device;
 import ca.uvic.seng330.assn3.view.Client;
@@ -152,7 +153,7 @@ public abstract class Controller {
   }
 
   public Hub getHub() {
-    return this.hub;
+    return hub;
   }
 
   /*
@@ -165,7 +166,12 @@ public abstract class Controller {
     boolean isUserAccount = hub.isRegisteredUserAccount(uuid);
     assert isDevice || isUserAccount;
     String label = hub.getLabel(uuid);
-    hub.unregister(uuid);
+    try {
+      hub.unregister(uuid);
+    } catch (HubRegistrationException e) {
+      // TODO remove stacktrace print and add log
+      e.printStackTrace();
+    }
     if (isDevice) {
       client.alertUser(
           AlertType.INFORMATION,

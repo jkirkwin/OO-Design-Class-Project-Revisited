@@ -26,8 +26,6 @@ public class Hub {
     this.roomRegistry = new HashMap<UUID, Room>();
   }
 
-  // ======================= Registration ========================== //
-
   /*
    * @pre newDevice != null
    */
@@ -61,43 +59,19 @@ public class Hub {
     }
   }
   
-  // ======================= De-Registration ======================= //
-  public void unregister(Room r) {
-    // TODO If time permits, do a small refactor of device registry to hold a set of rooms that
-    //      partitions the device registry to make this not an O(n) operation
+  public void unregister(Room r) throws HubRegistrationException {
     assert r != null;
-    assert roomRegistry.containsKey(r.getID());
-    for (Device d : deviceRegistry.values()) {
-      if (d.hasRoom() && d.getRoom().equals(r)) {
-        d.removeRoom();
-      }
+    if(roomRegistry.isEmpty()) {
+      throw new HubRegistrationException("No rooms registered.");
     }
-    this.roomRegistry.remove(r.getID());
+    if(roomRegistry.containsKey(r.getID())) {
+      r.empty();   
+      roomRegistry.remove(r.getID());
+    } else {
+      throw new HubRegistrationException("No such room registered to hub");
+    }
   }
 
-  /*
-   * @pre uuid != null
-   */
-  public void unregister(UUID uuid) {
-    assert uuid != null;
-    if (this.deviceRegistry.containsKey(uuid)) {
-      try {
-        unregister(this.deviceRegistry.get(uuid));
-      } catch (HubRegistrationException e) {
-        // TODO: logging & alert
-      }
-    } else if (this.userAccountRegistry.containsKey(uuid)) {
-      try {
-        unregister(this.userAccountRegistry.get(uuid));
-      } catch (HubRegistrationException e) {
-        // TODO: logging & alert
-      }
-    } else if (this.roomRegistry.containsKey(uuid)) {
-      unregister(this.roomRegistry.get(uuid));
-    } else {
-      // TODO: alert that nothing corresponds to given UUID
-    }
-  }
 
   /*
    * @pre retiredDevice != null
@@ -122,19 +96,7 @@ public class Hub {
     if (userAccountRegistry.isEmpty()
         || !userAccountRegistry.containsKey(deletedAccount.getIdentifier())) {
       throw new HubRegistrationException("Account does not exist.");
-    }
-    try {
-      unregisterRetired(deletedAccount);
-    } catch (HubRegistrationException e) {
-      // TODO:  Logging and Alerts
-    }
-  }
-
-  /*
-   * @pre deletedAccount != null
-   */
-  private void unregisterRetired(UserAccount deletedAccount) throws HubRegistrationException {
-    assert deletedAccount != null;
+    } 
     switch (deletedAccount.getAccessLevel()) {
       case ADMIN:
         userAccountRegistry.remove(deletedAccount.getIdentifier());
@@ -145,9 +107,22 @@ public class Hub {
     }
   }
   
+  /*
+   * @pre uuid != null
+   */
+  public void unregister(UUID uuid) throws HubRegistrationException {
+    assert uuid != null;
+    if (this.deviceRegistry.containsKey(uuid)) {
+      unregister(this.deviceRegistry.get(uuid));
+    } else if (this.userAccountRegistry.containsKey(uuid)) {
+      unregister(this.userAccountRegistry.get(uuid));
+    } else if (this.roomRegistry.containsKey(uuid)) {
+      unregister(this.roomRegistry.get(uuid));
+    } else {
+      // TODO: alert that nothing corresponds to given UUID
+    }
+  }
   
-  // ===================== End Registration ======================== //
-
   public Room getRoomByID(UUID roomId) {
     assert roomId != null;
     assert roomRegistry.containsKey(roomId);

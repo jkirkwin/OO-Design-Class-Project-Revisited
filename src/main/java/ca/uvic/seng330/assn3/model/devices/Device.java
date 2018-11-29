@@ -27,7 +27,6 @@ public abstract class Device implements StorageEntity {
     assert h != null;
 
     // TODO Log device creation
-    // TODO add room to device
 
     String dLabel = o.getString("label");
 

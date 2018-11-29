@@ -7,6 +7,7 @@ import ca.uvic.seng330.assn3.model.devices.Thermostat;
 import ca.uvic.seng330.assn3.model.storage.Storage;
 import ca.uvic.seng330.assn3.model.storage.StorageEntity;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.UUID;
 import org.json.JSONObject;
 
@@ -109,5 +110,16 @@ public class Room implements StorageEntity {
     Room rebuilt = new Room(label, id, hub);
     rebuilt.setRoomContents();
     return rebuilt;
+  }
+
+  public Collection<Device> getOccupants() {
+    return occupants;
+  }
+
+  public void empty() {
+    for(Device d : occupants) {
+      d.removeRoom();
+      occupants.remove(d);
+    }
   }
 }

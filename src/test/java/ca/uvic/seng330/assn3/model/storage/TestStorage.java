@@ -391,7 +391,6 @@ public class TestStorage {
         | InvocationTargetException e) {
       e.printStackTrace();
     }
-
     for(Device d : devices) {
       try {
         h2.register(d);
@@ -399,10 +398,8 @@ public class TestStorage {
         fail("unable to register device");
       }
     }
-    
     UserAccount result1 = UserAccount.getAccountFromJSON(oracle1.getJSON(), h);
     UserAccount result2 = UserAccount.getAccountFromJSON(oracle2.getJSON(), h);
-
     assertTrue(oracle1.equals(result1));
     assertTrue(oracle2.equals(result2));
   }
