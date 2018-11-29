@@ -1,6 +1,7 @@
 package ca.uvic.seng330.assn3.model.devices;
 
 import ca.uvic.seng330.assn3.model.Hub;
+import ca.uvic.seng330.assn3.model.IOEEventType;
 import ca.uvic.seng330.assn3.model.devices.Temperature.TemperatureOutOfBoundsException;
 import ca.uvic.seng330.assn3.model.devices.Temperature.Unit;
 import java.util.UUID;
@@ -20,7 +21,7 @@ public class Thermostat extends Device {
   public Temperature getDefaultTemperature() {
     return new Temperature(defaultMagnitude, defaultUnit);
   }
-  
+
   public Thermostat(Hub hub) {
     super(hub);
     this.temp = new Temperature(defaultMagnitude, defaultUnit);
@@ -80,6 +81,10 @@ public class Thermostat extends Device {
 
   public Unit getTempType() {
     return this.getTemp().getUnit();
+  }
+
+  public void ambientTempDetect() {
+    this.getHub().notifyRoom(this.getIdentifier(), IOEEventType.AMBIENTTEMP);
   }
 
   public void changeTempUnits() throws TemperatureOutOfBoundsException {

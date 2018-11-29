@@ -17,6 +17,9 @@
 TODO: 
 * Add UI & Controller components to allow modification of rooms
 
+### Device Events
+* when an event happens the device will inform HUB which will then call on the appropriate Room which will then adjust the appropriate Devices.
+
 ### Expanded Test Suite
 * Tests for room association by hub
 * Tests for camera

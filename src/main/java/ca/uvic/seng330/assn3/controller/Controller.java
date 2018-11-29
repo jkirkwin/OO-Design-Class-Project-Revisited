@@ -3,7 +3,6 @@ package ca.uvic.seng330.assn3.controller;
 import ca.uvic.seng330.assn3.model.Hub;
 import ca.uvic.seng330.assn3.model.UserAccount;
 import ca.uvic.seng330.assn3.model.devices.Device;
-import ca.uvic.seng330.assn3.model.devices.Status;
 import ca.uvic.seng330.assn3.view.Client;
 import ca.uvic.seng330.assn3.view.scenebuilders.CreateDeviceBuilder;
 import ca.uvic.seng330.assn3.view.scenebuilders.HubSceneBuilder;
@@ -146,6 +145,10 @@ public abstract class Controller {
   public String getLabel(UUID uuid) {
     assert uuid != null;
     return hub.getLabel(uuid);
+  }
+  
+  public String devStatus(UUID id) {
+	  return hub.getDevice(id).getStatus().toString();
   }
 
   public Hub getHub() {

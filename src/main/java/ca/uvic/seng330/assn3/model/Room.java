@@ -1,7 +1,12 @@
 package ca.uvic.seng330.assn3.model;
 
+import ca.uvic.seng330.assn3.model.devices.Device;
+import ca.uvic.seng330.assn3.model.devices.Status;
+import ca.uvic.seng330.assn3.model.devices.Temperature.TemperatureOutOfBoundsException;
+import ca.uvic.seng330.assn3.model.devices.Thermostat;
 import ca.uvic.seng330.assn3.model.storage.Storage;
 import ca.uvic.seng330.assn3.model.storage.StorageEntity;
+import java.util.ArrayList;
 import java.util.UUID;
 import org.json.JSONObject;
 
@@ -10,6 +15,7 @@ public class Room implements StorageEntity {
   private final UUID id;
   private String label;
   private final Hub hub;
+  private ArrayList<Device> occupants = new ArrayList<Device>();
 
   public Room(String label, Hub h) throws HubRegistrationException {
     this(label, UUID.randomUUID(), h);
@@ -38,6 +44,47 @@ public class Room implements StorageEntity {
     return this.id;
   }
 
+  public void addRoomDevice(UUID id) {
+    occupants.add(hub.getDevice(id));
+  }
+
+  private void setRoomContents() {
+    this.occupants = (ArrayList<Device>) hub.getRoomContents(this);
+  }
+
+  public void notifyOccupants(IOEEventType event) {
+    for (int i = 0; i < occupants.size(); i++) {
+      Device curr = occupants.get(i);
+      String devType = getDeviceType(curr);
+      switch (event) {
+        case MOTIONALERT:
+          if (devType == "LIGHTBULB") {
+            curr.setStatus(Status.ON);
+          }
+          break;
+        case VACANTROOMALERT:
+          if (devType == "LIGHTBULB") {
+            curr.setStatus(Status.OFF);
+          }
+          break;
+        case AMBIENTTEMP:
+          if (devType == "THERMOSTAT") {
+            try {
+              ((Thermostat) curr).setTemp(((Thermostat) curr).getDefaultTemperature());
+            } catch (TemperatureOutOfBoundsException e) {
+              // TODO Auto-generated catch block
+              e.printStackTrace();
+            }
+          }
+          break;
+      }
+    }
+  }
+
+  protected String getDeviceType(Device d) {
+    return d.getClass().getSimpleName().toUpperCase();
+  }
+
   @Override
   public boolean equals(Object other) {
     if (!(other instanceof Room)) {
@@ -59,6 +106,8 @@ public class Room implements StorageEntity {
       throws HubRegistrationException {
     UUID id = Storage.getUUID(jsonObject.getJSONObject("id"));
     String label = jsonObject.getString("label");
-    return new Room(label, id, hub);
+    Room rebuilt = new Room(label, id, hub);
+    rebuilt.setRoomContents();
+    return rebuilt;
   }
 }

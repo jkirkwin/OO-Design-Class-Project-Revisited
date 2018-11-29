@@ -2,8 +2,6 @@ package ca.uvic.seng330.assn3.controller;
 
 import ca.uvic.seng330.assn3.model.devices.Camera;
 import ca.uvic.seng330.assn3.model.devices.CameraFullException;
-import ca.uvic.seng330.assn3.view.scenebuilders.devicebuilders.CameraSceneBuilder;
-
 import java.util.UUID;
 
 public class CameraController extends DeviceController {
@@ -44,10 +42,10 @@ public class CameraController extends DeviceController {
     ((Camera) hub.getDevice(id)).emptyDisk();
     deviceViewSwitch(id);
   }
-  
+
   @Override
   public void handleBackClick() {
-    
+
     super.handleBackClick();
   }
 }

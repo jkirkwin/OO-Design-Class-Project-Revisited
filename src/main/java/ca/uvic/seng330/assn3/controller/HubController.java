@@ -1,5 +1,7 @@
 package ca.uvic.seng330.assn3.controller;
 
+import ca.uvic.seng330.assn3.model.devices.Status;
+
 public class HubController extends Controller {
 
   // TODO Refactor this and HubSceneBuilder into 2 classes each:
@@ -17,5 +19,11 @@ public class HubController extends Controller {
 
   public void handleAdminManageNotificationsClick() {
     // TODO
+  }
+
+  public void allOff() {
+    hub.hubOff(Status.OFF);
+    hub.shutdown();
+    this.refresh();
   }
 }

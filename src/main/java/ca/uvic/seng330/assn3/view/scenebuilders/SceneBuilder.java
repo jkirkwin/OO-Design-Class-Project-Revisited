@@ -10,6 +10,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 public abstract class SceneBuilder {
@@ -47,7 +48,7 @@ public abstract class SceneBuilder {
   protected Node buildCommon() {
     return makeBackButton();
   }
-  
+
   protected Button makeBackButton() {
     Button backButton = new Button();
     backButton.setText(this.backText);
@@ -82,7 +83,7 @@ public abstract class SceneBuilder {
     assert col != null;
     ArrayList<UUID> deviceList = controller.getDeviceIDList();
     for (int i = 0; i < deviceList.size(); i++) {
-      Button button = new Button(controller.getLabel(deviceList.get(i)));
+      Button button = new Button(controller.getLabel(deviceList.get(i))+" - "+controller.devStatus(deviceList.get(i)));
       button.setUserData(deviceList.get(i));
       button.setOnAction(event -> controller.handleDeviceViewClick((UUID) button.getUserData()));
       col.getChildren().add(button);

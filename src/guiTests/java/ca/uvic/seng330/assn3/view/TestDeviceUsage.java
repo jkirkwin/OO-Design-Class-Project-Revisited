@@ -56,7 +56,7 @@ public class TestDeviceUsage extends IOTApplicationGUITest {
     }
 
     // Label
-    clickOn(label);
+    clickOn("#"+label);
     verifyThat("#current_label", hasText(label));
     doChangeLabelTest(t, "a different label");
 
@@ -109,7 +109,7 @@ public class TestDeviceUsage extends IOTApplicationGUITest {
     }
 
     // Label
-    clickOn(label);
+    clickOn("#"+label);
     verifyThat("#current_label", hasText(label));
     doChangeLabelTest(l, "a different label");
 
@@ -135,7 +135,7 @@ public class TestDeviceUsage extends IOTApplicationGUITest {
     }
 
     // Label
-    clickOn(label);
+    clickOn("#"+label);
     verifyThat("#current_label", hasText(label));
     doChangeLabelTest(s, "a different label");
 
