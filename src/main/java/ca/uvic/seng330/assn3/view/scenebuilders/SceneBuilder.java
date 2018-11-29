@@ -47,7 +47,7 @@ public abstract class SceneBuilder {
   protected Node buildCommon() {
     return makeBackButton();
   }
-  
+
   protected Button makeBackButton() {
     Button backButton = new Button();
     backButton.setText(this.backText);

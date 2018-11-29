@@ -58,7 +58,7 @@ public abstract class DeviceSceneBuilder extends SceneBuilder {
     container.add(hbox, 1, 1);
     return container;
   }
-  
+
   protected Button makeStatusToggle() {
     Button toggle = new Button(getController().getStatus(deviceID));
     toggle.setId("status_toggle");

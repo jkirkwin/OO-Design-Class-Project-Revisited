@@ -1,9 +1,8 @@
 package ca.uvic.seng330.assn3.controller;
 
-import java.util.UUID;
-
 import ca.uvic.seng330.assn3.model.devices.Device;
 import ca.uvic.seng330.assn3.model.devices.Status;
+import java.util.UUID;
 
 public abstract class DeviceController extends Controller {
 
@@ -16,7 +15,7 @@ public abstract class DeviceController extends Controller {
     this.id = id;
   }
 
-  // TODO Remove id param 
+  // TODO Remove id param
   public void toggleDevice(UUID id) {
     Device curr = hub.getDevice(id);
     if (curr.getStatus() == Status.ON) {
@@ -28,17 +27,17 @@ public abstract class DeviceController extends Controller {
     }
     deviceViewSwitch(id);
   }
-  
+
   private UUID getDeviceID() {
     return this.id;
   }
 
-  // TODO Remove id param 
+  // TODO Remove id param
   public String getStatus(UUID id) {
     return hub.getDevice(id).getStatus().toString();
   }
 
-  // TODO Remove id param 
+  // TODO Remove id param
   public void changeDeviceLabel(UUID id, String newLabel) {
     assert id != null;
     assert newLabel != null;
