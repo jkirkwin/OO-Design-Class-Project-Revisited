@@ -21,3 +21,6 @@ TODO:
 * Tests for room association by hub
 * Tests for camera
 * Tests for Thermostat (All devices now have tests)
+
+### Logging
+* Add logging utility class to be used by the entire application
