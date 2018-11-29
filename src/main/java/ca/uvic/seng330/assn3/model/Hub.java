@@ -33,6 +33,7 @@ public class Hub {
     assert newDevice != null;
     if (!deviceRegistry.containsKey(newDevice.getIdentifier())) {
       deviceRegistry.put(newDevice.getIdentifier(), newDevice);
+      Logging.logWithID("Device registered", newDevice.getIdentifier(), Level.INFO);
     } else {
       throw new HubRegistrationException("Device with matching UUID previously registered.");
     }
@@ -45,6 +46,7 @@ public class Hub {
     assert newAccount != null;
     if (!userAccountRegistry.containsKey(newAccount.getIdentifier())) {
       userAccountRegistry.put(newAccount.getIdentifier(), newAccount);
+      Logging.logWithID("Account registered", newAccount.getIdentifier(), Level.INFO);
     } else {
       throw new HubRegistrationException("User with matching UUID previously registered");
     }
@@ -52,8 +54,9 @@ public class Hub {
 
   public void register(Room newRoom) throws HubRegistrationException {
     assert newRoom != null;
-    if (!roomRegistry.containsKey(newRoom.getID())) {
-      roomRegistry.put(newRoom.getID(), newRoom);
+    if (!roomRegistry.containsKey(newRoom.getIdentifier())) {
+      roomRegistry.put(newRoom.getIdentifier(), newRoom);
+      Logging.logWithID("Room registered", newRoom.getIdentifier(), Level.INFO);
     } else {
       throw new HubRegistrationException("Room with matching UUID previously registered");
     }
@@ -64,14 +67,14 @@ public class Hub {
     if(roomRegistry.isEmpty()) {
       throw new HubRegistrationException("No rooms registered.");
     }
-    if(roomRegistry.containsKey(r.getID())) {
+    if(roomRegistry.containsKey(r.getIdentifier())) {
       r.empty();   
-      roomRegistry.remove(r.getID());
+      roomRegistry.remove(r.getIdentifier());
+      Logging.logWithID("Room unregistered", r.getIdentifier(), Level.INFO);
     } else {
       throw new HubRegistrationException("No such room registered to hub");
     }
   }
-
 
   /*
    * @pre retiredDevice != null
@@ -83,6 +86,12 @@ public class Hub {
     }
     if (deviceRegistry.containsKey(retiredDevice.getIdentifier())) {
       deviceRegistry.remove(retiredDevice.getIdentifier());
+      if(retiredDevice.hasRoom()) {
+        Room r = retiredDevice.getRoom();
+        assert roomRegistry.containsKey(r.getIdentifier());
+        roomRegistry.get(r.getIdentifier()).removeRoomDevice(retiredDevice);
+      }
+      Logging.logWithID("Device unregistered", retiredDevice.getIdentifier(), Level.INFO);
     } else {
       throw new HubRegistrationException("Device does not exist.");
     }
@@ -105,6 +114,7 @@ public class Hub {
         userAccountRegistry.remove(deletedAccount.getIdentifier());
         break;
     }
+    Logging.logWithID("Unregistered account", deletedAccount.getIdentifier(), Level.INFO);
   }
   
   /*
@@ -119,7 +129,7 @@ public class Hub {
     } else if (this.roomRegistry.containsKey(uuid)) {
       unregister(this.roomRegistry.get(uuid));
     } else {
-      // TODO: alert that nothing corresponds to given UUID
+      throw new HubRegistrationException("No entity with matching UUID is registered to the hub.");
     }
   }
   
@@ -139,29 +149,19 @@ public class Hub {
   
   public void notifyRoom(UUID deviceId, IOEEventType event) {
     getRoomByID(deviceId).notifyOccupants(event);
-    // TODO: notify users & log event?
+    Logging.logWithID("Event Occurred: " + event.toString(), deviceId, Level.INFO);
+    // TODO: notify users
   }
 
-  /*
-   * TODO refactor room registry to partition deviceRegistry to avoid
-   * O(n) operations like this one.
-   */
   public List<Device> getRoomContents(Room r) {
     assert r != null;
-    return getRoomContents(r.getID());
+    return getRoomContents(r.getIdentifier());
   }
 
   public List<Device> getRoomContents(UUID roomID) {
     assert roomID != null;
-    ArrayList<Device> matches = new ArrayList<Device>();
-    Room r;
-    for (Device d : deviceRegistry.values()) {
-      r = d.getRoom();
-      if (r != null && r.getID().equals(roomID)) {
-        matches.add(d);
-      }
-    }
-    return matches;
+    assert isRegisteredRoom(roomID);
+    return roomRegistry.get(roomID).getOccupants();
   }
 
   /*
@@ -259,26 +259,29 @@ public class Hub {
       this.userAccountRegistry.put(u.getIdentifier(), u);
     }
     for (Room r : storedRooms) {
-      this.roomRegistry.put(r.getID(), r);
+      this.roomRegistry.put(r.getIdentifier(), r);
     }
+    Logging.log("startup complete", Level.INFO);
   }
 
   /*
    * Populate storage files with JSON representations of device/user registries
    */
   public void shutdown() {
-    // TODO: turn off all devices
+    massSetStatus(Status.OFF);
     Storage.store(
         this.deviceRegistry.values(),
         this.userAccountRegistry.values(),
         this.roomRegistry.values());
+    Logging.log("Shutdown complete", Level.INFO);
   }
 
-  public void hubOff(Status onOff) {
+  public void massSetStatus(Status onOff) {
     for (Entry<UUID, Device> entry : deviceRegistry.entrySet()) {
       Device value = entry.getValue();
       value.setStatus(onOff);
     }
+    Logging.log("All devices turned off", Level.INFO);
   }
 
   /*
@@ -350,7 +353,7 @@ public class Hub {
         added = new Thermostat(this);
         break;
       default:
-        // TODO: throw an error here and remove the assertion
+        Logging.log("Invalid parameter passed. No such device type.", Level.ERROR);
         assert false;
         return;
     }

@@ -207,7 +207,7 @@ public abstract class Device implements StorageEntity {
     json.put("label", this.getLabel());
     json.put("id", Storage.getJsonUUID(this.getIdentifier()));
     if (hasRoom()) {
-      json.put("room_id", Storage.getJsonUUID(this.room.getID()));
+      json.put("room_id", Storage.getJsonUUID(this.room.getIdentifier()));
     } else {
       json.put("room_id", JSONObject.NULL);
     }

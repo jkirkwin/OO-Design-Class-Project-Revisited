@@ -8,6 +8,7 @@ import ca.uvic.seng330.assn3.model.storage.Storage;
 import ca.uvic.seng330.assn3.model.storage.StorageEntity;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.UUID;
 import org.json.JSONObject;
 
@@ -41,12 +42,18 @@ public class Room implements StorageEntity {
     this.label = newLabel;
   }
 
-  public UUID getID() {
+  public UUID getIdentifier() {
     return this.id;
   }
 
   public void addRoomDevice(UUID id) {
-    occupants.add(hub.getDevice(id));
+    assert id != null;
+    assert hub.isRegisteredDevice(id);
+    Device d = hub.getDevice(id);
+    occupants.add(d);
+    if(!d.hasRoom() || d.getRoom() != this) {
+      d.setRoom(this);
+    }
   }
 
   private void setRoomContents() {
@@ -112,7 +119,7 @@ public class Room implements StorageEntity {
     return rebuilt;
   }
 
-  public Collection<Device> getOccupants() {
+  public List<Device> getOccupants() {
     return occupants;
   }
 
@@ -121,5 +128,13 @@ public class Room implements StorageEntity {
       d.removeRoom();
       occupants.remove(d);
     }
+  }
+
+  public void removeRoomDevice(Device retiredDevice) {
+    assert occupants.contains(retiredDevice);
+    assert retiredDevice.hasRoom();
+    assert retiredDevice.getRoom() == this;
+    retiredDevice.removeRoom();
+    occupants.remove(retiredDevice);
   }
 }

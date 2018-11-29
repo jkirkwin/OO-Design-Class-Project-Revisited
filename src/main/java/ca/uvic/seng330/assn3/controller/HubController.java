@@ -22,7 +22,7 @@ public class HubController extends Controller {
   }
 
   public void allOff() {
-    hub.hubOff(Status.OFF);
+    hub.massSetStatus(Status.OFF);
     hub.shutdown();
     this.refresh();
   }

@@ -53,19 +53,19 @@ public class TestHub extends IOTUnitTest {
       fail("Registration failed");
     }
     for (Room r : rooms) {
-      assertTrue(dummyHub.isRegisteredRoom(r.getID()));
+      assertTrue(dummyHub.isRegisteredRoom(r.getIdentifier()));
       try {
         dummyHub.unregister(r);
       } catch (HubRegistrationException e1) {
         fail("Exception thrown");
       }
-      assertFalse(dummyHub.isRegisteredRoom(r.getID()));
+      assertFalse(dummyHub.isRegisteredRoom(r.getIdentifier()));
       try {
         h.register(r);
       } catch (HubRegistrationException e) {
         fail("unable to register room");
       }
-      assertTrue(h.isRegisteredRoom(r.getID()));
+      assertTrue(h.isRegisteredRoom(r.getIdentifier()));
     }
   }
 
@@ -82,11 +82,10 @@ public class TestHub extends IOTUnitTest {
     }
     for (Room r : rooms) {
       assertTrue(h.getRoomContents(r).isEmpty());
-      assertTrue(h.getRoomContents(r.getID()).isEmpty());
-    }
-
-    for (Device d : devices) {
-      d.setRoom(rooms[0]);
+      assertTrue(h.getRoomContents(r.getIdentifier()).isEmpty());
+      for (Device d : devices) {
+        r.addRoomDevice(d.getIdentifier());
+      }      
     }
     devices.sort((Device d1, Device d2) -> (d1.getIdentifier().compareTo(d2.getIdentifier())));
     List<Device> result = h.getRoomContents(rooms[0]);
@@ -98,7 +97,7 @@ public class TestHub extends IOTUnitTest {
   public void TestGetRoom() {
     try {
       Room r = new Room("room label", h);
-      assertTrue(h.getRoomByID(r.getID()).equals(r));
+      assertTrue(h.getRoomByID(r.getIdentifier()).equals(r));
       for (Device d : devices) {
         d.setRoom(r);
         assertTrue(h.getRoomByDeviceID(d.getIdentifier()).equals(r));
