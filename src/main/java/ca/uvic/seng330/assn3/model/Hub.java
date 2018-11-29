@@ -97,6 +97,11 @@ public class Hub {
     return d.getRoom();
   }
 
+  public void notifyRoom(UUID deviceId, IOEEventType event) {
+    getRoomByID(deviceId).notifyOccupants(event);
+    // TODO: log event?
+  }
+
   /*
    * TODO refactor room registry to partition deviceRegistry to avoid
    * O(n) operations like this one.

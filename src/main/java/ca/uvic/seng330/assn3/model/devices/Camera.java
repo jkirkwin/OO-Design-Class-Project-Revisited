@@ -2,6 +2,7 @@ package ca.uvic.seng330.assn3.model.devices;
 
 import ca.uvic.seng330.assn3.model.Hub;
 import ca.uvic.seng330.assn3.model.HubRegistrationException;
+import ca.uvic.seng330.assn3.model.IOEEventType;
 import java.util.UUID;
 import org.json.JSONObject;
 
@@ -74,6 +75,14 @@ public class Camera extends Device {
     } else {
       this.isRecording = false;
     }
+  }
+
+  public void MotionDetect() {
+    this.getHub().notifyRoom(this.getIdentifier(), IOEEventType.MOTIONALERT);
+  }
+
+  public void VacantDetect() {
+    this.getHub().notifyRoom(this.getIdentifier(), IOEEventType.VACANTROOMALERT);
   }
 
   @Override
