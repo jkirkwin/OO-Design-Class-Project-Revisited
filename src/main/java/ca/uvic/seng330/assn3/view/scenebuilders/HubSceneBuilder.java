@@ -38,9 +38,13 @@ public class HubSceneBuilder extends SceneBuilder {
     VBox buttons = new VBox(10);
     layout.setContent(hubDeviceList(buttons));
 
+    Button StartUpDown = new Button("ShutDown All");
+    StartUpDown.setOnAction(event -> getController().allOff());
+
     VBox hubView = new VBox(10);
     hubView.getChildren().add(new Label("Device Config"));
     hubView.getChildren().add(layout);
+    hubView.getChildren().add(StartUpDown);
     hbox.getChildren().add(hubView);
 
     if (isAdmin) {

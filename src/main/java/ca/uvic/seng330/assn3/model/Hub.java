@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map.Entry;
 import java.util.NoSuchElementException;
 import java.util.UUID;
 
@@ -99,7 +100,7 @@ public class Hub {
 
   public void notifyRoom(UUID deviceId, IOEEventType event) {
     getRoomByID(deviceId).notifyOccupants(event);
-    // TODO: log event?
+    // TODO: notify users & log event?
   }
 
   /*
@@ -306,6 +307,13 @@ public class Hub {
         this.deviceRegistry.values(),
         this.userAccountRegistry.values(),
         this.roomRegistry.values());
+  }
+
+  public void hubOff(Status onOff) {
+    for (Entry<UUID, Device> entry : deviceRegistry.entrySet()) {
+      Device value = entry.getValue();
+      value.setStatus(onOff);
+    }
   }
 
   /*
