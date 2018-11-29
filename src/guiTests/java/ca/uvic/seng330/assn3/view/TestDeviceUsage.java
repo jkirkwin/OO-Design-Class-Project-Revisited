@@ -13,7 +13,7 @@ import ca.uvic.seng330.assn3.model.devices.Temperature.Unit;
 import ca.uvic.seng330.assn3.model.devices.Thermostat;
 import org.junit.Test;
 
-public class TestDeviceUsage extends IOTApplicationTest {
+public class TestDeviceUsage extends IOTApplicationGUITest {
 
   // TODO Add camera usage tests
 

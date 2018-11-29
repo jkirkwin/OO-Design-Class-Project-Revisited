@@ -4,10 +4,11 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import ca.uvic.seng330.assn3.IOTUnitTest;
 import ca.uvic.seng330.assn3.model.devices.Temperature.Unit;
 import org.junit.Test;
 
-public class TestTemperature {
+public class TestTemperature extends IOTUnitTest {
 
   @Test
   public void testTempFromString() {

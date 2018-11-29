@@ -3,11 +3,12 @@ package ca.uvic.seng330.assn3.model.devices;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import ca.uvic.seng330.assn3.IOTUnitTest;
 import ca.uvic.seng330.assn3.model.Hub;
 import org.junit.Before;
 import org.junit.Test;
 
-public class TestLightbulb {
+public class TestLightbulb extends IOTUnitTest {
 
   private Hub h;
 

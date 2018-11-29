@@ -13,7 +13,7 @@ import ca.uvic.seng330.assn3.model.devices.Thermostat;
 import org.junit.Test;
 import org.testfx.api.FxRobotException;
 
-public class TestDeviceAdministration extends IOTApplicationTest {
+public class TestDeviceAdministration extends IOTApplicationGUITest {
 
   // Tests the device admin tasks possible from admin login -> manage devices
 

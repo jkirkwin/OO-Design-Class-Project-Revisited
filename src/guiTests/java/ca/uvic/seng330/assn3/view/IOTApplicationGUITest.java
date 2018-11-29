@@ -9,7 +9,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.testfx.framework.junit.ApplicationTest;
 
-public class IOTApplicationTest extends ApplicationTest {
+public class IOTApplicationGUITest extends ApplicationTest {
 
   Hub hub;
   Controller controller;

@@ -8,7 +8,7 @@ import ca.uvic.seng330.assn3.model.AccessLevel;
 import ca.uvic.seng330.assn3.model.UserAccount;
 import org.junit.Test;
 
-public class TestLogin extends IOTApplicationTest {
+public class TestLogin extends IOTApplicationGUITest {
 
   @Test
   public void testAdminLogin() throws InterruptedException {

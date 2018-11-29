@@ -1,3 +1,5 @@
 package ca.uvic.seng330.assn3.model;
 
-public class TestUserAccount {}
+import ca.uvic.seng330.assn3.IOTUnitTest;
+
+public class TestUserAccount extends IOTUnitTest {}

@@ -15,19 +15,24 @@ public class Logging {
   private static final String logDir = "src" +File.separator+ "logging" +File.separator;   
   private final static String fileName = logDir + "log.log";
   private static Logger logger;
+  private static boolean isInitialized = false;
+  
   
   public static void init() {
-    Storage.ensureDirExists(logDir);  
-    try {
-      File logFile = new File(fileName);
-      logFile.createNewFile();
-    } catch (IOException e) {
-      e.printStackTrace();
+    if(!isInitialized) {      
+      Storage.ensureDirExists(logDir);  
+      try {
+        File logFile = new File(fileName);
+        logFile.createNewFile();
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
+      System.setProperty(org.slf4j.impl.SimpleLogger.LOG_FILE_KEY, fileName);
+      System.setProperty(org.slf4j.impl.SimpleLogger.DEFAULT_LOG_LEVEL_KEY, "trace"); // Change to info 
+      logger = LoggerFactory.getLogger(Logging.class);
+      isInitialized = true;
+      log("Logger Created", Level.DEBUG);
     }
-    System.setProperty(org.slf4j.impl.SimpleLogger.LOG_FILE_KEY, fileName);
-    System.setProperty(org.slf4j.impl.SimpleLogger.DEFAULT_LOG_LEVEL_KEY, "trace"); // Change to info 
-    logger = LoggerFactory.getLogger(Logging.class);
-    log("Logger Created", Level.DEBUG);
   }
   
   public static Logger getLogger() {

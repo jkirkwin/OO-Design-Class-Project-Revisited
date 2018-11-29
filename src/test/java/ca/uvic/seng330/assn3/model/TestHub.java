@@ -4,6 +4,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import ca.uvic.seng330.assn3.IOTUnitTest;
 import ca.uvic.seng330.assn3.model.devices.Camera;
 import ca.uvic.seng330.assn3.model.devices.Device;
 import ca.uvic.seng330.assn3.model.devices.Lightbulb;
@@ -14,7 +15,7 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-public class TestHub {
+public class TestHub extends IOTUnitTest {
 
   // TODO
   /*

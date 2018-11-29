@@ -9,9 +9,10 @@ import java.lang.reflect.Field;
 import org.junit.Before;
 import org.junit.Test;
 
+import ca.uvic.seng330.assn3.IOTUnitTest;
 import ca.uvic.seng330.assn3.model.Hub;
 
-public class TestCamera {
+public class TestCamera extends IOTUnitTest {
   
   private Hub h;
   

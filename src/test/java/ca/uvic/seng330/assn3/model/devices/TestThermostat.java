@@ -6,11 +6,12 @@ import static org.junit.Assert.fail;
 import org.junit.Before;
 import org.junit.Test;
 
+import ca.uvic.seng330.assn3.IOTUnitTest;
 import ca.uvic.seng330.assn3.model.Hub;
 import ca.uvic.seng330.assn3.model.devices.Temperature.TemperatureOutOfBoundsException;
 import ca.uvic.seng330.assn3.model.devices.Temperature.Unit;
 
-public class TestThermostat {
+public class TestThermostat extends IOTUnitTest {
   private Hub h;
   private Temperature validCelsius;
   private Temperature validFahrenheit;
