@@ -3,6 +3,7 @@ package ca.uvic.seng330.assn3.model.storage;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import ca.uvic.seng330.assn3.IOTUnitTest;
 import ca.uvic.seng330.assn3.model.AccessLevel;
 import ca.uvic.seng330.assn3.model.Hub;
 import ca.uvic.seng330.assn3.model.HubRegistrationException;
@@ -31,7 +32,7 @@ import java.util.UUID;
 import org.json.JSONObject;
 import org.junit.Test;
 
-public class TestStorage {
+public class TestStorage extends IOTUnitTest {
 
   /*
    * Recursively delete the directory and all contents
@@ -92,6 +93,7 @@ public class TestStorage {
   @Test
   public void testStoreAndRetrieveUserAccounts() {
     Hub h = new Hub();
+    Hub h2 = new Hub();
     List<ArrayList<StorageEntity>> oracles = new ArrayList<ArrayList<StorageEntity>>();
     ArrayList<StorageEntity> oracle1 = new ArrayList<StorageEntity>();
 
@@ -135,7 +137,7 @@ public class TestStorage {
           tempFile.delete();
         }
         storeEntities.invoke(null, oracles.get(i), filePath, fileName);
-        result = Storage.getAccounts(h);
+        result = Storage.getAccounts(h2);
         assertTrue(result.equals(oracles.get(i)));
       }
     } catch (NoSuchMethodException
@@ -398,8 +400,8 @@ public class TestStorage {
         fail("unable to register device");
       }
     }
-    UserAccount result1 = UserAccount.getAccountFromJSON(oracle1.getJSON(), h);
-    UserAccount result2 = UserAccount.getAccountFromJSON(oracle2.getJSON(), h);
+    UserAccount result1 = UserAccount.getAccountFromJSON(oracle1.getJSON(), h2);
+    UserAccount result2 = UserAccount.getAccountFromJSON(oracle2.getJSON(), h2);
     assertTrue(oracle1.equals(result1));
     assertTrue(oracle2.equals(result2));
   }

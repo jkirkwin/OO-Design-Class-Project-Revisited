@@ -1,5 +1,6 @@
 package ca.uvic.seng330.assn3.model;
 
+import ca.uvic.seng330.assn3.logging.Logging;
 import ca.uvic.seng330.assn3.model.storage.Storage;
 import ca.uvic.seng330.assn3.model.storage.StorageEntity;
 import java.util.ArrayList;
@@ -8,6 +9,7 @@ import java.util.UUID;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.slf4j.event.Level;
 
 public class UserAccount implements StorageEntity {
 
@@ -30,7 +32,7 @@ public class UserAccount implements StorageEntity {
     try {
       hub.register(this);
     } catch(HubRegistrationException e) {
-      // TODO Log this error
+      Logging.logWithID("Failed to register useraccount from public constructor.", this.id, Level.ERROR);
     }
   }
 
@@ -52,7 +54,7 @@ public class UserAccount implements StorageEntity {
     try {
       hub.register(this);
     } catch(HubRegistrationException e) {
-      // TODO Log this error
+      Logging.logWithID("Failed to register useraccount from private constructor.", this.id, Level.ERROR);
     }
   }
 
@@ -69,31 +71,31 @@ public class UserAccount implements StorageEntity {
   }
 
   public void blackList(UUID illegal) {
-    // TODO: add Logging and Alert
-    if (this.isAdmin() || this.blackList.contains(illegal)) {
-      // TODO: Throw exception?
-      return;
+    if (this.isAdmin()) {
+      Logging.logWithID("Unable to blacklist device for admin account. No Action taken.", illegal, Level.WARN);
+    } else if (this.blackList.contains(illegal)) {
+      Logging.logWithID("Device already blacklisted. No Action taken.", illegal, Level.WARN);
+    } else {
+      this.blackList.add(illegal);
+      Logging.logWithID("Device blacklisted.", illegal, Level.INFO);
     }
-    this.blackList.add(illegal);
   }
 
   public void whiteList(UUID legal) {
-    // TODO: add Logging and Alert
     if (this.blackList.contains(legal)) {
       this.blackList.remove(legal);
+      Logging.logWithID("Device whitelisted.", legal, Level.INFO);
     } else {
-      // TODO: Throw exception?
+      Logging.logWithID("Device already whitelisted. No action taken.", legal, Level.WARN);
     }
   }
 
   protected ArrayList<UUID> getBlackList() {
-    // TODO: clone for encapsulation
     assert this.blackList != null;
     return this.blackList;
   }
 
   public Stack<JSONMessaging> getMessages() {
-    // TODO: UNIT TESTS FOR THIS!!!
     Stack<JSONMessaging> copy = new Stack<JSONMessaging>();
     while (!this.notificationList.isEmpty()) {
       copy.push(notificationList.pop());
@@ -158,7 +160,7 @@ public class UserAccount implements StorageEntity {
         notificationList.push(temp.pop()); // rebuild notificationList
       }
     } catch (JSONException e) {
-      // TODO Log this failure
+      Logging.log("JSONException thrown.", Level.ERROR);
     }
     return json;
   }
@@ -188,7 +190,6 @@ public class UserAccount implements StorageEntity {
       JSONObject listEntry = JSONblackList.getJSONObject(i);
       blackList.add(Storage.getUUID(listEntry));
     }
-
     return new UserAccount(hub, level, username, password, accountID, notificationList, blackList);
   }
 }

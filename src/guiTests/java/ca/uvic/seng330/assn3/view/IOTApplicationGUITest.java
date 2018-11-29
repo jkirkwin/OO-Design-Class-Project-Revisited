@@ -1,6 +1,7 @@
 package ca.uvic.seng330.assn3.view;
 
 import ca.uvic.seng330.assn3.controller.Controller;
+import ca.uvic.seng330.assn3.logging.Logging;
 import ca.uvic.seng330.assn3.model.Hub;
 import ca.uvic.seng330.assn3.startup.Startup;
 import java.lang.reflect.InvocationTargetException;
@@ -19,6 +20,7 @@ public class IOTApplicationGUITest extends ApplicationTest {
   @SuppressWarnings("unused")
   @Override
   public void start(Stage primaryStage) throws Exception {
+    Logging.init();
     this.app = new Startup();
     this.app.start(primaryStage);
     this.hub = (Hub) GUITestUtilities.getAccessibleField(app, "hub").get(app);
