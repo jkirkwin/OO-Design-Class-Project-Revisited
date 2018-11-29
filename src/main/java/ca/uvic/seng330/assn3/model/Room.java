@@ -1,5 +1,6 @@
 package ca.uvic.seng330.assn3.model;
 
+import ca.uvic.seng330.assn3.logging.Logging;
 import ca.uvic.seng330.assn3.model.devices.Device;
 import ca.uvic.seng330.assn3.model.devices.Status;
 import ca.uvic.seng330.assn3.model.devices.Temperature.TemperatureOutOfBoundsException;
@@ -10,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import org.json.JSONObject;
+import org.slf4j.event.Level;
 
 public class Room implements StorageEntity {
 
@@ -39,6 +41,7 @@ public class Room implements StorageEntity {
   public void setLabel(String newLabel) {
     assert newLabel != null;
     this.label = newLabel;
+    Logging.logWithID("Modified room label", getIdentifier(), Level.TRACE);
   }
 
   public UUID getIdentifier() {
@@ -53,6 +56,7 @@ public class Room implements StorageEntity {
     if (!d.hasRoom() || d.getRoom() != this) {
       d.setRoom(this);
     }
+    Logging.logWithID("Added device to room", id, Level.INFO);
   }
 
   private void setRoomContents() {
@@ -79,13 +83,13 @@ public class Room implements StorageEntity {
             try {
               ((Thermostat) curr).setTemp(((Thermostat) curr).getDefaultTemperature());
             } catch (TemperatureOutOfBoundsException e) {
-              // TODO Auto-generated catch block
-              e.printStackTrace();
+              Logging.logWithID("Failed to set defualt temp", curr.getIdentifier(), Level.ERROR);
             }
           }
           break;
       }
     }
+    Logging.logWithID("Notified roome occupants of event: " + event.toString(), getIdentifier(), Level.INFO);
   }
 
   protected String getDeviceType(Device d) {
@@ -127,6 +131,7 @@ public class Room implements StorageEntity {
       d.removeRoom();
       occupants.remove(d);
     }
+    Logging.logWithID("Room emptied", getIdentifier(), Level.INFO);
   }
 
   public void removeRoomDevice(Device retiredDevice) {
@@ -135,5 +140,6 @@ public class Room implements StorageEntity {
     assert retiredDevice.getRoom() == this;
     retiredDevice.removeRoom();
     occupants.remove(retiredDevice);
+    Logging.logWithID("Removed device from room", retiredDevice.getIdentifier(), Level.INFO);
   }
 }
