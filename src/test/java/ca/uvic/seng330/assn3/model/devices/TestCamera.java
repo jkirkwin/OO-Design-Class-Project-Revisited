@@ -4,11 +4,11 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import ca.uvic.seng330.assn3.IOTUnitTest;
 import ca.uvic.seng330.assn3.model.Hub;
 import java.lang.reflect.Field;
 import org.junit.Before;
 import org.junit.Test;
-import ca.uvic.seng330.assn3.IOTUnitTest;
 
 public class TestCamera extends IOTUnitTest {
   private Hub h;

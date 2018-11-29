@@ -85,7 +85,7 @@ public class TestHub extends IOTUnitTest {
       assertTrue(h.getRoomContents(r.getIdentifier()).isEmpty());
       for (Device d : devices) {
         r.addRoomDevice(d.getIdentifier());
-      }      
+      }
     }
     devices.sort((Device d1, Device d2) -> (d1.getIdentifier().compareTo(d2.getIdentifier())));
     List<Device> result = h.getRoomContents(rooms[0]);
