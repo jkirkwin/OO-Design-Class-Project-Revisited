@@ -226,7 +226,7 @@ public class Storage {
     return sb.toString();
   }
 
-  private static void ensureDirExists(String dirPath) {
+  public static void ensureDirExists(String dirPath) {
     File dir = new File(dirPath);
     if (dir.exists() && dir.isDirectory()) {
       return;

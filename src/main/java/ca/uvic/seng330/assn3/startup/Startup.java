@@ -3,6 +3,7 @@ package ca.uvic.seng330.assn3.startup;
 import ca.uvic.seng330.assn3.controller.Controller;
 import ca.uvic.seng330.assn3.controller.LoginController;
 import ca.uvic.seng330.assn3.controller.ViewType;
+import ca.uvic.seng330.assn3.logging.Logging;
 import ca.uvic.seng330.assn3.model.Hub;
 import ca.uvic.seng330.assn3.view.Client;
 import javafx.application.Application;
@@ -20,6 +21,8 @@ public class Startup extends Application {
   @SuppressWarnings("unused")
   @Override
   public void start(Stage primaryStage) throws Exception {
+    Logging.init();
+    
     hub = new Hub();
     hub.startup(); // TODO As per acceptance tests make this up to the user
 
