@@ -1,8 +1,10 @@
 package ca.uvic.seng330.assn3.model.devices;
 
+import ca.uvic.seng330.assn3.logging.Logging;
 import ca.uvic.seng330.assn3.model.Hub;
 import java.util.UUID;
 import org.json.JSONObject;
+import org.slf4j.event.Level;
 
 public class SmartPlug extends Device {
 
@@ -23,19 +25,14 @@ public class SmartPlug extends Device {
   }
 
   public void toggle() {
-    // TODO Logging
-    //    if (this.isOn) {
-    //      getMediator().log("Turning SmartPlug Off", Level.INFO, getIdentifier());
-    //    } else {
-    //      getMediator().log("Turning SmartPlug On", Level.INFO, getIdentifier());
-    //    }
     if (this.status.equals(Status.OFF)) {
       setStatus(Status.ON);
+      Logging.logWithID("plug turned on", getIdentifier(), Level.INFO);
     } else if (this.status.equals(Status.ON)) {
       setStatus(Status.OFF);
+      Logging.logWithID("plug turned off", getIdentifier(), Level.INFO);
     } else {
-      // TODO Log error
-      assert false;
+      Logging.logWithID("Toggling plug failed. Not in ON or OFF state. Likely ERROR state.", getIdentifier(), Level.ERROR);
     }
   }
 

@@ -26,4 +26,6 @@ TODO:
 * Tests for Thermostat (All devices now have tests)
 
 ### Logging
-* Add logging utility class to be used by the entire application
+* Added logging utility class to be used by the entire application
+* Added logging to Non-GUI tests indicating when each class starts
+* Added logging to model package

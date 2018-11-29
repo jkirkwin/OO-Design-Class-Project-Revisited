@@ -1,11 +1,13 @@
 package ca.uvic.seng330.assn3.model.devices;
 
+import ca.uvic.seng330.assn3.logging.Logging;
 import ca.uvic.seng330.assn3.model.Hub;
 import ca.uvic.seng330.assn3.model.IOEEventType;
 import ca.uvic.seng330.assn3.model.devices.Temperature.TemperatureOutOfBoundsException;
 import ca.uvic.seng330.assn3.model.devices.Temperature.Unit;
 import java.util.UUID;
 import org.json.JSONObject;
+import org.slf4j.event.Level;
 
 public class Thermostat extends Device {
 
@@ -65,14 +67,13 @@ public class Thermostat extends Device {
   /** @pre pTemp != null */
   public void setTemp(Temperature temp) throws TemperatureOutOfBoundsException {
     assert temp != null;
-    // TODO log changing temp
     if (this.getStatus() == Status.ON) {
       if (!isValidTemp(temp)) {
-        // TODO log invalid temp
         throw (temp.new TemperatureOutOfBoundsException());
       }
       this.temp = temp.clone();
     }
+    Logging.logWithID("Modified temperature", getIdentifier(), Level.TRACE);
   }
 
   public double getTempMag() {

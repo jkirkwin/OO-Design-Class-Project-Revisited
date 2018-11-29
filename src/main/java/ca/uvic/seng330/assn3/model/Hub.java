@@ -381,7 +381,7 @@ public class Hub {
     // TODO
   }
 
-  public void alert(String msg, Device pDevice) throws HubRegistrationException {
+  public void alert(String msg, Device pDevice) {
     // TODO should be moved to controller
     // Or should alert some list of observers in which Controller has registered
   }

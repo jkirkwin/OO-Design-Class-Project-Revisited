@@ -1,7 +1,11 @@
 package ca.uvic.seng330.assn3.model.devices;
 
+import java.io.IOException;
 import java.util.Scanner;
 import org.json.JSONObject;
+import org.slf4j.event.Level;
+
+import ca.uvic.seng330.assn3.logging.Logging;
 
 public class Temperature implements Cloneable {
 
@@ -49,7 +53,7 @@ public class Temperature implements Cloneable {
       assert inputScanner.hasNext();
       this.setUnit(Unit.valueOf(inputScanner.next().toUpperCase()));
     } catch (Exception e) {
-      // TODO Log error
+      Logging.log("Scanning error encountered. Possible bad input string.", Level.ERROR);
       assert false;
     } finally {
       if (inputScanner != null) {
@@ -135,7 +139,6 @@ public class Temperature implements Cloneable {
     assert temp != null;
     assert temp.getUnit() != null;
     assert desiredUnit != null;
-
     Unit tUnit = temp.getUnit();
     if (tUnit == desiredUnit) {
       return temp.clone();

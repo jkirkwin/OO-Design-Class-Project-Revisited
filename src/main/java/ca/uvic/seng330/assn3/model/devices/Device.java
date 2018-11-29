@@ -1,5 +1,6 @@
 package ca.uvic.seng330.assn3.model.devices;
 
+import ca.uvic.seng330.assn3.logging.Logging;
 import ca.uvic.seng330.assn3.model.Hub;
 import ca.uvic.seng330.assn3.model.HubRegistrationException;
 import ca.uvic.seng330.assn3.model.Room;
@@ -8,6 +9,7 @@ import ca.uvic.seng330.assn3.model.storage.Storage;
 import ca.uvic.seng330.assn3.model.storage.StorageEntity;
 import java.util.UUID;
 import org.json.JSONObject;
+import org.slf4j.event.Level;
 
 public abstract class Device implements StorageEntity {
   private final UUID id;
@@ -26,14 +28,10 @@ public abstract class Device implements StorageEntity {
     assert o != null;
     assert h != null;
 
-    // TODO Log device creation
-
     String dLabel = o.getString("label");
-
     UUID dID = Storage.getUUID(o.getJSONObject("id"));
-
     JSONObject dState = o.getJSONObject("state");
-
+    
     Device d = null;
     switch (o.getString("device_type")) {
       case "Camera":
@@ -53,26 +51,21 @@ public abstract class Device implements StorageEntity {
 
       case "Thermostat":
         Temperature temp = null;
-
         if (!dState.isNull("temp")) {
           JSONObject jsonTemp = dState.getJSONObject("temp");
           double magnitude = jsonTemp.getDouble("magnitude");
           Unit unit = jsonTemp.getEnum(Unit.class, "unit");
           temp = new Temperature(magnitude, unit);
         }
-
         d = new Thermostat(temp, dID, dLabel, h);
         break;
 
       default:
-        // Should not be here. JSONObject passed is invalid
-        // TODO Log this error
+        Logging.log("Failed to create Device from JSON. Likely passed invalid JSONObject.", Level.ERROR);
         return null;
     }
-
     Status dStatus = Status.valueOf(o.getString("status").toUpperCase());
     d.setStatus(dStatus);
-
     Object JSONroomId = o.get("room_id");
     if (JSONroomId.equals(JSONObject.NULL)) {
       d.room = null;
@@ -80,7 +73,6 @@ public abstract class Device implements StorageEntity {
       UUID roomId = Storage.getUUID((JSONObject) JSONroomId);
       d.room = h.getRoomByID(roomId);
     }
-
     return d;
   }
 
@@ -96,8 +88,6 @@ public abstract class Device implements StorageEntity {
     assert status != null;
     assert hub != null;
 
-    // TODO Log device creation
-
     this.setLabel(label);
     this.status = status;
     this.hub = hub;
@@ -107,7 +97,7 @@ public abstract class Device implements StorageEntity {
     try {
       hub.register(this);
     } catch (HubRegistrationException e) {
-      //    aMediator.log("Registration Failed : " + e.getMessage(), Level.ERROR, getIdentifier());
+          Logging.logWithID("Registration Failed : " + e.getMessage(), getIdentifier(), Level.ERROR);
     }
   }
 
@@ -121,8 +111,6 @@ public abstract class Device implements StorageEntity {
     assert status != null;
     assert hub != null;
 
-    // TODO Log device creation
-
     this.setLabel(label);
     this.status = status;
     this.hub = hub;
@@ -132,7 +120,7 @@ public abstract class Device implements StorageEntity {
     try {
       hub.register(this);
     } catch (HubRegistrationException e) {
-      //		aMediator.log("Registration Failed : " + e.getMessage(), Level.ERROR, getIdentifier());
+      Logging.logWithID("Registration Failed : " + e.getMessage(), getIdentifier(), Level.ERROR);
     }
   }
 
@@ -141,8 +129,6 @@ public abstract class Device implements StorageEntity {
    */
   public Device(Hub hub) {
     assert hub != null;
-
-    // TODO Log device creation
 
     this.setLabel("Default Label");
     this.status = Status.ON;
@@ -153,7 +139,7 @@ public abstract class Device implements StorageEntity {
     try {
       hub.register(this);
     } catch (HubRegistrationException e) {
-      //			aMediator.log("Registration Failed : " + e.getMessage(), Level.ERROR, getIdentifier());
+      Logging.logWithID("Registration Failed : " + e.getMessage(), getIdentifier(), Level.ERROR);
     }
   }
 

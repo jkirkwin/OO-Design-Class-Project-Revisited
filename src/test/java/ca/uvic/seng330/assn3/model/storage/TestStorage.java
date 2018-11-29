@@ -30,6 +30,7 @@ import java.util.List;
 import java.util.Stack;
 import java.util.UUID;
 import org.json.JSONObject;
+import org.junit.Before;
 import org.junit.Test;
 
 public class TestStorage extends IOTUnitTest {
@@ -50,6 +51,15 @@ public class TestStorage extends IOTUnitTest {
     dir.delete();
   }
 
+  Hub h1;
+  Hub h2;
+  
+  @Before
+  public void setup() {
+    h1 = new Hub();
+    h2 = new Hub();
+  }
+  
   private static void editStaticFinalField(Field f, Object newValue)
       throws NoSuchFieldException, SecurityException, IllegalArgumentException,
           IllegalAccessException {
@@ -92,14 +102,12 @@ public class TestStorage extends IOTUnitTest {
 
   @Test
   public void testStoreAndRetrieveUserAccounts() {
-    Hub h = new Hub();
-    Hub h2 = new Hub();
     List<ArrayList<StorageEntity>> oracles = new ArrayList<ArrayList<StorageEntity>>();
     ArrayList<StorageEntity> oracle1 = new ArrayList<StorageEntity>();
 
     ArrayList<StorageEntity> oracle2 = new ArrayList<StorageEntity>();
-    oracle2.add(new UserAccount(h, AccessLevel.ADMIN, "user", "pw"));
-    oracle2.add(new UserAccount(h, AccessLevel.BASIC, "some username", "some password"));
+    oracle2.add(new UserAccount(h1, AccessLevel.ADMIN, "user", "pw"));
+    oracle2.add(new UserAccount(h1, AccessLevel.BASIC, "some username", "some password"));
 
     ArrayList<StorageEntity> oracle3 = new ArrayList<StorageEntity>();
     String username, password;
@@ -108,7 +116,7 @@ public class TestStorage extends IOTUnitTest {
       username = "aUsername" + i;
       password = i + "A quite long password";
       level = AccessLevel.values()[i % 2];
-      oracle3.add(new UserAccount(h, level, username, password));
+      oracle3.add(new UserAccount(h1, level, username, password));
     }
     oracles.add(oracle1);
     oracles.add(oracle2);
@@ -159,13 +167,12 @@ public class TestStorage extends IOTUnitTest {
 
   @Test
   public void testStoreAndRetrieveDevices() {
-    Hub h = new Hub();
     List<ArrayList<Device>> oracles = new ArrayList<ArrayList<Device>>();
     ArrayList<Device> oracle1 = new ArrayList<Device>();
 
     ArrayList<Device> oracle2 = new ArrayList<Device>();
-    oracle2.add(new Camera(h));
-    oracle2.add(new Thermostat(h));
+    oracle2.add(new Camera(h1));
+    oracle2.add(new Thermostat(h1));
 
     ArrayList<Device> oracle3 = new ArrayList<Device>();
     String label;
@@ -174,16 +181,16 @@ public class TestStorage extends IOTUnitTest {
       label = "aLabel" + i;
       switch (i % 4) {
         case 0:
-          d = new Lightbulb(label, h);
+          d = new Lightbulb(label, h1);
           break;
         case 1:
-          d = new Camera(label, h);
+          d = new Camera(label, h1);
           break;
         case 2:
-          d = new Thermostat(label, h);
+          d = new Thermostat(label, h1);
           break;
         case 3:
-          d = new SmartPlug(label, h);
+          d = new SmartPlug(label, h1);
           break;
       }
       oracle3.add(d);
@@ -215,7 +222,7 @@ public class TestStorage extends IOTUnitTest {
           tempFile.delete();
         }
         storeEntities.invoke(null, oracles.get(i), filePath, fileName);
-        result = Storage.getDevices(h);
+        result = Storage.getDevices(h2);
         assertTrue(result.size() == oracles.get(i).size());
         for (int j = 0; j < result.size(); j++) {
           // Need only compare the labels. We are testing for ordering and completeness of the list.
@@ -344,9 +351,7 @@ public class TestStorage extends IOTUnitTest {
 
   @Test
   public void testUserAccountRecreation() {
-    Hub h = new Hub();
-    Hub h2 = new Hub();
-    UserAccount oracle1 = new UserAccount(h, AccessLevel.BASIC, "username123", "issa password");
+    UserAccount oracle1 = new UserAccount(h1, AccessLevel.BASIC, "username123", "issa password");
     UserAccount oracle2 = null;
     Class<?>[] arg = new Class<?>[7];
     arg[0] = Hub.class;
@@ -362,10 +367,10 @@ public class TestStorage extends IOTUnitTest {
     Stack<JSONMessaging> notifications = new Stack<JSONMessaging>();
     ArrayList<UUID> blackList = new ArrayList<UUID>();
     Device[] devices = new Device[4];
-    devices[0] = new Camera(h);
-    devices[1] = new SmartPlug(h);
-    devices[2] = new Thermostat(h);
-    devices[3] = new Lightbulb(h);
+    devices[0] = new Camera(h1);
+    devices[1] = new SmartPlug(h1);
+    devices[2] = new Thermostat(h1);
+    devices[3] = new Lightbulb(h1);
     for (int i = 0; i < devices.length; i++) {
       JSONMessaging notifA = new JSONMessaging(devices[i], "message " + i + "a");
       JSONMessaging notifB = new JSONMessaging(devices[i], "message " + i + "b");
@@ -379,7 +384,7 @@ public class TestStorage extends IOTUnitTest {
       oracle2 =
           (UserAccount)
               protectedConstructor.newInstance(
-                  h,
+                  h1,
                   AccessLevel.BASIC,
                   "some username",
                   "some password",
@@ -408,9 +413,8 @@ public class TestStorage extends IOTUnitTest {
 
   @Test
   public void testCameraRecreation() {
-    Hub h = new Hub();
-    Camera oracle1 = new Camera(h);
-    Camera oracle2 = new Camera("a really weirdly long label", h);
+    Camera oracle1 = new Camera(h1);
+    Camera oracle2 = new Camera("a really weirdly long label", h1);
     Camera oracle3 = null;
     Class<?>[] arg = new Class<?>[6];
     arg[0] = Integer.TYPE;
@@ -426,7 +430,7 @@ public class TestStorage extends IOTUnitTest {
       protectedConstructor.setAccessible(true);
       oracle3 =
           (Camera)
-              protectedConstructor.newInstance(10, 15, true, UUID.randomUUID(), "someLabel", h);
+              protectedConstructor.newInstance(10, 15, true, UUID.randomUUID(), "someLabel", h1);
     } catch (NoSuchMethodException
         | SecurityException
         | InstantiationException
@@ -436,18 +440,25 @@ public class TestStorage extends IOTUnitTest {
       e.printStackTrace();
     }
     Camera[] oracles = new Camera[] {oracle1, oracle2, oracle3};
+    for(Device d : oracles) {
+      try {
+        h1.unregister(d);
+      } catch (HubRegistrationException e) {
+        fail();
+      }
+    }
     Camera[] results = new Camera[3];
-    results[0] = (Camera) Camera.getDeviceFromJSON(oracle1.getJSON(), h);
-    results[1] = (Camera) Camera.getDeviceFromJSON(oracle2.getJSON(), h);
-    results[2] = (Camera) Camera.getDeviceFromJSON(oracle3.getJSON(), h);
+    results[0] = (Camera) Camera.getDeviceFromJSON(oracle1.getJSON(), h1);
+    results[1] = (Camera) Camera.getDeviceFromJSON(oracle2.getJSON(), h1);
+    results[2] = (Camera) Camera.getDeviceFromJSON(oracle3.getJSON(), h1);
+    
     testAllFieldsEqual(oracles, results);
   }
 
   @Test
   public void testLightbulbRecreation() {
-    Hub h = new Hub();
-    Lightbulb oracle1 = new Lightbulb(h);
-    Lightbulb oracle2 = new Lightbulb("a really weirdly long label", h);
+    Lightbulb oracle1 = new Lightbulb(h1);
+    Lightbulb oracle2 = new Lightbulb("a really weirdly long label", h1);
     Lightbulb oracle3 = null;
     Class<?>[] arg = new Class<?>[3];
     arg[0] = UUID.class;
@@ -458,7 +469,7 @@ public class TestStorage extends IOTUnitTest {
     try {
       protectedConstructor = oracle1.getClass().getDeclaredConstructor(arg);
       protectedConstructor.setAccessible(true);
-      oracle3 = (Lightbulb) protectedConstructor.newInstance(UUID.randomUUID(), "someLabel", h);
+      oracle3 = (Lightbulb) protectedConstructor.newInstance(UUID.randomUUID(), "someLabel", h1);
     } catch (NoSuchMethodException
         | SecurityException
         | InstantiationException
@@ -468,18 +479,24 @@ public class TestStorage extends IOTUnitTest {
       e.printStackTrace();
     }
     Lightbulb[] oracles = new Lightbulb[] {oracle1, oracle2, oracle3};
+    for(Device d : oracles) {
+      try {
+        h1.unregister(d);
+      } catch (HubRegistrationException e) {
+        fail();
+      }
+    }
     Lightbulb[] results = new Lightbulb[3];
-    results[0] = (Lightbulb) Lightbulb.getDeviceFromJSON(oracle1.getJSON(), h);
-    results[1] = (Lightbulb) Lightbulb.getDeviceFromJSON(oracle2.getJSON(), h);
-    results[2] = (Lightbulb) Lightbulb.getDeviceFromJSON(oracle3.getJSON(), h);
+    results[0] = (Lightbulb) Lightbulb.getDeviceFromJSON(oracle1.getJSON(), h1);
+    results[1] = (Lightbulb) Lightbulb.getDeviceFromJSON(oracle2.getJSON(), h1);
+    results[2] = (Lightbulb) Lightbulb.getDeviceFromJSON(oracle3.getJSON(), h1);
     testAllFieldsEqual(oracles, results);
   }
 
   @Test
   public void testSmartPlugRecreation() {
-    Hub h = new Hub();
-    SmartPlug oracle1 = new SmartPlug(h);
-    SmartPlug oracle2 = new SmartPlug("a really weirdly long label", h);
+    SmartPlug oracle1 = new SmartPlug(h1);
+    SmartPlug oracle2 = new SmartPlug("a really weirdly long label", h1);
     SmartPlug oracle3 = null;
     Class<?>[] arg = new Class<?>[3];
     arg[0] = UUID.class;
@@ -490,7 +507,7 @@ public class TestStorage extends IOTUnitTest {
     try {
       protectedConstructor = oracle1.getClass().getDeclaredConstructor(arg);
       protectedConstructor.setAccessible(true);
-      oracle3 = (SmartPlug) protectedConstructor.newInstance(UUID.randomUUID(), "someLabel", h);
+      oracle3 = (SmartPlug) protectedConstructor.newInstance(UUID.randomUUID(), "someLabel", h1);
     } catch (NoSuchMethodException
         | SecurityException
         | InstantiationException
@@ -500,18 +517,24 @@ public class TestStorage extends IOTUnitTest {
       e.printStackTrace();
     }
     SmartPlug[] oracles = new SmartPlug[] {oracle1, oracle2, oracle3};
+    for(Device d : oracles) {
+      try {
+        h1.unregister(d);
+      } catch (HubRegistrationException e) {
+        fail();
+      }
+    }
     SmartPlug[] results = new SmartPlug[3];
-    results[0] = (SmartPlug) SmartPlug.getDeviceFromJSON(oracle1.getJSON(), h);
-    results[1] = (SmartPlug) SmartPlug.getDeviceFromJSON(oracle2.getJSON(), h);
-    results[2] = (SmartPlug) SmartPlug.getDeviceFromJSON(oracle3.getJSON(), h);
+    results[0] = (SmartPlug) SmartPlug.getDeviceFromJSON(oracle1.getJSON(), h1);
+    results[1] = (SmartPlug) SmartPlug.getDeviceFromJSON(oracle2.getJSON(), h1);
+    results[2] = (SmartPlug) SmartPlug.getDeviceFromJSON(oracle3.getJSON(), h1);
     testAllFieldsEqual(oracles, results);
   }
 
   @Test
   public void testThermostatRecreation() {
-    Hub h = new Hub();
-    Thermostat oracle1 = new Thermostat(h);
-    Thermostat oracle2 = new Thermostat("a really weirdly long label", h);
+    Thermostat oracle1 = new Thermostat(h1);
+    Thermostat oracle2 = new Thermostat("a really weirdly long label", h1);
     Thermostat oracle3 = null;
     Class<?>[] arg = new Class<?>[4];
     arg[0] = Temperature.class;
@@ -526,7 +549,7 @@ public class TestStorage extends IOTUnitTest {
       oracle3 =
           (Thermostat)
               protectedConstructor.newInstance(
-                  new Temperature(101.1, Unit.FAHRENHEIT), UUID.randomUUID(), "someLabel", h);
+                  new Temperature(101.1, Unit.FAHRENHEIT), UUID.randomUUID(), "someLabel", h1);
     } catch (NoSuchMethodException
         | SecurityException
         | InstantiationException
@@ -536,10 +559,17 @@ public class TestStorage extends IOTUnitTest {
       e.printStackTrace();
     }
     Thermostat[] oracles = new Thermostat[] {oracle1, oracle2, oracle3};
+    for(Device d : oracles) {
+      try {
+        h1.unregister(d);
+      } catch (HubRegistrationException e) {
+        fail();
+      }
+    }
     Thermostat[] results = new Thermostat[3];
-    results[0] = (Thermostat) Thermostat.getDeviceFromJSON(oracle1.getJSON(), h);
-    results[1] = (Thermostat) Thermostat.getDeviceFromJSON(oracle2.getJSON(), h);
-    results[2] = (Thermostat) Thermostat.getDeviceFromJSON(oracle3.getJSON(), h);
+    results[0] = (Thermostat) Thermostat.getDeviceFromJSON(oracle1.getJSON(), h1);
+    results[1] = (Thermostat) Thermostat.getDeviceFromJSON(oracle2.getJSON(), h1);
+    results[2] = (Thermostat) Thermostat.getDeviceFromJSON(oracle3.getJSON(), h1);
     testAllFieldsEqual(oracles, results);
   }
 
@@ -570,8 +600,8 @@ public class TestStorage extends IOTUnitTest {
 
   @Test
   public void TestRoomRecreation() {
-    Hub h = new Hub();
-    Hub h2 = new Hub();
+    h1 = new Hub();
+    h2 = new Hub();
     Method getRoomFromJSON = null;
     try {
       getRoomFromJSON =
@@ -582,8 +612,8 @@ public class TestStorage extends IOTUnitTest {
       fail("Could not get JSON Conversion method");
     }
     try {
-      Room oracle1 = new Room("room 1", h);
-      Room oracle2 = new Room("room 2", h);
+      Room oracle1 = new Room("room 1", h1);
+      Room oracle2 = new Room("room 2", h1);
       Room result1 = null;
       Room result2 = null;
 

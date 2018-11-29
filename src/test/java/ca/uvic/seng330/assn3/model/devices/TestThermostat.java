@@ -15,6 +15,9 @@ public class TestThermostat extends IOTUnitTest {
   private Temperature validCelsius;
   private Temperature validFahrenheit;
 
+  // TODO add tests showing room-based events
+  // i.e. ambienttempchange for thermostat, and motiondetected/emptyroom events for camera/lightbulb
+  
   @Before
   public void setup() {
     h = new Hub();
