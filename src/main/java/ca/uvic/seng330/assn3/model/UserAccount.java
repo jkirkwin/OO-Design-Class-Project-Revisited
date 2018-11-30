@@ -80,14 +80,14 @@ public class UserAccount implements StorageEntity {
       Logging.logWithID("Device already blacklisted. No Action taken.", illegal, Level.WARN);
     } else {
       this.blackList.add(illegal);
-      Logging.logWithID("Device blacklisted.", illegal, Level.INFO);
+      Logging.logWithID("Device blacklisted for User " + this.getUsername(), illegal, Level.INFO);
     }
   }
 
   public void whiteList(UUID legal) {
     if (this.blackList.contains(legal)) {
       this.blackList.remove(legal);
-      Logging.logWithID("Device whitelisted.", legal, Level.INFO);
+      Logging.logWithID("Device whitelisted for User " + this.getUsername(), legal, Level.INFO);
     } else {
       Logging.logWithID("Device already whitelisted. No action taken.", legal, Level.WARN);
     }
@@ -98,10 +98,16 @@ public class UserAccount implements StorageEntity {
     return this.blackList;
   }
 
-  public Stack<JSONMessaging> getMessages() {
-    Stack<JSONMessaging> copy = new Stack<JSONMessaging>();
+  public void newNotification(UUID deviceID, JSONMessaging msg) {
+    if (!getBlackList().contains(deviceID)) {
+      this.notificationList.push(msg);
+    }
+  }
+
+  public Stack<JSONObject> getMessages() {
+    Stack<JSONObject> copy = new Stack<JSONObject>();
     while (!this.notificationList.isEmpty()) {
-      copy.push(notificationList.pop());
+      copy.push(notificationList.pop().invoke());
     }
     return copy;
   }

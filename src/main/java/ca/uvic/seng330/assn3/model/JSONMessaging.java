@@ -1,11 +1,13 @@
 package ca.uvic.seng330.assn3.model;
 
+import ca.uvic.seng330.assn3.logging.Logging;
 import ca.uvic.seng330.assn3.model.devices.Device;
 import ca.uvic.seng330.assn3.model.storage.Storage;
 import java.util.Date;
 import java.util.UUID;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.slf4j.event.Level;
 
 public class JSONMessaging {
 
@@ -35,6 +37,7 @@ public class JSONMessaging {
       json.put("sent_at", new Date());
     } catch (JSONException e) {
       // TODO Log failure
+      Logging.logWithID("JSONObject not created", id, Level.WARN);
     }
     return json;
   }

@@ -29,3 +29,7 @@ TODO:
 * Added logging utility class to be used by the entire application
 * Added logging to Non-GUI tests indicating when each class starts
 * Added logging to model package
+
+### notifications
+* added notifications from significant actions.
+* notifications go through hub and alert any users that don't have the device in their blacklist.

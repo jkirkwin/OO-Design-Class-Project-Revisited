@@ -40,8 +40,10 @@ public class Room implements StorageEntity {
 
   public void setLabel(String newLabel) {
     assert newLabel != null;
+    String oldLabel = this.label;
     this.label = newLabel;
     Logging.logWithID("Modified room label", getIdentifier(), Level.TRACE);
+    this.hub.notification("Room " + oldLabel + " has been renamed " + newLabel, UUID.randomUUID());
   }
 
   public UUID getIdentifier() {
@@ -57,6 +59,7 @@ public class Room implements StorageEntity {
       d.setRoom(this);
     }
     Logging.logWithID("Added device to room", id, Level.INFO);
+    hub.notification("Device " + d.getLabel() + " now belongs to Room " + this.getLabel(), id);
   }
 
   private void setRoomContents() {
@@ -89,7 +92,9 @@ public class Room implements StorageEntity {
           break;
       }
     }
-    Logging.logWithID("Notified roome occupants of event: " + event.toString(), getIdentifier(), Level.INFO);
+    // TODO: decide if redundant with hub line160
+    Logging.logWithID(
+        "Notified room occupants of event: " + event.toString(), getIdentifier(), Level.INFO);
   }
 
   protected String getDeviceType(Device d) {
@@ -132,6 +137,7 @@ public class Room implements StorageEntity {
       occupants.remove(d);
     }
     Logging.logWithID("Room emptied", getIdentifier(), Level.INFO);
+    hub.notification("Room " + this.getLabel() + " has been emptied", this.getIdentifier());
   }
 
   public void removeRoomDevice(Device retiredDevice) {
@@ -141,5 +147,8 @@ public class Room implements StorageEntity {
     retiredDevice.removeRoom();
     occupants.remove(retiredDevice);
     Logging.logWithID("Removed device from room", retiredDevice.getIdentifier(), Level.INFO);
+    hub.notification(
+        "Device " + retiredDevice.getLabel() + " has been removed from Room " + this.getLabel(),
+        retiredDevice.getIdentifier());
   }
 }

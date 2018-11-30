@@ -32,8 +32,15 @@ public class Lightbulb extends Device {
       setStatus(Status.OFF);
       Logging.logWithID("bulb turned off", getIdentifier(), Level.INFO);
     } else {
-      Logging.logWithID("Toggling plug failed. Not in ON or OFF state. Likely ERROR state.", getIdentifier(), Level.ERROR);
+      Logging.logWithID(
+          "Toggling plug failed. Not in ON or OFF state. Likely ERROR state.",
+          getIdentifier(),
+          Level.ERROR);
     }
+    this.getHub()
+        .notification(
+            "Lightbulb " + this.getLabel() + " has been turned " + this.getStatus().toString(),
+            this.getIdentifier());
   }
 
   @Override

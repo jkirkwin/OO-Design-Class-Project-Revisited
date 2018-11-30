@@ -49,6 +49,8 @@ public class Camera extends Device {
     }
     this.diskSize = 0;
     Logging.logWithID("Disk cleared.", getIdentifier(), Level.INFO);
+    this.getHub()
+        .notification("Camera " + this.getLabel() + "'s disk wiped.", this.getIdentifier());
   }
 
   public void record() throws CameraFullException {
@@ -63,7 +65,8 @@ public class Camera extends Device {
         throw new CameraFullException();
       }
       this.isRecording = !this.isRecording;
-      Logging.logWithID("Camera recording " + (isRecording ? "started" : "ended"),  getIdentifier(), Level.INFO);
+      Logging.logWithID(
+          "Camera recording " + (isRecording ? "started" : "ended"), getIdentifier(), Level.INFO);
     } else {
       this.isRecording = false;
       Logging.logWithID("Camera turned off. Cannot record.", getIdentifier(), Level.WARN);
@@ -72,6 +75,10 @@ public class Camera extends Device {
 
   public void MotionDetect() {
     this.getHub().notifyRoom(this.getIdentifier(), IOEEventType.MOTIONALERT);
+    this.getHub()
+        .notification(
+            "Camera " + this.getLabel() + " has detected motion in Room " + this.getRoom(),
+            this.getIdentifier());
   }
 
   public void VacantDetect() {
@@ -99,9 +106,12 @@ public class Camera extends Device {
     if (status == Status.OFF && this.isRecording()) {
       try {
         this.record();
-      } catch (CameraFullException e) {}
+      } catch (CameraFullException e) {
+      }
     }
     this.status = status;
-    Logging.logWithID("Camera turned " + status.toString(),  getIdentifier(), Level.INFO);
+    Logging.logWithID("Camera turned " + status.toString(), getIdentifier(), Level.INFO);
+    this.getHub()
+        .notification("Camera " + this.getLabel() + " has been turned OFF", this.getIdentifier());
   }
 }

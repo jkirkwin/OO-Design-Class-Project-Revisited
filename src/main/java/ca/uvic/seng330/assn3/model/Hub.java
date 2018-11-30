@@ -10,7 +10,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.NoSuchElementException;
+import java.util.Stack;
 import java.util.UUID;
+import org.json.JSONObject;
 import org.slf4j.event.Level;
 
 public class Hub {
@@ -18,6 +20,7 @@ public class Hub {
   private final HashMap<UUID, Device> deviceRegistry;
   private HashMap<UUID, UserAccount> userAccountRegistry;
   private HashMap<UUID, Room> roomRegistry;
+  private ArrayList<JSONMessaging> notifications;
 
   public Hub() {
     this.deviceRegistry = new HashMap<UUID, Device>();
@@ -33,6 +36,7 @@ public class Hub {
     if (!deviceRegistry.containsKey(newDevice.getIdentifier())) {
       deviceRegistry.put(newDevice.getIdentifier(), newDevice);
       Logging.logWithID("Device registered", newDevice.getIdentifier(), Level.INFO);
+      notification(newDevice.getLabel() + " registered", newDevice.getIdentifier());
     } else {
       throw new HubRegistrationException("Device with matching UUID previously registered.");
     }
@@ -46,6 +50,7 @@ public class Hub {
     if (!userAccountRegistry.containsKey(newAccount.getIdentifier())) {
       userAccountRegistry.put(newAccount.getIdentifier(), newAccount);
       Logging.logWithID("Account registered", newAccount.getIdentifier(), Level.INFO);
+      notification(newAccount.getUsername() + " has registered!", newAccount.getIdentifier());
     } else {
       throw new HubRegistrationException("User with matching UUID previously registered");
     }
@@ -56,6 +61,7 @@ public class Hub {
     if (!roomRegistry.containsKey(newRoom.getIdentifier())) {
       roomRegistry.put(newRoom.getIdentifier(), newRoom);
       Logging.logWithID("Room registered", newRoom.getIdentifier(), Level.INFO);
+      notification("New Room " + newRoom.getLabel() + " Created", newRoom.getIdentifier());
     } else {
       throw new HubRegistrationException("Room with matching UUID previously registered");
     }
@@ -70,6 +76,7 @@ public class Hub {
       r.empty();
       roomRegistry.remove(r.getIdentifier());
       Logging.logWithID("Room unregistered", r.getIdentifier(), Level.INFO);
+      notification("Room " + r.getLabel() + " has been deconstructed.", r.getIdentifier());
     } else {
       throw new HubRegistrationException("No such room registered to hub");
     }
@@ -91,6 +98,9 @@ public class Hub {
         roomRegistry.get(r.getIdentifier()).removeRoomDevice(retiredDevice);
       }
       Logging.logWithID("Device unregistered", retiredDevice.getIdentifier(), Level.INFO);
+      notification(
+          "Device " + retiredDevice.getLabel() + " has been deconstructed.",
+          retiredDevice.getIdentifier());
     } else {
       throw new HubRegistrationException("Device does not exist.");
     }
@@ -149,7 +159,9 @@ public class Hub {
   public void notifyRoom(UUID deviceId, IOEEventType event) {
     getRoomByID(deviceId).notifyOccupants(event);
     Logging.logWithID("Event Occurred: " + event.toString(), deviceId, Level.INFO);
-    // TODO: notify users
+    notification(
+        "Event Occurred: " + event.toString() + " in Room " + getRoomByID(deviceId).getLabel(),
+        deviceId);
   }
 
   public List<Device> getRoomContents(Room r) {
@@ -161,6 +173,18 @@ public class Hub {
     assert roomID != null;
     assert isRegisteredRoom(roomID);
     return roomRegistry.get(roomID).getOccupants();
+  }
+
+  public void notification(String msg, UUID deviceID) {
+    for (Entry<UUID, UserAccount> account : userAccountRegistry.entrySet()) {
+      account
+          .getValue()
+          .newNotification(deviceID, new JSONMessaging(this.getDevice(deviceID), msg));
+    }
+  }
+
+  public Stack<JSONObject> getNotifications(UserAccount activeUser) {
+    return activeUser.getMessages();
   }
 
   /*
@@ -281,6 +305,7 @@ public class Hub {
       value.setStatus(onOff);
     }
     Logging.log("All devices turned off", Level.INFO);
+    notification("All devices turned off", UUID.randomUUID());
   }
 
   /*
@@ -377,10 +402,7 @@ public class Hub {
     return null;
   }
 
-  public void log(String msg, UUID id) {
-    // TODO
-  }
-
+  // TODO: kill?
   public void alert(String msg, Device pDevice) {
     // TODO should be moved to controller
     // Or should alert some list of observers in which Controller has registered

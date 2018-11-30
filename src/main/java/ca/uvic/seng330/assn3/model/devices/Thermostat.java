@@ -74,6 +74,10 @@ public class Thermostat extends Device {
       this.temp = temp.clone();
     }
     Logging.logWithID("Modified temperature", getIdentifier(), Level.TRACE);
+    this.getHub()
+        .notification(
+            "Thermostat " + this.getLabel() + " has new Temperature " + temp.toString(),
+            this.getIdentifier());
   }
 
   public double getTempMag() {
@@ -86,6 +90,10 @@ public class Thermostat extends Device {
 
   public void ambientTempDetect() {
     this.getHub().notifyRoom(this.getIdentifier(), IOEEventType.AMBIENTTEMP);
+    this.getHub()
+        .notification(
+            "Thermostat " + this.getLabel() + " has detected change in ambient Temperature",
+            this.getIdentifier());
   }
 
   public void changeTempUnits() throws TemperatureOutOfBoundsException {
