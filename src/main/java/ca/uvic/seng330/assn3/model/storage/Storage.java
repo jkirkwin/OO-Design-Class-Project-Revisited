@@ -97,7 +97,7 @@ public class Storage {
     ensureDirExists(destinationDirPath);
     File destinationDir = new File(destinationDirPath);
     assert destinationDir.exists() && destinationDir.isDirectory();
-    
+
     File destDeviceFile = new File(destinationDirPath + deviceFileName);
     File destAccountFile = new File(destinationDirPath + accountFileName);
     File destRoomFile = new File(destinationDirPath + roomFileName);
@@ -139,7 +139,10 @@ public class Storage {
 
     } catch (IOException e) {
       e.printStackTrace();
-      Logging.log("IOException thrown when cleaning dir, attempting to move old items to " + destinationDirPath, Level.ERROR);
+      Logging.log(
+          "IOException thrown when cleaning dir, attempting to move old items to "
+              + destinationDirPath,
+          Level.ERROR);
     }
     Logging.log("directory cleaned. old content moved to " + destinationDirPath + ".", Level.TRACE);
   }
@@ -162,7 +165,9 @@ public class Storage {
       }
     } catch (IOException e) {
       e.printStackTrace();
-      Logging.log("IOException thrown in getDevices. Consider rolling back to previous storage file set", Level.ERROR);
+      Logging.log(
+          "IOException thrown in getDevices. Consider rolling back to previous storage file set",
+          Level.ERROR);
     }
 
     return javaDevices;
@@ -187,7 +192,9 @@ public class Storage {
       }
     } catch (IOException e) {
       e.printStackTrace();
-      Logging.log("IOException thrown in getAccounts. Consider rolling back to previous storage file set", Level.ERROR);
+      Logging.log(
+          "IOException thrown in getAccounts. Consider rolling back to previous storage file set",
+          Level.ERROR);
     }
     return javaAccounts;
   }
@@ -207,9 +214,13 @@ public class Storage {
       }
     } catch (IOException e) {
       e.printStackTrace();
-      Logging.log("IOException thrown in getRooms. Consider rolling back to previous storage file set", Level.ERROR);
+      Logging.log(
+          "IOException thrown in getRooms. Consider rolling back to previous storage file set",
+          Level.ERROR);
     } catch (HubRegistrationException e) {
-      Logging.log("Failed to register room to hub in getRooms. Consider rolling back to previous storage file set", Level.ERROR);
+      Logging.log(
+          "Failed to register room to hub in getRooms. Consider rolling back to previous storage file set",
+          Level.ERROR);
     }
     return javaRooms;
   }

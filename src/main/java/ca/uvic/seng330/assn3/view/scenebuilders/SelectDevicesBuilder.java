@@ -10,7 +10,6 @@ public class SelectDevicesBuilder extends SceneBuilder {
 
   public SelectDevicesBuilder(Controller controller, String backText) {
     super(controller, backText);
-    // TODO Auto-generated constructor stub
   }
 
   @Override

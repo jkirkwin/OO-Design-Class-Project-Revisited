@@ -19,10 +19,6 @@ public class HubController extends Controller {
     client.setView(findBuilder(ViewType.MANAGE_DEVICES));
   }
 
-  public void handleAdminManageNotificationsClick() {
-    // TODO
-  }
-
   public void allOff() {
     hub.massSetStatus(Status.OFF);
     hub.shutdown();

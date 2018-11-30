@@ -1,7 +1,10 @@
 package ca.uvic.seng330.assn3.view.scenebuilders;
 
 import ca.uvic.seng330.assn3.controller.Controller;
+import java.util.ArrayList;
+import java.util.UUID;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
@@ -24,15 +27,30 @@ public class ManageUsersBuilder extends SceneBuilder {
     layout.setVbarPolicy(ScrollBarPolicy.ALWAYS);
 
     HBox hbox = new HBox(30);
+
     VBox viewUsers = hubUsersList(new VBox(10));
     viewUsers.getChildren().add(0, new Label("View User\nVisability"));
     VBox deleteUsers = hubDeleteList(new VBox(10), getController().getBasicUserAccountIDs());
     deleteUsers.getChildren().add(0, new Label("Delete User\nAccount"));
+
     hbox.getChildren().add(viewUsers);
     hbox.getChildren().add(deleteUsers);
-
     layout.setContent(hbox);
 
     return layout;
+  }
+
+  @Override
+  protected VBox hubUsersList(VBox col) {
+    assert col != null;
+    ArrayList<UUID> userList = getController().getBasicUserAccountIDs();
+    for (int i = 0; i < userList.size(); i++) {
+      Button button = new Button(getController().getLabel(userList.get(i)));
+      button.setUserData(userList.get(i));
+      button.setOnAction(
+          event -> getController().handleUsersVisabilityClick((UUID) button.getUserData()));
+      col.getChildren().add(button);
+    }
+    return col;
   }
 }
