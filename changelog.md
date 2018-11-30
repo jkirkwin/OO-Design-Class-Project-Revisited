@@ -30,6 +30,9 @@ TODO:
 * Added logging to Non-GUI tests indicating when each class starts
 * Added logging to model package
 
-### notifications
+### notifications & JSONMessaging
+* Re-purposed JSONMessaging to simply be a utility to generate notifications to cut down on storage costs, notifications are now exclusively stored/represented as plain JSONObjects
+* Allowed for notifications about various things in the model (rooms, devices, users) as well as for generic "plain" notifications that are not tied to any particular model entity.
+TODO 
+* notifications go through hub and into the notification stack of any users that don't have the device in their blacklist.
 * added notifications from significant actions.
-* notifications go through hub and alert any users that don't have the device in their blacklist.

@@ -17,7 +17,7 @@ public class UserAccount implements StorageEntity {
   private Hub hub;
   private final UUID id;
   private ArrayList<UUID> blackList;
-  private Stack<JSONMessaging> notificationList;
+  private Stack<JSONObject> notificationList;
   private final String username;
   private final String password;
 
@@ -26,7 +26,7 @@ public class UserAccount implements StorageEntity {
     this.accessLevel = level;
     this.username = username;
     this.password = password;
-    this.notificationList = new Stack<JSONMessaging>();
+    this.notificationList = new Stack<JSONObject>();
     this.blackList = new ArrayList<UUID>();
     this.id = UUID.randomUUID();
     try {
@@ -43,7 +43,7 @@ public class UserAccount implements StorageEntity {
       String username,
       String password,
       UUID accountID,
-      Stack<JSONMessaging> notificationList,
+      Stack<JSONObject> notificationList,
       ArrayList<UUID> blackList) {
     this.hub = h;
     this.accessLevel = level;
@@ -98,20 +98,20 @@ public class UserAccount implements StorageEntity {
     return this.blackList;
   }
 
-  public void newNotification(UUID deviceID, JSONMessaging msg) {
+  public void newNotification(UUID deviceID, JSONObject msg) {
     if (!getBlackList().contains(deviceID)) {
       this.notificationList.push(msg);
     }
   }
 
-  public void newNotification(JSONMessaging msg) {
+  public void newNotification(JSONObject msg) {
     this.notificationList.push(msg);
   }
 
   public Stack<JSONObject> getMessages() {
     Stack<JSONObject> copy = new Stack<JSONObject>();
     while (!this.notificationList.isEmpty()) {
-      copy.push(notificationList.pop().invoke());
+      copy.push(notificationList.pop());
     }
     return copy;
   }
@@ -157,15 +157,9 @@ public class UserAccount implements StorageEntity {
       // Create a JSON list of notifications waiting for the user and add this under key
       // "notifications"
       JSONArray notifications = new JSONArray();
-      Stack<JSONMessaging> temp = new Stack<JSONMessaging>(); // To prevent losing notifications
+      Stack<JSONObject> temp = new Stack<JSONObject>(); // To prevent losing notifications
       while (!this.notificationList.isEmpty()) {
-        JSONMessaging messaging = this.notificationList.peek();
-        JSONObject notificationWrapper = new JSONObject();
-        JSONObject message = messaging.invoke();
-        UUID talkerID = messaging.getTalker().getIdentifier();
-        notificationWrapper.put("body", message);
-        notificationWrapper.put("id", Storage.getJsonUUID(talkerID));
-        notifications.put(notificationWrapper);
+        notifications.put(this.notificationList.peek());
         temp.push(notificationList.pop());
       }
       json.put("notifications", notifications);
@@ -184,16 +178,11 @@ public class UserAccount implements StorageEntity {
     AccessLevel level = o.getEnum(AccessLevel.class, "access_level");
     UUID accountID = Storage.getUUID(o.getJSONObject("id"));
 
-    // Create notificationList
-    Stack<JSONMessaging> notificationList = new Stack<JSONMessaging>();
-    JSONArray JSONnotifications = o.getJSONArray("notifications");
-    for (int i = JSONnotifications.length() - 1; i >= 0; i--) {
-      JSONObject notificationObj = JSONnotifications.getJSONObject(i);
-      JSONObject body = notificationObj.getJSONObject("body");
-      UUID talkerID = Storage.getUUID(notificationObj.getJSONObject("id"));
-      UUID messageID = Storage.getUUID(body.getJSONObject("msg_id"));
-      notificationList.push(
-          new JSONMessaging(hub.getDevice(talkerID), body.getString("payload"), messageID));
+    Stack<JSONObject> notificationList = new Stack<JSONObject>();
+    JSONArray jsonNotifications = o.getJSONArray("notifications");
+    for (int i = jsonNotifications.length() - 1; i >= 0; i--) {
+      JSONObject message = jsonNotifications.getJSONObject(i);
+      notificationList.push(message);
     }
 
     // Create blackList

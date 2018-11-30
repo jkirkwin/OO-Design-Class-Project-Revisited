@@ -364,7 +364,7 @@ public class TestStorage extends IOTUnitTest {
     Constructor<? extends UserAccount> protectedConstructor = null;
 
     // Build sample blacklist and notification stack for oracle2
-    Stack<JSONMessaging> notifications = new Stack<JSONMessaging>();
+    Stack<JSONObject> notifications = new Stack<JSONObject>();
     ArrayList<UUID> blackList = new ArrayList<UUID>();
     Device[] devices = new Device[4];
     devices[0] = new Camera(h1);
@@ -372,12 +372,23 @@ public class TestStorage extends IOTUnitTest {
     devices[2] = new Thermostat(h1);
     devices[3] = new Lightbulb(h1);
     for (int i = 0; i < devices.length; i++) {
-      JSONMessaging notifA = new JSONMessaging(devices[i], "message " + i + "a");
-      JSONMessaging notifB = new JSONMessaging(devices[i], "message " + i + "b");
+      JSONObject notifA = JSONMessaging.getDeviceNotification("message " + i + "a", devices[i]);
+      JSONObject notifB = JSONMessaging.getDeviceNotification("message " + i + "b", devices[i]);
       notifications.push(notifA);
       notifications.push(notifB);
       blackList.add(devices[i].getIdentifier());
     }
+    JSONObject roomNotification = null;
+    try {
+      roomNotification = JSONMessaging.getRoomNotification("room message", new Room("label", h1));
+    } catch (HubRegistrationException e1) {
+      fail("unable to create/register room");
+    }
+    JSONObject userNotification = JSONMessaging.getUserAccountNotification("useraccount message", new UserAccount(h1, AccessLevel.ADMIN, "username", "password"));
+    JSONObject plainNotification = JSONMessaging.getPlainNotification("a plain string of text");
+    notifications.push(roomNotification);
+    notifications.push(userNotification);
+    notifications.push(plainNotification);
     try {
       protectedConstructor = oracle1.getClass().getDeclaredConstructor(arg);
       protectedConstructor.setAccessible(true);

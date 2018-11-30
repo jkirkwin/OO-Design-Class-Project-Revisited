@@ -174,11 +174,19 @@ public class Hub {
     return roomRegistry.get(roomID).getOccupants();
   }
 
-  public void notification(String msg, UUID deviceID) {
-    for (Entry<UUID, UserAccount> account : userAccountRegistry.entrySet()) {
-      account
-          .getValue()
-          .newNotification(deviceID, new JSONMessaging(this.getDevice(deviceID), msg));
+  public void notification(String msg, UUID entitiyID) {
+    JSONObject notification;
+    for (UserAccount account : userAccountRegistry.values()) {
+      if(deviceRegistry.containsKey(entitiyID)) {
+        notification = JSONMessaging.getDeviceNotification(msg, deviceRegistry.get(entitiyID));
+      } else if(roomRegistry.containsKey(entitiyID)) {
+        notification = JSONMessaging.getRoomNotification(msg, roomRegistry.get(entitiyID));
+      } else if(userAccountRegistry.containsKey(entitiyID)) {
+        notification = JSONMessaging.getUserAccountNotification(msg, userAccountRegistry.get(entitiyID));
+      } else {
+        notification = JSONMessaging.getPlainNotification(msg);
+      }
+      account.newNotification(entitiyID, notification);
     }
   }
 
