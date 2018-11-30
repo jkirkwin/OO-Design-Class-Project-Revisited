@@ -26,6 +26,7 @@ TODO:
 * Tests for Thermostat (All devices now have tests)
 
 ### Logging
+* Logs saved in src/logging/log.log (my most creatively named addition to this project yet)
 * Added logging utility class to be used by the entire application
 * Added logging to Non-GUI tests indicating when each class starts
 * Added logging to model package
@@ -33,7 +34,6 @@ TODO:
 ### Notifications & JSONMessaging
 * Re-purposed JSONMessaging to simply be a utility to generate notifications to cut down on storage costs, notifications are now exclusively stored/represented as plain JSONObjects
 * Allowed for notifications about various things in the model (rooms, devices, users) as well as for generic "plain" notifications that are not tied to any particular model entity.
-TODO 
 * notifications go through hub and into the notification stack of any users that don't have the device in their blacklist.
 * added notifications from significant actions.
 
