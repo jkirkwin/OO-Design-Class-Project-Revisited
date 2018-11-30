@@ -95,11 +95,16 @@ public class HubSceneBuilder extends SceneBuilder {
     VBox logsBox = new VBox(5);
     Scanner logsScanner;
     try {
-      // TODO: review whether to have the logging path in view.
-      logsScanner = new Scanner(new File("src/logging/log.log"));
+      logsScanner = new Scanner(new File("src"+ File.separator +"logging" + File.separator +"log.log"));
       for (int i = 0; logsScanner.hasNext() && i < 100; i++) {
-        String line = logsScanner.nextLine().substring(27);
-        line = line.substring(0, 6) + line.substring(44);
+        String line = null;
+        String rawLine = logsScanner.nextLine();
+        try {
+          line = rawLine.substring(27);
+          line = line.substring(0, 6) + line.substring(44);
+        } catch (Exception e){
+          line = rawLine;
+        }
         logsBox.getChildren().add(new Label(line));
       }
       logsScanner.close();

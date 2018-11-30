@@ -35,7 +35,8 @@ public class Hub {
     if (!deviceRegistry.containsKey(newDevice.getIdentifier())) {
       deviceRegistry.put(newDevice.getIdentifier(), newDevice);
       Logging.logWithID("Device registered", newDevice.getIdentifier(), Level.INFO);
-      notification(newDevice.getLabel() + " registered", newDevice.getIdentifier());
+      // This is where the incorrect-looking notification/log happens -> we are registering the device before setting the label TODO
+      notification(deviceRegistry.get(newDevice.getIdentifier()).getLabel() + " registered", newDevice.getIdentifier());
     } else {
       throw new HubRegistrationException("Device with matching UUID previously registered.");
     }
@@ -311,7 +312,6 @@ public class Hub {
    * Populate storage files with JSON representations of device/user registries
    */
   public void shutdown() {
-    // massSetStatus(Status.OFF);
     Storage.store(
         this.deviceRegistry.values(),
         this.userAccountRegistry.values(),
@@ -387,16 +387,16 @@ public class Hub {
     Device added = null;
     switch (newDevice) {
       case CAMERA:
-        added = new Camera(this);
+        added = new Camera(customLabel, this);
         break;
       case SMARTPLUG:
-        added = new SmartPlug(this);
+        added = new SmartPlug(customLabel, this);
         break;
       case LIGHTBULB:
-        added = new Lightbulb(this);
+        added = new Lightbulb(customLabel, this);
         break;
       case THERMOSTAT:
-        added = new Thermostat(this);
+        added = new Thermostat(customLabel, this);
         break;
       default:
         Logging.log("Invalid parameter passed. No such device type.", Level.ERROR);
@@ -408,7 +408,6 @@ public class Hub {
     } else {
       added.setStatus(Status.OFF);
     }
-    added.setLabel(customLabel);
   }
 
   /*

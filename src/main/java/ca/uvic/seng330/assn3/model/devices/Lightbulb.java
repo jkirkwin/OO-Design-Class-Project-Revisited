@@ -27,9 +27,11 @@ public class Lightbulb extends Device {
   public void toggle() {
     if (this.status.equals(Status.OFF)) {
       setStatus(Status.ON);
+      getHub().notification("bulb turned on", getIdentifier());
       Logging.logWithID("bulb turned on", getIdentifier(), Level.INFO);
     } else if (this.status.equals(Status.ON)) {
       setStatus(Status.OFF);
+      getHub().notification("bulb turned off", getIdentifier());
       Logging.logWithID("bulb turned off", getIdentifier(), Level.INFO);
     } else {
       Logging.logWithID(

@@ -16,7 +16,7 @@ public abstract class Device implements StorageEntity {
   private String label;
   protected Status status;
   private Hub hub;
-  private Room room; // The rooms this device is associated with
+  private Room room; // The room this device is associated with
 
   /*
    * Returns the Device instance corresponding to the JSONObject
@@ -162,6 +162,7 @@ public abstract class Device implements StorageEntity {
   }
 
   public void setLabel(String newLabel) {
+    assert newLabel != null;
     this.label = newLabel;
   }
 
