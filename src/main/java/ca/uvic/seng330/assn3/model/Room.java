@@ -43,7 +43,7 @@ public class Room implements StorageEntity {
     String oldLabel = this.label;
     this.label = newLabel;
     Logging.logWithID("Modified room label", getIdentifier(), Level.TRACE);
-    this.hub.notification("Room " + oldLabel + " has been renamed " + newLabel, UUID.randomUUID());
+    // TODO: this.hub.notification("Room " + oldLabel + " has been renamed " + newLabel);
   }
 
   public UUID getIdentifier() {
@@ -137,7 +137,7 @@ public class Room implements StorageEntity {
       occupants.remove(d);
     }
     Logging.logWithID("Room emptied", getIdentifier(), Level.INFO);
-    hub.notification("Room " + this.getLabel() + " has been emptied", this.getIdentifier());
+    // TODO: hub.notification("Room " + this.getLabel() + " has been emptied");
   }
 
   public void removeRoomDevice(Device retiredDevice) {

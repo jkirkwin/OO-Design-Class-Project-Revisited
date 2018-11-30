@@ -154,6 +154,7 @@ public abstract class Device implements StorageEntity {
 
   public void setStatus(Status status) {
     this.status = status;
+    hub.notification(this.getLabel() + " is now " + status.toString(), this.getIdentifier());
   }
 
   public Hub getHub() {

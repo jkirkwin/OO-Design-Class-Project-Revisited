@@ -41,10 +41,14 @@ public class HubSceneBuilder extends SceneBuilder {
     Button StartUpDown = new Button("ShutDown All");
     StartUpDown.setOnAction(event -> getController().allOff());
 
+    Button userNotifications = new Button("Notifications");
+    userNotifications.setOnAction(event -> getController().notificationView());
+
     VBox hubView = new VBox(10);
     hubView.getChildren().add(new Label("Device Config"));
     hubView.getChildren().add(layout);
     hubView.getChildren().add(StartUpDown);
+    hubView.getChildren().add(userNotifications);
     hbox.getChildren().add(hubView);
 
     if (isAdmin) {

@@ -20,7 +20,6 @@ public class Hub {
   private final HashMap<UUID, Device> deviceRegistry;
   private HashMap<UUID, UserAccount> userAccountRegistry;
   private HashMap<UUID, Room> roomRegistry;
-  private ArrayList<JSONMessaging> notifications;
 
   public Hub() {
     this.deviceRegistry = new HashMap<UUID, Device>();
@@ -50,7 +49,7 @@ public class Hub {
     if (!userAccountRegistry.containsKey(newAccount.getIdentifier())) {
       userAccountRegistry.put(newAccount.getIdentifier(), newAccount);
       Logging.logWithID("Account registered", newAccount.getIdentifier(), Level.INFO);
-      notification(newAccount.getUsername() + " has registered!", newAccount.getIdentifier());
+      // TODO: notification(newAccount.getUsername() + " has registered!");
     } else {
       throw new HubRegistrationException("User with matching UUID previously registered");
     }
@@ -61,7 +60,7 @@ public class Hub {
     if (!roomRegistry.containsKey(newRoom.getIdentifier())) {
       roomRegistry.put(newRoom.getIdentifier(), newRoom);
       Logging.logWithID("Room registered", newRoom.getIdentifier(), Level.INFO);
-      notification("New Room " + newRoom.getLabel() + " Created", newRoom.getIdentifier());
+      // TODO: notification("New Room " + newRoom.getLabel() + " Created");
     } else {
       throw new HubRegistrationException("Room with matching UUID previously registered");
     }
@@ -76,7 +75,7 @@ public class Hub {
       r.empty();
       roomRegistry.remove(r.getIdentifier());
       Logging.logWithID("Room unregistered", r.getIdentifier(), Level.INFO);
-      notification("Room " + r.getLabel() + " has been deconstructed.", r.getIdentifier());
+      // TODO: notification("Room " + r.getLabel() + " has been deconstructed.");
     } else {
       throw new HubRegistrationException("No such room registered to hub");
     }
@@ -182,6 +181,14 @@ public class Hub {
           .newNotification(deviceID, new JSONMessaging(this.getDevice(deviceID), msg));
     }
   }
+
+  //  public void notification(String msg) {
+  //	    for (Entry<UUID, UserAccount> account : userAccountRegistry.entrySet()) {
+  //	      account
+  //	          .getValue()
+  //	          .newNotification(new JSONMessaging(msg));
+  //	    }
+  //	  }
 
   public Stack<JSONObject> getNotifications(UserAccount activeUser) {
     return activeUser.getMessages();
@@ -291,7 +298,7 @@ public class Hub {
    * Populate storage files with JSON representations of device/user registries
    */
   public void shutdown() {
-    massSetStatus(Status.OFF);
+    // massSetStatus(Status.OFF);
     Storage.store(
         this.deviceRegistry.values(),
         this.userAccountRegistry.values(),
@@ -305,7 +312,7 @@ public class Hub {
       value.setStatus(onOff);
     }
     Logging.log("All devices turned off", Level.INFO);
-    notification("All devices turned off", UUID.randomUUID());
+    // TODO: notification("All devices turned off");
   }
 
   /*

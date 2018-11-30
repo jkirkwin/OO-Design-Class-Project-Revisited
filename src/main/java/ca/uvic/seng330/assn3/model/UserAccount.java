@@ -104,6 +104,10 @@ public class UserAccount implements StorageEntity {
     }
   }
 
+  public void newNotification(JSONMessaging msg) {
+    this.notificationList.push(msg);
+  }
+
   public Stack<JSONObject> getMessages() {
     Stack<JSONObject> copy = new Stack<JSONObject>();
     while (!this.notificationList.isEmpty()) {

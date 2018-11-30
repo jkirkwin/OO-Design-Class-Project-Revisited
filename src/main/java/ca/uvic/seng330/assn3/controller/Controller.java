@@ -11,6 +11,7 @@ import ca.uvic.seng330.assn3.view.scenebuilders.LoginSceneBuilder;
 import ca.uvic.seng330.assn3.view.scenebuilders.ManageDevicesBuilder;
 import ca.uvic.seng330.assn3.view.scenebuilders.ManageUsersBuilder;
 import ca.uvic.seng330.assn3.view.scenebuilders.SceneBuilder;
+import ca.uvic.seng330.assn3.view.scenebuilders.SeeNotificationsBuilder;
 import ca.uvic.seng330.assn3.view.scenebuilders.SelectDevicesBuilder;
 import ca.uvic.seng330.assn3.view.scenebuilders.devicebuilders.CameraSceneBuilder;
 import ca.uvic.seng330.assn3.view.scenebuilders.devicebuilders.LightbulbSceneBuilder;
@@ -108,6 +109,9 @@ public abstract class Controller {
 
       case SELECT_DEVICES:
         return new SelectDevicesBuilder(this, "Back");
+
+      case SEE_NOTIFICATIONS:
+        return new SeeNotificationsBuilder(this, "Back");
 
       default:
         // TODO: logging/Alert
