@@ -240,7 +240,7 @@ public class Hub {
         }
       }
     }
-    throw new NoSuchElementException("Incorrect password");
+    throw new NoSuchElementException("No User with matching credentials found");
   }
 
   /*
@@ -348,6 +348,8 @@ public class Hub {
       return deviceRegistry.get(uuid).getLabel();
     } else if (userAccountRegistry.containsKey(uuid)) {
       return userAccountRegistry.get(uuid).getUsername();
+    } else if(roomRegistry.containsKey(uuid)){
+      return roomRegistry.get(uuid).getLabel();
     } else {
       throw new NoSuchElementException("No user or device contains the specified UUID");
     }
