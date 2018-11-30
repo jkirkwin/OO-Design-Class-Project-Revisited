@@ -356,6 +356,8 @@ public class Hub {
       return deviceRegistry.get(uuid).getLabel();
     } else if (userAccountRegistry.containsKey(uuid)) {
       return userAccountRegistry.get(uuid).getUsername();
+    } else if (roomRegistry.containsKey(uuid)) {
+      return roomRegistry.get(uuid).getLabel();
     } else {
       throw new NoSuchElementException("No user or device contains the specified UUID");
     }
@@ -426,5 +428,14 @@ public class Hub {
   public void alert(String msg, Device pDevice) {
     // TODO should be moved to controller
     // Or should alert some list of observers in which Controller has registered
+  }
+
+  // TODO: merge with getIGList()
+  public ArrayList<UUID> getRoomsIds() {
+    ArrayList<UUID> idList = new ArrayList<UUID>();
+    for (UUID key : roomRegistry.keySet()) {
+      idList.add(key);
+    }
+    return idList;
   }
 }

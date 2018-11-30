@@ -9,6 +9,7 @@ import ca.uvic.seng330.assn3.view.scenebuilders.CreateDeviceBuilder;
 import ca.uvic.seng330.assn3.view.scenebuilders.HubSceneBuilder;
 import ca.uvic.seng330.assn3.view.scenebuilders.LoginSceneBuilder;
 import ca.uvic.seng330.assn3.view.scenebuilders.ManageDevicesBuilder;
+import ca.uvic.seng330.assn3.view.scenebuilders.ManageRoomsBuilder;
 import ca.uvic.seng330.assn3.view.scenebuilders.ManageUsersBuilder;
 import ca.uvic.seng330.assn3.view.scenebuilders.SceneBuilder;
 import ca.uvic.seng330.assn3.view.scenebuilders.SeeNotificationsBuilder;
@@ -97,16 +98,11 @@ public abstract class Controller {
       case MANAGE_DEVICES:
         return new ManageDevicesBuilder(new ManageDevicesController(), "Back");
 
-        //        TODO: review moving this to bottom of file
-        //      case MANAGE_NOTIFICATIONS:
-        //          return new manageNotificationsBuilder(this, "Back", activeUser.getIdentifier());
-
       case MANAGE_USERS:
         return new ManageUsersBuilder(this, "Back");
 
-      case SELECT_NOTIFICATIONS:
-        // TODO
-        break;
+      case MANAGE_ROOMS:
+        return new ManageRoomsBuilder(new RoomController(), "Back");
 
       case SELECT_DEVICES:
         return new SelectDevicesBuilder(this, "Back");

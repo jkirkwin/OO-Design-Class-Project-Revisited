@@ -65,6 +65,9 @@ public class HubSceneBuilder extends SceneBuilder {
       Button manageDevices = new Button("Manage Devices");
       manageDevices.setOnAction(event -> getController().handleAdminManageDevicesClick());
       manageDevices.setId("manage_devices");
+      Button manageRooms = new Button("Manage Rooms");
+      manageRooms.setOnAction(event -> getController().handleAdminManageRoomsClick());
+      manageRooms.setId("manage_rooms");
 
       ScrollPane logScrollPane = new ScrollPane();
       logScrollPane.setFitToHeight(true);
@@ -76,6 +79,7 @@ public class HubSceneBuilder extends SceneBuilder {
       HBox upperAdminPanel = new HBox(5);
       upperAdminPanel.getChildren().add(manageUsers);
       upperAdminPanel.getChildren().add(manageDevices);
+      upperAdminPanel.getChildren().add(manageRooms);
 
       adminPanel.getChildren().add(upperAdminPanel);
       adminPanel.getChildren().add(logScrollPane);
