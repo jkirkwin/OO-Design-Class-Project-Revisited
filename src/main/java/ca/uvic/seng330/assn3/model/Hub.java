@@ -35,8 +35,7 @@ public class Hub {
     if (!deviceRegistry.containsKey(newDevice.getIdentifier())) {
       deviceRegistry.put(newDevice.getIdentifier(), newDevice);
       Logging.logWithID("Device registered", newDevice.getIdentifier(), Level.INFO);
-      // This is where the incorrect-looking notification/log happens -> we are registering the device before setting the label TODO
-      notification(deviceRegistry.get(newDevice.getIdentifier()).getLabel() + " registered", newDevice.getIdentifier());
+      notification(newDevice.getLabel() + " registered", newDevice.getIdentifier());
     } else {
       throw new HubRegistrationException("Device with matching UUID previously registered.");
     }
@@ -356,7 +355,7 @@ public class Hub {
       return deviceRegistry.get(uuid).getLabel();
     } else if (userAccountRegistry.containsKey(uuid)) {
       return userAccountRegistry.get(uuid).getUsername();
-    } else if(roomRegistry.containsKey(uuid)){
+    } else if (roomRegistry.containsKey(uuid)) {
       return roomRegistry.get(uuid).getLabel();
     } else {
       throw new NoSuchElementException("No user or device contains the specified UUID");
@@ -427,5 +426,14 @@ public class Hub {
   public void alert(String msg, Device pDevice) {
     // TODO should be moved to controller
     // Or should alert some list of observers in which Controller has registered
+  }
+
+  // TODO: merge with getIGList()
+  public ArrayList<UUID> getRoomsIds() {
+    ArrayList<UUID> idList = new ArrayList<UUID>();
+    for (UUID key : roomRegistry.keySet()) {
+      idList.add(key);
+    }
+    return idList;
   }
 }

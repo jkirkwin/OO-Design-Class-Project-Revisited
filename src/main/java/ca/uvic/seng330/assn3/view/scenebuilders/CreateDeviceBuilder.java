@@ -9,6 +9,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
+import javafx.scene.control.Separator;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.HBox;
@@ -59,7 +60,7 @@ public class CreateDeviceBuilder extends SceneBuilder {
     topHalf.getChildren().add(typesForScroll);
     vbox.getChildren().add(topHalf);
 
-    vbox.getChildren().add(new Label("=============================="));
+    vbox.getChildren().add(new Separator());
 
     HBox lowerHalf = new HBox(10);
 

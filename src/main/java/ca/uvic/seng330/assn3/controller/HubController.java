@@ -30,4 +30,8 @@ public class HubController extends Controller {
   public Stack<JSONObject> getNotifications() {
     return hub.getNotifications(this.activeUser);
   }
+
+  public void handleAdminManageRoomsClick() {
+    client.setView(findBuilder(ViewType.MANAGE_ROOMS));
+  }
 }
