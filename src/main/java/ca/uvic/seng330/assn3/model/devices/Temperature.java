@@ -1,11 +1,9 @@
 package ca.uvic.seng330.assn3.model.devices;
 
-import java.io.IOException;
+import ca.uvic.seng330.assn3.logging.Logging;
 import java.util.Scanner;
 import org.json.JSONObject;
 import org.slf4j.event.Level;
-
-import ca.uvic.seng330.assn3.logging.Logging;
 
 public class Temperature implements Cloneable {
 

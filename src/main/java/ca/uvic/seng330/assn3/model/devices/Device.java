@@ -31,7 +31,7 @@ public abstract class Device implements StorageEntity {
     String dLabel = o.getString("label");
     UUID dID = Storage.getUUID(o.getJSONObject("id"));
     JSONObject dState = o.getJSONObject("state");
-    
+
     Device d = null;
     switch (o.getString("device_type")) {
       case "Camera":
@@ -61,7 +61,8 @@ public abstract class Device implements StorageEntity {
         break;
 
       default:
-        Logging.log("Failed to create Device from JSON. Likely passed invalid JSONObject.", Level.ERROR);
+        Logging.log(
+            "Failed to create Device from JSON. Likely passed invalid JSONObject.", Level.ERROR);
         return null;
     }
     Status dStatus = Status.valueOf(o.getString("status").toUpperCase());
@@ -97,7 +98,7 @@ public abstract class Device implements StorageEntity {
     try {
       hub.register(this);
     } catch (HubRegistrationException e) {
-          Logging.logWithID("Registration Failed : " + e.getMessage(), getIdentifier(), Level.ERROR);
+      Logging.logWithID("Registration Failed : " + e.getMessage(), getIdentifier(), Level.ERROR);
     }
   }
 

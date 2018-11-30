@@ -53,13 +53,13 @@ public class TestStorage extends IOTUnitTest {
 
   Hub h1;
   Hub h2;
-  
+
   @Before
   public void setup() {
     h1 = new Hub();
     h2 = new Hub();
   }
-  
+
   private static void editStaticFinalField(Field f, Object newValue)
       throws NoSuchFieldException, SecurityException, IllegalArgumentException,
           IllegalAccessException {
@@ -440,7 +440,7 @@ public class TestStorage extends IOTUnitTest {
       e.printStackTrace();
     }
     Camera[] oracles = new Camera[] {oracle1, oracle2, oracle3};
-    for(Device d : oracles) {
+    for (Device d : oracles) {
       try {
         h1.unregister(d);
       } catch (HubRegistrationException e) {
@@ -451,7 +451,7 @@ public class TestStorage extends IOTUnitTest {
     results[0] = (Camera) Camera.getDeviceFromJSON(oracle1.getJSON(), h1);
     results[1] = (Camera) Camera.getDeviceFromJSON(oracle2.getJSON(), h1);
     results[2] = (Camera) Camera.getDeviceFromJSON(oracle3.getJSON(), h1);
-    
+
     testAllFieldsEqual(oracles, results);
   }
 
@@ -479,7 +479,7 @@ public class TestStorage extends IOTUnitTest {
       e.printStackTrace();
     }
     Lightbulb[] oracles = new Lightbulb[] {oracle1, oracle2, oracle3};
-    for(Device d : oracles) {
+    for (Device d : oracles) {
       try {
         h1.unregister(d);
       } catch (HubRegistrationException e) {
@@ -517,7 +517,7 @@ public class TestStorage extends IOTUnitTest {
       e.printStackTrace();
     }
     SmartPlug[] oracles = new SmartPlug[] {oracle1, oracle2, oracle3};
-    for(Device d : oracles) {
+    for (Device d : oracles) {
       try {
         h1.unregister(d);
       } catch (HubRegistrationException e) {
@@ -559,7 +559,7 @@ public class TestStorage extends IOTUnitTest {
       e.printStackTrace();
     }
     Thermostat[] oracles = new Thermostat[] {oracle1, oracle2, oracle3};
-    for(Device d : oracles) {
+    for (Device d : oracles) {
       try {
         h1.unregister(d);
       } catch (HubRegistrationException e) {
