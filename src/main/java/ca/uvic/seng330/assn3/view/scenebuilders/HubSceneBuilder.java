@@ -1,14 +1,9 @@
 package ca.uvic.seng330.assn3.view.scenebuilders;
 
+import ca.uvic.seng330.assn3.controller.HubController;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.Scanner;
-import java.util.stream.Stream;
-
-import ca.uvic.seng330.assn3.controller.HubController;
 import javafx.geometry.Orientation;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -70,7 +65,7 @@ public class HubSceneBuilder extends SceneBuilder {
       Button manageDevices = new Button("Manage Devices");
       manageDevices.setOnAction(event -> getController().handleAdminManageDevicesClick());
       manageDevices.setId("manage_devices");
-      
+
       ScrollPane logScrollPane = new ScrollPane();
       logScrollPane.setFitToHeight(true);
       logScrollPane.setFitToWidth(true);
@@ -95,21 +90,21 @@ public class HubSceneBuilder extends SceneBuilder {
     hbox.setId("specifics");
     return hbox;
   }
-  
+
   private VBox logs() {
-	  VBox logsBox = new VBox(5);
-	  Scanner logsScanner;
-	try {
-		logsScanner = new Scanner(new File("src/logging/log.log"));
-	  for(int i=0; logsScanner.hasNext()&&i<100; i++) {
-		  String line = logsScanner.nextLine().substring(27);
-		  line = line.substring(0, 6)+line.substring(44);
-		  logsBox.getChildren().add(new Label(line));
-	  }
-	  logsScanner.close();
-	} catch (FileNotFoundException e) {
-		e.printStackTrace();
-	}
-	  return logsBox;
+    VBox logsBox = new VBox(5);
+    Scanner logsScanner;
+    try {
+      logsScanner = new Scanner(new File("src/logging/log.log"));
+      for (int i = 0; logsScanner.hasNext() && i < 100; i++) {
+        String line = logsScanner.nextLine().substring(27);
+        line = line.substring(0, 6) + line.substring(44);
+        logsBox.getChildren().add(new Label(line));
+      }
+      logsScanner.close();
+    } catch (FileNotFoundException e) {
+      e.printStackTrace();
+    }
+    return logsBox;
   }
 }
