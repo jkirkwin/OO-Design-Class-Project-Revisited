@@ -49,7 +49,6 @@ public class Hub {
     if (!userAccountRegistry.containsKey(newAccount.getIdentifier())) {
       userAccountRegistry.put(newAccount.getIdentifier(), newAccount);
       Logging.logWithID("Account registered", newAccount.getIdentifier(), Level.INFO);
-      // TODO: notification(newAccount.getUsername() + " has registered!");
     } else {
       throw new HubRegistrationException("User with matching UUID previously registered");
     }
@@ -60,7 +59,7 @@ public class Hub {
     if (!roomRegistry.containsKey(newRoom.getIdentifier())) {
       roomRegistry.put(newRoom.getIdentifier(), newRoom);
       Logging.logWithID("Room registered", newRoom.getIdentifier(), Level.INFO);
-      // TODO: notification("New Room " + newRoom.getLabel() + " Created");
+      notification("New Room " + newRoom.getLabel() + " Created", newRoom.getIdentifier());
     } else {
       throw new HubRegistrationException("Room with matching UUID previously registered");
     }
@@ -75,7 +74,7 @@ public class Hub {
       r.empty();
       roomRegistry.remove(r.getIdentifier());
       Logging.logWithID("Room unregistered", r.getIdentifier(), Level.INFO);
-      // TODO: notification("Room " + r.getLabel() + " has been deconstructed.");
+      notification("Room " + r.getLabel() + " has been deconstructed.", r.getIdentifier());
     } else {
       throw new HubRegistrationException("No such room registered to hub");
     }
@@ -190,13 +189,11 @@ public class Hub {
     }
   }
 
-  //  public void notification(String msg) {
-  //	    for (Entry<UUID, UserAccount> account : userAccountRegistry.entrySet()) {
-  //	      account
-  //	          .getValue()
-  //	          .newNotification(new JSONMessaging(msg));
-  //	    }
-  //	  }
+  public void notification(String msg) {
+    for (UserAccount account : userAccountRegistry.values()) {
+	      account.newNotification(JSONMessaging.getPlainNotification(msg));
+	    }
+	  }
 
   public Stack<JSONObject> getNotifications(UserAccount activeUser) {
     return activeUser.getMessages();
@@ -320,7 +317,7 @@ public class Hub {
       value.setStatus(onOff);
     }
     Logging.log("All devices turned off", Level.INFO);
-    // TODO: notification("All devices turned off");
+    notification("All devices turned off");
   }
 
   /*

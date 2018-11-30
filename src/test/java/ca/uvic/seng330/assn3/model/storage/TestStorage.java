@@ -631,7 +631,7 @@ public class TestStorage extends IOTUnitTest {
       result1 =
           (Room)
               getRoomFromJSON.invoke(
-                  oracle1, oracle1.getJSON(), h2); // TODO Exception thrown (and handled) in here
+                  oracle1, oracle1.getJSON(), h2);
       result2 = (Room) getRoomFromJSON.invoke(oracle2, oracle2.getJSON(), h2);
       assertTrue(result1.equals(oracle1));
       assertTrue(result2.equals(oracle2));

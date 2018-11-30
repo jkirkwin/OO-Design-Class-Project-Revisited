@@ -2,11 +2,14 @@ package ca.uvic.seng330.assn3.view.scenebuilders;
 
 import ca.uvic.seng330.assn3.controller.Controller;
 import ca.uvic.seng330.assn3.controller.HubController;
+
+import java.util.Iterator;
 import java.util.Stack;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
+import javafx.scene.control.Separator;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import org.json.JSONObject;
@@ -25,24 +28,27 @@ public class SeeNotificationsBuilder extends SceneBuilder {
     layout.setHbarPolicy(ScrollBarPolicy.ALWAYS);
     layout.setVbarPolicy(ScrollBarPolicy.ALWAYS);
     layout.setPrefViewportWidth(500);
-    layout.setPrefViewportHeight(100);
+    layout.setMinViewportHeight(100);
 
-    VBox rows = new VBox(10);
+    VBox rows = new VBox(20);
     Stack<JSONObject> notifications = new HubController().getNotifications();
-    HBox message;
+    VBox message;
     JSONObject curr;
-    Label date;
-    Label msg;
+    Label label;
     while (!notifications.isEmpty()) {
-      message = new HBox();
+      message = new VBox(10);
       curr = notifications.pop();
-
-      date = new Label(curr.get("sent_at").toString());
-      msg = new Label(curr.get("payload").toString());
-
-      message.getChildren().add(date);
-      message.getChildren().add(msg);
+      Iterator<String> keyIterator = curr.keys();
+      while(keyIterator.hasNext()) {
+        String key = keyIterator.next();
+        label = new Label(key + " : " + curr.get(key).toString());                
+        message.getChildren().add(label);
+      }
       rows.getChildren().add(message);
+      if(!notifications.isEmpty()) {
+        Separator s = new Separator();
+        rows.getChildren().add(s);
+      }
     }
 
     layout.setContent(rows);
