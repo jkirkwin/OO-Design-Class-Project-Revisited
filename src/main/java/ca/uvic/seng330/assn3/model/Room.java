@@ -72,17 +72,17 @@ public class Room implements StorageEntity {
       String devType = getDeviceType(curr);
       switch (event) {
         case MOTIONALERT:
-          if (devType == "LIGHTBULB") {
+          if (devType.equals("LIGHTBULB")) {
             curr.setStatus(Status.ON);
           }
           break;
         case VACANTROOMALERT:
-          if (devType == "LIGHTBULB") {
+          if (devType.equals("LIGHTBULB")) {
             curr.setStatus(Status.OFF);
           }
           break;
         case AMBIENTTEMP:
-          if (devType == "THERMOSTAT") {
+          if (devType.equals("THERMOSTAT")) {
             try {
               ((Thermostat) curr).setTemp(((Thermostat) curr).getDefaultTemperature());
             } catch (TemperatureOutOfBoundsException e) {
@@ -90,6 +90,9 @@ public class Room implements StorageEntity {
             }
           }
           break;
+        default:
+          Logging.logWithID("invalid event type passed. unable to notify occupants.", getIdentifier(), Level.ERROR);
+          return;
       }
     }
     // TODO: decide if redundant with hub line160

@@ -140,7 +140,7 @@ public class Hub {
     }
   }
 
-  public Room getRoomByID(UUID roomId) {
+  public Room getRoomByRoomID(UUID roomId) {
     assert roomId != null;
     assert roomRegistry.containsKey(roomId);
     return roomRegistry.get(roomId);
@@ -155,10 +155,10 @@ public class Hub {
   }
 
   public void notifyRoom(UUID deviceId, IOEEventType event) {
-    getRoomByID(deviceId).notifyOccupants(event);
+    getRoomByDeviceID(deviceId).notifyOccupants(event);
     Logging.logWithID("Event Occurred: " + event.toString(), deviceId, Level.INFO);
     notification(
-        "Event Occurred: " + event.toString() + " in Room " + getRoomByID(deviceId).getLabel(),
+        "Event Occurred: " + event.toString() + " in Room " + getRoomByDeviceID(deviceId).getLabel(),
         deviceId);
   }
 

@@ -97,7 +97,7 @@ public class TestHub extends IOTUnitTest {
   public void TestGetRoom() {
     try {
       Room r = new Room("room label", h);
-      assertTrue(h.getRoomByID(r.getIdentifier()).equals(r));
+      assertTrue(h.getRoomByRoomID(r.getIdentifier()).equals(r));
       for (Device d : devices) {
         d.setRoom(r);
         assertTrue(h.getRoomByDeviceID(d.getIdentifier()).equals(r));

@@ -73,16 +73,24 @@ public class Camera extends Device {
     }
   }
 
-  public void MotionDetect() {
-    this.getHub().notifyRoom(this.getIdentifier(), IOEEventType.MOTIONALERT);
-    this.getHub()
-        .notification(
-            "Camera " + this.getLabel() + " has detected motion in Room " + this.getRoom(),
-            this.getIdentifier());
+  public void motionDetect() {
+    if(isRecording) {
+      this.getHub().notifyRoom(this.getIdentifier(), IOEEventType.MOTIONALERT);
+      this.getHub()
+      .notification(
+          "Camera " + this.getLabel() + " has detected motion in Room " + this.getRoom(),
+          this.getIdentifier());      
+    }
   }
 
-  public void VacantDetect() {
-    this.getHub().notifyRoom(this.getIdentifier(), IOEEventType.VACANTROOMALERT);
+  public void vacantDetect() {
+    if(isRecording) {
+      this.getHub().notifyRoom(this.getIdentifier(), IOEEventType.VACANTROOMALERT);
+      this.getHub()
+      .notification(
+          "Camera " + this.getLabel() + " has detected vacancy in Room " + this.getRoom(),
+          this.getIdentifier());      
+    }
   }
 
   @Override
