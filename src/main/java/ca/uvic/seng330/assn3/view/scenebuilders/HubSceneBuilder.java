@@ -1,5 +1,13 @@
 package ca.uvic.seng330.assn3.view.scenebuilders;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Scanner;
+import java.util.stream.Stream;
+
 import ca.uvic.seng330.assn3.controller.HubController;
 import javafx.geometry.Orientation;
 import javafx.scene.Node;
@@ -44,7 +52,7 @@ public class HubSceneBuilder extends SceneBuilder {
     Button userNotifications = new Button("Notifications");
     userNotifications.setOnAction(event -> getController().notificationView());
 
-    VBox hubView = new VBox(10);
+    VBox hubView = new VBox(5);
     hubView.getChildren().add(new Label("Device Config"));
     hubView.getChildren().add(layout);
     hubView.getChildren().add(StartUpDown);
@@ -62,14 +70,20 @@ public class HubSceneBuilder extends SceneBuilder {
       Button manageDevices = new Button("Manage Devices");
       manageDevices.setOnAction(event -> getController().handleAdminManageDevicesClick());
       manageDevices.setId("manage_devices");
-      Button manageNotifications = new Button("Manage Notifications");
-      manageNotifications.setId("manage_notifications");
-      manageNotifications.setOnAction(
-          event -> getController().handleAdminManageNotificationsClick());
+      
+      ScrollPane logScrollPane = new ScrollPane();
+      logScrollPane.setFitToHeight(true);
+      logScrollPane.setFitToWidth(true);
+      logScrollPane.setVbarPolicy(ScrollBarPolicy.ALWAYS);
+      logScrollPane.setPrefViewportWidth(600);
+      logScrollPane.setContent(logs());
 
-      adminPanel.getChildren().add(manageUsers);
-      adminPanel.getChildren().add(manageDevices);
-      adminPanel.getChildren().add(manageNotifications);
+      HBox upperAdminPanel = new HBox(5);
+      upperAdminPanel.getChildren().add(manageUsers);
+      upperAdminPanel.getChildren().add(manageDevices);
+
+      adminPanel.getChildren().add(upperAdminPanel);
+      adminPanel.getChildren().add(logScrollPane);
 
       hbox.getChildren().add(divider);
       hubView = new VBox(10);
@@ -80,5 +94,22 @@ public class HubSceneBuilder extends SceneBuilder {
 
     hbox.setId("specifics");
     return hbox;
+  }
+  
+  private VBox logs() {
+	  VBox logsBox = new VBox(5);
+	  Scanner logsScanner;
+	try {
+		logsScanner = new Scanner(new File("src/logging/log.log"));
+	  for(int i=0; logsScanner.hasNext()&&i<100; i++) {
+		  String line = logsScanner.nextLine().substring(27);
+		  line = line.substring(0, 6)+line.substring(44);
+		  logsBox.getChildren().add(new Label(line));
+	  }
+	  logsScanner.close();
+	} catch (FileNotFoundException e) {
+		e.printStackTrace();
+	}
+	  return logsBox;
   }
 }

@@ -1,6 +1,10 @@
 package ca.uvic.seng330.assn3.controller;
 
 import ca.uvic.seng330.assn3.model.devices.Status;
+import ca.uvic.seng330.assn3.controller.Controller;
+import javafx.scene.Node;
+
+import java.util.ArrayList;
 import java.util.Stack;
 import org.json.JSONObject;
 
@@ -19,10 +23,6 @@ public class HubController extends Controller {
     client.setView(findBuilder(ViewType.MANAGE_DEVICES));
   }
 
-  public void handleAdminManageNotificationsClick() {
-    // TODO
-  }
-
   public void allOff() {
     hub.massSetStatus(Status.OFF);
     hub.shutdown();
@@ -36,4 +36,10 @@ public class HubController extends Controller {
   public Stack<JSONObject> getNotifications() {
     return hub.getNotifications(this.activeUser);
   }
+
+public ArrayList<String> getRecentLogs() {
+	ArrayList<String> recentLogs = new ArrayList<String>();
+	
+	return recentLogs;
+}
 }

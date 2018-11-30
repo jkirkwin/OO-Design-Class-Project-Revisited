@@ -1,5 +1,10 @@
 package ca.uvic.seng330.assn3.controller;
 
+import java.util.ArrayList;
+import java.util.EnumSet;
+import java.util.Stack;
+import java.util.UUID;
+
 import ca.uvic.seng330.assn3.model.Hub;
 import ca.uvic.seng330.assn3.model.HubRegistrationException;
 import ca.uvic.seng330.assn3.model.UserAccount;
@@ -17,10 +22,6 @@ import ca.uvic.seng330.assn3.view.scenebuilders.devicebuilders.CameraSceneBuilde
 import ca.uvic.seng330.assn3.view.scenebuilders.devicebuilders.LightbulbSceneBuilder;
 import ca.uvic.seng330.assn3.view.scenebuilders.devicebuilders.SmartPlugSceneBuilder;
 import ca.uvic.seng330.assn3.view.scenebuilders.devicebuilders.ThermostatSceneBuilder;
-import java.util.ArrayList;
-import java.util.EnumSet;
-import java.util.Stack;
-import java.util.UUID;
 import javafx.scene.control.Alert.AlertType;
 
 public abstract class Controller {
