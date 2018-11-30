@@ -1,5 +1,6 @@
 package ca.uvic.seng330.assn3.model.storage;
 
+import ca.uvic.seng330.assn3.logging.Logging;
 import ca.uvic.seng330.assn3.model.Hub;
 import ca.uvic.seng330.assn3.model.HubRegistrationException;
 import ca.uvic.seng330.assn3.model.Room;
@@ -19,6 +20,7 @@ import java.util.Scanner;
 import java.util.UUID;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.slf4j.event.Level;
 
 public class Storage {
   private static final String storageDirPath = "src" + File.separator + "storage" + File.separator;
@@ -45,6 +47,7 @@ public class Storage {
     storeEntities(devices, storageDirPath, deviceFileName);
     storeEntities(accounts, storageDirPath, accountFileName);
     storeEntities(rooms, storageDirPath, roomFileName);
+    Logging.log("Storage complete", Level.TRACE);
   }
 
   /*
@@ -61,8 +64,7 @@ public class Storage {
       entityStream = new PrintStream(entityFile);
       entityStream.println(getJSONArray(devices));
     } catch (IOException e) {
-      // TODO Log error creating/writing to file and consider handling procedures
-      e.printStackTrace();
+      Logging.log("Error writing to file. Review storage directory structure!", Level.ERROR);
     } finally {
       if (entityStream != null) {
         entityStream.close();
@@ -95,7 +97,7 @@ public class Storage {
     ensureDirExists(destinationDirPath);
     File destinationDir = new File(destinationDirPath);
     assert destinationDir.exists() && destinationDir.isDirectory();
-
+    
     File destDeviceFile = new File(destinationDirPath + deviceFileName);
     File destAccountFile = new File(destinationDirPath + accountFileName);
     File destRoomFile = new File(destinationDirPath + roomFileName);
@@ -116,6 +118,7 @@ public class Storage {
             Paths.get(deviceFileToMove.getPath()),
             Paths.get(destDeviceFile.getPath()),
             StandardCopyOption.REPLACE_EXISTING);
+        Logging.log("moved device file to storage\\old", Level.DEBUG);
       }
       // move account file to destination
       if (accountFileToMove.exists()) {
@@ -123,6 +126,7 @@ public class Storage {
             Paths.get(accountFileToMove.getPath()),
             Paths.get(destAccountFile.getPath()),
             StandardCopyOption.REPLACE_EXISTING);
+        Logging.log("moved account file to storage\\old", Level.DEBUG);
       }
       // move room file to destination
       if (roomFileToMove.exists()) {
@@ -130,12 +134,14 @@ public class Storage {
             Paths.get(roomFileToMove.getPath()),
             Paths.get(destRoomFile.getPath()),
             StandardCopyOption.REPLACE_EXISTING);
+        Logging.log("moved room file to storage\\old", Level.DEBUG);
       }
 
     } catch (IOException e) {
       e.printStackTrace();
-      // TODO Log this error
+      Logging.log("IOException thrown when cleaning dir, attempting to move old items to " + destinationDirPath, Level.ERROR);
     }
+    Logging.log("directory cleaned. old content moved to " + destinationDirPath + ".", Level.TRACE);
   }
 
   public static List<Device> getDevices(Hub hub) {
@@ -144,7 +150,7 @@ public class Storage {
 
     File deviceFile = new File(storageDirPath + deviceFileName);
     if (!deviceFile.exists() || !deviceFile.canRead()) {
-      // TODO Log that no device file was found
+      Logging.log("no storage file for devices found", Level.WARN);
       return javaDevices;
     }
 
@@ -156,8 +162,7 @@ public class Storage {
       }
     } catch (IOException e) {
       e.printStackTrace();
-      // TODO Log error
-      // Consider handling options
+      Logging.log("IOException thrown in getDevices. Consider rolling back to previous storage file set", Level.ERROR);
     }
 
     return javaDevices;
@@ -170,7 +175,7 @@ public class Storage {
 
     File accountFile = new File(storageDirPath + accountFileName);
     if (!accountFile.exists() || !accountFile.canRead()) {
-      // TODO Log that no Accounts file was found
+      Logging.log("no storage file for accounts found", Level.WARN);
       return javaAccounts;
     }
 
@@ -182,8 +187,7 @@ public class Storage {
       }
     } catch (IOException e) {
       e.printStackTrace();
-      // TODO Log error
-      // Consider handling options
+      Logging.log("IOException thrown in getAccounts. Consider rolling back to previous storage file set", Level.ERROR);
     }
     return javaAccounts;
   }
@@ -192,7 +196,7 @@ public class Storage {
     List<Room> javaRooms = new ArrayList<Room>();
     File roomFile = new File(storageDirPath + roomFileName);
     if (!roomFile.exists() || !roomFile.canRead()) {
-      // TODO that no rooms file was found
+      Logging.log("no storage file for rooms found", Level.WARN);
       return javaRooms;
     }
     try {
@@ -203,11 +207,9 @@ public class Storage {
       }
     } catch (IOException e) {
       e.printStackTrace();
-      // TODO Log error
-      // Consider handling options
+      Logging.log("IOException thrown in getRooms. Consider rolling back to previous storage file set", Level.ERROR);
     } catch (HubRegistrationException e) {
-      // TODO Log error
-      e.printStackTrace();
+      Logging.log("Failed to register room to hub in getRooms. Consider rolling back to previous storage file set", Level.ERROR);
     }
     return javaRooms;
   }
@@ -232,6 +234,7 @@ public class Storage {
       return;
     }
     dir.mkdirs();
+    Logging.log("created directory " + dirPath, Level.INFO);
   }
 
   private static String getDateStamp() {
