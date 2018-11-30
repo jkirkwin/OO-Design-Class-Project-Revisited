@@ -9,9 +9,13 @@ import ca.uvic.seng330.assn3.model.devices.Camera;
 import ca.uvic.seng330.assn3.model.devices.Device;
 import ca.uvic.seng330.assn3.model.devices.Lightbulb;
 import ca.uvic.seng330.assn3.model.devices.SmartPlug;
+import ca.uvic.seng330.assn3.model.devices.Status;
 import ca.uvic.seng330.assn3.model.devices.Thermostat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.UUID;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -37,6 +41,101 @@ public class TestHub extends IOTUnitTest {
       devices.add(new Lightbulb("lb" + i, h));
       devices.add(new SmartPlug("plug" + i, h));
       devices.add(new Thermostat("thermo" + i, h));
+    }
+  }
+  
+  @Test
+  public void testMassStatusChange() {
+    for(Device d : devices) {
+      assertTrue(d.getStatus().equals(Status.ON));
+    }
+    devices.get(0).setStatus(Status.OFF);
+    devices.get(1).setStatus(Status.ERROR);
+    h.massSetStatus(Status.OFF);
+    for(Device d : devices) {
+      assertTrue(d.getStatus().equals(Status.OFF));
+    }
+  }
+
+  @Test
+  public void testUUIDUnregistration() {
+    // Device ID
+    for(Device d : devices) {
+      try {
+        h.unregister(d.getIdentifier());
+      } catch (HubRegistrationException e) {
+        fail("device deregistration failed");
+      }
+      assertFalse(h.isRegisteredDevice(d.getIdentifier()));
+    }
+
+    // UserAccount ID
+    UserAccount a = new UserAccount(h, AccessLevel.ADMIN, "username", "password");
+    assertTrue(h.isRegisteredUserAccount(a.getIdentifier()));
+    try {
+      h.unregister(a.getIdentifier());
+    } catch (HubRegistrationException e) {
+      fail("account deregistration failed");      
+    }
+    assertFalse(h.isRegisteredUserAccount(a.getIdentifier()));
+    
+    // Room ID
+    Room r = null;
+    try {
+      r = new Room("room label", h);
+    } catch (HubRegistrationException e1) {
+      fail("room registration failed");
+    }
+    assertTrue(h.isRegisteredRoom(r.getIdentifier()));
+    try {
+      h.unregister(r.getIdentifier());
+    } catch (HubRegistrationException e) {
+      fail("room deregistration failed");      
+    }
+    assertFalse(h.isRegisteredRoom(a.getIdentifier()));
+    
+    // Invalid ID
+    try {
+      h.unregister(UUID.randomUUID());
+      fail("no exception thrown");
+    } catch(HubRegistrationException e) {}
+  }
+
+  @Test
+  public void testShutdown() {
+    // TODO
+    assertTrue(false);
+  }
+
+  @Test
+  public void testStartup() {
+    // TODO
+    assertTrue(false);
+  }
+
+  @Test
+  public void testUserAccountRegistration() {
+    Hub dummyHub = new Hub();
+    UserAccount[] accounts = new UserAccount[5];
+    for (int i = 0; i < accounts.length; i++) {
+      AccessLevel lvl = i%2 == 0 ? AccessLevel.ADMIN : AccessLevel.BASIC;
+      accounts[i] = new UserAccount(dummyHub, lvl, "username" + i, "password" + i);
+    }
+    for (UserAccount a : accounts) {
+      assertTrue(dummyHub.isRegisteredUserAccount(a.getIdentifier()));
+      try {
+        dummyHub.unregister(a);
+      } catch (HubRegistrationException e1) {
+        fail("Exception thrown");
+      }
+      assertFalse(dummyHub.isRegisteredUserAccount(a.getIdentifier()));
+      try {
+        h.register(a);
+      } catch (HubRegistrationException e) {
+        fail("unable to register room");
+      }
+      assertTrue(h.isRegisteredUserAccount(a.getIdentifier()));
+      assertTrue(h.getUser(a.getUsername(), a.getPassword()) == a);
     }
   }
 
@@ -66,6 +165,7 @@ public class TestHub extends IOTUnitTest {
         fail("unable to register room");
       }
       assertTrue(h.isRegisteredRoom(r.getIdentifier()));
+      assertTrue(h.isLabelUsed(r.getLabel()));
     }
   }
 
@@ -108,9 +208,23 @@ public class TestHub extends IOTUnitTest {
   }
 
   @Test
-  public void testAccountAdministration() {
-    // TODO
-    assertTrue(false);
+  public void testGetLabel() {
+    UserAccount a = new UserAccount(h, AccessLevel.BASIC, "username", "password");
+    Room r = null;
+    try {
+      r = new Room("label", h);
+    } catch (HubRegistrationException e) {
+      fail();
+    }    
+    assertTrue(devices.get(0).getLabel().equals(h.getLabel(devices.get(0).getIdentifier())));
+    assertTrue(r.getLabel().equals(h.getLabel(r.getIdentifier())));
+    assertTrue(a.getUsername().equals(h.getLabel(a.getIdentifier())));
+    
+    try {
+      h.getLabel(UUID.randomUUID());
+      fail();
+    } catch(NoSuchElementException e) {}
+    
   }
 
   @Test

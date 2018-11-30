@@ -118,8 +118,8 @@ public class Camera extends Device {
       }
     }
     this.status = status;
-    Logging.logWithID("Camera turned " + status.toString(), getIdentifier(), Level.INFO);
+    Logging.logWithID("Camera " + this.getLabel() + " turned " + status.toString(), getIdentifier(), Level.INFO);
     this.getHub()
-        .notification("Camera " + this.getLabel() + " has been turned OFF", this.getIdentifier());
+        .notification("Camera " + this.getLabel() + " has been turned " + status.toString(), this.getIdentifier());
   }
 }

@@ -244,7 +244,7 @@ public class Hub {
         }
       }
     }
-    throw new NoSuchElementException("Incorrect password");
+    throw new NoSuchElementException("No User with matching credentials found");
   }
 
   public UserAccount getUser(UUID user) {
@@ -311,7 +311,6 @@ public class Hub {
    * Populate storage files with JSON representations of device/user registries
    */
   public void shutdown() {
-    // massSetStatus(Status.OFF);
     Storage.store(
         this.deviceRegistry.values(),
         this.userAccountRegistry.values(),
@@ -387,16 +386,16 @@ public class Hub {
     Device added = null;
     switch (newDevice) {
       case CAMERA:
-        added = new Camera(this);
+        added = new Camera(customLabel, this);
         break;
       case SMARTPLUG:
-        added = new SmartPlug(this);
+        added = new SmartPlug(customLabel, this);
         break;
       case LIGHTBULB:
-        added = new Lightbulb(this);
+        added = new Lightbulb(customLabel, this);
         break;
       case THERMOSTAT:
-        added = new Thermostat(this);
+        added = new Thermostat(customLabel, this);
         break;
       default:
         Logging.log("Invalid parameter passed. No such device type.", Level.ERROR);
@@ -408,7 +407,6 @@ public class Hub {
     } else {
       added.setStatus(Status.OFF);
     }
-    added.setLabel(customLabel);
   }
 
   /*
