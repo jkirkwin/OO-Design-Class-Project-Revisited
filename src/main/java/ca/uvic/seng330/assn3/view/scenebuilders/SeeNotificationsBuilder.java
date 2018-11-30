@@ -2,7 +2,6 @@ package ca.uvic.seng330.assn3.view.scenebuilders;
 
 import ca.uvic.seng330.assn3.controller.Controller;
 import ca.uvic.seng330.assn3.controller.HubController;
-
 import java.util.Iterator;
 import java.util.Stack;
 import javafx.scene.Node;
@@ -10,7 +9,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.scene.control.Separator;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import org.json.JSONObject;
 
@@ -29,6 +27,7 @@ public class SeeNotificationsBuilder extends SceneBuilder {
     layout.setVbarPolicy(ScrollBarPolicy.ALWAYS);
     layout.setPrefViewportWidth(500);
     layout.setMinViewportHeight(100);
+    layout.setMaxHeight(500);
 
     VBox rows = new VBox(20);
     Stack<JSONObject> notifications = new HubController().getNotifications();
@@ -39,13 +38,13 @@ public class SeeNotificationsBuilder extends SceneBuilder {
       message = new VBox(10);
       curr = notifications.pop();
       Iterator<String> keyIterator = curr.keys();
-      while(keyIterator.hasNext()) {
+      while (keyIterator.hasNext()) {
         String key = keyIterator.next();
-        label = new Label(key + " : " + curr.get(key).toString());                
+        label = new Label(key + " : " + curr.get(key).toString());
         message.getChildren().add(label);
       }
       rows.getChildren().add(message);
-      if(!notifications.isEmpty()) {
+      if (!notifications.isEmpty()) {
         Separator s = new Separator();
         rows.getChildren().add(s);
       }

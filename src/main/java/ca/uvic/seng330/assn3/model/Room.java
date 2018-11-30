@@ -43,7 +43,8 @@ public class Room implements StorageEntity {
     String oldLabel = this.label;
     this.label = newLabel;
     Logging.logWithID("Modified room label", getIdentifier(), Level.TRACE);
-    this.hub.notification("Room " + oldLabel + " has been renamed " + newLabel, this.getIdentifier());
+    this.hub.notification(
+        "Room " + oldLabel + " has been renamed " + newLabel, this.getIdentifier());
   }
 
   public UUID getIdentifier() {
@@ -91,7 +92,10 @@ public class Room implements StorageEntity {
           }
           break;
         default:
-          Logging.logWithID("invalid event type passed. unable to notify occupants.", getIdentifier(), Level.ERROR);
+          Logging.logWithID(
+              "invalid event type passed. unable to notify occupants.",
+              getIdentifier(),
+              Level.ERROR);
           return;
       }
     }

@@ -384,7 +384,9 @@ public class TestStorage extends IOTUnitTest {
     } catch (HubRegistrationException e1) {
       fail("unable to create/register room");
     }
-    JSONObject userNotification = JSONMessaging.getUserAccountNotification("useraccount message", new UserAccount(h1, AccessLevel.ADMIN, "username", "password"));
+    JSONObject userNotification =
+        JSONMessaging.getUserAccountNotification(
+            "useraccount message", new UserAccount(h1, AccessLevel.ADMIN, "username", "password"));
     JSONObject plainNotification = JSONMessaging.getPlainNotification("a plain string of text");
     notifications.push(roomNotification);
     notifications.push(userNotification);
@@ -628,10 +630,7 @@ public class TestStorage extends IOTUnitTest {
       Room result1 = null;
       Room result2 = null;
 
-      result1 =
-          (Room)
-              getRoomFromJSON.invoke(
-                  oracle1, oracle1.getJSON(), h2);
+      result1 = (Room) getRoomFromJSON.invoke(oracle1, oracle1.getJSON(), h2);
       result2 = (Room) getRoomFromJSON.invoke(oracle2, oracle2.getJSON(), h2);
       assertTrue(result1.equals(oracle1));
       assertTrue(result2.equals(oracle2));

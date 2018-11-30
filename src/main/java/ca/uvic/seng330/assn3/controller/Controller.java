@@ -1,10 +1,5 @@
 package ca.uvic.seng330.assn3.controller;
 
-import java.util.ArrayList;
-import java.util.EnumSet;
-import java.util.Stack;
-import java.util.UUID;
-
 import ca.uvic.seng330.assn3.model.Hub;
 import ca.uvic.seng330.assn3.model.HubRegistrationException;
 import ca.uvic.seng330.assn3.model.UserAccount;
@@ -22,6 +17,11 @@ import ca.uvic.seng330.assn3.view.scenebuilders.devicebuilders.CameraSceneBuilde
 import ca.uvic.seng330.assn3.view.scenebuilders.devicebuilders.LightbulbSceneBuilder;
 import ca.uvic.seng330.assn3.view.scenebuilders.devicebuilders.SmartPlugSceneBuilder;
 import ca.uvic.seng330.assn3.view.scenebuilders.devicebuilders.ThermostatSceneBuilder;
+import ca.uvic.seng330.assn3.view.scenebuilders.manageNotificationsBuilder;
+import java.util.ArrayList;
+import java.util.EnumSet;
+import java.util.Stack;
+import java.util.UUID;
 import javafx.scene.control.Alert.AlertType;
 
 public abstract class Controller {
@@ -97,9 +97,9 @@ public abstract class Controller {
       case MANAGE_DEVICES:
         return new ManageDevicesBuilder(new ManageDevicesController(), "Back");
 
-      case MANAGE_NOTIFICATIONS:
-        // TODO
-        break;
+        //        TODO: review moving this to bottom of file
+        //      case MANAGE_NOTIFICATIONS:
+        //          return new manageNotificationsBuilder(this, "Back", activeUser.getIdentifier());
 
       case MANAGE_USERS:
         return new ManageUsersBuilder(this, "Back");
@@ -195,7 +195,6 @@ public abstract class Controller {
    */
   public void handleDeviceViewClick(UUID uuid) {
     assert uuid != null;
-    // TODO: review use of import of Device
 
     views.push(ViewType.DEVICE_VIEW);
     client.setTitle(ViewType.DEVICE_VIEW.toString());
@@ -238,5 +237,29 @@ public abstract class Controller {
   // TODO Move this?
   public void handleUserViewClick(UUID id) {
     client.setView(findBuilder(ViewType.SELECT_DEVICES));
+  }
+
+  public void handleUsersVisabilityClick(UUID userData) {
+    views.push(ViewType.MANAGE_NOTIFICATIONS);
+    client.setTitle(ViewType.MANAGE_NOTIFICATIONS.toString());
+    client.setView(new manageNotificationsBuilder(this, "Back", userData));
+  }
+
+  public String isDeviceBlackListed(UUID user, UUID device) {
+    if (this.getHub().getBlackList(this.getHub().getUser(user)).contains(device)) {
+      return "BlackListed";
+    } else {
+      return "WhiteListed";
+    }
+  }
+
+  public void blackListToggle(UUID user, UUID device) {
+    if (this.getHub().getBlackList(this.getHub().getUser(user)).contains(device)) {
+      this.getHub().getUser(user).whiteList(device);
+    } else {
+      this.getHub().getUser(user).blackList(device);
+    }
+    ViewType currentView = views.pop();
+    this.handleUsersVisabilityClick(user);
   }
 }

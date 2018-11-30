@@ -30,7 +30,7 @@ public class HubSceneBuilder extends SceneBuilder {
 
   @Override
   protected Node buildSpecifics() {
-    HBox hbox = new HBox(10);
+    HBox hbox = new HBox(5);
 
     ScrollPane layout = new ScrollPane();
     layout.setFitToHeight(true);
@@ -95,6 +95,7 @@ public class HubSceneBuilder extends SceneBuilder {
     VBox logsBox = new VBox(5);
     Scanner logsScanner;
     try {
+      // TODO: review whether to have the logging path in view.
       logsScanner = new Scanner(new File("src/logging/log.log"));
       for (int i = 0; logsScanner.hasNext() && i < 100; i++) {
         String line = logsScanner.nextLine().substring(27);

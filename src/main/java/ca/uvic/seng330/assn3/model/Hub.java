@@ -158,7 +158,10 @@ public class Hub {
     getRoomByDeviceID(deviceId).notifyOccupants(event);
     Logging.logWithID("Event Occurred: " + event.toString(), deviceId, Level.INFO);
     notification(
-        "Event Occurred: " + event.toString() + " in Room " + getRoomByDeviceID(deviceId).getLabel(),
+        "Event Occurred: "
+            + event.toString()
+            + " in Room "
+            + getRoomByDeviceID(deviceId).getLabel(),
         deviceId);
   }
 
@@ -176,12 +179,13 @@ public class Hub {
   public void notification(String msg, UUID entitiyID) {
     JSONObject notification;
     for (UserAccount account : userAccountRegistry.values()) {
-      if(deviceRegistry.containsKey(entitiyID)) {
+      if (deviceRegistry.containsKey(entitiyID)) {
         notification = JSONMessaging.getDeviceNotification(msg, deviceRegistry.get(entitiyID));
-      } else if(roomRegistry.containsKey(entitiyID)) {
+      } else if (roomRegistry.containsKey(entitiyID)) {
         notification = JSONMessaging.getRoomNotification(msg, roomRegistry.get(entitiyID));
-      } else if(userAccountRegistry.containsKey(entitiyID)) {
-        notification = JSONMessaging.getUserAccountNotification(msg, userAccountRegistry.get(entitiyID));
+      } else if (userAccountRegistry.containsKey(entitiyID)) {
+        notification =
+            JSONMessaging.getUserAccountNotification(msg, userAccountRegistry.get(entitiyID));
       } else {
         notification = JSONMessaging.getPlainNotification(msg);
       }
@@ -191,9 +195,9 @@ public class Hub {
 
   public void notification(String msg) {
     for (UserAccount account : userAccountRegistry.values()) {
-	      account.newNotification(JSONMessaging.getPlainNotification(msg));
-	    }
-	  }
+      account.newNotification(JSONMessaging.getPlainNotification(msg));
+    }
+  }
 
   public Stack<JSONObject> getNotifications(UserAccount activeUser) {
     return activeUser.getMessages();
@@ -241,6 +245,10 @@ public class Hub {
       }
     }
     throw new NoSuchElementException("Incorrect password");
+  }
+
+  public UserAccount getUser(UUID user) {
+    return this.userAccountRegistry.get(user);
   }
 
   /*
