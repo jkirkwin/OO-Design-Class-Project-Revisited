@@ -1,22 +1,22 @@
 # A style document describing the development of our design decisions
 
-
-
 ## Model
 
-The Model has been largely inherited from assignment two. Using Hub as our Primary EntryPoint, we can access all Devices and UserAccounts in our system. The Model is completely independent and does not rely on ANYTHING outside itself. Using Rooms as a bundling object, devices are pooled together so as to alert each other when they need to interact.
+The Model has been largely inherited from assignment two. Using Hub as our Primary EntryPoint, we can access all Devices and UserAccounts in our system. The Model is completely independent and does not rely on anything outside itself. Using Rooms as a bundling object, devices are pooled together so as to alert each other when they need to interact.
 
 ### Hub
 
 The Hub is the core of our model. It is responsible for registering and unregistering for all devices and UserAccounts in the system, and for holding aggregations and mappings of all entities currently in the system. It can also access almost any information about the objects it holds. This allows it to stay as the main point of contact for Controller for most functionality.
 
-While the aspiration is for the Hub to be the only thing able to access that which it holds, it became unwieldly to continue that implementation. In an effort to avoid having a GODFUNCTION of a hub, we decided to implement getUser() and getDevice() so we could be more flexible in Controller, and separate concerns more effectively.
+While the aspiration is for the Hub to be the only thing able to access that which it holds, it became unwieldly to continue that implementation. In an effort to avoid having a God-Class of a hub, we decided to implement getUser() and getDevice() so we could be more flexible in Controller, and separate concerns more effectively.
 
 Hub also acts as a mediator within the model, in that it is the go-between in nearly all communication between other model entities (UserAccounts, Devices, and Rooms primarily). 
 
 #### Notifications
 
 We have added Notifications to our Model to let our System talk to our Users even when they're away. Each UserAccount stores all the notifications from all the devices they're allowed to interact with. Notifications go through hub and into the notification stack of any users that don't have the device in their blacklist. Notifications can be about various things in the model (rooms, devices, users) as well as for generic "plain" notifications that are not tied to any particular model entity. When the Notifications are accessed, they're removed from UserAccount and given to View to be displayed for the User.
+
+We moved the notifications from being stored as JSONMessaging objects (as they were in A2/A3) to being stored as simple JSONObjects. This cut down on storage and complexity by removing all the device references that were stored in the JSONMessaging objects, preventing old device objects from getting garbage collected until all users had cleared their notifications. JSONMessaging.java was repurposed as a utility class for creating notification for the system.
 
 ### Rooms
 
@@ -92,6 +92,8 @@ FindBuilder() was echoed with deviceViewSwitch() to keep it clean code and to fi
 
 The controller re-factor focused on separating all non-universal functions into appropriate modules, and moving each of these functionality bundles into its own class, which extend the Controller class. Necessitated by this modification was a few changes to the interaction between View and Controller. Most Scenes in View have a corresponding Sub-Controller: a class which extends controller and thus contains all necessary public utility functionality as well as all specific use functions relevant to the view in questions. Some views share a specialized controller: For example, the AdminHub and BasicHub client views are both controlled by HubController.
 
+We've also introduced logging. The specs and properties set for the logger can be seen in logging\Logging.java. We elected for a single logger to be used by the entire system for simplicity's sake. Logs are stored indefinitely, and most recent ones are displayed to admins when they log in.
+
 ### System UML
 
 ![](UML Diagrams/System.png)
@@ -157,6 +159,11 @@ The Biggest changes since last submission are the addition of Manage Rooms, Noti
 
 We have done our best to have our test package structure mimic that of the source code. The storage package has been fully tested, and the UI processes needed for our acceptance tests has been tested for the most part. We have a few basic model tests, and our next step before anything else will be fleshing out our model coverage. Once the controller re-factor is complete, we will move forward with unit tests for that package too, noting that some controller testing has been done via the UI tests found in the view package.
 
+Unfortunately, gradle does not play nicely with two of our model tests (although it runs and passes as expected when run as a JUnit test from within Eclipse). Because of these compatability issues, `gradle test` appears to hang up after a little while. Once this happens go ahead and force end the process with Control+C. Then you'll get the failure report. (PS, @The Marker, if you know why it works in eclipse but not when run from cmd, we would love to know).
+
+We also ran into a snag when combining out UI and model test suites. The setup required for the UI tests affects the storage tests and prevents some of them from running. We decided to work on the source code instead of rectifying this because we did not have time to do both. For ideal results, we have been running the two test suites seperately (which you can do by moving all the view tests to their own folder). In this case, all tests pass as expected.
+
+
 ### How to Launch the app
 
 * From the command line (at least on Jamie's win 10 machine!!) type `gradle run`.
@@ -165,7 +172,6 @@ We have done our best to have our test package structure mimic that of the sourc
 ### How to run the test suite
 
 * From the command line (on Jamie's win 10 machine!!) type `gradle test`. 
-Unfortunately, gradle does not play nicely with one of our UI tests (although it runs and passes as expected when run as a JUnit test from within Eclipse). Because of this, `gradle test` appears to hang up after a little while. Once this happens go ahead and force end the process with Control+C. Then you'll get the failure report. (PS, @The Marker, if you know why it works in eclipse but not when run from cmd, PLEASE let us know).
 * From eclipse, run the src/test/java folder as a JUnit test.
 
 ### Changes from Assignment#3
