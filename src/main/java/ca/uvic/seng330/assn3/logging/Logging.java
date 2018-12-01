@@ -20,7 +20,9 @@ public class Logging {
       Storage.ensureDirExists(logDir);
       try {
         File logFile = new File(fileName);
-        logFile.createNewFile();
+        if(!logFile.exists()) {
+          logFile.createNewFile();          
+        }
       } catch (IOException e) {
         e.printStackTrace();
       }

@@ -4,6 +4,7 @@ import ca.uvic.seng330.assn3.controller.Controller;
 import ca.uvic.seng330.assn3.controller.threading.LabelCheck;
 import ca.uvic.seng330.assn3.logging.Logging;
 import ca.uvic.seng330.assn3.view.controller.threading.StatusCheck;
+import ca.uvic.seng330.assn3.view.scenebuilders.devicebuilders.DeviceSceneBuilder;
 
 import java.util.ArrayList;
 import java.util.UUID;
@@ -91,23 +92,26 @@ public abstract class SceneBuilder {
     for (int i = 0; i < deviceList.size(); i++) {
       
       // Threading for Z2
-      Object[] statusWrapper = new Object[1];
-      Object[] labelWrapper = new Object[1];
-      Thread statusCheck = new Thread(new StatusCheck(getController(), deviceList.get(i), statusWrapper));
-      Thread labelCheck = new Thread(new LabelCheck(getController(), deviceList.get(i), labelWrapper));
-      statusCheck.start();
-      labelCheck.start();
-      try {
-        labelCheck.join();
-        labelCheck.join();
-      } catch (InterruptedException e) {
-        Logging.log("Thread interrupted.", Level.ERROR);
-      }
+//      Object[] statusWrapper = new Object[1];
+//      Object[] labelWrapper = new Object[1];
+//      Thread statusCheck = new Thread(new StatusCheck(getController(), deviceList.get(i), statusWrapper));
+//      Thread labelCheck = new Thread(new LabelCheck(getController(), deviceList.get(i), labelWrapper));
+//      statusCheck.start();
+//      labelCheck.start();
+//      try {
+//        labelCheck.join();
+//        labelCheck.join();
+//      } catch (InterruptedException e) {
+//        Logging.log("Thread interrupted.", Level.ERROR);
+//      }
+//      String label = labelWrapper[0].toString();
+//      String statusStr = statusWrapper[0].toString();
+
+      String label = getController().getLabel(deviceList.get(i));
+      String statusStr = getController().devStatus(deviceList.get(i));
       Button button = new Button();
       button.setUserData(deviceList.get(i));
       button.setOnAction(event -> controller.handleDeviceViewClick((UUID) button.getUserData()));
-      String label = labelWrapper[0].toString();
-      String statusStr = statusWrapper[0].toString();
       button.setId(label);
       button.setText(label + " - " + statusStr);
 
