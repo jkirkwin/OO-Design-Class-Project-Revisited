@@ -45,17 +45,19 @@ public class ManageRoomsBuilder extends SceneBuilder {
     layout.setVbarPolicy(ScrollBarPolicy.ALWAYS);
     layout.setMaxHeight(300);
 
-    HBox hbox = new HBox(30);
-
+    HBox titles = new HBox(70);
+    titles.getChildren().add(new Label("View Room\nOccupants"));
+    titles.getChildren().add(new Label("Delete Room\n\n"));
+    
     VBox viewUsers = hubRoomsList(new VBox(10));
-    viewUsers.getChildren().add(0, new Label("View Room\nOccupants"));
     VBox deleteUsers = hubDeleteList(new VBox(10), getController().getRoomIDs());
-    deleteUsers.getChildren().add(0, new Label("Delete Room\n\n"));
-
+    
+    HBox hbox = new HBox(120);
     hbox.getChildren().add(viewUsers);
     hbox.getChildren().add(deleteUsers);
     layout.setContent(hbox);
     total.getChildren().add(newRoom);
+    total.getChildren().add(titles);
     total.getChildren().add(layout);
 
     return total;
