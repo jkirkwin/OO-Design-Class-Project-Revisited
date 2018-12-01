@@ -1,8 +1,11 @@
 package ca.uvic.seng330.assn3.controller;
 
+import ca.uvic.seng330.assn3.logging.Logging;
 import ca.uvic.seng330.assn3.model.devices.Device;
 import ca.uvic.seng330.assn3.model.devices.Status;
 import java.util.UUID;
+
+import org.slf4j.event.Level;
 
 public abstract class DeviceController extends Controller {
 
@@ -23,7 +26,7 @@ public abstract class DeviceController extends Controller {
     } else if (curr.getStatus() == Status.OFF) {
       curr.setStatus(Status.ON);
     } else {
-      // TODO: alert that device is broken.
+    	Logging.logWithID("Device in ERROR state.", id, Level.WARN);
     }
     deviceViewSwitch(id);
   }
