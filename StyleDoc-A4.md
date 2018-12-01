@@ -4,23 +4,29 @@
 
 ## Model
 
-The Model has been largely inherited from assignments 2/3. Using Hub as our Primary entry point, we can access all Devices, Rooms, and UserAccounts in our system. The Model is completely independant and does not rely on ANYTHING outside itself. This allows us to keep business logic primarily in the controller partition of the application, and any logic that is dependant on the way the user is interacting with the application in the Controller and View partitions.
+The Model has been largely inherited from assignment two. Using Hub as our Primary EntryPoint, we can access all Devices and UserAccounts in our system. The Model is completely independent and does not rely on ANYTHING outside itself. Using Rooms as a bundling object, devices are pooled together so as to alert each other when they need to interact.
 
 ### Hub
 
-The Hub is the core of our model. It is responsible for registering and unregistering for all Devices, Rooms, and UserAccounts in the system and for holding aggregations and mappings of all entities currently in the system. It can also access almost any information about the objects it holds. This allows it to stay as the point of contact for Controller in most cases.
+The Hub is the core of our model. It is responsible for registering and unregistering for all devices and UserAccounts in the system, and for holding aggregations and mappings of all entities currently in the system. It can also access almost any information about the objects it holds. This allows it to stay as the main point of contact for Controller for most functionality.
 
-While the aspiration is for the Hub to be the only thing able to access that which it holds, it became unwieldly to continue that implementation. In an effort to avoid having a God-Class of a hub, we decided to implement getUser() and getDevice() so we could be more flexible in Controller, and seperate concerns more effectively.
+While the aspiration is for the Hub to be the only thing able to access that which it holds, it became unwieldly to continue that implementation. In an effort to avoid having a GODFUNCTION of a hub, we decided to implement getUser() and getDevice() so we could be more flexible in Controller, and separate concerns more effectively.
 
-Hub also acts as a mediator within the model, in that it is the go-between in nearly all communication between other model entities (UserAccounts and Devices, primarily).
+Hub also acts as a mediator within the model, in that it is the go-between in nearly all communication between other model entities (UserAccounts, Devices, and Rooms primarily). 
 
 ### UserAccount
 
-UserAccount is responsible for knowing it's own accessLevel, which Hub it belongs to, it's username and password for verification, and it also holds the blacklist of devices it may not see. We decided to have the UserAccounts store their own accessLevel and Device Blacklist so as to limit complexity of Hub and seperate concerns more intuitively. 
+UserAccount is responsible for knowing it's own accessLevel, which Hub it belongs to, it's username and password for verification, and it also holds the blacklist of devices it may not see or recieve notifications from.
 
-### Room
-Rooms serve as an optional feature that allows the model to group certain devices together. Device such as cameras and thermostats take in information and pass this along to their room, in the form of an event. The room then takes appropriate actions on other devices in it (for example, it turns off lightbulbs if the camera notifies it that there is no movement in the room) and notifies the hub.
+We decided to have the UserAccounts store their own accessLevel and Device Blacklist so as to limit complexity of Hub. 
 
+### Rooms
+
+Rooms are Objects which are responsible for knowing which Devices have been assigned to them, which Hub has jurisdiction over it's Devices, and adding/removing these objects from itself. We made the Rooms purposefully detached from a physical concept of a room so that, in actual use, it could apply to groups of Devices linked together for a reason other than that they share the same physical space. 
+
+#### Events
+
+Sometimes events will occur that will require devices talking to each other. Rooms are used to dictate which Devices should be alerted by any other given Device. Rather than having every Lightbulb in the smarthouse turn on when someone steps into the foyer, the house will wait for the camera in the halleay to detect movement before lighting up the next room. Eco-friendly AND convenient!!
 
 ### Device
 
@@ -30,7 +36,7 @@ We use the UUID to do all important tasks in the system. Every time we want to g
 
 #### Camera
 
-Camera extends Device and is responsible for keeping track of if it is recording, the diskSize (space currently used) and if it is full or not.
+Camera extends Device and is responsible for keeping track of if it is recording, the diskSize (space currently used) and if it is full or not. It also uses a WebView to stream the camera's Data to the DeviceConfigScreen. The video stream is only active when the Camera is turned on and recording, as per the specs.
 
 #### Thermostat
 	
@@ -91,7 +97,7 @@ Client is the class in view that serves as the point of contact for controller. 
 
 ### SceneBuilder
 
-SceneBuilder and its extensions serve as a simple, concise way to create any necessary view within the Client GUI. It makes use of the Template design pattern, where the buildCommon() method adds all Nodes common to all extensions of the class, while buildSpecifics() adds on the Nodes needed for the specific view being displayed. The build() method packages the results of buildCommon and buildSpecifics into a Scene object and returns this, ready to be displayed by Client. 
+SceneBuilder and its extensions serve as a simple, concise method to create any necessary view within the Client GUI. It makes use of the Template design pattern, where the buildCommon() method adds all Nodes common to all extensions of the class, while buildSpecifics() adds on the Nodes needed for the specific view being displayed. The build() method packages the results of buildCommon and buildSpecifics into a Scene object and returns this, ready to be displayed by Client. 
 
 #### LoginView
 
@@ -137,9 +143,7 @@ The remaining Devices only require the basic Device Functionality but have been 
 
 ### Testing
 
-We have done our best to have our test package structure mimic that of the source code. The model and UI portions have been tested to our satisfaction, but we would have liked to be able to add more direct testing of controller. That said, we still get pretty solid coverage of controller through the UI tests. 
-
-The UI processes needed for our acceptance tests has been tested for the most part.
+We have done our best to have our test package structure mimic that of the source code. The storage package has been fully tested, and the UI processes needed for our acceptance tests has been tested for the most part. We have a few basic model tests, and our next step before anything else will be fleshing out our model coverage. Once the controller re-factor is complete, we will move forward with unit tests for that package too, noting that some controller testing has been done via the UI tests found in the view package.
 
 ### How to Launch the app
 
