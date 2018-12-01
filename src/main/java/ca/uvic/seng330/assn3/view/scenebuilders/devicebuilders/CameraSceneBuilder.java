@@ -70,7 +70,7 @@ public class CameraSceneBuilder extends DeviceSceneBuilder {
     toggleRecording.setOnAction(
         event -> {
           getController().setCameraRecording();
-          if(getController().getCameraRecording()) {
+          if (getController().getCameraRecording()) {
             setVideoURL(videoURL);
           }
         });

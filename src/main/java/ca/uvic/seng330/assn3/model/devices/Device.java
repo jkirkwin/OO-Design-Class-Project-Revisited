@@ -155,7 +155,8 @@ public abstract class Device implements StorageEntity {
   public void setStatus(Status status) {
     this.status = status;
     hub.notification(this.getLabel() + " is now " + status.toString(), this.getIdentifier());
-    Logging.logWithID("Device Status set to "+status.toString(), this.getIdentifier(), Level.INFO);
+    Logging.logWithID(
+        "Device Status set to " + status.toString(), this.getIdentifier(), Level.INFO);
   }
 
   public Hub getHub() {
@@ -165,7 +166,7 @@ public abstract class Device implements StorageEntity {
   public void setLabel(String newLabel) {
     assert newLabel != null;
     this.label = newLabel;
-    Logging.logWithID("Device Label set to "+newLabel, this.getIdentifier(), Level.INFO);
+    Logging.logWithID("Device Label set to " + newLabel, this.getIdentifier(), Level.INFO);
   }
 
   public String getLabel() {
@@ -187,7 +188,7 @@ public abstract class Device implements StorageEntity {
   public void setRoom(Room r) {
     assert r != null;
     this.room = r;
-    Logging.logWithID("Device Room set to "+r.getLabel(), this.getIdentifier(), Level.INFO);
+    Logging.logWithID("Device Room set to " + r.getLabel(), this.getIdentifier(), Level.INFO);
   }
 
   /*

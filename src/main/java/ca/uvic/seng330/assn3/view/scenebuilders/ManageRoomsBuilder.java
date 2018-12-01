@@ -48,10 +48,10 @@ public class ManageRoomsBuilder extends SceneBuilder {
     HBox titles = new HBox(70);
     titles.getChildren().add(new Label("View Room\nOccupants"));
     titles.getChildren().add(new Label("Delete Room\n\n"));
-    
+
     VBox viewUsers = hubRoomsList(new VBox(10));
     VBox deleteUsers = hubDeleteList(new VBox(10), getController().getRoomIDs());
-    
+
     HBox hbox = new HBox(120);
     hbox.getChildren().add(viewUsers);
     hbox.getChildren().add(deleteUsers);

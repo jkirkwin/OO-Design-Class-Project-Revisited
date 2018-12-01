@@ -8,10 +8,8 @@ import ca.uvic.seng330.assn3.model.devices.Thermostat;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.UUID;
-
-import org.slf4j.event.Level;
-
 import javafx.scene.control.Alert.AlertType;
+import org.slf4j.event.Level;
 
 public class ThermostatController extends DeviceController {
 
@@ -30,7 +28,8 @@ public class ThermostatController extends DeviceController {
           "Invalid Temperature",
           "Invalid Temperature",
           "Try something more reasonable...");
-      Logging.logWithID("Bad Temperature input: "+magnitude+degreeType.toString(), id, Level.WARN);
+      Logging.logWithID(
+          "Bad Temperature input: " + magnitude + degreeType.toString(), id, Level.WARN);
     }
     deviceViewSwitch(id);
   }
@@ -66,7 +65,7 @@ public class ThermostatController extends DeviceController {
       setThermostatTemp(id, Double.parseDouble(newTempMag), degree);
     } catch (NumberFormatException e) {
       // TODO: alert to missing textfield
-    	Logging.logWithID("NumberFormatException", id, Level.INFO);
+      Logging.logWithID("NumberFormatException", id, Level.INFO);
       assert false;
     }
   }

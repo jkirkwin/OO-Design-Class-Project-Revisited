@@ -29,6 +29,4 @@ public class ManageDevicesController extends Controller {
 
     refresh();
   }
-
-  
 }
