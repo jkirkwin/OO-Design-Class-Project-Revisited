@@ -50,6 +50,8 @@ Thermostat extends Device and is responsible for holding the Temperature, and ma
 
 Lightbulb & SmartPlug extend Device and are responsible for knowing if they are active or not.
 
+![](UML Diagrams/A4/ModelDevices.png)
+
 ### Storage
 
 The Storage sub-package of model is repsonsible for converting all stateful entities within the model into a JSON representation, storing these entities  in a consistent system storage directory (consistency ensured by the storage package itself), recording previous system states in the event that an error occurs and the user would like to roll back the model to the last recorded state, and re-building the model (exactly as it was at shutdown) from the JSON representation.
@@ -96,7 +98,7 @@ We've also introduced logging. The specs and properties set for the logger can b
 
 ### System UML
 
-![](UML Diagrams/A4/System.png)
+![](UML Diagrams/A4/Controller.png)
 
 
 ## View
