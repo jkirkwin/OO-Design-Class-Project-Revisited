@@ -1,5 +1,6 @@
 package ca.uvic.seng330.assn3.controller;
 
+import ca.uvic.seng330.assn3.logging.Logging;
 import ca.uvic.seng330.assn3.model.devices.Temperature;
 import ca.uvic.seng330.assn3.model.devices.Temperature.TemperatureOutOfBoundsException;
 import ca.uvic.seng330.assn3.model.devices.Temperature.Unit;
@@ -8,6 +9,7 @@ import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.UUID;
 import javafx.scene.control.Alert.AlertType;
+import org.slf4j.event.Level;
 
 public class ThermostatController extends DeviceController {
 
@@ -26,6 +28,8 @@ public class ThermostatController extends DeviceController {
           "Invalid Temperature",
           "Invalid Temperature",
           "Try something more reasonable...");
+      Logging.logWithID(
+          "Bad Temperature input: " + magnitude + degreeType.toString(), id, Level.WARN);
     }
     deviceViewSwitch(id);
   }
@@ -51,6 +55,7 @@ public class ThermostatController extends DeviceController {
           "Temp Converted",
           "New " + thermostat.getTemp().toString(),
           thermostat.toString() + " cannot take temp oustide bounds");
+      Logging.logWithID("Bad Temperature conversion", id, Level.WARN);
     }
     deviceViewSwitch(id);
   }
@@ -60,6 +65,7 @@ public class ThermostatController extends DeviceController {
       setThermostatTemp(id, Double.parseDouble(newTempMag), degree);
     } catch (NumberFormatException e) {
       // TODO: alert to missing textfield
+      Logging.logWithID("NumberFormatException", id, Level.INFO);
       assert false;
     }
   }

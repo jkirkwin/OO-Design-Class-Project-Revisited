@@ -1,10 +1,11 @@
 package ca.uvic.seng330.assn3.controller;
 
+import ca.uvic.seng330.assn3.logging.Logging;
 import ca.uvic.seng330.assn3.model.devices.Camera;
 import ca.uvic.seng330.assn3.model.devices.CameraFullException;
-import javafx.scene.control.Alert.AlertType;
-
 import java.util.UUID;
+import javafx.scene.control.Alert.AlertType;
+import org.slf4j.event.Level;
 
 public class CameraController extends DeviceController {
 
@@ -14,7 +15,6 @@ public class CameraController extends DeviceController {
 
   public boolean getCameraRecording() {
     assert id != null;
-    // TODO: review importing devices.camera
     return ((Camera) hub.getDevice(id)).isRecording();
   }
 
@@ -23,7 +23,12 @@ public class CameraController extends DeviceController {
     try {
       ((Camera) hub.getDevice(id)).record();
     } catch (CameraFullException e) {
-      client.alertUser(AlertType.ERROR, "Camera full", "No more disk space", "The camera cannot hold anymore footage. Please clear the disk.");
+      Logging.log("CameraFullException", Level.WARN);
+      client.alertUser(
+          AlertType.ERROR,
+          "Camera full",
+          "No more disk space",
+          "The camera cannot hold anymore footage. Please clear the disk.");
     }
     deviceViewSwitch(id);
   }
@@ -46,7 +51,6 @@ public class CameraController extends DeviceController {
 
   @Override
   public void handleBackClick() {
-
     super.handleBackClick();
   }
 }

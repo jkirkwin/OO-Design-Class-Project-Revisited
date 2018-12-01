@@ -1,11 +1,13 @@
 package ca.uvic.seng330.assn3.controller;
 
+import ca.uvic.seng330.assn3.logging.Logging;
 import ca.uvic.seng330.assn3.model.HubRegistrationException;
 import ca.uvic.seng330.assn3.model.Room;
 import ca.uvic.seng330.assn3.model.devices.Device;
 import ca.uvic.seng330.assn3.view.scenebuilders.ManageRoomOccupantsBuilder;
 import java.util.ArrayList;
 import java.util.UUID;
+import org.slf4j.event.Level;
 
 public class RoomController extends Controller {
 
@@ -27,14 +29,14 @@ public class RoomController extends Controller {
   }
 
   public void makeNewRoom(String roomLabel) {
-    assert roomLabel!=null;
-    String uniqueLabel = getUniqueDeviceLabel(roomLabel);  
-	  try {
+    assert roomLabel != null;
+    String uniqueLabel = getUniqueDeviceLabel(roomLabel);
+    try {
       Room fresh = new Room(uniqueLabel, this.getHub());
     } catch (HubRegistrationException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
+      Logging.log("Room " + roomLabel + " wasn't registered to Hub.", Level.WARN);
     }
+    Logging.log("Room " + roomLabel + " has been registered to Hub.", Level.INFO);
     this.refresh();
   }
 
@@ -43,8 +45,13 @@ public class RoomController extends Controller {
     Device currDevice = this.getHub().getDevice(deviceId);
     if (currRoom.getOccupants().contains(currDevice)) {
       currRoom.removeRoomDevice(currDevice);
+      Logging.log(
+          "Device " + currRoom.getLabel() + " removed from Room " + currDevice.getLabel(),
+          Level.INFO);
     } else {
       currRoom.addRoomDevice(deviceId);
+      Logging.log(
+          "Device " + currRoom.getLabel() + " added to Room " + currDevice.getLabel(), Level.INFO);
     }
     this.handleRoomsAssignmentClick(roomId);
   }

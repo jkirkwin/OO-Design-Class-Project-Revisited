@@ -45,8 +45,7 @@ public abstract class DeviceSceneBuilder extends SceneBuilder {
     vbox.getChildren().add(newLabel);
     Button confirmLabel = new Button("Change Label");
     confirmLabel.setId("change_label");
-    confirmLabel.setOnAction(
-        event -> getController().changeDeviceLabel(newLabel.getText()));
+    confirmLabel.setOnAction(event -> getController().changeDeviceLabel(newLabel.getText()));
     vbox.getChildren().add(confirmLabel);
 
     HBox hbox = new HBox(30);

@@ -1,5 +1,6 @@
 package ca.uvic.seng330.assn3.controller;
 
+import ca.uvic.seng330.assn3.logging.Logging;
 import ca.uvic.seng330.assn3.model.Hub;
 import ca.uvic.seng330.assn3.model.HubRegistrationException;
 import ca.uvic.seng330.assn3.model.UserAccount;
@@ -23,6 +24,7 @@ import java.util.ArrayList;
 import java.util.Stack;
 import java.util.UUID;
 import javafx.scene.control.Alert.AlertType;
+import org.slf4j.event.Level;
 
 public abstract class Controller {
   // TODO: implement observable
@@ -53,6 +55,7 @@ public abstract class Controller {
     assert !views.isEmpty();
     ViewType currentView = views.pop();
     client.setView(findBuilder(currentView));
+    Logging.log("Scene Refreshed", Level.DEBUG);
   }
 
   public void handleBackClick() {
@@ -62,12 +65,13 @@ public abstract class Controller {
       client.close();
       return;
     } else if (views.peek() == ViewType.HUB_BASIC || views.peek() == ViewType.HUB_ADMIN) {
-      // log out
+      // TODO: log out
       activeUser = null;
     }
     client.setTitle(views.peek().toString());
     views.pop();
     client.setView(findBuilder(views.pop()));
+    Logging.log("Back to Previous Scene", Level.DEBUG);
   }
 
   /*
@@ -78,40 +82,46 @@ public abstract class Controller {
     // Generate the appropriate SceneBuilder based on for the ViewType
     views.push(view);
     client.setTitle(view.toString());
+    Logging.log("View " + view.toString() + " pushed to stack", Level.DEBUG);
     switch (view) {
       case LOGIN:
         return new LoginSceneBuilder(new LoginController(), "Close");
 
       case CREATE_DEVICE:
-        // TODO
-        // We don't need to create a new one, since it's the same kind of controller used
-        // at manage devices, which is the sole precursor to this view
+        Logging.log("ManageDevicesController used.", Level.DEBUG);
         return new CreateDeviceBuilder(new ManageDevicesController(), "Back");
 
       case HUB_ADMIN:
+        Logging.log("HubController used.", Level.DEBUG);
         return new HubSceneBuilder(new HubController(), "Log Out", true);
 
       case HUB_BASIC:
+        Logging.log("HubController used.", Level.DEBUG);
         return new HubSceneBuilder(new HubController(), "Log Out", false);
 
       case MANAGE_DEVICES:
+        Logging.log("ManageDevicesController used.", Level.DEBUG);
         return new ManageDevicesBuilder(new ManageDevicesController(), "Back");
 
       case MANAGE_USERS:
+        Logging.log("Main Controller used.", Level.DEBUG);
         return new ManageUsersBuilder(this, "Back");
 
       case MANAGE_ROOMS:
+        Logging.log("RoomController used.", Level.DEBUG);
         return new ManageRoomsBuilder(new RoomController(), "Back");
 
       case SELECT_DEVICES:
+        Logging.log("Main Controller used.", Level.DEBUG);
         return new SelectDevicesBuilder(this, "Back");
 
       case SEE_NOTIFICATIONS:
+        Logging.log("Main Controller used.", Level.DEBUG);
         return new SeeNotificationsBuilder(this, "Back");
 
       default:
-        // TODO: logging/Alert
-        System.out.println("No case in controller.findBuilder() for viewType " + view);
+        Logging.log(
+            "No case in controller.findBuilder() for viewType " + view.toString(), Level.WARN);
         break;
     }
     return null;
@@ -169,8 +179,7 @@ public abstract class Controller {
     try {
       hub.unregister(uuid);
     } catch (HubRegistrationException e) {
-      // TODO remove stacktrace print and add log
-      e.printStackTrace();
+      Logging.logWithID("Hub has not registered entity", uuid, Level.ERROR);
     }
     if (isDevice) {
       client.alertUser(
@@ -205,15 +214,31 @@ public abstract class Controller {
       case CAMERA:
         client.setView(
             new CameraSceneBuilder(new CameraController(uuid), "Back", uuid)); // TODO Fix
+        Logging.log(
+            getDeviceType(hub.getDevice(uuid)).toString()
+                + " View pushed to stack: CameraController used.",
+            Level.DEBUG);
         break;
       case LIGHTBULB:
         client.setView(new LightbulbSceneBuilder(new LightbulbController(uuid), "Back", uuid));
+        Logging.log(
+            getDeviceType(hub.getDevice(uuid)).toString()
+                + " View pushed to stack: LightbulbController used.",
+            Level.DEBUG);
         break;
       case SMARTPLUG:
         client.setView(new SmartPlugSceneBuilder(new SmartPlugController(uuid), "Back", uuid));
+        Logging.log(
+            getDeviceType(hub.getDevice(uuid)).toString()
+                + " View pushed to stack: SmartPlugController used.",
+            Level.DEBUG);
         break;
       case THERMOSTAT:
         client.setView(new ThermostatSceneBuilder(new ThermostatController(uuid), "Back", uuid));
+        Logging.log(
+            getDeviceType(hub.getDevice(uuid)).toString()
+                + " View pushed to stack: ThermostatController used.",
+            Level.DEBUG);
         break;
     }
   }
@@ -221,7 +246,7 @@ public abstract class Controller {
   protected DeviceType getDeviceType(Device d) {
     return DeviceType.valueOf(d.getClass().getSimpleName().toUpperCase());
   }
-  
+
   /*
    * @pre baseLabel != null
    */
@@ -233,6 +258,7 @@ public abstract class Controller {
       uniqueLabel = baseLabel + "(" + i + ")";
       i++;
     }
+    Logging.log("Label Collision. Label changed to " + uniqueLabel, Level.TRACE);
     return uniqueLabel;
   }
 
@@ -244,6 +270,8 @@ public abstract class Controller {
   public void handleUsersVisabilityClick(UUID userData) {
     views.push(ViewType.MANAGE_NOTIFICATIONS);
     client.setTitle(ViewType.MANAGE_NOTIFICATIONS.toString());
+    Logging.log(
+        "View " + ViewType.MANAGE_NOTIFICATIONS.toString() + " pushed to stack", Level.DEBUG);
     client.setView(new ManageNotificationsBuilder(this, "Back", userData));
   }
 
@@ -258,8 +286,12 @@ public abstract class Controller {
   public void blackListToggle(UUID user, UUID device) {
     if (this.getHub().getBlackList(this.getHub().getUser(user)).contains(device)) {
       this.getHub().getUser(user).whiteList(device);
+      Logging.logWithID(
+          " device has been whitelisted by user " + user.toString(), device, Level.INFO);
     } else {
       this.getHub().getUser(user).blackList(device);
+      Logging.logWithID(
+          " device has been blacklisted by user " + user.toString(), device, Level.INFO);
     }
     ViewType currentView = views.pop();
     this.handleUsersVisabilityClick(user);

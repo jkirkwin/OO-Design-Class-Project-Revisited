@@ -20,6 +20,6 @@ public class SmartPlugSceneBuilder extends DeviceSceneBuilder {
   protected Node buildSpecifics() {
     HBox hbox = new HBox();
     hbox.setMinSize(100, 100);
-    return hbox; 
+    return hbox;
   }
 }
