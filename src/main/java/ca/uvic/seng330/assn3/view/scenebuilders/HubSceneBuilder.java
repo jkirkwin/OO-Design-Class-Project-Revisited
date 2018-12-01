@@ -73,10 +73,9 @@ public class HubSceneBuilder extends SceneBuilder {
       ScrollPane logScrollPane = new ScrollPane();
       logScrollPane.setFitToHeight(true);
       logScrollPane.setFitToWidth(true);
+      logScrollPane.setHbarPolicy(ScrollBarPolicy.ALWAYS);
       logScrollPane.setVbarPolicy(ScrollBarPolicy.ALWAYS);
-      logScrollPane.setPrefViewportWidth(600);
       logScrollPane.setContent(logs());
-      logScrollPane.setMaxHeight(500);
 
       HBox upperAdminPanel = new HBox(5);
       upperAdminPanel.getChildren().add(manageUsers);
@@ -106,15 +105,8 @@ public class HubSceneBuilder extends SceneBuilder {
           new Scanner(
               new File("src" + File.separator + "logging" + File.separator + "historical.log"));
       for (int i = 0; logsScanner.hasNext() && i < 100; i++) {
-        String line = null;
         String rawLine = logsScanner.nextLine();
-        try {
-          line = rawLine.substring(27);
-          line = line.substring(0, 6) + line.substring(44);
-        } catch (Exception e) {
-          line = rawLine;
-        }
-        logsBox.getChildren().add(new Label(line));
+        logsBox.getChildren().add(new Label(rawLine));
       }
       logsScanner.close();
     } catch (FileNotFoundException e) {
