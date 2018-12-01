@@ -26,7 +26,7 @@ TODO:
 * Tests for Thermostat (All devices now have tests)
 
 ### Logging
-* Logs saved in src/logging/log.log (my most creatively named addition to this project yet)
+* Logs saved in src/logging/session.log for each session, old logs moved in to historical.log each time a new session starts
 * Added logging utility class to be used by the entire application
 * Added logging to Non-GUI tests indicating when each class starts
 * Added logging to model package
@@ -41,4 +41,6 @@ TODO:
 * Added events (camera detecting vacancy/motion, thermostat detecting change in temp) and test cases to illustrate their usage.
 
 ### Concurrency
-* For test Z2 we added labelCheck and statusCheck threads used when constructing the device config screen (see HubSceneBuilder).
+* For test Z2 we added labelCheck and statusCheck threads. We have not actually used them in any of the UI code as of right now.
+TODO
+* Run these from controller to check status/labels asynchronously
