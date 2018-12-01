@@ -20,7 +20,6 @@ import org.junit.Test;
 
 public class TestHub extends IOTUnitTest {
 
-  // TODO
   /*
    * Test Room creation, deletion, switching, etc with various device
    * Test UserAccount creation, deletion, switching, etc with various device

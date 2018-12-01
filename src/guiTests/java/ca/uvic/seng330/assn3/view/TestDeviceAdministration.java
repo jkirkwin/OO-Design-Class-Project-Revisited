@@ -70,10 +70,7 @@ public class TestDeviceAdministration extends IOTApplicationGUITest {
   public void testDevicesCreation() {
     String label;
     Status status;
-    String[] deviceStrings = new String[controller.getDeviceTypes().size()];
-    for (int i = 0; i < 4; i++) {
-      deviceStrings[i] = controller.getDeviceTypes().get(i).toString().toLowerCase();
-    }
+    String[] deviceStrings = {"camera", "lightbulb", "smartplug", "thermostat"};
     GUITestUtilities.goToCreateDevice(this);
     for (int i = 0; i < 4; i++) {
       status = i % 2 == 0 ? Status.ON : Status.OFF;

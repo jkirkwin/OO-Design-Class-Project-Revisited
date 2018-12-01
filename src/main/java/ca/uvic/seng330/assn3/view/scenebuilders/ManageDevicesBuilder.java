@@ -22,7 +22,6 @@ public class ManageDevicesBuilder extends SceneBuilder {
 
   @Override
   protected Node buildSpecifics() {
-    // TODO: re-factor out hub and this into new method somewhere
     HBox hbox = new HBox(10);
     hbox.setMinSize(300, 100);
 

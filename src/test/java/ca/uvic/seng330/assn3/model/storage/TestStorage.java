@@ -637,8 +637,6 @@ public class TestStorage extends IOTUnitTest {
     } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
       e.printStackTrace();
     } catch (HubRegistrationException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
       fail("Error registering rooms");
     }
   }

@@ -1,9 +1,12 @@
 package ca.uvic.seng330.assn3.view;
 
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 import static org.testfx.api.FxAssert.verifyThat;
 import static org.testfx.matcher.control.LabeledMatchers.hasText;
 
+import ca.uvic.seng330.assn3.model.devices.Camera;
+import ca.uvic.seng330.assn3.model.devices.CameraFullException;
 import ca.uvic.seng330.assn3.model.devices.Device;
 import ca.uvic.seng330.assn3.model.devices.Lightbulb;
 import ca.uvic.seng330.assn3.model.devices.SmartPlug;
@@ -14,8 +17,6 @@ import ca.uvic.seng330.assn3.model.devices.Thermostat;
 import org.junit.Test;
 
 public class TestDeviceUsage extends IOTApplicationGUITest {
-
-  // TODO Add camera usage tests
 
   /*
    * change label
@@ -141,5 +142,82 @@ public class TestDeviceUsage extends IOTApplicationGUITest {
 
     // Status
     doToggleTest(s);
+  }
+  
+  @Test
+  public void testCameraUsage() {
+    Camera c1 = new Camera("cam1", hub);
+    Camera c2 = new Camera("cam2", hub);
+    doTestCameraUsage(true, c1);
+    GUITestUtilities.backToLogin(this, client);
+    doTestCameraUsage(false, c2);
+  }
+
+  private void doTestCameraUsage(boolean isAdmin, Camera c) {
+    String label = c.getLabel();
+    if(isAdmin) {
+      GUITestUtilities.goToAdminHub(this);
+    } else {
+      GUITestUtilities.goToBasicHub(this);
+    }
+    
+    // Label
+    clickOn("#"+label);
+    verifyThat("#current_label", hasText(label));
+    doChangeLabelTest(c, "a different label");
+    
+    // Status
+    doToggleTest(c);    
+  }
+  
+  @Test
+  public void testCameraStatus() {    
+    // Toggle status should prevent recording
+    Camera c = new Camera("issacamera", hub);
+    GUITestUtilities.goToBasicHub(this);
+    clickOn("#" + c.getLabel());
+    GUITestUtilities.wait(3);
+    clickOn("#record");
+    verifyThat("#record", hasText("true"));
+    clickOn("#status_toggle");
+    verifyThat("#record", hasText("false"));
+    clickOn("#record");
+    verifyThat("#record", hasText("false"));
+  }
+  
+  @Test
+  public void testCameraDiskSpace() {
+    // Reset disk space
+    String label = "cam";
+    Camera c = new Camera(label, hub);
+    while(c.currentDiskSize() < 10) {
+      try {
+        c.record();
+      } catch (CameraFullException e) {
+        fail();
+      }
+    }
+    GUITestUtilities.goToBasicHub(this);
+    clickOn("#" + c.getLabel());
+    verifyThat("#empty_disk", hasText(c.currentDiskSize() + "/" + c.maxDiskSize()));
+    clickOn("#empty_disk");
+    verifyThat("#empty_disk", hasText("0/" + c.maxDiskSize()));
+    assertTrue(c.currentDiskSize() == 0);
+
+    // verify diskspace error is shown
+    GUITestUtilities.backToLogin(this, client);
+    while(c.currentDiskSize() < c.maxDiskSize() - 1) {
+      try {
+        c.record();
+      } catch (CameraFullException e) {
+        fail();
+      }
+    }
+    GUITestUtilities.goToAdminHub(this);
+    clickOn("#" + c.getLabel());
+    verifyThat("#empty_disk", hasText(c.currentDiskSize() + "/" + c.maxDiskSize()));
+    clickOn("#record");
+    clickOn("#record");
+    clickOn("OK");
   }
 }

@@ -47,7 +47,6 @@ public class ThermostatController extends DeviceController {
 
   public void changeThermostatDegreeType(UUID id) {
     Thermostat thermostat = ((Thermostat) hub.getDevice(id));
-    // TODO: handle temp out of bound exceptions
     // TODO: set to max or min acceptable?
     try {
       thermostat.changeTempUnits();
