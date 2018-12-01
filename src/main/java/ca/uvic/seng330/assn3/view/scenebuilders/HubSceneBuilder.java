@@ -99,7 +99,7 @@ public class HubSceneBuilder extends SceneBuilder {
     VBox logsBox = new VBox(5);
     Scanner logsScanner;
     try {
-      logsScanner = new Scanner(new File("src"+ File.separator +"logging" + File.separator +"log.log"));
+      logsScanner = new Scanner(new File("src"+ File.separator +"logging" + File.separator +"historical.log"));
       for (int i = 0; logsScanner.hasNext() && i < 100; i++) {
         String line = null;
         String rawLine = logsScanner.nextLine();
