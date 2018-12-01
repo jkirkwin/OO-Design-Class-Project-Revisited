@@ -18,7 +18,7 @@ import ca.uvic.seng330.assn3.view.scenebuilders.devicebuilders.CameraSceneBuilde
 import ca.uvic.seng330.assn3.view.scenebuilders.devicebuilders.LightbulbSceneBuilder;
 import ca.uvic.seng330.assn3.view.scenebuilders.devicebuilders.SmartPlugSceneBuilder;
 import ca.uvic.seng330.assn3.view.scenebuilders.devicebuilders.ThermostatSceneBuilder;
-import ca.uvic.seng330.assn3.view.scenebuilders.manageNotificationsBuilder;
+import ca.uvic.seng330.assn3.view.scenebuilders.ManageNotificationsBuilder;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.Stack;
@@ -231,7 +231,7 @@ public abstract class Controller {
   public void handleUsersVisabilityClick(UUID userData) {
     views.push(ViewType.MANAGE_NOTIFICATIONS);
     client.setTitle(ViewType.MANAGE_NOTIFICATIONS.toString());
-    client.setView(new manageNotificationsBuilder(this, "Back", userData));
+    client.setView(new ManageNotificationsBuilder(this, "Back", userData));
   }
 
   public String isDeviceBlackListed(UUID user, UUID device) {

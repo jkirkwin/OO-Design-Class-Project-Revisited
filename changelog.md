@@ -39,3 +39,6 @@ TODO:
 
 ### Room Events
 * Added events (camera detecting vacancy/motion, thermostat detecting change in temp) and test cases to illustrate their usage.
+
+### Concurrency
+* For test Z2 we added labelCheck and statusCheck threads used when constructing the device config screen (see HubSceneBuilder).

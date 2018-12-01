@@ -20,7 +20,9 @@ public class LabelCheck extends PropertyCheck {
     // Query the model to get the label of the device, store that value in wrapper position 0;
     Hub hub = getController().getHub();
     try {
-      getReturnWrapper()[0] = hub.getLabel(getId());      
+      String label = hub.getLabel(getId());
+      assert label != null;
+      getReturnWrapper()[0] = label;      
     } catch(NoSuchElementException e) {
       Logging.log("failed to retrieve label. no such id found in hub.", Level.ERROR);
     }

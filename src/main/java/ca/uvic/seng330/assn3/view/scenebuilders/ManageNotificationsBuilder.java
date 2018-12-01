@@ -9,11 +9,11 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.scene.layout.VBox;
 
-public class manageNotificationsBuilder extends SceneBuilder {
+public class ManageNotificationsBuilder extends SceneBuilder {
 
   private final UUID currUserVisibility;
 
-  public manageNotificationsBuilder(
+  public ManageNotificationsBuilder(
       Controller controller, String backText, UUID currUserVisibility) {
     super(controller, backText);
     this.currUserVisibility = currUserVisibility;

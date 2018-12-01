@@ -56,7 +56,7 @@ public class HubSceneBuilder extends SceneBuilder {
 
     if (isAdmin) {
       Separator divider = new Separator(Orientation.VERTICAL);
-
+      
       VBox adminPanel = new VBox(5);
       adminPanel.setId("admin_panel");
       Button manageUsers = new Button("Manage Users");

@@ -4,6 +4,7 @@ import ca.uvic.seng330.assn3.controller.Controller;
 import ca.uvic.seng330.assn3.controller.threading.LabelCheck;
 import ca.uvic.seng330.assn3.logging.Logging;
 import ca.uvic.seng330.assn3.view.controller.threading.StatusCheck;
+import ca.uvic.seng330.assn3.view.scenebuilders.devicebuilders.DeviceSceneBuilder;
 
 import java.util.ArrayList;
 import java.util.UUID;
@@ -90,40 +91,30 @@ public abstract class SceneBuilder {
     ArrayList<UUID> deviceList = controller.getDeviceIDList();
     for (int i = 0; i < deviceList.size(); i++) {
       
-      Object[] statusWrapper = new Object[1];
-      Object[] labelWrapper = new Object[1];
-      Thread statusCheck = new Thread(new StatusCheck(getController(), deviceList.get(i), statusWrapper));
-      Thread labelCheck = new Thread(new LabelCheck(getController(), deviceList.get(i), labelWrapper));
-      
-      statusCheck.start();
-      labelCheck.start();
-      
-      Button button = new Button();
+      // Threading for Z2
+//      Object[] statusWrapper = new Object[1];
+//      Object[] labelWrapper = new Object[1];
+//      Thread statusCheck = new Thread(new StatusCheck(getController(), deviceList.get(i), statusWrapper));
+//      Thread labelCheck = new Thread(new LabelCheck(getController(), deviceList.get(i), labelWrapper));
+//      statusCheck.start();
+//      labelCheck.start();
+//      try {
+//        labelCheck.join();
+//        labelCheck.join();
+//      } catch (InterruptedException e) {
+//        Logging.log("Thread interrupted.", Level.ERROR);
+//      }
+//      String label = labelWrapper[0].toString();
+//      String statusStr = statusWrapper[0].toString();
 
+      String label = getController().getLabel(deviceList.get(i));
+      String statusStr = getController().devStatus(deviceList.get(i));
+      Button button = new Button();
       button.setUserData(deviceList.get(i));
       button.setOnAction(event -> controller.handleDeviceViewClick((UUID) button.getUserData()));
-      
-      
-      try {
-        labelCheck.join();
-        labelCheck.join();
-      } catch (InterruptedException e) {
-        Logging.log("Thread interrupted.", Level.ERROR);
-      }
-      String label = labelWrapper[0].toString();
-      String statusStr = statusWrapper[0].toString();
       button.setId(label);
       button.setText(label + " - " + statusStr);
-      
-      // TODO Is this where we should run the status check thread?
-//      Button button =
-//          new Button(
-//              controller.getLabel(deviceList.get(i))
-//                  + " - "
-//                  + controller.devStatus(deviceList.get(i))); 
-      
-            
-//      button.setId(getController().getLabel(deviceList.get(i)));
+
       col.getChildren().add(button);
     }
     return col;
@@ -150,9 +141,19 @@ public abstract class SceneBuilder {
     assert col != null;
     assert deleteList != null;
     for (int i = 0; i < deleteList.size(); i++) {
-      Button button = new Button(getController().getLabel(deleteList.get(i)));
+      
+      Object[] labelWrapper = new Object[1];
+      Thread labelCheck = new Thread(new LabelCheck(getController(), deleteList.get(i), labelWrapper));
+      labelCheck.start();
+      Button button = new Button();
       button.setUserData(deleteList.get(i));
       button.setOnAction(event -> getController().handleDeleteClick((UUID) button.getUserData()));
+      try {
+        labelCheck.join();
+      } catch (InterruptedException e) {
+        Logging.log("Failed to retrieve label in separate thread.", Level.ERROR);
+      }
+      button.setText(labelWrapper[0].toString());
       col.getChildren().add(button);
     }
     return col;
