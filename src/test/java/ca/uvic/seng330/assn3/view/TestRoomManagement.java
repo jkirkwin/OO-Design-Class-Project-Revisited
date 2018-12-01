@@ -4,18 +4,16 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import java.util.UUID;
-
-import org.junit.Test;
-
 import ca.uvic.seng330.assn3.model.HubRegistrationException;
 import ca.uvic.seng330.assn3.model.Room;
 import ca.uvic.seng330.assn3.model.devices.Device;
 import ca.uvic.seng330.assn3.model.devices.Lightbulb;
 import ca.uvic.seng330.assn3.model.devices.SmartPlug;
+import java.util.UUID;
+import org.junit.Test;
 
 public class TestRoomManagement extends IOTApplicationGUITest {
-  
+
   @Test
   public void testCreateRoom() {
     String label = "label123";
@@ -23,12 +21,12 @@ public class TestRoomManagement extends IOTApplicationGUITest {
     clickOn("#room_label");
     write(label);
     clickOn("#create_room");
-    
+
     assertTrue(this.hub.isLabelUsed(label));
     UUID id = this.hub.getFirstRoomID(label);
     assertTrue(this.hub.isRegisteredRoom(id));
   }
-  
+
   @Test
   public void testDeleteRoom() {
     String label = "room90210";
@@ -42,9 +40,9 @@ public class TestRoomManagement extends IOTApplicationGUITest {
     assertTrue(this.hub.isRegisteredRoom(r.getIdentifier()));
     clickOn("#delete_" + label);
     assertFalse(this.hub.isRegisteredRoom(r.getIdentifier()));
-    clickOn("OK");    
+    clickOn("OK");
   }
-  
+
   @Test
   public void testDeviceAllocation() {
     Room r = null;
@@ -57,15 +55,14 @@ public class TestRoomManagement extends IOTApplicationGUITest {
     Device d2 = new SmartPlug("d2", this.hub);
     r.addRoomDevice(d1.getIdentifier());
     GUITestUtilities.goToManageRooms(this);
-    clickOn("#"+r.getLabel());
+    clickOn("#" + r.getLabel());
     assertTrue(r.isOccupant(d1.getIdentifier()));
     assertFalse(r.isOccupant(d2.getIdentifier()));
-    
+
     // remove d1, add d2
-    clickOn("#"+d1.getLabel()); 
-    clickOn("#"+d2.getLabel()); 
+    clickOn("#" + d1.getLabel());
+    clickOn("#" + d2.getLabel());
     assertFalse(r.isOccupant(d1.getIdentifier()));
     assertTrue(r.isOccupant(d2.getIdentifier()));
   }
-  
 }

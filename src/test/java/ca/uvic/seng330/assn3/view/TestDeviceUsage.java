@@ -57,7 +57,7 @@ public class TestDeviceUsage extends IOTApplicationGUITest {
     }
 
     // Label
-    clickOn("#"+label);
+    clickOn("#" + label);
     verifyThat("#current_label", hasText(label));
     doChangeLabelTest(t, "a different label");
 
@@ -110,7 +110,7 @@ public class TestDeviceUsage extends IOTApplicationGUITest {
     }
 
     // Label
-    clickOn("#"+label);
+    clickOn("#" + label);
     verifyThat("#current_label", hasText(label));
     doChangeLabelTest(l, "a different label");
 
@@ -136,14 +136,14 @@ public class TestDeviceUsage extends IOTApplicationGUITest {
     }
 
     // Label
-    clickOn("#"+label);
+    clickOn("#" + label);
     verifyThat("#current_label", hasText(label));
     doChangeLabelTest(s, "a different label");
 
     // Status
     doToggleTest(s);
   }
-  
+
   @Test
   public void testCameraUsage() {
     Camera c1 = new Camera("cam1", hub);
@@ -155,23 +155,23 @@ public class TestDeviceUsage extends IOTApplicationGUITest {
 
   private void doTestCameraUsage(boolean isAdmin, Camera c) {
     String label = c.getLabel();
-    if(isAdmin) {
+    if (isAdmin) {
       GUITestUtilities.goToAdminHub(this);
     } else {
       GUITestUtilities.goToBasicHub(this);
     }
-    
+
     // Label
-    clickOn("#"+label);
+    clickOn("#" + label);
     verifyThat("#current_label", hasText(label));
     doChangeLabelTest(c, "a different label");
-    
+
     // Status
-    doToggleTest(c);    
+    doToggleTest(c);
   }
-  
+
   @Test
-  public void testCameraStatus() {    
+  public void testCameraStatus() {
     // Toggle status should prevent recording
     Camera c = new Camera("issacamera", hub);
     GUITestUtilities.goToBasicHub(this);
@@ -184,13 +184,13 @@ public class TestDeviceUsage extends IOTApplicationGUITest {
     clickOn("#record");
     verifyThat("#record", hasText("false"));
   }
-  
+
   @Test
   public void testCameraDiskSpace() {
     // Reset disk space
     String label = "cam";
     Camera c = new Camera(label, hub);
-    while(c.currentDiskSize() < 10) {
+    while (c.currentDiskSize() < 10) {
       try {
         c.record();
       } catch (CameraFullException e) {
@@ -206,7 +206,7 @@ public class TestDeviceUsage extends IOTApplicationGUITest {
 
     // verify diskspace error is shown
     GUITestUtilities.backToLogin(this, client);
-    while(c.currentDiskSize() < c.maxDiskSize() - 1) {
+    while (c.currentDiskSize() < c.maxDiskSize() - 1) {
       try {
         c.record();
       } catch (CameraFullException e) {
