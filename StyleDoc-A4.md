@@ -177,3 +177,5 @@ We also ran into a snag when combining out UI and model test suites. The setup r
 * From eclipse, run the src/test/java folder as a JUnit test.
 
 ### Changes from Assignment#3
+
+![](UML Diagrams/A4/SystemOverview.png)
