@@ -38,7 +38,7 @@ public class HubSceneBuilder extends SceneBuilder {
     layout.setHbarPolicy(ScrollBarPolicy.NEVER);
     layout.setVbarPolicy(ScrollBarPolicy.ALWAYS);
 
-    VBox buttons = new VBox(10);
+    VBox buttons = new VBox(5);
     layout.setContent(hubDeviceList(buttons));
 
     Button StartUpDown = new Button("ShutDown All");

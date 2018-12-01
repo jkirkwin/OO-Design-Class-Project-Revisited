@@ -25,19 +25,26 @@ public class ManageUsersBuilder extends SceneBuilder {
     layout.setFitToWidth(true);
     layout.setHbarPolicy(ScrollBarPolicy.NEVER);
     layout.setVbarPolicy(ScrollBarPolicy.ALWAYS);
+    layout.setMinSize(300, 100);
+    layout.setMaxHeight(300);
 
-    HBox hbox = new HBox(30);
+    HBox hbox = new HBox(70);
+    HBox titles = new HBox(90);
 
     VBox viewUsers = hubUsersList(new VBox(10));
-    viewUsers.getChildren().add(0, new Label("View User\nVisability"));
+    titles.getChildren().add(new Label("View User Access"));
     VBox deleteUsers = hubDeleteList(new VBox(10), getController().getBasicUserAccountIDs());
-    deleteUsers.getChildren().add(0, new Label("Delete User\nAccount"));
+    titles.getChildren().add(new Label("Delete User Account"));
 
     hbox.getChildren().add(viewUsers);
     hbox.getChildren().add(deleteUsers);
     layout.setContent(hbox);
+    
+    VBox total = new VBox();
+    total.getChildren().add(titles);
+    total.getChildren().add(layout);
 
-    return layout;
+    return total;
   }
 
   @Override
