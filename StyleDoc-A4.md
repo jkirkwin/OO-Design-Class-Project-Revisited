@@ -96,6 +96,8 @@ The controller re-factor focused on separating all non-universal functions into 
 
 We've also introduced logging. The specs and properties set for the logger can be seen in logging\Logging.java. We elected for a single logger to be used by the entire system for simplicity's sake. Logs are stored indefinitely, and most recent ones are displayed to admins when they log in.
 
+We began implementing a concurrent status check feature, but realized our time would be better spent elsewhere. See controller.threading for what we started out with.
+
 ### System UML
 
 ![](UML Diagrams/A4/Controller.png)
@@ -177,5 +179,7 @@ We also ran into a snag when combining out UI and model test suites. The setup r
 * From eclipse, run the src/test/java folder as a JUnit test.
 
 ### Changes from Assignment#3
+
+Since A3 we've fleshed out our testing of model and gotten good coverage of the UI.
 
 ![](UML Diagrams/A4/SystemOverview.png)
