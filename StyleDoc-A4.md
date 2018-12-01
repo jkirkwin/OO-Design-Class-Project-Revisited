@@ -2,13 +2,13 @@
 
 ## Model
 
-The Model has been largely inherited from assignment two. Using Hub as our Primary EntryPoint, we can access all Devices and UserAccounts in our system. The Model is completely independent and does not rely on ANYTHING outside itself. Using Rooms as a bundling object, devices are pooled together so as to alert each other when they need to interact.
+The Model has been largely inherited from assignment two. Using Hub as our Primary EntryPoint, we can access all Devices and UserAccounts in our system. The Model is completely independent and does not rely on anything outside itself. Using Rooms as a bundling object, devices are pooled together so as to alert each other when they need to interact.
 
 ### Hub
 
 The Hub is the core of our model. It is responsible for registering and unregistering for all devices and UserAccounts in the system, and for holding aggregations and mappings of all entities currently in the system. It can also access almost any information about the objects it holds. This allows it to stay as the main point of contact for Controller for most functionality.
 
-While the aspiration is for the Hub to be the only thing able to access that which it holds, it became unwieldly to continue that implementation. In an effort to avoid having a GODFUNCTION of a hub, we decided to implement getUser() and getDevice() so we could be more flexible in Controller, and separate concerns more effectively.
+While the aspiration is for the Hub to be the only thing able to access that which it holds, it became unwieldly to continue that implementation. In an effort to avoid having a God-Class of a hub, we decided to implement getUser() and getDevice() so we could be more flexible in Controller, and separate concerns more effectively.
 
 Hub also acts as a mediator within the model, in that it is the go-between in nearly all communication between other model entities (UserAccounts, Devices, and Rooms primarily). 
 
@@ -85,6 +85,8 @@ FindBuilder() was echoed with deviceViewSwitch() to keep it clean code and to fi
 ### Changes from Assignment#3
 
 The controller re-factor focused on separating all non-universal functions into appropriate modules, and moving each of these functionality bundles into its own class, which extend the Controller class. Necessitated by this modification was a few changes to the interaction between View and Controller. Most Scenes in View have a corresponding Sub-Controller: a class which extends controller and thus contains all necessary public utility functionality as well as all specific use functions relevant to the view in questions. Some views share a specialized controller: For example, the AdminHub and BasicHub client views are both controlled by HubController.
+
+We've also introduced logging. The specs and properties set for the logger can be seen in logging\Logging.java. We elected for a single logger to be used by the entire system for simplicity's sake. Logs are stored indefinitely, and most recent ones are displayed to admins when they log in.
 
 ### System UML
 
