@@ -145,7 +145,7 @@ Thermostat Scene displays current Temperature in the correct DegreeType and can 
 
 #### Lightbulb & SmartPlug
 
-The remaining Devices only require the basic Device Functionality but have been given their own ViewBuilders for easy of future development. Dimmers or Meters come to mind.
+The remaining Devices only require the basic Device Functionality but have been given their own ViewBuilders for easy of future development. Dimmers or Meters come to mind
 
 ### Changes from Assignment#3
 
