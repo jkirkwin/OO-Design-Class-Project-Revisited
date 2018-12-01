@@ -1,26 +1,36 @@
 # A style document describing the development of our design decisions
 
-
-
 ## Model
 
-The Model has been largely inherited from assignments 2/3. Using Hub as our Primary entry point, we can access all Devices, Rooms, and UserAccounts in our system. The Model is completely independant and does not rely on ANYTHING outside itself. This allows us to keep business logic primarily in the controller partition of the application, and any logic that is dependant on the way the user is interacting with the application in the Controller and View partitions.
+The Model has been largely inherited from assignment two. Using Hub as our Primary EntryPoint, we can access all Devices and UserAccounts in our system. The Model is completely independent and does not rely on anything outside itself. Using Rooms as a bundling object, devices are pooled together so as to alert each other when they need to interact.
 
 ### Hub
 
-The Hub is the core of our model. It is responsible for registering and unregistering for all Devices, Rooms, and UserAccounts in the system and for holding aggregations and mappings of all entities currently in the system. It can also access almost any information about the objects it holds. This allows it to stay as the point of contact for Controller in most cases.
+The Hub is the core of our model. It is responsible for registering and unregistering for all devices and UserAccounts in the system, and for holding aggregations and mappings of all entities currently in the system. It can also access almost any information about the objects it holds. This allows it to stay as the main point of contact for Controller for most functionality.
 
-While the aspiration is for the Hub to be the only thing able to access that which it holds, it became unwieldly to continue that implementation. In an effort to avoid having a God-Class of a hub, we decided to implement getUser() and getDevice() so we could be more flexible in Controller, and seperate concerns more effectively.
+While the aspiration is for the Hub to be the only thing able to access that which it holds, it became unwieldly to continue that implementation. In an effort to avoid having a God-Class of a hub, we decided to implement getUser() and getDevice() so we could be more flexible in Controller, and separate concerns more effectively.
 
-Hub also acts as a mediator within the model, in that it is the go-between in nearly all communication between other model entities (UserAccounts and Devices, primarily).
+Hub also acts as a mediator within the model, in that it is the go-between in nearly all communication between other model entities (UserAccounts, Devices, and Rooms primarily). 
+
+#### Notifications
+
+We have added Notifications to our Model to let our System talk to our Users even when they're away. Each UserAccount stores all the notifications from all the devices they're allowed to interact with. Notifications go through hub and into the notification stack of any users that don't have the device in their blacklist. Notifications can be about various things in the model (rooms, devices, users) as well as for generic "plain" notifications that are not tied to any particular model entity. When the Notifications are accessed, they're removed from UserAccount and given to View to be displayed for the User.
+
+We moved the notifications from being stored as JSONMessaging objects (as they were in A2/A3) to being stored as simple JSONObjects. This cut down on storage and complexity by removing all the device references that were stored in the JSONMessaging objects, preventing old device objects from getting garbage collected until all users had cleared their notifications. JSONMessaging.java was repurposed as a utility class for creating notification for the system.
+
+### Rooms
+
+Rooms are Objects which are responsible for knowing which Devices have been assigned to them, which Hub has jurisdiction over it's Devices, and adding/removing these objects from itself. We made the Rooms purposefully detached from a physical concept of a room so that, in actual use, it could apply to groups of Devices linked together for a reason other than that they share the same physical space. 
+
+#### Events
+
+Sometimes events will occur that will require devices talking to each other. Rooms are used to dictate which Devices should be alerted by any other given Device. Rather than having every Lightbulb in the smarthouse turn on when someone steps into the foyer, the house will wait for the camera in the halleay to detect movement before lighting up the next room. Eco-friendly AND convenient!!
 
 ### UserAccount
 
-UserAccount is responsible for knowing it's own accessLevel, which Hub it belongs to, it's username and password for verification, and it also holds the blacklist of devices it may not see. We decided to have the UserAccounts store their own accessLevel and Device Blacklist so as to limit complexity of Hub and seperate concerns more intuitively. 
+UserAccount is responsible for knowing it's own accessLevel, which Hub it belongs to, it's username and password for verification, and it also holds the blacklist of devices it may not see or recieve notifications from.
 
-### Room
-Rooms serve as an optional feature that allows the model to group certain devices together. Device such as cameras and thermostats take in information and pass this along to their room, in the form of an event. The room then takes appropriate actions on other devices in it (for example, it turns off lightbulbs if the camera notifies it that there is no movement in the room) and notifies the hub.
-
+We decided to have the UserAccounts store their own accessLevel and Device Blacklist so as to limit complexity of Hub. 
 
 ### Device
 
@@ -30,7 +40,7 @@ We use the UUID to do all important tasks in the system. Every time we want to g
 
 #### Camera
 
-Camera extends Device and is responsible for keeping track of if it is recording, the diskSize (space currently used) and if it is full or not.
+Camera extends Device and is responsible for keeping track of if it is recording, the diskSize (space currently used) and if it is full or not. It also uses a WebView to stream the camera's Data to the DeviceConfigScreen. The video stream is only active when the Camera is turned on and recording, as per the specs.
 
 #### Thermostat
 	
@@ -78,6 +88,8 @@ FindBuilder() was echoed with deviceViewSwitch() to keep it clean code and to fi
 
 The controller re-factor focused on separating all non-universal functions into appropriate modules, and moving each of these functionality bundles into its own class, which extend the Controller class. Necessitated by this modification was a few changes to the interaction between View and Controller. Most Scenes in View have a corresponding Sub-Controller: a class which extends controller and thus contains all necessary public utility functionality as well as all specific use functions relevant to the view in questions. Some views share a specialized controller: For example, the AdminHub and BasicHub client views are both controlled by HubController.
 
+We've also introduced logging. The specs and properties set for the logger can be seen in logging\Logging.java. We elected for a single logger to be used by the entire system for simplicity's sake. Logs are stored indefinitely, and most recent ones are displayed to admins when they log in.
+
 ### System UML
 
 ![](UML Diagrams/System.png)
@@ -91,7 +103,7 @@ Client is the class in view that serves as the point of contact for controller. 
 
 ### SceneBuilder
 
-SceneBuilder and its extensions serve as a simple, concise way to create any necessary view within the Client GUI. It makes use of the Template design pattern, where the buildCommon() method adds all Nodes common to all extensions of the class, while buildSpecifics() adds on the Nodes needed for the specific view being displayed. The build() method packages the results of buildCommon and buildSpecifics into a Scene object and returns this, ready to be displayed by Client. 
+SceneBuilder and its extensions serve as a simple, concise method to create any necessary view within the Client GUI. It makes use of the Template design pattern, where the buildCommon() method adds all Nodes common to all extensions of the class, while buildSpecifics() adds on the Nodes needed for the specific view being displayed. The build() method packages the results of buildCommon and buildSpecifics into a Scene object and returns this, ready to be displayed by Client. 
 
 #### LoginView
 
@@ -137,9 +149,12 @@ The remaining Devices only require the basic Device Functionality but have been 
 
 ### Testing
 
-We have done our best to have our test package structure mimic that of the source code. The model and UI portions have been tested to our satisfaction, but we would have liked to be able to add more direct testing of controller. That said, we still get pretty solid coverage of controller through the UI tests. 
+We have done our best to have our test package structure mimic that of the source code. The storage package has been fully tested, and the UI processes needed for our acceptance tests has been tested for the most part. We have a few basic model tests, and our next step before anything else will be fleshing out our model coverage. Once the controller re-factor is complete, we will move forward with unit tests for that package too, noting that some controller testing has been done via the UI tests found in the view package.
 
-The UI processes needed for our acceptance tests has been tested for the most part.
+Unfortunately, gradle does not play nicely with two of our model tests (although it runs and passes as expected when run as a JUnit test from within Eclipse). Because of these compatability issues, `gradle test` appears to hang up after a little while. Once this happens go ahead and force end the process with Control+C. Then you'll get the failure report. (PS, @The Marker, if you know why it works in eclipse but not when run from cmd, we would love to know).
+
+We also ran into a snag when combining out UI and model test suites. The setup required for the UI tests affects the storage tests and prevents some of them from running. We decided to work on the source code instead of rectifying this because we did not have time to do both. For ideal results, we have been running the two test suites seperately (which you can do by moving all the view tests to their own folder). In this case, all tests pass as expected.
+
 
 ### How to Launch the app
 
@@ -149,5 +164,4 @@ The UI processes needed for our acceptance tests has been tested for the most pa
 ### How to run the test suite
 
 * From the command line (on Jamie's win 10 machine!!) type `gradle test`. 
-Unfortunately, gradle does not play nicely with one of our UI tests (although it runs and passes as expected when run as a JUnit test from within Eclipse). Because of this, `gradle test` appears to hang up after a little while. Once this happens go ahead and force end the process with Control+C. Then you'll get the failure report. (PS, @The Marker, if you know why it works in eclipse but not when run from cmd, PLEASE let us know).
 * From eclipse, run the src/test/java folder as a JUnit test.

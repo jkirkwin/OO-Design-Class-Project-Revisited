@@ -13,8 +13,6 @@
 * Added storage code to allow storage and retrieval of rooms from separate file, and update storage code for device to hold the UUID of the room associated with a device, if such a room exists.
 * Added storage test for room recreation
 * Wrote tests to ensure that room mechanics within Model work as expected
-
-TODO: 
 * Add UI & Controller components to allow modification of rooms
 
 ### Device Events
