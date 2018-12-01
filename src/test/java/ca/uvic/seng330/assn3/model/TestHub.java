@@ -11,9 +11,6 @@ import ca.uvic.seng330.assn3.model.devices.Lightbulb;
 import ca.uvic.seng330.assn3.model.devices.SmartPlug;
 import ca.uvic.seng330.assn3.model.devices.Status;
 import ca.uvic.seng330.assn3.model.devices.Thermostat;
-import ca.uvic.seng330.assn3.model.storage.Storage;
-import ca.uvic.seng330.assn3.model.storage.TestStorage;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -95,7 +92,7 @@ public class TestHub extends IOTUnitTest {
     } catch (HubRegistrationException e) {
     }
   }
-  
+
   @Test
   public void testUserAccountRegistration() {
     Hub dummyHub = new Hub();
@@ -214,11 +211,11 @@ public class TestHub extends IOTUnitTest {
   public void testDeviceRegistration() {
     Hub dummyHub = new Hub();
     Device[] devices = new Device[20];
-    for (int i = 0; i < devices.length; i= i+4) {
+    for (int i = 0; i < devices.length; i = i + 4) {
       devices[i] = new Camera("cam" + i, dummyHub);
-      devices[i+1] = new Lightbulb("bulb" + i, dummyHub);
-      devices[i+2] = new SmartPlug("plug" + i, dummyHub);
-      devices[i+3] = new Thermostat("thermo" + i, dummyHub);
+      devices[i + 1] = new Lightbulb("bulb" + i, dummyHub);
+      devices[i + 2] = new SmartPlug("plug" + i, dummyHub);
+      devices[i + 3] = new Thermostat("thermo" + i, dummyHub);
     }
     for (Device d : devices) {
       assertTrue(dummyHub.isRegisteredDevice(d.getIdentifier()));
