@@ -27,6 +27,8 @@ public class ManageNotificationsBuilder extends SceneBuilder {
     layout.setFitToWidth(true);
     layout.setHbarPolicy(ScrollBarPolicy.NEVER);
     layout.setVbarPolicy(ScrollBarPolicy.ALWAYS);
+    layout.setMaxHeight(200);
+    layout.setMinWidth(300);
 
     layout.setContent(hubDeviceList(new VBox(10)));
 

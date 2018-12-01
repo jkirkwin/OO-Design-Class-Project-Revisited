@@ -37,6 +37,7 @@ public class HubSceneBuilder extends SceneBuilder {
     layout.setFitToWidth(true);
     layout.setHbarPolicy(ScrollBarPolicy.NEVER);
     layout.setVbarPolicy(ScrollBarPolicy.ALWAYS);
+    layout.setMaxHeight(540);
 
     VBox buttons = new VBox(5);
     layout.setContent(hubDeviceList(buttons));
@@ -56,7 +57,7 @@ public class HubSceneBuilder extends SceneBuilder {
 
     if (isAdmin) {
       Separator divider = new Separator(Orientation.VERTICAL);
-      
+
       VBox adminPanel = new VBox(5);
       adminPanel.setId("admin_panel");
       Button manageUsers = new Button("Manage Users");
@@ -75,6 +76,7 @@ public class HubSceneBuilder extends SceneBuilder {
       logScrollPane.setVbarPolicy(ScrollBarPolicy.ALWAYS);
       logScrollPane.setPrefViewportWidth(600);
       logScrollPane.setContent(logs());
+      logScrollPane.setMaxHeight(500);
 
       HBox upperAdminPanel = new HBox(5);
       upperAdminPanel.getChildren().add(manageUsers);
@@ -99,14 +101,15 @@ public class HubSceneBuilder extends SceneBuilder {
     VBox logsBox = new VBox(5);
     Scanner logsScanner;
     try {
-      logsScanner = new Scanner(new File("src"+ File.separator +"logging" + File.separator +"log.log"));
+      logsScanner =
+          new Scanner(new File("src" + File.separator + "logging" + File.separator + "log.log"));
       for (int i = 0; logsScanner.hasNext() && i < 100; i++) {
         String line = null;
         String rawLine = logsScanner.nextLine();
         try {
           line = rawLine.substring(27);
           line = line.substring(0, 6) + line.substring(44);
-        } catch (Exception e){
+        } catch (Exception e) {
           line = rawLine;
         }
         logsBox.getChildren().add(new Label(line));

@@ -43,6 +43,7 @@ public class ManageRoomsBuilder extends SceneBuilder {
     layout.setFitToWidth(true);
     layout.setHbarPolicy(ScrollBarPolicy.NEVER);
     layout.setVbarPolicy(ScrollBarPolicy.ALWAYS);
+    layout.setMaxHeight(300);
 
     HBox hbox = new HBox(30);
 
