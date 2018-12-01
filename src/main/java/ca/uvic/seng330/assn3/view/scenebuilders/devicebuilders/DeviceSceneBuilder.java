@@ -34,7 +34,10 @@ public abstract class DeviceSceneBuilder extends SceneBuilder {
     vbox.setMinWidth(200);
     Label currentLabel = new Label(getController().getLabel(deviceID));
     currentLabel.setId("current_label");
-    vbox.getChildren().add(currentLabel);
+    HBox devName = new HBox(10);
+    devName.getChildren().add(new Label("Device Label -->"));
+    devName.getChildren().add(currentLabel);
+    vbox.getChildren().add(devName);
 
     TextField newLabel = new TextField();
     newLabel.setId("new_label");
