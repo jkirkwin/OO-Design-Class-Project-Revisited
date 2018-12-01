@@ -84,6 +84,7 @@ public class HubSceneBuilder extends SceneBuilder {
       upperAdminPanel.getChildren().add(manageRooms);
 
       adminPanel.getChildren().add(upperAdminPanel);
+      adminPanel.getChildren().add(new Label("Recent System Logs"));
       adminPanel.getChildren().add(logScrollPane);
 
       hbox.getChildren().add(divider);
@@ -101,7 +102,9 @@ public class HubSceneBuilder extends SceneBuilder {
     VBox logsBox = new VBox(5);
     Scanner logsScanner;
     try {
-      logsScanner = new Scanner(new File("src"+ File.separator +"logging" + File.separator +"historical.log"));
+      logsScanner =
+          new Scanner(
+              new File("src" + File.separator + "logging" + File.separator + "historical.log"));
 
       for (int i = 0; logsScanner.hasNext() && i < 100; i++) {
         String line = null;

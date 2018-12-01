@@ -86,11 +86,11 @@ public class ThermostatSceneBuilder extends DeviceSceneBuilder {
     withBoarder.getChildren().add(specifics);
     return withBoarder;
   }
-  
+
   private double roundToHundredth(double magnitude) {
-	    long factor = (long) Math.pow(10, 2);
-	    magnitude = magnitude * factor;
-	    long tmp = Math.round(magnitude);
-	    return (double) tmp / factor;
-	}
+    long factor = (long) Math.pow(10, 2);
+    magnitude = magnitude * factor;
+    long tmp = Math.round(magnitude);
+    return (double) tmp / factor;
+  }
 }

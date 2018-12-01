@@ -55,6 +55,7 @@ public class CameraSceneBuilder extends DeviceSceneBuilder {
   protected Node buildSpecifics() {
     VBox specifics = new VBox(10);
     HBox hbox = new HBox(10);
+    hbox.setMaxWidth(250);
 
     VBox labels = new VBox(10);
     labels.setPrefWidth(200);

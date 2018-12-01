@@ -28,16 +28,16 @@ public class Logging {
       try {
         File sessionLogFile = new File(sessionFileName);
         File historicalLogFile = new File(historicalFileName);
-        if(!historicalLogFile.exists()) {
+        if (!historicalLogFile.exists()) {
           historicalLogFile.createNewFile();
         }
-        if(!sessionLogFile.exists()) {
+        if (!sessionLogFile.exists()) {
           sessionLogFile.createNewFile();
         } else {
           // log file exists already
           ps = new PrintStream(new FileOutputStream(historicalFileName, true));
           sc = new Scanner(sessionLogFile);
-          while(sc.hasNext()) {
+          while (sc.hasNext()) {
             ps.println(sc.nextLine());
           }
           ps.println("--------- NEW SESSION ---------");
@@ -45,14 +45,14 @@ public class Logging {
       } catch (IOException e) {
         e.printStackTrace();
       } finally {
-        if(sc != null) {
+        if (sc != null) {
           sc.close();
         }
-        if(ps != null) {
+        if (ps != null) {
           ps.close();
         }
       }
-      
+
       System.setProperty(org.slf4j.impl.SimpleLogger.LOG_FILE_KEY, sessionFileName);
       System.setProperty(
           org.slf4j.impl.SimpleLogger.DEFAULT_LOG_LEVEL_KEY, "trace"); // Change to info
