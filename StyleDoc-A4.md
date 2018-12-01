@@ -16,6 +16,8 @@ Hub also acts as a mediator within the model, in that it is the go-between in ne
 
 We have added Notifications to our Model to let our System talk to our Users even when they're away. Each UserAccount stores all the notifications from all the devices they're allowed to interact with. Notifications go through hub and into the notification stack of any users that don't have the device in their blacklist. Notifications can be about various things in the model (rooms, devices, users) as well as for generic "plain" notifications that are not tied to any particular model entity. When the Notifications are accessed, they're removed from UserAccount and given to View to be displayed for the User.
 
+We moved the notifications from being stored as JSONMessaging objects (as they were in A2/A3) to being stored as simple JSONObjects. This cut down on storage and complexity by removing all the device references that were stored in the JSONMessaging objects, preventing old device objects from getting garbage collected until all users had cleared their notifications. JSONMessaging.java was repurposed as a utility class for creating notification for the system.
+
 ### Rooms
 
 Rooms are Objects which are responsible for knowing which Devices have been assigned to them, which Hub has jurisdiction over it's Devices, and adding/removing these objects from itself. We made the Rooms purposefully detached from a physical concept of a room so that, in actual use, it could apply to groups of Devices linked together for a reason other than that they share the same physical space. 
