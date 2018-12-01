@@ -1,7 +1,6 @@
-package ca.uvic.seng330.assn3.view.controller.threading;
+package ca.uvic.seng330.assn3.controller.threading;
 
 import ca.uvic.seng330.assn3.controller.Controller;
-import ca.uvic.seng330.assn3.controller.threading.PropertyCheck;
 import ca.uvic.seng330.assn3.logging.Logging;
 import ca.uvic.seng330.assn3.model.Hub;
 import ca.uvic.seng330.assn3.model.devices.Device;
