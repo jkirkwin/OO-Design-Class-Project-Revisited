@@ -60,7 +60,7 @@ The Major changes from Assignment 3 are the addition of rooms, and the expansion
 
 ### Model UML
 
-![](UML Diagrams/Model.png)
+![](UML Diagrams/A4/ModelOverview.png)
 
 ## Controller
 
@@ -96,7 +96,7 @@ We've also introduced logging. The specs and properties set for the logger can b
 
 ### System UML
 
-![](UML Diagrams/System.png)
+![](UML Diagrams/A4/System.png)
 
 
 ## View
@@ -151,7 +151,7 @@ The Biggest changes since last submission are the addition of Manage Rooms, Noti
 
 ### View Diagram
 
-![](UML Diagrams/View.png)
+![](UML Diagrams/A4/View.png)
 
 ## Testing / App launch / Running test suite
 
