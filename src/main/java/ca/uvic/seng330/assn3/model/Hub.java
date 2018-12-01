@@ -412,7 +412,7 @@ public class Hub {
   /*
    * Returns the UUID of the first device with a matching label. Null otherwise.
    */
-  public UUID getFirstID(String label) {
+  public UUID getFirstDeviceID(String label) {
     assert label != null;
     for (Device d : deviceRegistry.values()) {
       if (d.getLabel().equals(label)) {
@@ -422,10 +422,17 @@ public class Hub {
     return null;
   }
 
-  // TODO: kill?
-  public void alert(String msg, Device pDevice) {
-    // TODO should be moved to controller
-    // Or should alert some list of observers in which Controller has registered
+  /*
+   * Returns the UUID of the first device with a matching label. Null otherwise.
+   */
+  public UUID getFirstRoomID(String label) {
+    assert label != null;
+    for (Room r: roomRegistry.values()) {
+      if (r.getLabel().equals(label)) {
+        return r.getIdentifier();
+      }
+    }
+    return null;
   }
 
   // TODO: merge with getIGList()

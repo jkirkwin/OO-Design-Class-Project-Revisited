@@ -33,7 +33,7 @@ public class TestDeviceAdministration extends IOTApplicationGUITest {
     Status status = Status.OFF;
     makeDevice("camera", status.toString(), label);
     assertTrue(hub.isLabelUsed(label));
-    assertTrue(hub.getDevice(hub.getFirstID(label)).getStatus().equals(status));
+    assertTrue(hub.getDevice(hub.getFirstDeviceID(label)).getStatus().equals(status));
   }
 
   @Test
@@ -43,7 +43,7 @@ public class TestDeviceAdministration extends IOTApplicationGUITest {
     Status status = Status.ON;
     makeDevice("lightbulb", status.toString(), label);
     assertTrue(hub.isLabelUsed(label));
-    assertTrue(hub.getDevice(hub.getFirstID(label)).getStatus().equals(status));
+    assertTrue(hub.getDevice(hub.getFirstDeviceID(label)).getStatus().equals(status));
   }
 
   @Test
@@ -53,7 +53,7 @@ public class TestDeviceAdministration extends IOTApplicationGUITest {
     Status status = Status.OFF;
     makeDevice("thermostat", status.toString(), label);
     assertTrue(hub.isLabelUsed(label));
-    assertTrue(hub.getDevice(hub.getFirstID(label)).getStatus().equals(status));
+    assertTrue(hub.getDevice(hub.getFirstDeviceID(label)).getStatus().equals(status));
   }
 
   @Test
@@ -63,7 +63,7 @@ public class TestDeviceAdministration extends IOTApplicationGUITest {
     Status status = Status.ON;
     makeDevice("smartplug", status.toString(), label);
     assertTrue(hub.isLabelUsed(label));
-    assertTrue(hub.getDevice(hub.getFirstID(label)).getStatus().equals(status));
+    assertTrue(hub.getDevice(hub.getFirstDeviceID(label)).getStatus().equals(status));
   }
 
   @Test
@@ -77,7 +77,7 @@ public class TestDeviceAdministration extends IOTApplicationGUITest {
       label = "a " + deviceStrings[i];
       makeDevice(deviceStrings[i], status.toString(), label);
       assertTrue(hub.isLabelUsed(label));
-      assertTrue(hub.getDevice(hub.getFirstID(label)).getStatus().equals(status));
+      assertTrue(hub.getDevice(hub.getFirstDeviceID(label)).getStatus().equals(status));
     }
   }
 

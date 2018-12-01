@@ -31,8 +31,10 @@ public class ManageRoomsBuilder extends SceneBuilder {
     HBox newRoom = new HBox(5);
 
     TextField roomName = new TextField();
+    roomName.setId("room_label");
     roomName.setPromptText("Room Label");
     Button makeRoom = new Button("Create Room");
+    makeRoom.setId("create_room");
     makeRoom.setOnAction(event -> getController().makeNewRoom(roomName.getText()));
 
     newRoom.getChildren().add(roomName);
@@ -67,10 +69,12 @@ public class ManageRoomsBuilder extends SceneBuilder {
     assert col != null;
     ArrayList<UUID> roomsList = getController().getRoomIDs();
     for (int i = 0; i < roomsList.size(); i++) {
-      Button button = new Button(getController().getLabel(roomsList.get(i)));
+      String label = getController().getLabel(roomsList.get(i));
+      Button button = new Button(label);
       button.setUserData(roomsList.get(i));
       button.setOnAction(
           event -> getController().handleRoomsAssignmentClick((UUID) button.getUserData()));
+      button.setId(label);
       col.getChildren().add(button);
     }
     return col;

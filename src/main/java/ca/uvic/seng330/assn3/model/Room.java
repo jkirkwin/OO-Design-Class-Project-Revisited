@@ -158,4 +158,13 @@ public class Room implements StorageEntity {
         "Device " + retiredDevice.getLabel() + " has been removed from Room " + this.getLabel(),
         retiredDevice.getIdentifier());
   }
+  
+  public boolean isOccupant(UUID id) {
+    for(Device d : occupants) {
+      if(d.getIdentifier().equals(id)) {
+        return true;      
+      }
+    }
+    return false;
+  }
 }

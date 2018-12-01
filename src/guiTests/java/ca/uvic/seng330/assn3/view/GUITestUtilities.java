@@ -100,9 +100,9 @@ public class GUITestUtilities {
     test.clickOn("#manage_devices");
   }
 
-  public static void goToManageNotifications(ApplicationTest test) {
+  public static void goToManageRooms(ApplicationTest test) {
     goToAdminHub(test);
-    test.clickOn("#manage_notifications");
+    test.clickOn("#manage_rooms");
   }
 
   public static void goToCreateDevice(ApplicationTest test) {
@@ -112,7 +112,6 @@ public class GUITestUtilities {
 
   public static void backToLogin(ApplicationTest test, Client client) {
     while (!client.getWindow().getTitle().equals("LOGIN")) {
-      System.out.println(client.getWindow().getTitle());
       test.clickOn("#back");
     }
   }

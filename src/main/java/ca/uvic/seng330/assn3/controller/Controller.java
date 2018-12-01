@@ -174,7 +174,8 @@ public abstract class Controller {
     assert uuid != null;
     boolean isDevice = hub.isRegisteredDevice(uuid);
     boolean isUserAccount = hub.isRegisteredUserAccount(uuid);
-    assert isDevice || isUserAccount;
+    boolean isRoom = hub.isRegisteredRoom(uuid);
+    assert isDevice || isUserAccount || isRoom; 
     String label = hub.getLabel(uuid);
     try {
       hub.unregister(uuid);
@@ -186,10 +187,12 @@ public abstract class Controller {
           AlertType.INFORMATION,
           "Device Removed",
           "Device Removed",
-          "Unregistered Device: " + label);
+          "Unregistered Device: " + label); 
     } else if (isUserAccount) {
       client.alertUser(
           AlertType.INFORMATION, "User Removed", "User Removed", "Unregistered User: " + label);
+    } else if(isRoom){
+      client.alertUser(AlertType.INFORMATION, "Room Removed", "Room Removed", "Unregistered Room: " + label);
     }
     refresh();
   }

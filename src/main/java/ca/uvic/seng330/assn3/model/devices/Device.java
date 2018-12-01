@@ -89,10 +89,10 @@ public abstract class Device implements StorageEntity {
     assert status != null;
     assert hub != null;
 
-    this.setLabel(label);
     this.status = status;
     this.hub = hub;
     this.id = id;
+    this.label = label;
     this.room = null;
 
     try {
@@ -112,10 +112,10 @@ public abstract class Device implements StorageEntity {
     assert status != null;
     assert hub != null;
 
-    this.setLabel(label);
     this.status = status;
     this.hub = hub;
     this.id = UUID.randomUUID();
+    this.label = label;
     this.room = null;
 
     try {
@@ -131,10 +131,10 @@ public abstract class Device implements StorageEntity {
   public Device(Hub hub) {
     assert hub != null;
 
-    this.setLabel("Default Label");
     this.status = Status.ON;
     this.hub = hub;
     this.id = UUID.randomUUID();
+    this.label = "Default Label";
     this.room = null;
 
     try {
