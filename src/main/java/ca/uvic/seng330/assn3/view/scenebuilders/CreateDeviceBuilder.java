@@ -42,18 +42,16 @@ public class CreateDeviceBuilder extends SceneBuilder {
     layout.setVbarPolicy(ScrollBarPolicy.ALWAYS);
 
     // TODO: review import DeviceType from controller
-    // TODO remove the arraylist and instead use the builtin DeviceType.values() array
-    ArrayList<DeviceType> deviceTypes = getController().getDeviceTypes();
     VBox typesForScroll = new VBox();
     final ToggleGroup upperGroup = new ToggleGroup();
 
     RadioButton button;
-    for (int i = 0; i < deviceTypes.size(); i++) {
-      String typeName = deviceTypes.get(i).toString();
+    for (DeviceType type : DeviceType.values()) {
+      String typeName = type.toString();
       button = new RadioButton(typeName);
       button.setId(typeName.toLowerCase());
       button.setToggleGroup(upperGroup);
-      button.setUserData(deviceTypes.get(i));
+      button.setUserData(type);
       typesForScroll.getChildren().add(button);
     }
     upperGroup.getToggles().get(0).setSelected(true);

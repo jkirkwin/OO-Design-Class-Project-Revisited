@@ -223,13 +223,6 @@ public abstract class Controller {
     return DeviceType.valueOf(d.getClass().getSimpleName().toUpperCase());
   }
 
-  // TODO remove and replace usages with use of library function DeviceType.values()
-  public ArrayList<DeviceType> getDeviceTypes() {
-    ArrayList<DeviceType> deviceTypes = new ArrayList<DeviceType>();
-    EnumSet.allOf(DeviceType.class).forEach(devType -> deviceTypes.add(devType));
-    return deviceTypes;
-  }
-
   // TODO Move this?
   public void handleUserViewClick(UUID id) {
     client.setView(findBuilder(ViewType.SELECT_DEVICES));

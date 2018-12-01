@@ -18,6 +18,8 @@ public class LightbulbSceneBuilder extends DeviceSceneBuilder {
 
   @Override
   protected Node buildSpecifics() {
-    return new HBox(); // TODO Add specific fomratting for lightbulb here
+	  HBox hbox = new HBox();
+	    hbox.setMinSize(100, 100);
+		  return hbox; // TODO Add specific fomratting for lightbulb here
   }
 }
