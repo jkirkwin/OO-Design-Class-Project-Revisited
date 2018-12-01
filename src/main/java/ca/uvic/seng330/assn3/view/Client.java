@@ -1,9 +1,6 @@
 package ca.uvic.seng330.assn3.view;
 
-import org.slf4j.event.Level;
-
 import ca.uvic.seng330.assn3.controller.Controller;
-import ca.uvic.seng330.assn3.logging.Logging;
 import ca.uvic.seng330.assn3.view.scenebuilders.SceneBuilder;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -41,7 +38,7 @@ public class Client {
     assert builder != null;
     this.view = builder.build();
     this.window.setScene(view);
-    
+
     window.show();
   }
 

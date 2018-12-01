@@ -427,7 +427,7 @@ public class Hub {
    */
   public UUID getFirstRoomID(String label) {
     assert label != null;
-    for (Room r: roomRegistry.values()) {
+    for (Room r : roomRegistry.values()) {
       if (r.getLabel().equals(label)) {
         return r.getIdentifier();
       }

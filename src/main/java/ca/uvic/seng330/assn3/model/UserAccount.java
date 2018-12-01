@@ -93,6 +93,10 @@ public class UserAccount implements StorageEntity {
     }
   }
 
+  public boolean isBlacklisted(UUID id) {
+    return this.blackList.contains(id);
+  }
+
   protected ArrayList<UUID> getBlackList() {
     assert this.blackList != null;
     return this.blackList;

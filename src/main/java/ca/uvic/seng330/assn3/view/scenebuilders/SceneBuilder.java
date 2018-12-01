@@ -1,8 +1,6 @@
 package ca.uvic.seng330.assn3.view.scenebuilders;
 
 import ca.uvic.seng330.assn3.controller.Controller;
-import ca.uvic.seng330.assn3.controller.threading.LabelCheck;
-import ca.uvic.seng330.assn3.logging.Logging;
 import java.util.ArrayList;
 import java.util.UUID;
 import javafx.event.ActionEvent;
@@ -13,7 +11,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
-import org.slf4j.event.Level;
 
 public abstract class SceneBuilder {
 
@@ -140,19 +137,19 @@ public abstract class SceneBuilder {
     for (int i = 0; i < deleteList.size(); i++) {
 
       // More threading removed from submission due to lack of time to test it thoroughly
-//      Object[] labelWrapper = new Object[1];
-//      Thread labelCheck =
-//          new Thread(new LabelCheck(getController(), deleteList.get(i), labelWrapper));
-//      labelCheck.start();
+      //      Object[] labelWrapper = new Object[1];
+      //      Thread labelCheck =
+      //          new Thread(new LabelCheck(getController(), deleteList.get(i), labelWrapper));
+      //      labelCheck.start();
       Button button = new Button();
       button.setUserData(deleteList.get(i));
       button.setOnAction(event -> getController().handleDeleteClick((UUID) button.getUserData()));
-//      try {
-//        labelCheck.join();
-//      } catch (InterruptedException e) {
-//        Logging.log("Failed to retrieve label in separate thread.", Level.ERROR);
-//      }
-//      button.setText(labelWrapper[0].toString());
+      //      try {
+      //        labelCheck.join();
+      //      } catch (InterruptedException e) {
+      //        Logging.log("Failed to retrieve label in separate thread.", Level.ERROR);
+      //      }
+      //      button.setText(labelWrapper[0].toString());
       String label = getController().getLabel(deleteList.get(i));
       button.setText(label);
       button.setId("delete_" + label);

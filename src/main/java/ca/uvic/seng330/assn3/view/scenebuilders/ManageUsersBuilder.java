@@ -51,7 +51,9 @@ public class ManageUsersBuilder extends SceneBuilder {
     assert col != null;
     ArrayList<UUID> userList = getController().getBasicUserAccountIDs();
     for (int i = 0; i < userList.size(); i++) {
-      Button button = new Button(getController().getLabel(userList.get(i)));
+      String username = getController().getLabel(userList.get(i));
+      Button button = new Button(username);
+      button.setId(username);
       button.setUserData(userList.get(i));
       button.setOnAction(
           event -> getController().handleUsersVisabilityClick((UUID) button.getUserData()));
