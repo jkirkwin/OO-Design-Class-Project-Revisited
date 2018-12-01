@@ -113,6 +113,7 @@ public class UserAccount implements StorageEntity {
     while (!this.notificationList.isEmpty()) {
       copy.push(notificationList.pop());
     }
+    Logging.logWithID("Notifications cleared.", this.getIdentifier(), Level.INFO);
     return copy;
   }
 
