@@ -20,6 +20,6 @@ public class LightbulbSceneBuilder extends DeviceSceneBuilder {
   protected Node buildSpecifics() {
     HBox hbox = new HBox();
     hbox.setMinSize(100, 100);
-    return hbox; // TODO Add specific fomratting for lightbulb here
+    return hbox; 
   }
 }

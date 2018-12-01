@@ -24,7 +24,7 @@ public class Startup extends Application {
     Logging.init();
 
     hub = new Hub();
-    hub.startup(); // TODO As per acceptance tests make this up to the user
+    hub.startup(); 
 
     primaryStage.setMinHeight(250);
     primaryStage.setMinWidth(250);

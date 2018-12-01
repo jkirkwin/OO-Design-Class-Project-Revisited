@@ -19,7 +19,6 @@ public class ManageUsersBuilder extends SceneBuilder {
 
   @Override
   protected Node buildSpecifics() {
-    // TODO: re-factor out hub and this into new method somewhere
     ScrollPane layout = new ScrollPane();
     layout.setFitToHeight(true);
     layout.setFitToWidth(true);

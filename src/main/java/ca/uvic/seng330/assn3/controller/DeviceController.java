@@ -2,6 +2,9 @@ package ca.uvic.seng330.assn3.controller;
 
 import ca.uvic.seng330.assn3.model.devices.Device;
 import ca.uvic.seng330.assn3.model.devices.Status;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+
 import java.util.UUID;
 
 public abstract class DeviceController extends Controller {
@@ -15,15 +18,14 @@ public abstract class DeviceController extends Controller {
     this.id = id;
   }
 
-  // TODO Remove id param
-  public void toggleDevice(UUID id) {
+  public void toggleDevice() {
     Device curr = hub.getDevice(id);
     if (curr.getStatus() == Status.ON) {
       curr.setStatus(Status.OFF);
     } else if (curr.getStatus() == Status.OFF) {
       curr.setStatus(Status.ON);
     } else {
-      // TODO: alert that device is broken.
+      client.alertUser(AlertType.ERROR, "Error status", "Device in error state", "Something when wrong!");
     }
     deviceViewSwitch(id);
   }
@@ -32,13 +34,11 @@ public abstract class DeviceController extends Controller {
     return this.id;
   }
 
-  // TODO Remove id param
-  public String getStatus(UUID id) {
+  public String getStatus() {
     return hub.getDevice(id).getStatus().toString();
   }
 
-  // TODO Remove id param
-  public void changeDeviceLabel(UUID id, String newLabel) {
+  public void changeDeviceLabel(String newLabel) {
     assert id != null;
     assert newLabel != null;
     hub.getDevice(id).setLabel(newLabel);

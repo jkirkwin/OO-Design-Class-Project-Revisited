@@ -44,7 +44,7 @@ public class CameraSceneBuilder extends DeviceSceneBuilder {
     Button toggle = super.makeStatusToggle();
     toggle.setOnAction(
         event -> {
-          getController().toggleDevice(deviceID);
+          getController().toggleDevice();
           String url = getController().getCameraRecording() ? videoURL : blankURL;
           setVideoURL(url);
         });
@@ -55,6 +55,7 @@ public class CameraSceneBuilder extends DeviceSceneBuilder {
   protected Node buildSpecifics() {
     VBox specifics = new VBox(10);
     HBox hbox = new HBox(10);
+    hbox.setMaxWidth(250);
 
     VBox labels = new VBox(10);
     labels.setPrefWidth(200);

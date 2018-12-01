@@ -36,12 +36,9 @@ public class ThermostatSceneBuilder extends DeviceSceneBuilder {
     HBox currTempActions = new HBox(10);
     Label currTemp = new Label("Current Temp -->");
     String currentTemp =
-        String.valueOf(getController().getThermostatTempMag(deviceID))
+        String.valueOf(roundToHundredth(getController().getThermostatTempMag(deviceID)))
             + " degrees "
             + getController().getThermostatTempType(deviceID);
-    //    if (getController().getThermostatTempType(deviceID) == "CELSIUS") {
-    //      currentTemp += "        ";
-    //    }
     Label displayTemp = new Label(currentTemp);
     displayTemp.setId("current_temp");
     Button switchTempType = new Button("Change Degrees");
@@ -88,5 +85,12 @@ public class ThermostatSceneBuilder extends DeviceSceneBuilder {
     withBoarder.getChildren().add(new Separator(Orientation.VERTICAL));
     withBoarder.getChildren().add(specifics);
     return withBoarder;
+  }
+
+  private double roundToHundredth(double magnitude) {
+    long factor = (long) Math.pow(10, 2);
+    magnitude = magnitude * factor;
+    long tmp = Math.round(magnitude);
+    return (double) tmp / factor;
   }
 }

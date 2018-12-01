@@ -18,8 +18,6 @@ import org.junit.Test;
 
 public class TestDeviceUsage extends IOTApplicationGUITest {
 
-  // TODO Add camera usage tests
-
   /*
    * change label
    * check displayed label isUpdated

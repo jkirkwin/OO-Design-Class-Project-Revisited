@@ -61,7 +61,6 @@ public class Camera extends Device {
       if (this.diskSize >= maxSize) {
         this.setStatus(Status.ERROR);
         Logging.logWithID("Camera Full.", getIdentifier(), Level.WARN);
-        getHub().alert("Camera Full", this); // TODO Do we still need this?
         throw new CameraFullException();
       }
       this.isRecording = !this.isRecording;

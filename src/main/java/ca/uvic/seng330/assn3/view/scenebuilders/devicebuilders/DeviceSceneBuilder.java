@@ -34,7 +34,10 @@ public abstract class DeviceSceneBuilder extends SceneBuilder {
     vbox.setMinWidth(200);
     Label currentLabel = new Label(getController().getLabel(deviceID));
     currentLabel.setId("current_label");
-    vbox.getChildren().add(currentLabel);
+    HBox devName = new HBox(10);
+    devName.getChildren().add(new Label("Device Label -->"));
+    devName.getChildren().add(currentLabel);
+    vbox.getChildren().add(devName);
 
     TextField newLabel = new TextField();
     newLabel.setId("new_label");
@@ -43,7 +46,7 @@ public abstract class DeviceSceneBuilder extends SceneBuilder {
     Button confirmLabel = new Button("Change Label");
     confirmLabel.setId("change_label");
     confirmLabel.setOnAction(
-        event -> getController().changeDeviceLabel(deviceID, newLabel.getText()));
+        event -> getController().changeDeviceLabel(newLabel.getText()));
     vbox.getChildren().add(confirmLabel);
 
     HBox hbox = new HBox(30);
@@ -60,9 +63,9 @@ public abstract class DeviceSceneBuilder extends SceneBuilder {
   }
 
   protected Button makeStatusToggle() {
-    Button toggle = new Button(getController().getStatus(deviceID));
+    Button toggle = new Button(getController().getStatus());
     toggle.setId("status_toggle");
-    toggle.setOnAction(event -> getController().toggleDevice(deviceID));
+    toggle.setOnAction(event -> getController().toggleDevice());
     return toggle;
   }
 }
