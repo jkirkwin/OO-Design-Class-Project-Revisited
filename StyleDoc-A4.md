@@ -14,11 +14,9 @@ While the aspiration is for the Hub to be the only thing able to access that whi
 
 Hub also acts as a mediator within the model, in that it is the go-between in nearly all communication between other model entities (UserAccounts, Devices, and Rooms primarily). 
 
-### UserAccount
+#### Notifications
 
-UserAccount is responsible for knowing it's own accessLevel, which Hub it belongs to, it's username and password for verification, and it also holds the blacklist of devices it may not see or recieve notifications from.
-
-We decided to have the UserAccounts store their own accessLevel and Device Blacklist so as to limit complexity of Hub. 
+We have added Notifications to our Model to let our System talk to our Users even when they're away. Each UserAccount stores all the notifications from all the devices they're allowed to interact with. Notifications go through hub and into the notification stack of any users that don't have the device in their blacklist. Notifications can be about various things in the model (rooms, devices, users) as well as for generic "plain" notifications that are not tied to any particular model entity. When the Notifications are accessed, they're removed from UserAccount and given to View to be displayed for the User.
 
 ### Rooms
 
@@ -27,6 +25,12 @@ Rooms are Objects which are responsible for knowing which Devices have been assi
 #### Events
 
 Sometimes events will occur that will require devices talking to each other. Rooms are used to dictate which Devices should be alerted by any other given Device. Rather than having every Lightbulb in the smarthouse turn on when someone steps into the foyer, the house will wait for the camera in the halleay to detect movement before lighting up the next room. Eco-friendly AND convenient!!
+
+### UserAccount
+
+UserAccount is responsible for knowing it's own accessLevel, which Hub it belongs to, it's username and password for verification, and it also holds the blacklist of devices it may not see or recieve notifications from.
+
+We decided to have the UserAccounts store their own accessLevel and Device Blacklist so as to limit complexity of Hub. 
 
 ### Device
 
