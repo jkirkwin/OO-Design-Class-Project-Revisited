@@ -27,8 +27,10 @@ public class RoomController extends Controller {
   }
 
   public void makeNewRoom(String roomLabel) {
-    try {
-      Room fresh = new Room(roomLabel, this.getHub());
+    assert roomLabel!=null;
+    String uniqueLabel = getUniqueDeviceLabel(roomLabel);  
+	  try {
+      Room fresh = new Room(uniqueLabel, this.getHub());
     } catch (HubRegistrationException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();

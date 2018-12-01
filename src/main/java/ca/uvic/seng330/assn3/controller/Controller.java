@@ -221,6 +221,20 @@ public abstract class Controller {
   protected DeviceType getDeviceType(Device d) {
     return DeviceType.valueOf(d.getClass().getSimpleName().toUpperCase());
   }
+  
+  /*
+   * @pre baseLabel != null
+   */
+  protected String getUniqueDeviceLabel(String baseLabel) {
+    assert baseLabel != null;
+    String uniqueLabel = baseLabel;
+    int i = 1;
+    while (hub.isLabelUsed(uniqueLabel)) {
+      uniqueLabel = baseLabel + "(" + i + ")";
+      i++;
+    }
+    return uniqueLabel;
+  }
 
   // TODO Move this?
   public void handleUserViewClick(UUID id) {

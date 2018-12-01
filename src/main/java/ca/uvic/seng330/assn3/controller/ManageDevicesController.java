@@ -30,17 +30,5 @@ public class ManageDevicesController extends Controller {
     refresh();
   }
 
-  /*
-   * @pre baseLabel != null
-   */
-  private String getUniqueDeviceLabel(String baseLabel) {
-    assert baseLabel != null;
-    String uniqueLabel = baseLabel;
-    int i = 1;
-    while (hub.isLabelUsed(uniqueLabel)) {
-      uniqueLabel = baseLabel + "(" + i + ")";
-      i++;
-    }
-    return uniqueLabel;
-  }
+  
 }
