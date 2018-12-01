@@ -174,7 +174,7 @@ We also ran into a snag when combining out UI and model test suites. The setup r
 * From eclipse, just run Startup.java as a Java Application.
 
 ### How to run the test suite
-
+* (to be safe) type gradle spotlessapply first!
 * From the command line (on Jamie's win 10 machine!!) type `gradle test`. 
 * From eclipse, run the src/test/java folder as a JUnit test.
 
