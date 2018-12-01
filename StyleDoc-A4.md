@@ -54,6 +54,10 @@ Lightbulb & SmartPlug extend Device and are responsible for knowing if they are 
 
 The Storage sub-package of model is repsonsible for converting all stateful entities within the model into a JSON representation, storing these entities  in a consistent system storage directory (consistency ensured by the storage package itself), recording previous system states in the event that an error occurs and the user would like to roll back the model to the last recorded state, and re-building the model (exactly as it was at shutdown) from the JSON representation.
 
+### Changes from Assignment#3
+
+The Major changes from Assignment 3 are the addition of rooms, and the expansion of storage.
+
 ### Model UML
 
 ![](UML Diagrams/Model.png)
@@ -97,7 +101,7 @@ The controller re-factor focused on separating all non-universal functions into 
 
 ### Client
 
-Client is the class in view that serves as the point of contact for controller. It holds the Stage (window) used to house the GUI.
+Client is the class in View that serves as the point of contact for Controller. It holds the Stage (window) used to house the GUI.
 
 ### SceneBuilder
 
@@ -113,15 +117,15 @@ The HubView, much like Model's Hub, is the core of the application. It is from h
 
 ##### Basic
 
-If the User logs in with a Basic UserAccount they are presented with a simple HubView. Consisting of all the Devices they're allowed to see. Selecting any of these will open the Device Config Screen for the specific Device.
+If the User logs in with a Basic UserAccount they are presented with a simple HubView. Consisting of all the Devices they're allowed to see. Selecting any of these will open the Device Config Screen for the specific Device. It is from here you may also turn the house (all Devices) OFF, or access all notifications from the time you've been away (Logged out).
 
 ##### Admin
 
-If the User logs in with an Admin UserAccount they are presented with the same simple HubView as a Basic UserAccount, as well as the Admin Panel. Manage Users will let you go see a list of all non-Admin Users and either delete the UserAccount or see their Basic HubViews. In future an Admin User will be able to add Devices to the BlackList of any user in the list.
+If the User logs in with an Admin UserAccount they are presented with the same simple HubView as a Basic UserAccount, as well as the Admin Panel. Manage Users will let you go see a list of all non-Admin Users and either delete the UserAccount or add/remove devices to/from user Blacklists.
 
 Manage Devices takes the User to a list of Devices in the system. Selecting any of these Devices will delete it from the System. Selecting the New Device Button will take the User to the Create Device screen where a new Device can be created of any available type (Any new DeviceTypes will automatically be added to the list). The Device will be given a default label or a custom one if specified. It can also be created in either the ON or OFF state.
 
-Manage Notifications will in future allow the admin to dictate which devices will send notifications.
+Manage Rooms takes the User to a list of Rooms in the system. From here you can create new Rooms, delete existing Rooms, or add/remove Devices from any given Room.
 
 ### DeviceSceneBuilder
 
@@ -129,7 +133,7 @@ The DeviceSceneBuilder class provides the basis for all the Device Config Screen
 
 #### CameraScene
 
-Camera Scene allows for the Camera to start and stop recording when Device is ON. It also displays how full the diskSpace is. If the disk is full, the camera goes into an errored state.
+Camera Scene allows for the Camera to start and stop recording when Device is ON. It also displays how full the diskSpace is. If the disk is full, the camera goes into an errored state. It also displays the video feed for the Camera.
 
 #### ThermostatScene
 
@@ -138,6 +142,10 @@ Thermostat Scene displays current Temperature in the correct DegreeType and can 
 #### Lightbulb & SmartPlug
 
 The remaining Devices only require the basic Device Functionality but have been given their own ViewBuilders for easy of future development. Dimmers or Meters come to mind.
+
+### Changes from Assignment#3
+
+The Biggest changes since last submission are the addition of Manage Rooms, Notifications, and adding Logs to the Admon Panel.
 
 ### View Diagram
 
@@ -159,3 +167,5 @@ We have done our best to have our test package structure mimic that of the sourc
 * From the command line (on Jamie's win 10 machine!!) type `gradle test`. 
 Unfortunately, gradle does not play nicely with one of our UI tests (although it runs and passes as expected when run as a JUnit test from within Eclipse). Because of this, `gradle test` appears to hang up after a little while. Once this happens go ahead and force end the process with Control+C. Then you'll get the failure report. (PS, @The Marker, if you know why it works in eclipse but not when run from cmd, PLEASE let us know).
 * From eclipse, run the src/test/java folder as a JUnit test.
+
+### Changes from Assignment#3
