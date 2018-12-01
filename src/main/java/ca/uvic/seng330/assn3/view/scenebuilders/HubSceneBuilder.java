@@ -76,6 +76,7 @@ public class HubSceneBuilder extends SceneBuilder {
       logScrollPane.setHbarPolicy(ScrollBarPolicy.ALWAYS);
       logScrollPane.setVbarPolicy(ScrollBarPolicy.ALWAYS);
       logScrollPane.setContent(logs());
+      logScrollPane.setMaxHeight(500);
 
       HBox upperAdminPanel = new HBox(5);
       upperAdminPanel.getChildren().add(manageUsers);
