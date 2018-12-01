@@ -149,7 +149,7 @@ The remaining Devices only require the basic Device Functionality but have been 
 
 ### Changes from Assignment#3
 
-The Biggest changes since last submission are the addition of Manage Rooms, Notifications, and adding Logs to the Admon Panel.
+The Biggest changes since last submission are the addition of Manage Rooms, Notifications, and adding Logs to the Admin Panel. With the ability to now Blacklist devices from users and that interaction with Notifications as well as the Room events and Logging, the View portion of A4 was quite cohesive.
 
 ### View Diagram
 
