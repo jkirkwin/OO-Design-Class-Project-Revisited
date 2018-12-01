@@ -1,7 +1,5 @@
 # A style document describing the development of our design decisions
 
-
-
 ## Model
 
 The Model has been largely inherited from assignment two. Using Hub as our Primary EntryPoint, we can access all Devices and UserAccounts in our system. The Model is completely independent and does not rely on ANYTHING outside itself. Using Rooms as a bundling object, devices are pooled together so as to alert each other when they need to interact.
@@ -149,6 +147,11 @@ The remaining Devices only require the basic Device Functionality but have been 
 
 We have done our best to have our test package structure mimic that of the source code. The storage package has been fully tested, and the UI processes needed for our acceptance tests has been tested for the most part. We have a few basic model tests, and our next step before anything else will be fleshing out our model coverage. Once the controller re-factor is complete, we will move forward with unit tests for that package too, noting that some controller testing has been done via the UI tests found in the view package.
 
+Unfortunately, gradle does not play nicely with two of our model tests (although it runs and passes as expected when run as a JUnit test from within Eclipse). Because of these compatability issues, `gradle test` appears to hang up after a little while. Once this happens go ahead and force end the process with Control+C. Then you'll get the failure report. (PS, @The Marker, if you know why it works in eclipse but not when run from cmd, we would love to know).
+
+We also ran into a snag when combining out UI and model test suites. The setup required for the UI tests affects the storage tests and prevents some of them from running. We decided to work on the source code instead of rectifying this because we did not have time to do both. For ideal results, we have been running the two test suites seperately (which you can do by moving all the view tests to their own folder). In this case, all tests pass as expected.
+
+
 ### How to Launch the app
 
 * From the command line (at least on Jamie's win 10 machine!!) type `gradle run`.
@@ -157,5 +160,4 @@ We have done our best to have our test package structure mimic that of the sourc
 ### How to run the test suite
 
 * From the command line (on Jamie's win 10 machine!!) type `gradle test`. 
-Unfortunately, gradle does not play nicely with one of our UI tests (although it runs and passes as expected when run as a JUnit test from within Eclipse). Because of this, `gradle test` appears to hang up after a little while. Once this happens go ahead and force end the process with Control+C. Then you'll get the failure report. (PS, @The Marker, if you know why it works in eclipse but not when run from cmd, PLEASE let us know).
 * From eclipse, run the src/test/java folder as a JUnit test.
