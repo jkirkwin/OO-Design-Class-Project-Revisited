@@ -11,6 +11,9 @@ import ca.uvic.seng330.assn3.model.devices.Lightbulb;
 import ca.uvic.seng330.assn3.model.devices.SmartPlug;
 import ca.uvic.seng330.assn3.model.devices.Status;
 import ca.uvic.seng330.assn3.model.devices.Thermostat;
+import ca.uvic.seng330.assn3.model.storage.Storage;
+import ca.uvic.seng330.assn3.model.storage.TestStorage;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -19,13 +22,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class TestHub extends IOTUnitTest {
-
-  /*
-   * Test Room creation, deletion, switching, etc with various device
-   * Test UserAccount creation, deletion, switching, etc with various device
-   * Test Device creation, deletion, switching, etc with various device
-   * Test startup and shutdown
-   */
 
   private Hub h;
   private List<Device> devices;
@@ -99,19 +95,7 @@ public class TestHub extends IOTUnitTest {
     } catch (HubRegistrationException e) {
     }
   }
-
-  @Test
-  public void testShutdown() {
-    // TODO
-    assertTrue(false);
-  }
-
-  @Test
-  public void testStartup() {
-    // TODO
-    assertTrue(false);
-  }
-
+  
   @Test
   public void testUserAccountRegistration() {
     Hub dummyHub = new Hub();
@@ -131,7 +115,7 @@ public class TestHub extends IOTUnitTest {
       try {
         h.register(a);
       } catch (HubRegistrationException e) {
-        fail("unable to register room");
+        fail("unable to register account");
       }
       assertTrue(h.isRegisteredUserAccount(a.getIdentifier()));
       assertTrue(h.getUser(a.getUsername(), a.getPassword()) == a);
@@ -227,8 +211,29 @@ public class TestHub extends IOTUnitTest {
   }
 
   @Test
-  public void testDeviceAdministration() {
-    // TODO
-    assertTrue(false);
+  public void testDeviceRegistration() {
+    Hub dummyHub = new Hub();
+    Device[] devices = new Device[20];
+    for (int i = 0; i < devices.length; i= i+4) {
+      devices[i] = new Camera("cam" + i, dummyHub);
+      devices[i+1] = new Lightbulb("bulb" + i, dummyHub);
+      devices[i+2] = new SmartPlug("plug" + i, dummyHub);
+      devices[i+3] = new Thermostat("thermo" + i, dummyHub);
+    }
+    for (Device d : devices) {
+      assertTrue(dummyHub.isRegisteredDevice(d.getIdentifier()));
+      try {
+        dummyHub.unregister(d);
+      } catch (HubRegistrationException e1) {
+        fail("Exception thrown");
+      }
+      assertFalse(dummyHub.isRegisteredDevice(d.getIdentifier()));
+      try {
+        h.register(d);
+      } catch (HubRegistrationException e) {
+        fail("unable to register device");
+      }
+      assertTrue(h.isRegisteredDevice(d.getIdentifier()));
+    }
   }
 }
