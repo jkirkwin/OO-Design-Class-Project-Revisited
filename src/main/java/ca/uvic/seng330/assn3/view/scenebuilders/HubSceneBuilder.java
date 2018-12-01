@@ -42,8 +42,8 @@ public class HubSceneBuilder extends SceneBuilder {
     VBox buttons = new VBox(5);
     layout.setContent(hubDeviceList(buttons));
 
-    Button StartUpDown = new Button("ShutDown All");
-    StartUpDown.setOnAction(event -> getController().allOff());
+    Button startUpDown = new Button("ShutDown All");
+    startUpDown.setOnAction(event -> getController().allOff());
 
     Button userNotifications = new Button("Notifications");
     userNotifications.setOnAction(event -> getController().notificationView());
@@ -51,7 +51,7 @@ public class HubSceneBuilder extends SceneBuilder {
     VBox hubView = new VBox(5);
     hubView.getChildren().add(new Label("Device Config"));
     hubView.getChildren().add(layout);
-    hubView.getChildren().add(StartUpDown);
+    hubView.getChildren().add(startUpDown);
     hubView.getChildren().add(userNotifications);
     hbox.getChildren().add(hubView);
 
@@ -102,7 +102,6 @@ public class HubSceneBuilder extends SceneBuilder {
     Scanner logsScanner;
     try {
       logsScanner = new Scanner(new File("src"+ File.separator +"logging" + File.separator +"historical.log"));
-
       for (int i = 0; logsScanner.hasNext() && i < 100; i++) {
         String line = null;
         String rawLine = logsScanner.nextLine();

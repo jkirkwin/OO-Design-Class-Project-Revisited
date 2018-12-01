@@ -69,15 +69,18 @@ public class CameraSceneBuilder extends DeviceSceneBuilder {
     toggleRecording.setOnAction(
         event -> {
           getController().setCameraRecording();
-          toggleVideo();
+          if(getController().getCameraRecording()) {
+            setVideoURL(videoURL);
+          }
         });
-
+    toggleRecording.setId("record");
     actions.getChildren().add(toggleRecording);
     Button emptyDisk =
         new Button(
             String.format(
                 "%d/%d",
                 getController().getCurrCameraDiskSize(), getController().getMaxCameraDiskSize()));
+    emptyDisk.setId("empty_disk");
     emptyDisk.setOnAction(
         event -> {
           setVideoURL(blankURL);
