@@ -9,6 +9,7 @@ import ca.uvic.seng330.assn3.view.scenebuilders.CreateDeviceBuilder;
 import ca.uvic.seng330.assn3.view.scenebuilders.HubSceneBuilder;
 import ca.uvic.seng330.assn3.view.scenebuilders.LoginSceneBuilder;
 import ca.uvic.seng330.assn3.view.scenebuilders.ManageDevicesBuilder;
+import ca.uvic.seng330.assn3.view.scenebuilders.ManageNotificationsBuilder;
 import ca.uvic.seng330.assn3.view.scenebuilders.ManageRoomsBuilder;
 import ca.uvic.seng330.assn3.view.scenebuilders.ManageUsersBuilder;
 import ca.uvic.seng330.assn3.view.scenebuilders.SceneBuilder;
@@ -18,9 +19,7 @@ import ca.uvic.seng330.assn3.view.scenebuilders.devicebuilders.CameraSceneBuilde
 import ca.uvic.seng330.assn3.view.scenebuilders.devicebuilders.LightbulbSceneBuilder;
 import ca.uvic.seng330.assn3.view.scenebuilders.devicebuilders.SmartPlugSceneBuilder;
 import ca.uvic.seng330.assn3.view.scenebuilders.devicebuilders.ThermostatSceneBuilder;
-import ca.uvic.seng330.assn3.view.scenebuilders.ManageNotificationsBuilder;
 import java.util.ArrayList;
-import java.util.EnumSet;
 import java.util.Stack;
 import java.util.UUID;
 import javafx.scene.control.Alert.AlertType;

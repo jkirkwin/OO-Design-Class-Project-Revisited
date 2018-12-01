@@ -24,6 +24,7 @@ public class ManageDevicesBuilder extends SceneBuilder {
   protected Node buildSpecifics() {
     // TODO: re-factor out hub and this into new method somewhere
     HBox hbox = new HBox(10);
+    hbox.setMinSize(300, 100);
 
     VBox vbox = new VBox();
     vbox.getChildren().add(new Label("Click Device\nto Delete -->\n\n\n"));
@@ -38,6 +39,7 @@ public class ManageDevicesBuilder extends SceneBuilder {
     layout.setFitToWidth(true);
     layout.setHbarPolicy(ScrollBarPolicy.NEVER);
     layout.setVbarPolicy(ScrollBarPolicy.ALWAYS);
+    layout.setMaxHeight(200);
 
     layout.setContent(hubDeleteList(new VBox(10), getController().getDeviceIDList()));
     hbox.getChildren().add(layout);
