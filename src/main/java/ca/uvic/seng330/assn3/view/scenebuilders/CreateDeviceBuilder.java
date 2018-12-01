@@ -2,7 +2,6 @@ package ca.uvic.seng330.assn3.view.scenebuilders;
 
 import ca.uvic.seng330.assn3.controller.DeviceType;
 import ca.uvic.seng330.assn3.controller.ManageDevicesController;
-import java.util.ArrayList;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;

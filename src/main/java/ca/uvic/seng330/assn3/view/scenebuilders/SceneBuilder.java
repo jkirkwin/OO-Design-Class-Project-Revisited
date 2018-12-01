@@ -3,14 +3,8 @@ package ca.uvic.seng330.assn3.view.scenebuilders;
 import ca.uvic.seng330.assn3.controller.Controller;
 import ca.uvic.seng330.assn3.controller.threading.LabelCheck;
 import ca.uvic.seng330.assn3.logging.Logging;
-import ca.uvic.seng330.assn3.view.controller.threading.StatusCheck;
-import ca.uvic.seng330.assn3.view.scenebuilders.devicebuilders.DeviceSceneBuilder;
-
 import java.util.ArrayList;
 import java.util.UUID;
-
-import org.slf4j.event.Level;
-
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
@@ -19,6 +13,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
+import org.slf4j.event.Level;
 
 public abstract class SceneBuilder {
 
@@ -90,22 +85,24 @@ public abstract class SceneBuilder {
     assert col != null;
     ArrayList<UUID> deviceList = controller.getDeviceIDList();
     for (int i = 0; i < deviceList.size(); i++) {
-      
+
       // Threading for Z2
-//      Object[] statusWrapper = new Object[1];
-//      Object[] labelWrapper = new Object[1];
-//      Thread statusCheck = new Thread(new StatusCheck(getController(), deviceList.get(i), statusWrapper));
-//      Thread labelCheck = new Thread(new LabelCheck(getController(), deviceList.get(i), labelWrapper));
-//      statusCheck.start();
-//      labelCheck.start();
-//      try {
-//        labelCheck.join();
-//        labelCheck.join();
-//      } catch (InterruptedException e) {
-//        Logging.log("Thread interrupted.", Level.ERROR);
-//      }
-//      String label = labelWrapper[0].toString();
-//      String statusStr = statusWrapper[0].toString();
+      //      Object[] statusWrapper = new Object[1];
+      //      Object[] labelWrapper = new Object[1];
+      //      Thread statusCheck = new Thread(new StatusCheck(getController(), deviceList.get(i),
+      // statusWrapper));
+      //      Thread labelCheck = new Thread(new LabelCheck(getController(), deviceList.get(i),
+      // labelWrapper));
+      //      statusCheck.start();
+      //      labelCheck.start();
+      //      try {
+      //        labelCheck.join();
+      //        labelCheck.join();
+      //      } catch (InterruptedException e) {
+      //        Logging.log("Thread interrupted.", Level.ERROR);
+      //      }
+      //      String label = labelWrapper[0].toString();
+      //      String statusStr = statusWrapper[0].toString();
 
       String label = getController().getLabel(deviceList.get(i));
       String statusStr = getController().devStatus(deviceList.get(i));
@@ -141,9 +138,10 @@ public abstract class SceneBuilder {
     assert col != null;
     assert deleteList != null;
     for (int i = 0; i < deleteList.size(); i++) {
-      
+
       Object[] labelWrapper = new Object[1];
-      Thread labelCheck = new Thread(new LabelCheck(getController(), deleteList.get(i), labelWrapper));
+      Thread labelCheck =
+          new Thread(new LabelCheck(getController(), deleteList.get(i), labelWrapper));
       labelCheck.start();
       Button button = new Button();
       button.setUserData(deleteList.get(i));

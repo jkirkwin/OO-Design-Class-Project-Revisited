@@ -39,7 +39,7 @@ public class ManageUsersBuilder extends SceneBuilder {
     hbox.getChildren().add(viewUsers);
     hbox.getChildren().add(deleteUsers);
     layout.setContent(hbox);
-    
+
     VBox total = new VBox();
     total.getChildren().add(titles);
     total.getChildren().add(layout);

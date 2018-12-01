@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.UUID;
-
 import org.junit.Before;
 import org.junit.Test;
 
@@ -43,16 +42,16 @@ public class TestHub extends IOTUnitTest {
       devices.add(new Thermostat("thermo" + i, h));
     }
   }
-  
+
   @Test
   public void testMassStatusChange() {
-    for(Device d : devices) {
+    for (Device d : devices) {
       assertTrue(d.getStatus().equals(Status.ON));
     }
     devices.get(0).setStatus(Status.OFF);
     devices.get(1).setStatus(Status.ERROR);
     h.massSetStatus(Status.OFF);
-    for(Device d : devices) {
+    for (Device d : devices) {
       assertTrue(d.getStatus().equals(Status.OFF));
     }
   }
@@ -60,7 +59,7 @@ public class TestHub extends IOTUnitTest {
   @Test
   public void testUUIDUnregistration() {
     // Device ID
-    for(Device d : devices) {
+    for (Device d : devices) {
       try {
         h.unregister(d.getIdentifier());
       } catch (HubRegistrationException e) {
@@ -75,10 +74,10 @@ public class TestHub extends IOTUnitTest {
     try {
       h.unregister(a.getIdentifier());
     } catch (HubRegistrationException e) {
-      fail("account deregistration failed");      
+      fail("account deregistration failed");
     }
     assertFalse(h.isRegisteredUserAccount(a.getIdentifier()));
-    
+
     // Room ID
     Room r = null;
     try {
@@ -90,15 +89,16 @@ public class TestHub extends IOTUnitTest {
     try {
       h.unregister(r.getIdentifier());
     } catch (HubRegistrationException e) {
-      fail("room deregistration failed");      
+      fail("room deregistration failed");
     }
     assertFalse(h.isRegisteredRoom(a.getIdentifier()));
-    
+
     // Invalid ID
     try {
       h.unregister(UUID.randomUUID());
       fail("no exception thrown");
-    } catch(HubRegistrationException e) {}
+    } catch (HubRegistrationException e) {
+    }
   }
 
   @Test
@@ -118,7 +118,7 @@ public class TestHub extends IOTUnitTest {
     Hub dummyHub = new Hub();
     UserAccount[] accounts = new UserAccount[5];
     for (int i = 0; i < accounts.length; i++) {
-      AccessLevel lvl = i%2 == 0 ? AccessLevel.ADMIN : AccessLevel.BASIC;
+      AccessLevel lvl = i % 2 == 0 ? AccessLevel.ADMIN : AccessLevel.BASIC;
       accounts[i] = new UserAccount(dummyHub, lvl, "username" + i, "password" + i);
     }
     for (UserAccount a : accounts) {
@@ -215,16 +215,16 @@ public class TestHub extends IOTUnitTest {
       r = new Room("label", h);
     } catch (HubRegistrationException e) {
       fail();
-    }    
+    }
     assertTrue(devices.get(0).getLabel().equals(h.getLabel(devices.get(0).getIdentifier())));
     assertTrue(r.getLabel().equals(h.getLabel(r.getIdentifier())));
     assertTrue(a.getUsername().equals(h.getLabel(a.getIdentifier())));
-    
+
     try {
       h.getLabel(UUID.randomUUID());
       fail();
-    } catch(NoSuchElementException e) {}
-    
+    } catch (NoSuchElementException e) {
+    }
   }
 
   @Test
