@@ -15,7 +15,7 @@
 * General cleanup
     * ~~Fix up the build script~~
     * Remove or conglomerate random bits and pieces of documentation
-    * Get a travis (or other CI) instance up and running
+    * ~~Get a travis (or other CI) instance up and running~~
 
 * ~~Set up code format/style checking and auto-fixing~~
     * ~~Integrated with gradle~~
