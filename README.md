@@ -18,6 +18,6 @@ on the result of our project time.
 # Project
 
 ## Prerequisites
-Java 1.8
-JavaFX
-Gradle 4
+* Java 1.8.x
+* JavaFX
+* Gradle 4.x

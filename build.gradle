@@ -26,7 +26,7 @@ dependencies {
     testImplementation 'junit:junit:4.12' 
     testImplementation 'org.testfx:testfx-core:4.0.15-alpha'
     testImplementation 'org.testfx:testfx-junit:4.0.15-alpha' 
-    //testRuntimeOnly 'org.testfx:openjfx-monocle:1.8.0_20' // TODO Add this for headless testing?
+    testRuntimeOnly 'org.testfx:openjfx-monocle:1.8.0_20' // for headless testing
 }
     
 spotless {
