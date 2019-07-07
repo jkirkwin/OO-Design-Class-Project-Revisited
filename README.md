@@ -1,3 +1,5 @@
+# Context 
+
 The original project that this repo is based on was to create a smart home management 
 application for SEng 330 (Object Oriented Design) at UVic. The project was not actually
 assigned in earnest until after half way through the semester, and it ended up being 
@@ -8,7 +10,14 @@ bb715113fc5363c20a732eec36be0a5dea173e60) as an oportunity to work on my refacto
 skills and get some more practice with Java.
 
 The project as assigned was comprised primarily of assignments 3 and 4. The specs for 
-these can be found in /UVic/specs/. /UVic/project/ houses some residual documentation 
+these can be found in `/UVic/specs/`. `/UVic/project/` houses some residual documentation
 on the result of our project time.
 
-TODO.md holds a list of tasks I would like to accomplish as part of this process, and changelog.md will house a list of code modifications made.
+`TODO.md` holds a list of tasks I would like to accomplish as part of this process
+
+# Project
+
+## Prerequisites
+Java 1.8
+JavaFX
+Gradle 4

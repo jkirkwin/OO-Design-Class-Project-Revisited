@@ -1,50 +1,43 @@
 plugins {
     id 'java'
     id 'application'
-    id "com.diffplug.gradle.spotless" version "3.15.0"
+    id "com.diffplug.gradle.spotless" version "3.23.1"
 }
-// Apply the java-library plugin to add support for Java Library
-apply plugin: 'java-library'
-apply plugin: 'checkstyle'
 
-group 'ca.uvic.seng330.assn3'
-version '1.0-SNAPSHOT'
+application {
+    mainClassName = "ca.jkirkwin.seng330.GradleStub"
+}
+
+def versionMajor=1
+def versionMinor=0
+def versionPatch=0
+group 'ca.jkirkwin.seng330'
+version "${versionMajor}.${versionMinor}.${versionPatch}"
 
 sourceCompatibility = 1.8
 
-configurations {
-  checkstyleConfig
-}
-
-def versions = [
-  checkstyle: '8.13',
-]
-
 repositories {
-jcenter()
-    mavenCentral()
-    }
-    
-checkstyle {
-  toolVersion = "${versions.checkstyle}"
-  config = resources.text.fromArchiveEntry(configurations.checkstyleConfig, 'google_checks.xml')
+    jcenter()
 }
-
-spotless {
-  java {
-    googleJavaFormat()
-  }
-}
-
-mainClassName = "ca.uvic.seng330.assn3.startup.Startup"
 
 dependencies {
-	compile 'org.json:json:20180813','org.slf4j:slf4j-simple:1.7.25'
-	checkstyleConfig ("com.puppycrawl.tools:checkstyle:${versions.checkstyle}") {
-        transitive = false 
-    }
-    testCompile group: 'junit', name: 'junit', version: '4.12'
-    testCompile "org.testfx:testfx-core:4.0.15-alpha"
-    testCompile "org.testfx:testfx-junit:4.0.15-alpha"
-    //testRuntime 'org.testfx:openjfx-monocle:1.8.0_20' // For headless testing
+    compile 'org.json:json:20180813' 
+    compile 'org.slf4j:slf4j-simple:1.7.25' 
+    testImplementation 'junit:junit:4.12' 
+    testImplementation 'org.testfx:testfx-core:4.0.15-alpha'
+    testImplementation 'org.testfx:testfx-junit:4.0.15-alpha' 
+    //testRuntimeOnly 'org.testfx:openjfx-monocle:1.8.0_20' // TODO Add this for headless testing?
 }
+    
+spotless {
+    format 'misc', {
+        target '**/*.gradle', '**/*.gitignore', '**/*.md'
+    indentWithSpaces()
+    endWithNewline()	
+    }
+    java {
+        googleJavaFormat()
+    }
+}
+
+defaultTasks 'build'
