@@ -43,7 +43,7 @@ We use the UUID to do all important tasks in the system. Every time we want to g
 Camera extends Device and is responsible for keeping track of if it is recording, the diskSize (space currently used) and if it is full or not. It also uses a WebView to stream the camera's Data to the DeviceConfigScreen. The video stream is only active when the Camera is turned on and recording, as per the specs.
 
 #### Thermostat
-	
+    
 Thermostat extends Device and is responsible for holding the Temperature, and making sure any new Temperatures are within acceptable limits for an average household. It allows conversion between the two commonly used degree systems.
 
 #### Lightbulb & SmartPlug
@@ -67,7 +67,7 @@ The Major changes from Assignment 3 are the addition of rooms, and the expansion
 ## Controller
 
 Controller is the middle man for View and Model, holding Model's Hub, and View's Client. It also knows who the ActiveUser is and has a Stack of ViewTypes so as to maintain an order of how the current screen was gotten to, facilitating backtracking.
-	
+    
 It has a Parent Class for many of the controller methods used by multiple View/Controller functionalities, but the majority of the Controller is broken up into sub Controllers. These specialized Controllers greatly improve the loose-coupling of the App as a whole. Each Controller is either Scene specific, handling events or getting info from Model, or function specific, crossing simpler Scene boundaries but filling the same role, each are described below.
 
 ### Handlers

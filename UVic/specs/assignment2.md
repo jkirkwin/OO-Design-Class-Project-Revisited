@@ -100,4 +100,3 @@ Note that it is possible to get quite complex with respect to business logic (e.
 ## Sequence:
 - Part 1 will be the Hub + devices. 
 - Part 2 is the client notification and JSON messages.
-

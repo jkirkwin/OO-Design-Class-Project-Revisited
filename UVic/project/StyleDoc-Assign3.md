@@ -31,7 +31,7 @@ We use the UUID to do all important tasks in the system. Every time we want to g
 Camera extends Device and is responsible for keeping track of if it is recording, the diskSize (space currently used) and if it is full or not.
 
 #### Thermostat
-	
+    
 Thermostat extends Device and is responsible for holding the Temperature, and making sure any new Temperatures are within acceptable limits for an average household. It allows conversion between the two commonly used degree systems.
 
 #### Lightbulb & SmartPlug

@@ -164,5 +164,3 @@ Think of this as "pre-condition/test stimulus/post-condition".
 3. GIVEN a functional smartplug
       WHEN I look at the client control
         THEN I should see the plug's current status (On/Off) of the smartplug
-
-

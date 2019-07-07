@@ -87,4 +87,4 @@ Windows users may want to download the [Cygwin](http://www.cygwin.com) Shell and
 ## Spring MVC
 - [HowTo MVC](https://spring.io/guides/gs/serving-web-content/)
 - let's standardize on 2.0.6.RELEASE for Spring APIs. I *believe* that is Spring 5.
-- for the views, you should use the Chrome dev tools view. 
+- for the views, you should use the Chrome dev tools view.
